@@ -5,23 +5,27 @@ import HttpException from '../exceptions/HttpException';
 const httpMiddlewareError = (
   error: HttpException,
   request: express.Request,
-  response: express.Response
-) => {
+  response: express.Response,
+  next: express.NextFunction
+): void => {
   const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
   const message = error.message || 'Unexpected error';
   response.status(status).send({
     status,
     message,
   });
+  next();
 };
 
 // generic handler
 const failSafeHandler = (
   error: Error,
   request: express.Request,
-  response: express.Response
-) => {
+  response: express.Response,
+  next: express.NextFunction
+): void => {
   response.status(StatusCodes.INTERNAL_SERVER_ERROR).send(error);
+  next();
 };
 
 export { httpMiddlewareError, failSafeHandler };
