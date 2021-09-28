@@ -6,6 +6,7 @@ import debug from "debug";
 import cors from "cors";
 import * as expressWinston from "express-winston";
 import UserRoute from "./routes/UserRoute";
+import AccountRoute from "./routes/AccountRoute";
 import { container } from "tsyringe";
 import {
   failSafeHandler,
@@ -42,6 +43,7 @@ const main = async () => {
 
   // Instanciating the routes here:
   routes.push(container.resolve(UserRoute));
+  routes.push(container.resolve(AccountRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);
