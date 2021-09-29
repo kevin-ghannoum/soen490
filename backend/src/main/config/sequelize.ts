@@ -3,11 +3,14 @@ import { Sequelize } from 'sequelize-typescript';
 import { Account } from '../models/Account';
 
 export const sequelize = new Sequelize({
-    repositoryMode: true,
     database: "badob_tech",
     dialect: 'mysql',
-    username: "127.0.0.1",
-    password: "mysqlpw",
+    host:"localhost",
+    username: "root",
+    password: "",
     storage: ':memory:',
-    models: [Account]
+    models: ['../models'],
+    define:{
+        freezeTableName:true
+    }
 })

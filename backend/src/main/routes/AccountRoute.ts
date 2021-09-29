@@ -31,10 +31,8 @@ export default class AccountRoute extends CommonRoutesConfig {
       .route('/accounts')
       .get((req: express.Request, res: express.Response) => {
 
-        const test = this.accountRepo.get("test@gmail.com")
-
-        console.log(test);
-
+        const test = this.accountRepo.get("simon@test.com")
+        
         res
           .status(StatusCodes.OK)
           .send('Normally would return a list of accounts');

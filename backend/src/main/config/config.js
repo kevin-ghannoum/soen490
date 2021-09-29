@@ -8,7 +8,7 @@ console.log("DATABASE", process.env.DB_NAME)
 module.exports = {
   "development": {
       "username": "root",
-      "password": "mysqlpw",
+      "password": "",
       "database": "badob_tech",
       "host": "127.0.0.1",
       "dialect": "mysql"

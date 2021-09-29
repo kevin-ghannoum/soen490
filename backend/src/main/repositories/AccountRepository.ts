@@ -40,9 +40,8 @@ export default class AccountRepository implements CRUD {
     // implement get functionality
     const account = Account.findOne({where: {
         email: email
-    }})
-
-    // console.log(account);
+    }}).then(res=>console.log(res?.username))
+    
     return {}
   };
 
