@@ -3,7 +3,7 @@ import { Table, Column, Model, PrimaryKey, BelongsToMany } from 'sequelize-types
 import {Account} from "./Account";
 import {Invited} from "./Invited";
 
-@Table
+@Table({timestamps:false})
 export class Event extends Model {   
     
     @PrimaryKey

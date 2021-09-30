@@ -25,7 +25,6 @@ export class Account extends Model {
     @Column
     password!: string
     
-
-    // @BelongsToMany(() => Event, () => Invited)
-    // events?: Event[] 
+    @BelongsToMany(() => Event, () => Invited)
+    events?: Event[] 
 };

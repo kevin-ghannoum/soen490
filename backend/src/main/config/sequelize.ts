@@ -1,15 +1,17 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
 import { Account } from '../models/Account';
+import { Event } from '../models/Event';
+import { Invited } from '../models/Invited';
 
 export const sequelize = new Sequelize({
     database: "badob_tech",
     dialect: 'mysql',
-    host:"localhost",
-    username: "root",
-    password: "",
+    host: process.env.DB_HOSTNAME,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     storage: ':memory:',
-    models: ['../models'],
+    models: [Account, Event, Invited],
     define:{
         freezeTableName:true
     }

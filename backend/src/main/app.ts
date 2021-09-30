@@ -12,15 +12,11 @@ import {
   failSafeHandler,
   httpMiddlewareError,
 } from './middleware/ErrorMiddleware';
-import { Sequelize } from 'sequelize-typescript';
-import { Account } from './models/Account';
 import { sequelize } from './config/sequelize';
 
 const main = async () => {
 
-  sequelize.addModels([Account])
-
-  sequelize.authenticate().then(()=>console.log("connected"))
+  sequelize.authenticate().then(()=>console.log("Authenticated on Sequelize"))
   
   const app: express.Application = express();
 
