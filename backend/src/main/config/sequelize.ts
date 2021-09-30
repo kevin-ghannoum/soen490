@@ -1,4 +1,3 @@
-
 import dotenv from "dotenv";
 import { Sequelize } from 'sequelize-typescript';
 import { Account } from '../models/Account';
