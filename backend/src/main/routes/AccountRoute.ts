@@ -30,9 +30,7 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get((req: express.Request, res: express.Response) => {
 
         //EXAMPLE
-        const test = this.accountRepo.create({ email: 'bobnewemailtesttestteassast@gmail.com', firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
-
-        console.log()
+        // const test = this.accountRepo.create({ email: 'bobnewemailtesttestteassast@gmail.com', firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
 
         res
           .status(StatusCodes.OK)

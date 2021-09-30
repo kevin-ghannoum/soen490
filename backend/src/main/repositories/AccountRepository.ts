@@ -7,7 +7,6 @@ import { AccountCreationDTO } from '../dto/AccountCreationDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:userReposity-example');
 import { Account } from '../models/Account';
-import { Event } from '../models/Event';
 
 @injectable()
 // Repository class implements CRUD interface to force it to have at least the 4 basic crud operations
@@ -51,7 +50,7 @@ export default class AccountRepository implements CRUD {
     return Promise.resolve('An updated entity');
   };
 
-  public get = async (email: string): Promise<object> => {
+  public get = async (email: string): Promise<Account | null> => {
     log(`Account with email ${email} has been retrieved`);
 
     //Typical GET query EXAMPLE
@@ -60,9 +59,9 @@ export default class AccountRepository implements CRUD {
     }})
 
     //ASSOCIATION QUERY EXAMPLE (JOIN)
-    const test2 = await Account.findOne({ include: [Event] });
+    // const test2 = await Account.findOne({ include: [Event] });
 
-    return {account}
+    return account;
   };
 
   public getAll = async (): Promise<AccountCreationDTO[]> => {
