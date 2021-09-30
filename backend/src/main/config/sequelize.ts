@@ -1,8 +1,11 @@
-require('dotenv').config();
+
+import dotenv from "dotenv";
 import { Sequelize } from 'sequelize-typescript';
 import { Account } from '../models/Account';
 import { Event } from '../models/Event';
 import { Invited } from '../models/Invited';
+
+dotenv.config();
 
 export const sequelize = new Sequelize({
     database: "badob_tech",
@@ -14,5 +17,6 @@ export const sequelize = new Sequelize({
     models: [Account, Event, Invited],
     define:{
         freezeTableName:true
-    }
+    },
+    logging: false
 })

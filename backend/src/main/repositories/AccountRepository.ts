@@ -3,7 +3,7 @@
 
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import { AccountDTO } from '../dto/AccountDTO';
+import { AccountCreationDTO } from '../dto/AccountCreationDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:userReposity-example');
 import { Account } from '../models/Account';
@@ -17,12 +17,12 @@ export default class AccountRepository implements CRUD {
     log('Created new instance of AccountDao');
   }
 
-  public create = async (accountInfo: object): Promise<AccountDTO> => {
+  public create = async (accountInfo: AccountCreationDTO): Promise<Account> => {
 
     log('added new user');
     // Good practice to return the entity being manipulated. In normal case it would be the entity from the database.
 
-    const createdAccount = Account.build({ email: 'testing123@gmail.com', firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
+    const createdAccount = Account.build({ email: accountInfo?.email, firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
     createdAccount.save();
 
     return Promise.resolve(createdAccount);
@@ -65,7 +65,7 @@ export default class AccountRepository implements CRUD {
     return {account}
   };
 
-  public getAll = async (): Promise<AccountDTO[]> => {
+  public getAll = async (): Promise<AccountCreationDTO[]> => {
     log(`retrieved all users`);
 
     //FINDALL EXAMPLE

@@ -27,4 +27,4 @@ export class Account extends Model {
     
     @BelongsToMany(() => Event, () => Invited)
     events?: Event[] 
-};
+}

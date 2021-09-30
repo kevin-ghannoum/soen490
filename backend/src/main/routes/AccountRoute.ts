@@ -4,7 +4,6 @@ import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
-import { Account } from '../models/Account';
 import AccountRepository from '../repositories/AccountRepository';
 
 @injectable()
@@ -31,7 +30,9 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get((req: express.Request, res: express.Response) => {
 
         //EXAMPLE
-        const test = this.accountRepo.create({ email: 'bobnewemail@gmail.com', firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
+        const test = this.accountRepo.create({ email: 'bobnewemailtesttestteassast@gmail.com', firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
+
+        console.log()
 
         res
           .status(StatusCodes.OK)

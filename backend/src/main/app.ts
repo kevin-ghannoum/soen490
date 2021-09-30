@@ -16,8 +16,8 @@ import { sequelize } from './config/sequelize';
 
 const main = async () => {
 
-  sequelize.authenticate().then(()=>console.log("Authenticated on Sequelize"))
-  
+  sequelize.authenticate().then(() => console.log("Authenticated on Sequelize"))
+
   const app: express.Application = express();
 
   const port = process.env.PORT || AppSettings.BACKEND_PORT;
