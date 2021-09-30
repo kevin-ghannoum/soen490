@@ -24,6 +24,14 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
+      createdBy: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        references: {
+          model: 'account',
+          key: 'email'
+        }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

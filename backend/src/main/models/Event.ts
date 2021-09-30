@@ -22,6 +22,9 @@ export class Event extends Model {
     @Column
     type!: string
 
+    @Column
+    createdBy!: string
+
     @BelongsToMany(() => Account, () => Invited)
     accounts?: Account[]
 }
