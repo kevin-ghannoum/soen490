@@ -39,3 +39,17 @@ enum Status {
   TO_BE_RESCHEDULED = 'TO BE RESCHEDULED',
   PENDING = 'PENDING',
 }
+
+export interface EmployeeAccountCreationDTO {
+  account: AccountCreationDTO;
+  title:string;
+  hourlyWage:number;
+  supervisorEmail:string
+}
+
+export interface EmployeeAccountUpdateDTO {
+  account?: AccountUpdateDTO
+  title?: string
+  hourlyWage?:number
+  supervisorEmail?:string
+}
