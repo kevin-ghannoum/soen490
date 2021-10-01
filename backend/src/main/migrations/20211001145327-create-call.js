@@ -1,40 +1,39 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Event', {
+    await queryInterface.createTable('Call', {
       id: {
         allowNull: false,
-        primaryKey: true,
         autoIncrement: true,
-        type: Sequelize.INTEGER
+        primaryKey: true,
+        type: Sequelize.BIGINT
       },
-      location: {
-        allowNull: true,
-        type: Sequelize.STRING
-      },
-      description: {
-        allowNull: true,
+      receiverName: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       date: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.DATE
       },
-      type: {
-        allowNull: true,
+      phoneNumber: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      createdBy: {
+      description: {
+        type: Sequelize.STRING
+      },
+      email:{
         allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: 'account',
           key: 'email'
-        }
-      },
+        },
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Event');
+    await queryInterface.dropTable('Call');
   }
 };

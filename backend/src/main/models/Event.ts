@@ -1,12 +1,13 @@
 'use strict';
-import { Table, Column, Model, PrimaryKey, BelongsToMany } from 'sequelize-typescript';
-import {Account} from "./Account";
-import {Invited} from "./Invited";
+import { Table, Column, Model, PrimaryKey, BelongsToMany, AutoIncrement } from 'sequelize-typescript';
+import { Account } from "./Account";
+import { Invited } from "./Invited";
 
-@Table({timestamps:false})
-export class Event extends Model {   
-    
+@Table({ timestamps: false })
+export class Event extends Model {
+
     @PrimaryKey
+    @AutoIncrement
     @Column
     id!: number
 
@@ -15,7 +16,7 @@ export class Event extends Model {
 
     @Column
     description!: string
-  
+
     @Column
     date!: Date
 
@@ -26,5 +27,5 @@ export class Event extends Model {
     createdBy!: string
 
     @BelongsToMany(() => Account, () => Invited)
-    accounts?: Account[]
+    accounts!: Account[]
 }

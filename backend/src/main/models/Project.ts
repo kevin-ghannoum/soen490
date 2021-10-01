@@ -1,10 +1,11 @@
 'use strict';
-import { Default, Table, Column, Model, PrimaryKey, DataType } from 'sequelize-typescript';
+import { Default, Table, Column, Model, PrimaryKey, DataType, AutoIncrement } from 'sequelize-typescript';
 
-@Table({timestamps:false})
-export class Project extends Model {   
-    
+@Table({ timestamps: false })
+export class Project extends Model {
+
     @PrimaryKey
+    @AutoIncrement
     @Column
     id!: number
 
@@ -13,10 +14,10 @@ export class Project extends Model {
 
     @Column
     description!: string
-  
+
     @Default('PENDING')
-    @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED'))
-    status! : 'BOOKED'|'PENDING'|'REJECTED' | 'TO BE RESCHEDULED';
+    @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED'))
+    status!: 'BOOKED' | 'PENDING' | 'REJECTED' | 'TO BE RESCHEDULED' | 'COMPLETED';
 
     @Column
     serviceType!: string

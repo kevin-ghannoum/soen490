@@ -27,6 +27,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      addressId:{
+        allowNull: false,
+        type: Sequelize.BIGINT,
+        references: {
+          model: 'address',
+          key: 'id'
+        },
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {

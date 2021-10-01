@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       title: {
         allowNull: false,
@@ -17,7 +17,7 @@ module.exports = {
       },
       status: {
         allowNull: false,
-        type: Sequelize.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED')
+        type: Sequelize.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED')
       },
       serviceType: {
         type: Sequelize.STRING
