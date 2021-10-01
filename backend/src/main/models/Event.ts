@@ -1,5 +1,5 @@
 'use strict';
-import { Table, Column, Model, PrimaryKey, BelongsToMany, AutoIncrement } from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey, BelongsToMany, AutoIncrement, ForeignKey } from 'sequelize-typescript';
 import { Account } from "./Account";
 import { Invited } from "./Invited";
 
@@ -24,6 +24,7 @@ export class Event extends Model {
     type!: string
 
     @Column
+    @ForeignKey(() => Account)
     createdBy!: string
 
     @BelongsToMany(() => Account, () => Invited)

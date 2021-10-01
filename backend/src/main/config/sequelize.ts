@@ -21,5 +21,5 @@ export const sequelize = new Sequelize({
     define: {
         freezeTableName: true
     },
-    logging: false
+    logging: process.env.DEBUG ? true : false,
 })
