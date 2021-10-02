@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       title: {
         allowNull: false,
@@ -17,7 +17,7 @@ module.exports = {
       },
       status: {
         allowNull: false,
-        type: Sequelize.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED')
+        type: Sequelize.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED')
       },
       serviceType: {
         type: Sequelize.STRING
@@ -48,6 +48,17 @@ module.exports = {
       extraNotes: {
         type: Sequelize.STRING
       },
+      email: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'account',
+          key: 'email'
+        }
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {

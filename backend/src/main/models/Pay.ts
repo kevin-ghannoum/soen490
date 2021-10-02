@@ -10,7 +10,6 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { Col } from 'sequelize/types/lib/utils';
 import { EmployeeAccount } from './EmployeeAccount';
 
 @Table({ timestamps: false })
@@ -40,6 +39,6 @@ export class Pay extends Model {
   @Column
   email!: string;
 
-  @BelongsTo(() => EmployeeAccount, 'email')
+  @BelongsTo(() => EmployeeAccount)
   employeeAccount!: EmployeeAccount;
 }

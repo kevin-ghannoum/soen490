@@ -11,6 +11,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Account } from './Account';
+import { Project } from './Project';
 import { SocialMediaPage } from './SocialMediaPage';
 
 @Table({ timestamps: false })
@@ -49,4 +50,7 @@ export class ClientAccount extends Model {
 
   @HasMany(() => SocialMediaPage)
   socialMediaPages!: SocialMediaPage[];
+
+  @HasMany(() => Project)
+  project!: Project[];
 }

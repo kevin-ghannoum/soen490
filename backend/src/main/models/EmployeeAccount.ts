@@ -9,6 +9,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Account } from './Account';
+import { Pay } from './Pay';
 
 @Table({ timestamps: false })
 export class EmployeeAccount extends Model {
@@ -28,7 +29,7 @@ export class EmployeeAccount extends Model {
   @Column
   hourlyWage!: number;
 
-  @HasMany(() => EmployeeAccount, 'email')
+  @HasMany(() => EmployeeAccount)
   subordinate!: EmployeeAccount[];
 
   @ForeignKey(() => EmployeeAccount)
@@ -37,4 +38,7 @@ export class EmployeeAccount extends Model {
 
   @BelongsTo(() => EmployeeAccount, 'supervisorEmail')
   supervisor!: EmployeeAccount;
+
+  @HasMany(() => Pay)
+  pays!: Pay[];
 }
