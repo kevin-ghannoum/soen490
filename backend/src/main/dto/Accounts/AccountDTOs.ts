@@ -62,3 +62,11 @@ export interface EmployeeAccountUpdateDTO {
   hourlyWage?:number
   supervisorEmail?:string
 }
+
+export interface AdminAccountCreationDTO{
+  account: AccountCreationDTO;
+}
+
+export interface AdminAccountUpdateDTO{
+  account?:AccountUpdateDTO;
+}
