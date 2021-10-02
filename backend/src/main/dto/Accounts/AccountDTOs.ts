@@ -61,3 +61,11 @@ export interface AdminAccountCreationDTO{
 export interface AdminAccountUpdateDTO{
   account?:AccountUpdateDTO;
 }
+
+export interface BusinessAccountCreationDTO{
+  account: AccountCreationDTO;
+}
+
+export interface BusinessAccountUpdateDTO{
+  account?:AccountUpdateDTO;
+}

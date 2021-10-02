@@ -1,25 +1,26 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
 import {
-  AdminAccountCreationDTO,
-  AdminAccountUpdateDTO,
+  BusinessAccountCreationDTO,
+  BusinessAccountUpdateDTO,
 } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
-const log: debug.IDebugger = debug('app:AdminAccountRepository');
+const log: debug.IDebugger = debug('app:BusinessAccountRepository');
 import { AdminAccount } from '../models/AdminAccount';
 import { Account } from '../models/Account';
+import { BusinessAccount } from '../models/BusinessAccount';
 
 @injectable()
-export default class AdminAccountRepository implements CRUD {
+export default class BusinessAccountRepository implements CRUD {
   constructor() {
-    log('Created new instance of AdminAccountRepository');
+    log('Created new instance of BusinessAccountRepository');
   }
 
   public create = async (
-    accountInfo: AdminAccountCreationDTO
-  ): Promise<AdminAccount> => {
+    accountInfo: BusinessAccountCreationDTO
+  ): Promise<BusinessAccount> => {
     try {
-      const createdAccount = AdminAccount.build(accountInfo, {
+      const createdAccount = BusinessAccount.build(accountInfo, {
         include: [Account],
       });
       createdAccount.save();
@@ -33,7 +34,7 @@ export default class AdminAccountRepository implements CRUD {
 
   public delete = async (email: string): Promise<number> => {
     try {
-      const deletedAccountStatus = await AdminAccount.destroy({
+      const deletedAccountStatus = await BusinessAccount.destroy({
         where: { email: email },
       });
       log(`Admin Account with email ${email} has been deleted`);
@@ -46,7 +47,7 @@ export default class AdminAccountRepository implements CRUD {
 
   public update = async (
     email: string,
-    updatedValue: AdminAccountUpdateDTO
+    updatedValue: BusinessAccountUpdateDTO
   ): Promise<number> => {
     try {
       if (updatedValue.account) {
@@ -55,7 +56,7 @@ export default class AdminAccountRepository implements CRUD {
         });
       }
 
-      log(`Admin Account with email ${email} has been updated`);
+      log(`Business Account with email ${email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);
@@ -64,14 +65,14 @@ export default class AdminAccountRepository implements CRUD {
 
   public get = async (email: string): Promise<AdminAccount | null> => {
     try {
-      const account = await AdminAccount.findByPk(email, {
+      const account = await BusinessAccount.findByPk(email, {
         include: [Account],
       });
 
       if (account) {
-        log(`Admin Account with email ${account?.email} has been retrieved`);
+        log(`Business Account with email ${account?.email} has been retrieved`);
       } else {
-        log('No admin account has been found');
+        log('No business account has been found');
       }
 
       return account;
@@ -81,11 +82,11 @@ export default class AdminAccountRepository implements CRUD {
     }
   };
 
-  public getAll = async (): Promise<AdminAccount[]> => {
+  public getAll = async (): Promise<BusinessAccount[]> => {
     try {
-      const accountsExample = await AdminAccount.findAll();
-      log(`retrieved all admin accounts`);
-      return Promise.resolve(accountsExample);
+      const businessAccountList = await BusinessAccount.findAll();
+      log(`retrieved all business accounts`);
+      return Promise.resolve(businessAccountList);
     } catch (err: any) {
       log(err);
       return Promise.reject(err);
