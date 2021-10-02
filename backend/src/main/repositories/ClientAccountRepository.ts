@@ -8,6 +8,8 @@ import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ClientAccountRepository');
 import { Account } from '../models/Account';
 import { ClientAccount } from '../models/ClientAccount';
+import { Project } from '../models/Project';
+import { SocialMediaPage } from '../models/SocialMediaPage';
 
 @injectable()
 export default class ClientAccountRepository implements CRUD {
@@ -36,8 +38,9 @@ export default class ClientAccountRepository implements CRUD {
   public get = async (email: string): Promise<ClientAccount | null> => {
     try {
       const clientAccount = await ClientAccount.findByPk(email, {
-        include: [Account],
+        include: [Account, Project, SocialMediaPage],
       });
+
       log(`Account with email ${clientAccount?.email} has been retrieved`);
       return Promise.resolve(clientAccount);
     } catch (err: any) {
@@ -86,7 +89,7 @@ export default class ClientAccountRepository implements CRUD {
   public getAll = async (): Promise<ClientAccount[]> => {
     try {
       const clientAccounts = await ClientAccount.findAll({
-        include: [Account],
+        include: [Account, Project, SocialMediaPage],
       });
       log(`retrieved all client accounts`);
       return Promise.resolve(clientAccounts);

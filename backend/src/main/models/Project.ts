@@ -1,48 +1,78 @@
 'use strict';
-import { Default, Table, Column, Model, PrimaryKey, DataType, AutoIncrement } from 'sequelize-typescript';
+import {
+  Default,
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  AutoIncrement,
+} from 'sequelize-typescript';
+import { ClientAccount } from './ClientAccount';
 
 @Table({ timestamps: false })
 export class Project extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id!: number;
 
-    @PrimaryKey
-    @AutoIncrement
-    @Column
-    id!: number
+  @Column
+  title!: string;
 
-    @Column
-    title!: string
+  @Column
+  description!: string;
 
-    @Column
-    description!: string
+  @Default('PENDING')
+  @Column(
+    DataType.ENUM(
+      'BOOKED',
+      'PENDING',
+      'REJECTED',
+      'TO BE RESCHEDULED',
+      'COMPLETED'
+    )
+  )
+  status!:
+    | 'BOOKED'
+    | 'PENDING'
+    | 'REJECTED'
+    | 'TO BE RESCHEDULED'
+    | 'COMPLETED';
 
-    @Default('PENDING')
-    @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED'))
-    status!: 'BOOKED' | 'PENDING' | 'REJECTED' | 'TO BE RESCHEDULED' | 'COMPLETED';
+  @Column
+  serviceType!: string;
 
-    @Column
-    serviceType!: string
+  @Column
+  leadSource!: string;
 
-    @Column
-    leadSource!: string
+  @Column
+  leadCredit!: string;
 
-    @Column
-    leadCredit!: string
+  @Column
+  leadRanking!: string;
 
-    @Column
-    leadRanking!: string
+  @Column
+  createdDate!: Date;
 
-    @Column
-    createdDate!: Date
+  @Column
+  deadlineDate!: Date;
 
-    @Column
-    deadlineDate!: Date
+  @Column
+  followUpDate!: Date;
 
-    @Column
-    followUpDate!: Date
+  @Column
+  modifiedDate!: Date;
 
-    @Column
-    modifiedDate!: Date
+  @Column
+  extraNotes!: string;
 
-    @Column
-    extraNotes!: string
+  @ForeignKey(() => ClientAccount)
+  @Column
+  email!: string;
+
+  @BelongsTo(() => ClientAccount)
+  clientAccount!: ClientAccount;
 }
