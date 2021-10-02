@@ -16,7 +16,7 @@ export default class InvitedRepository implements CRUD {
             const createdInvited = Invited.build(invitedInfo);
             createdInvited.save();
 
-            log(`Added new invited id: ${createdInvited.id} and email: ${createdInvited.email}`);
+            log(`Added new invite id: ${createdInvited.id} and email: ${createdInvited.email}`);
             return Promise.resolve(createdInvited);
         } catch (err: any) {
             log(err);
@@ -33,7 +33,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`Invited with id ${invite.id} and email ${invite.email} has been deleted`);
+            log(`Invite with id ${invite.id} and email ${invite.email} has been deleted`);
             return Promise.resolve(deletedInvitedStatus);
         } catch (err: any) {
             log(err);
@@ -50,7 +50,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`Invited with id ${invite.id} and email: ${invite.email} has been updated`);
+            log(`Invite with id ${invite.id} and email: ${invite.email} has been updated`);
             return Promise.resolve(1);
         } catch (err: any) {
             return Promise.reject(err);
@@ -66,7 +66,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`Invited with id ${invited?.id} and email ${invited?.email} has been retrieved`);
+            log(`Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`);
             return Promise.resolve(invited);
         } catch (err: any) {
             log(err);
@@ -82,7 +82,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`Invited with id ${invited?.id} and email ${invited?.email} has been retrieved`);
+            log(`Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`);
             return Promise.resolve(invited);
         } catch (err: any) {
             log(err);
@@ -98,7 +98,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`Invited with id ${invited?.id} and email ${invited?.email} has been retrieved`);
+            log(`Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`);
             return Promise.resolve(invited);
         } catch (err: any) {
             log(err);
@@ -114,7 +114,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`${invited} has been retrieved`);
+            log(`Invites have been retrieved`);
             return Promise.resolve(invited);
         } catch (err: any) {
             log(err);
@@ -130,7 +130,7 @@ export default class InvitedRepository implements CRUD {
                 }
             });
 
-            log(`${invited} has been retrieved`);
+            log(`Invites have been retrieved`);
             return Promise.resolve(invited);
         } catch (err: any) {
             log(err);

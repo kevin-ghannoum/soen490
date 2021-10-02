@@ -112,7 +112,7 @@ export default class NotificationRepository implements CRUD {
                 }
             });
 
-            log(`${notification} has been retrieved`);
+            log(`Notifications have been retrieved`);
             return Promise.resolve(notification);
         } catch (err: any) {
             log(err);

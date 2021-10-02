@@ -112,7 +112,7 @@ export default class CallRepository implements CRUD {
                 }
             });
 
-            log(`${call} has been retrieved`);
+            log(`Calls have been retrieved`);
             return Promise.resolve(call);
         } catch (err: any) {
             log(err);
