@@ -5,11 +5,13 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import { Account } from './Account';
+import { SocialMediaPage } from './SocialMediaPage';
 
 @Table({ timestamps: false })
 export class ClientAccount extends Model {
@@ -44,4 +46,7 @@ export class ClientAccount extends Model {
     )
   )
   status!: 'LEAD' | 'SCHEDULE' | 'REJECTED' | 'TO BE RESCHEDULED' | 'PENDING';
+
+  @HasMany(() => SocialMediaPage)
+  socialMediaPages!: SocialMediaPage[];
 }
