@@ -3,6 +3,10 @@ import { Sequelize } from 'sequelize-typescript';
 import { Account } from '../models/Account';
 import { Event } from '../models/Event';
 import { Invited } from '../models/Invited';
+import { Project } from '../models/Project';
+import { Notification } from '../models/Notification';
+import { Call } from '../models/Call';
+import { Address } from '../models/Address';
 
 dotenv.config();
 
@@ -13,9 +17,9 @@ export const sequelize = new Sequelize({
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     storage: ':memory:',
-    models: [Account, Event, Invited],
-    define:{
-        freezeTableName:true
+    models: [Account, Event, Invited, Project, Notification, Call, Address],
+    define: {
+        freezeTableName: true
     },
-    logging: false
+    logging: process.env.DEBUG ? true : false,
 })

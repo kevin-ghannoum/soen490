@@ -1,77 +1,81 @@
-// Temporary example of DAO implementation. We gonna implement an actual database later.
-// Repository class are for database manipulation only. Leave data logic for service layer.
-
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import { AccountCreationDTO } from '../dto/AccountCreationDTO';
+import { AccountCreationDTO, AccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
-const log: debug.IDebugger = debug('app:userReposity-example');
+const log: debug.IDebugger = debug('app:AccountRepository');
 import { Account } from '../models/Account';
 
 @injectable()
-// Repository class implements CRUD interface to force it to have at least the 4 basic crud operations
 export default class AccountRepository implements CRUD {
-
   constructor() {
-    log('Created new instance of AccountDao');
+    log('Created new instance of AccountRepository');
   }
 
   public create = async (accountInfo: AccountCreationDTO): Promise<Account> => {
+    try {
+      const createdAccount = Account.build(accountInfo);
+      createdAccount.save();
 
-    log('added new user');
-    // Good practice to return the entity being manipulated. In normal case it would be the entity from the database.
-
-    const createdAccount = Account.build({ email: accountInfo?.email, firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
-    createdAccount.save();
-
-    return Promise.resolve(createdAccount);
+      log(`Added new account ${createdAccount.email}`);
+      return Promise.resolve(createdAccount);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
   };
 
-  public delete = async (email: string): Promise<string> => {
-    log(`Account with email ${email} has been deleted`);
-    
-    Account.destroy(
-      { where: { email: email } }
-    )
+  public delete = async (email: string): Promise<number> => {
+    try {
+      const deletedAccountStatus = await Account.destroy({
+        where: {
+          email: email
+        }
+      });
 
-    return Promise.resolve('A deleted entity');
+      log(`Account with email ${email} has been deleted`);
+      return Promise.resolve(deletedAccountStatus);
+    } catch (err: any) {
+      log(err);
+      return Promise.resolve(err);
+    }
   };
 
-  public update = async (email: string): Promise<string> => {
-    log(`Account with email ${email} has been updated`);
+  public update = async (email: string, updatedValue: AccountUpdateDTO): Promise<number> => {
+    try {
+      await Account.update(updatedValue, {
+        where: {
+          email: email
+        }
+      });
 
-    Account.update(
-      {
-        firstName: 'Bobby The 1st'
-      },
-      { where: { email: email } }
-    )
-
-    return Promise.resolve('An updated entity');
+      log(`Account with email ${email} has been updated`);
+      return Promise.resolve(1);
+    } catch (err: any) {
+      return Promise.reject(err);
+    }
   };
 
   public get = async (email: string): Promise<Account | null> => {
-    log(`Account with email ${email} has been retrieved`);
+    try {
+      const account = await Account.findByPk(email);
 
-    //Typical GET query EXAMPLE
-    const account = await Account.findOne({where: {
-        email: email
-    }})
-
-    //ASSOCIATION QUERY EXAMPLE (JOIN)
-    // const test2 = await Account.findOne({ include: [Event] });
-
-    return account;
+      log(`Account with email ${account?.email} has been retrieved`);
+      return Promise.resolve(account);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
   };
 
-  public getAll = async (): Promise<AccountCreationDTO[]> => {
-    log(`retrieved all users`);
+  public getAll = async (): Promise<Account[]> => {
+    try {
+      const accounts = await Account.findAll();
 
-    //FINDALL EXAMPLE
-    const accountsExample = await Account.findAll({where: {
-      firstName: "test"
-    }})
-
-    return Promise.resolve(accountsExample);
+      log(`Retrieved all users`);
+      return Promise.resolve(accounts);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
   };
 }

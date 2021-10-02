@@ -1,11 +1,14 @@
 'use strict';
-import { Table, Column, Model, PrimaryKey, BelongsToMany } from 'sequelize-typescript';
-import {Event} from "./Event";
-import {Invited} from "./Invited";
+import { Table, Column, Model, PrimaryKey, BelongsToMany, HasMany, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Event } from "./Event";
+import { Invited } from "./Invited";
+import { Notification } from "./Notification";
+import { Call } from "./Call";
+import { Address } from "./Address";
 
-@Table({timestamps:false})
-export class Account extends Model {   
-    
+@Table({ timestamps: false })
+export class Account extends Model {
+
     @PrimaryKey
     @Column
     email!: string
@@ -15,7 +18,7 @@ export class Account extends Model {
 
     @Column
     lastName!: string
-  
+
     @Column
     phoneNumber!: string
 
@@ -24,7 +27,20 @@ export class Account extends Model {
 
     @Column
     password!: string
-    
+
+    @ForeignKey(() => Address)
+    @Column
+    addressId!: number
+
     @BelongsToMany(() => Event, () => Invited)
-    events?: Event[] 
+    events!: Event[]
+
+    @HasMany(() => Notification)
+    notifications!: Notification[]
+
+    @HasMany(() => Call)
+    calls!: Call[]
+
+    @BelongsTo(() => Address)
+    address!: Address
 }
