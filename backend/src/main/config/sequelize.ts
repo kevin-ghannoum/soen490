@@ -7,6 +7,7 @@ import { ClientAccount } from '../models/ClientAccount';
 import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Event } from '../models/Event';
 import { Invited } from '../models/Invited';
+import { Pay } from '../models/Pay';
 import { Project } from '../models/Project';
 import { Notification } from '../models/Notification';
 import { Call } from '../models/Call';
@@ -15,15 +16,29 @@ import { SocialMediaPage } from '../models/SocialMediaPage';
 
 dotenv.config();
 export const sequelize = new Sequelize({
-    database: "badob_tech",
-    dialect: 'mysql',
-    host: process.env.DB_HOSTNAME,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    storage: ':memory:',
-    models: [Account, Event, Invited, Project, Notification, Call, Address, ClientAccount, EmployeeAccount, AdminAccount, BusinessAccount, SocialMediaPage],
-    define: {
-        freezeTableName: true
-    },
-    logging: process.env.DEBUG ? true : false,
-})
+  database: 'badob_tech',
+  dialect: 'mysql',
+  host: process.env.DB_HOSTNAME,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  storage: ':memory:',
+  models: [
+    Account,
+    Event,
+    Invited,
+    Project,
+    Notification,
+    Call,
+    Address,
+    ClientAccount,
+    EmployeeAccount,
+    AdminAccount,
+    BusinessAccount,
+    SocialMediaPage,
+    Pay,
+  ],
+  define: {
+    freezeTableName: true,
+  },
+  logging: process.env.DEBUG ? true : false,
+});
