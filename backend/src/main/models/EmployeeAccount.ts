@@ -1,6 +1,7 @@
 import {
   AllowNull,
   BelongsTo,
+  BelongsToMany,
   Column,
   ForeignKey,
   HasMany,
@@ -10,6 +11,8 @@ import {
 } from 'sequelize-typescript';
 import { Account } from './Account';
 import { Pay } from './Pay';
+import { Project } from './Project';
+import { WorksOn } from './WorksOn';
 
 @Table({ timestamps: false })
 export class EmployeeAccount extends Model {
@@ -41,4 +44,7 @@ export class EmployeeAccount extends Model {
 
   @HasMany(() => Pay)
   pays!: Pay[];
+
+  @BelongsToMany(() => Project, () => WorksOn)
+  projects!: Project[];
 }

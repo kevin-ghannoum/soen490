@@ -50,7 +50,6 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        primaryKey: true,
         type: Sequelize.STRING,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',

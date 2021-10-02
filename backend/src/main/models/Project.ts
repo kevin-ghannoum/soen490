@@ -9,8 +9,11 @@ import {
   ForeignKey,
   BelongsTo,
   AutoIncrement,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { ClientAccount } from './ClientAccount';
+import { EmployeeAccount } from './EmployeeAccount';
+import { WorksOn } from './WorksOn';
 
 @Table({ timestamps: false })
 export class Project extends Model {
@@ -75,4 +78,7 @@ export class Project extends Model {
 
   @BelongsTo(() => ClientAccount)
   clientAccount!: ClientAccount;
+
+  @BelongsToMany(() => EmployeeAccount, () => WorksOn)
+  employeeAccount!: EmployeeAccount[];
 }
