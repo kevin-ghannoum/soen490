@@ -63,7 +63,12 @@ export default class EventRepository implements CRUD {
     try {
       const event = await Event.findByPk(id, { include: [Account] });
 
-      log(`Event with id ${event?.id} has been retrieved`);
+      if(event){
+        log(`Event with id ${event?.id} has been retrieved`);
+      }else{
+        log(`Event with id ${id} not found`)
+      }
+      
       return Promise.resolve(event);
     } catch (err: any) {
       log(err);

@@ -41,7 +41,12 @@ export default class ClientAccountRepository implements CRUD {
         include: [Account, Project, SocialMediaPage],
       });
 
-      log(`Account with email ${clientAccount?.email} has been retrieved`);
+      if (clientAccount) {
+        log(`Account with email ${clientAccount?.email} has been retrieved`);
+      } else {
+        log(`No client account found with email ${email}`);
+      }
+
       return Promise.resolve(clientAccount);
     } catch (err: any) {
       log(err);

@@ -90,9 +90,14 @@ export default class CallRepository implements CRUD {
         },
       });
 
-      log(
-        `Call with id ${call?.id} and email ${call?.email} has been retrieved`
-      );
+      if (call) {
+        log(
+          `Call with id ${call?.id} and email ${call?.email} has been retrieved`
+        );
+      } else {
+        log(`Call with email ${email} not found`);
+      }
+
       return Promise.resolve(call);
     } catch (err: any) {
       log(err);
@@ -108,9 +113,14 @@ export default class CallRepository implements CRUD {
         },
       });
 
-      log(
-        `Call with id ${call?.id} and email ${call?.email} has been retrieved`
-      );
+      if (call) {
+        log(
+          `Call with id ${call?.id} and email ${call?.email} has been retrieved`
+        );
+      }else{
+        log(`Call with email ${id} not found`);
+      }
+
       return Promise.resolve(call);
     } catch (err: any) {
       log(err);
