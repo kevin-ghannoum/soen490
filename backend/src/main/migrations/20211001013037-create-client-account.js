@@ -30,7 +30,6 @@ module.exports = {
         type: Sequelize.ENUM('LEAD', 'SCHEDULED', 'REJECTED', 'TO BE RESCHEDULED', 'PENDING'),
         defaultValue:'PENDING'
       },
-
     });
   },
   down: async (queryInterface, Sequelize) => {

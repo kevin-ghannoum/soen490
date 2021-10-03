@@ -57,8 +57,6 @@ export default class SocialMediaPageRepository implements CRUD {
     }
   };
 
-  // This function deletes the account completely (Account and ClientAccount)
-  // Cannot delete supervisor due to foreign key constraint
   public delete = async (
     socialMediaPageKey: SocialMediaPageKey
   ): Promise<number> => {
