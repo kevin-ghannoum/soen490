@@ -30,7 +30,9 @@ export default class AccountRepository implements CRUD {
   public delete = async (email: string): Promise<number> => {
     try {
       const deletedAccountStatus = await Account.destroy({
-        where: { email: email },
+        where: {
+          email: email,
+        },
       });
       log(`Account with email ${email} has been deleted`);
       return Promise.resolve(deletedAccountStatus);
