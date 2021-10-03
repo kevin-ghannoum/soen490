@@ -34,7 +34,7 @@ export default class BusinessAccountRepository implements CRUD {
 
   public delete = async (email: string): Promise<number> => {
     try {
-      const deletedAccountStatus = await BusinessAccount.destroy({
+      const deletedAccountStatus = await Account.destroy({
         where: { email: email },
       });
       log(`Admin Account with email ${email} has been deleted`);
