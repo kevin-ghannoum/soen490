@@ -7,91 +7,101 @@ import { Address } from '../models/Address';
 
 @injectable()
 export default class AddressRepository implements CRUD {
-    constructor() {
-        log('Created new instance of AddressRepository');
+  constructor() {
+    log('Created new instance of AddressRepository');
+  }
+
+  public create = async (
+    addressInfo: AddressCreationDTO
+  ): Promise<[Address, boolean]> => {
+    try {
+      const createdAddress = await Address.findOrCreate({
+        where: {
+          civicNumber: addressInfo.civicNumber,
+          streetName: addressInfo.streetName,
+          postalCode: addressInfo.postalCode,
+          cityName: addressInfo.cityName,
+          province: addressInfo.province,
+          country: addressInfo.country,
+        },
+        defaults: {
+          addressInfo,
+        },
+      });
+
+      if (createdAddress[1] === true) {
+        log(`Added new address id ${createdAddress[0].id}`);
+      } else {
+        log(`Found address id ${createdAddress[0].id}`);
+      }
+
+      return Promise.resolve(createdAddress);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
     }
+  };
 
-    public create = async (addressInfo: AddressCreationDTO): Promise<[Address, boolean]> => {
-        try {
-            const createdAddress = await Address.findOrCreate({
-                where: {
-                    civicNumber: addressInfo.civicNumber,
-                    streetName: addressInfo.streetName,
-                    postalCode: addressInfo.postalCode,
-                    cityName: addressInfo.cityName,
-                    province: addressInfo.province,
-                    country: addressInfo.country
-                },
-                defaults: {
-                    addressInfo
-                }
-            });
+  public delete = async (id: number): Promise<number> => {
+    try {
+      const deletedAddressStatus = await Address.destroy({
+        where: {
+          id: id,
+        },
+      });
 
-            if (createdAddress[1] === true) {
-                log(`Added new address id ${createdAddress[0].id}`);
-            } else {
-                log(`Found address id ${createdAddress[0].id}`);
-            }
+      log(`Address with id ${id} has been deleted`);
+      return Promise.resolve(deletedAddressStatus);
+    } catch (err: any) {
+      log(err);
+      return Promise.resolve(err);
+    }
+  };
 
-            return Promise.resolve(createdAddress);
-        } catch (err: any) {
-            log(err);
-            return Promise.reject(err);
-        }
-    };
+  public update = async (
+    id: number,
+    updatedValue: AddressUpdateDTO
+  ): Promise<number> => {
+    try {
+      await Address.update(updatedValue, {
+        where: {
+          id: id,
+        },
+      });
 
-    public delete = async (id: number): Promise<number> => {
-        try {
-            const deletedAddressStatus = await Address.destroy({
-                where: {
-                    id: id
-                }
-            });
+      log(`Address with id ${id} has been updated`);
+      return Promise.resolve(1);
+    } catch (err: any) {
+      return Promise.reject(err);
+    }
+  };
 
-            log(`Address with id ${id} has been deleted`);
-            return Promise.resolve(deletedAddressStatus);
-        } catch (err: any) {
-            log(err);
-            return Promise.resolve(err);
-        }
-    };
+  public get = async (id: number): Promise<Address | null> => {
+    try {
+      const address = await Address.findByPk(id);
 
-    public update = async (id: number, updatedValue: AddressUpdateDTO): Promise<number> => {
-        try {
-            await Address.update(updatedValue, {
-                where: {
-                    id: id
-                }
-            });
+      if (address) {
+        log(`Address with id ${address?.id} has been retrieved`);
+      } else {
+        log(`No address found with id ${id}`);
+      }
 
-            log(`Address with id ${id} has been updated`);
-            return Promise.resolve(1);
-        } catch (err: any) {
-            return Promise.reject(err);
-        }
-    };
+      return Promise.resolve(address);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
 
-    public get = async (id: number): Promise<Address | null> => {
-        try {
-            const address = await Address.findByPk(id);
+  public getAll = async (): Promise<Address[]> => {
+    try {
+      const addresses = await Address.findAll();
 
-            log(`Address with id ${address?.id} has been retrieved`);
-            return Promise.resolve(address);
-        } catch (err: any) {
-            log(err);
-            return Promise.reject(err);
-        }
-    };
-
-    public getAll = async (): Promise<Address[]> => {
-        try {
-            const addresses = await Address.findAll();
-
-            log(`Retrieved all addresss`);
-            return Promise.resolve(addresses);
-        } catch (err: any) {
-            log(err);
-            return Promise.reject(err);
-        }
-    };
+      log(`Retrieved all addresss`);
+      return Promise.resolve(addresses);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
 }

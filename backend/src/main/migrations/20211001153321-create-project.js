@@ -48,6 +48,16 @@ module.exports = {
       extraNotes: {
         type: Sequelize.STRING
       },
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'account',
+          key: 'email'
+        }
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {

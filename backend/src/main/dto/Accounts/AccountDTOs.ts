@@ -48,3 +48,33 @@ export interface EmployeeAccountCreationDTO {
     hourlyWage: number;
     supervisorEmail: string
 }
+
+export interface EmployeeAccountCreationDTO {
+  account: AccountCreationDTO;
+  title:string;
+  hourlyWage:number;
+  supervisorEmail:string
+}
+
+export interface EmployeeAccountUpdateDTO {
+  account?: AccountUpdateDTO
+  title?: string
+  hourlyWage?:number
+  supervisorEmail?:string
+}
+
+export interface AdminAccountCreationDTO{
+  account: AccountCreationDTO;
+}
+
+export interface AdminAccountUpdateDTO{
+  account?:AccountUpdateDTO;
+}
+
+export interface BusinessAccountCreationDTO{
+  account: AccountCreationDTO;
+}
+
+export interface BusinessAccountUpdateDTO{
+  account?:AccountUpdateDTO;
+}
