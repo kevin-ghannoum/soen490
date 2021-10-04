@@ -6,47 +6,52 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       title: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       status: {
         allowNull: false,
-        type: Sequelize.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED')
+        type: Sequelize.ENUM(
+          'BOOKED',
+          'PENDING',
+          'REJECTED',
+          'TO BE RESCHEDULED'
+        ),
       },
       serviceType: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       leadSource: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       leadCredit: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       leadRanking: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdDate: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deadlineDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       followUpDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       modifiedDate: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       extraNotes: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       email: {
         allowNull: false,
@@ -62,5 +67,5 @@ module.exports = {
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Project');
-  }
+  },
 };
