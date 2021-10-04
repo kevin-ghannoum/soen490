@@ -10,10 +10,13 @@ import {
   BelongsTo,
   AutoIncrement,
   BelongsToMany,
+  HasMany,
 } from 'sequelize-typescript';
 import { ClientAccount } from './ClientAccount';
 import { EmployeeAccount } from './EmployeeAccount';
 import { WorksOn } from './WorksOn';
+import { Task } from './Task';
+import { Feedback } from './Feedback';
 
 @Table({ timestamps: false })
 export class Project extends Model {
@@ -81,4 +84,10 @@ export class Project extends Model {
 
   @BelongsToMany(() => EmployeeAccount, () => WorksOn)
   employeeAccount!: EmployeeAccount[];
+
+  @HasMany(() => Task)
+  tasks!: Task[];
+  
+  @HasMany(() => Feedback)
+  feedback!: Feedback[];
 }

@@ -14,6 +14,9 @@ import { Call } from '../models/Call';
 import { Address } from '../models/Address';
 import { SocialMediaPage } from '../models/SocialMediaPage';
 import { WorksOn } from '../models/WorksOn';
+import { Task } from '../models/Task';
+import { Assigned } from '../models/Assigned';
+import { Feedback } from '../models/Feedback';
 
 dotenv.config();
 export const sequelize = new Sequelize({
@@ -37,7 +40,10 @@ export const sequelize = new Sequelize({
     BusinessAccount,
     SocialMediaPage,
     Pay,
-    WorksOn
+    WorksOn,
+    Task,
+    Assigned,
+    Feedback
   ],
   define: {
     freezeTableName: true,
