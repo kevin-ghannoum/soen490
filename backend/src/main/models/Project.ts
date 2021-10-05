@@ -86,6 +86,7 @@ export class Project extends Model {
 
   @BelongsToMany(() => EmployeeAccount, () => WorksOn)
   employeeAccount!: EmployeeAccount[];
+  
   @HasOne(() => Sale)
   sale!: Sale;
 
