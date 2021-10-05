@@ -7,31 +7,31 @@ import {
   ForeignKey,
   AutoIncrement,
 } from 'sequelize-typescript';
-import { Account } from './Account';
+import { Project } from './Project';
 
 @Table({ timestamps: false })
-export class Call extends Model {
+export class Sale extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
   id!: number;
 
   @Column
-  date!: Date;
+  amount!: number;
 
   @Column
-  receiverName!: string;
+  createdDate!: Date;
 
   @Column
-  phoneNumber!: string;
+  dueDate!: Date;
 
   @Column
   description!: string;
 
-  @ForeignKey(() => Account)
+  @ForeignKey(() => Project)
   @Column
-  email!: string;
+  projectId!: number;
 
-  @BelongsTo(() => Account)
-  account!: Account;
+  @BelongsTo(() => Project)
+  project!: Project;
 }

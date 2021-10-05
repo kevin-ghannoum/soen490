@@ -34,6 +34,7 @@ export default class AccountRepository implements CRUD {
           email: email,
         },
       });
+
       log(`Account with email ${email} has been deleted`);
       return Promise.resolve(deletedAccountStatus);
     } catch (err: any) {
@@ -48,6 +49,7 @@ export default class AccountRepository implements CRUD {
   ): Promise<number> => {
     try {
       await Account.update(updatedValue, { where: { email: email } });
+      
       log(`Account with email ${email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {

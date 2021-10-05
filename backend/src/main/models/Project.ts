@@ -1,4 +1,3 @@
-'use strict';
 import {
   Default,
   Table,
@@ -10,10 +9,16 @@ import {
   BelongsTo,
   AutoIncrement,
   BelongsToMany,
+  HasOne,
+  HasMany,
 } from 'sequelize-typescript';
 import { ClientAccount } from './ClientAccount';
 import { EmployeeAccount } from './EmployeeAccount';
 import { WorksOn } from './WorksOn';
+
+import { Sale } from './Sale';
+import { Transaction } from './Transaction';
+import { Business } from './Business';
 
 @Table({ timestamps: false })
 export class Project extends Model {
@@ -76,9 +81,19 @@ export class Project extends Model {
   @Column
   email!: string;
 
+  @ForeignKey(() => Business)
+  @Column
+  businessId!: number;
+
   @BelongsTo(() => ClientAccount)
   clientAccount!: ClientAccount;
 
   @BelongsToMany(() => EmployeeAccount, () => WorksOn)
   employeeAccount!: EmployeeAccount[];
+  
+  @HasOne(() => Sale)
+  sale!: Sale;
+
+  @HasMany(() => Transaction)
+  transaction!: Transaction[];
 }

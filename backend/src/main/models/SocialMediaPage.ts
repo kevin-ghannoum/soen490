@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   BelongsTo,
   Column,
   ForeignKey,
@@ -6,6 +7,7 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
+import { Business } from './Business';
 import { BusinessAccount } from './BusinessAccount';
 import { ClientAccount } from './ClientAccount';
 
@@ -20,8 +22,14 @@ export class SocialMediaPage extends Model {
   link!: string;
 
   @ForeignKey(() => ClientAccount)
+  @AllowNull
   @Column
   email!: string;
+
+  @ForeignKey(() => Business)
+  @AllowNull
+  @Column
+  businessId!: string;
 
   @BelongsTo(() => BusinessAccount, 'email')
   businessAccount!: BusinessAccount;

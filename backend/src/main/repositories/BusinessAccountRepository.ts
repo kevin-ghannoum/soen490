@@ -24,6 +24,7 @@ export default class BusinessAccountRepository implements CRUD {
         include: [Account],
       });
       createdAccount.save();
+
       log(`Added new account ${createdAccount.email}`);
       return Promise.resolve(createdAccount);
     } catch (err: any) {
@@ -37,6 +38,7 @@ export default class BusinessAccountRepository implements CRUD {
       const deletedAccountStatus = await Account.destroy({
         where: { email: email },
       });
+
       log(`Admin Account with email ${email} has been deleted`);
       return Promise.resolve(deletedAccountStatus);
     } catch (err: any) {
@@ -85,6 +87,7 @@ export default class BusinessAccountRepository implements CRUD {
   public getAll = async (): Promise<BusinessAccount[]> => {
     try {
       const businessAccountList = await BusinessAccount.findAll();
+      
       log(`retrieved all business accounts`);
       return Promise.resolve(businessAccountList);
     } catch (err: any) {

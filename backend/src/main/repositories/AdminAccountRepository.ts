@@ -23,6 +23,7 @@ export default class AdminAccountRepository implements CRUD {
         include: [Account],
       });
       createdAccount.save();
+
       log(`Added new account ${createdAccount.email}`);
       return Promise.resolve(createdAccount);
     } catch (err: any) {
@@ -36,6 +37,7 @@ export default class AdminAccountRepository implements CRUD {
       const deletedAccountStatus = await Account.destroy({
         where: { email: email },
       });
+
       log(`Admin Account with email ${email} has been deleted`);
       return Promise.resolve(deletedAccountStatus);
     } catch (err: any) {
@@ -84,6 +86,7 @@ export default class AdminAccountRepository implements CRUD {
   public getAll = async (): Promise<AdminAccount[]> => {
     try {
       const accountsExample = await AdminAccount.findAll();
+      
       log(`retrieved all admin accounts`);
       return Promise.resolve(accountsExample);
     } catch (err: any) {

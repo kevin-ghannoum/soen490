@@ -2,11 +2,13 @@ import {
     BelongsTo,
     Column,
     ForeignKey,
+    HasOne,
     Model,
     PrimaryKey,
     Table,
   } from 'sequelize-typescript';
   import { Account } from './Account';
+import { Business } from './Business';
   
   @Table({ timestamps: false })
   export class BusinessAccount extends Model {
@@ -17,5 +19,8 @@ import {
     @PrimaryKey
     @Column
     email!: string;
+
+    @HasOne(() => Business)
+    business!: Business;
   }
   

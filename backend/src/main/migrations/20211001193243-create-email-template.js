@@ -1,29 +1,28 @@
-'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('SocialMediaPage', {
-      link: {
-        primaryKey: true,
+    await queryInterface.createTable('EmailTemplate', {
+      id: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      name: {
         primaryKey: true,
-        allowNull: false,
-        type: Sequelize.STRING,
+        autoIncrement: true,
+        type: Sequelize.BIGINT,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
-      email: {
-        allowNull: true,
+      title: {
+        allowNull: false,
         type: Sequelize.STRING,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        references: {
-          model: 'clientaccount',
-          key: 'email',
-        },
+      },
+      template: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       businessId: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.BIGINT,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -35,6 +34,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('SocialMediaPage');
+    await queryInterface.dropTable('EmailTemplate');
   },
 };
