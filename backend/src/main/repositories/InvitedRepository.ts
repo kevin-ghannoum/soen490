@@ -80,6 +80,7 @@ export default class InvitedRepository implements CRUD {
           email: specificInvite.email,
         },
       });
+      
       if (invited) {
         log(
           `Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`

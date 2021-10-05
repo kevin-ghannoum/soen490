@@ -17,13 +17,13 @@ module.exports = {
       },
       value: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
       type: {
         allowNull: false,
-        type: Sequelize.ENUM('SALES', 'EXPENSES', 'REJECTED'),
+        type: Sequelize.ENUM('SALES', 'EXPENSES'),
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },

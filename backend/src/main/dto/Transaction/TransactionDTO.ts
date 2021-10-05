@@ -10,7 +10,7 @@ export interface TransactionUpdateDTO {
   amount?: number;
   date?: Date;
   description?: string;
-  projectId: number;
+  projectId?: number;
 }
 
 export interface ExpenseCreationDTO {

@@ -21,6 +21,7 @@ export default class EmailTemplateRepository implements CRUD {
     try {
       const createdEmailTemplate = EmailTemplate.build(emailTemplateInfo);
       createdEmailTemplate.save();
+
       log(`Added new email templace ${createdEmailTemplate.title}`);
       return Promise.resolve(createdEmailTemplate);
     } catch (err: any) {
@@ -29,12 +30,13 @@ export default class EmailTemplateRepository implements CRUD {
     }
   };
 
-  public delete = async (title: string): Promise<number> => {
+  public delete = async (id: number): Promise<number> => {
     try {
       const deleteEmailTemplate = await EmailTemplate.destroy({
-        where: { title: title },
+        where: { id: id },
       });
-      log(`Email Template ${title} has been deleted`);
+
+      log(`Email Template ${id} has been deleted`);
       return Promise.resolve(deleteEmailTemplate);
     } catch (err: any) {
       log(err);
@@ -43,27 +45,28 @@ export default class EmailTemplateRepository implements CRUD {
   };
 
   public update = async (
-    title: string,
+    id: number,
     updatedValue: EmailTemplateUpdateDTO
   ): Promise<number> => {
     try {
-      await EmailTemplate.update(updatedValue, { where: { title: title } });
-      log(`Email Template ${title} has been updated`);
+      await EmailTemplate.update(updatedValue, { where: { id: id } });
+
+      log(`Email Template ${id} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);
     }
   };
 
-  public get = async (title: string): Promise<EmailTemplate | null> => {
+  public get = async (id: number): Promise<EmailTemplate | null> => {
     try {
-      const emailTemplate = await EmailTemplate.findOne({
-        where: { title: title },
+      const emailTemplate = await EmailTemplate.findByPk(id, {
         include: [Business],
       });
-      console.log(`Email Tempalte ${emailTemplate?.title} has been retrieved`);
+
+      log(`Email Tempalte ${emailTemplate?.title} has been retrieved`);
       if (emailTemplate) {
-        console.log(emailTemplate);
+        log(emailTemplate);
       } else {
         log('Email Template not found');
       }
@@ -77,11 +80,13 @@ export default class EmailTemplateRepository implements CRUD {
   public getAll = async (): Promise<EmailTemplate[]> => {
     try {
       const templates = await EmailTemplate.findAll();
+
       if (templates) {
-        console.log(templates);
+        log(templates);
       } else {
         log('Email Template not found');
       }
+
       log(`Retrieved all email templates`);
       return Promise.resolve(templates);
     } catch (err: any) {

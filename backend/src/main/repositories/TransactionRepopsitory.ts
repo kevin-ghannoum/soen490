@@ -20,6 +20,7 @@ export default class TransactionRepository implements CRUD {
     try {
       const createdTransaction = Transaction.build(transactionInfo);
       createdTransaction.save();
+
       log(`Added new transaction with id ${createdTransaction.id}`);
       return Promise.resolve(createdTransaction);
     } catch (err: any) {
@@ -33,6 +34,7 @@ export default class TransactionRepository implements CRUD {
       const deleteTransactionStatus = await Transaction.destroy({
         where: { id: id },
       });
+
       log(`Transaction ${id} has been deleted`);
       return Promise.resolve(deleteTransactionStatus);
     } catch (err: any) {
@@ -47,6 +49,7 @@ export default class TransactionRepository implements CRUD {
   ): Promise<number> => {
     try {
       await Transaction.update(updatedValue, { where: { id: id } });
+
       log(`Transaction ${id} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
@@ -57,9 +60,10 @@ export default class TransactionRepository implements CRUD {
   public get = async (id: number): Promise<Transaction | null> => {
     try {
       const transaction = await Transaction.findByPk(id);
-      console.log(`Transaction ${transaction?.id} has been retrieved`);
+
+      log(`Transaction ${transaction?.id} has been retrieved`);
       if (transaction) {
-        console.log(transaction);
+        log(transaction);
       } else {
         log('transaction not found');
       }
@@ -73,11 +77,13 @@ export default class TransactionRepository implements CRUD {
   public getAll = async (): Promise<Transaction[]> => {
     try {
       const transactions = await Transaction.findAll();
+      
       if (transactions) {
-        console.log(transactions);
+        log(transactions);
       } else {
         log('transaction not found');
       }
+      
       log(`Retrieved all transactions`);
       return Promise.resolve(transactions);
     } catch (err: any) {

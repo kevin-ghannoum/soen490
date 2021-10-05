@@ -8,13 +8,14 @@ import { Goal } from '../models/Goal';
 @injectable()
 export default class GoalRepository implements CRUD {
   constructor() {
-    log('Created new instance of Goal');
+    log('Created new instance of GoalRepository');
   }
   
   public create = async (goalInfo: GoalCreationDTO): Promise<Goal> => {
     try {
       const createdGoal = Goal.build(goalInfo);
       createdGoal.save();
+
       log(`Added new business ${createdGoal.title}`);
       return Promise.resolve(createdGoal);
     } catch (err: any) {
@@ -23,12 +24,13 @@ export default class GoalRepository implements CRUD {
     }
   };
 
-  public delete = async (title: string): Promise<number> => {
+  public delete = async (id: number): Promise<number> => {
     try {
       const deleteGoalStatus = await Goal.destroy({
-        where: { title: title },
+        where: { id: id },
       });
-      log(`Goal ${title} has been deleted`);
+
+      log(`Goal ${id} has been deleted`);
       return Promise.resolve(deleteGoalStatus);
     } catch (err: any) {
       log(err);
@@ -37,27 +39,31 @@ export default class GoalRepository implements CRUD {
   };
 
   public update = async (
-    title: string,
+    id: number,
     updatedValue: GoalUpdateDTO
   ): Promise<number> => {
     try {
-      await Goal.update(updatedValue, { where: { title: title } });
-      log(`Goal ${title} has been updated`);
+      await Goal.update(updatedValue, { where: { id: id } });
+
+      log(`Goal ${id} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);
     }
   };
 
-  public get = async (title: string): Promise<Goal | null> => {
+  public get = async (id: number): Promise<Goal | null> => {
     try {
-      const goal = await Goal.findOne({ where: { title: title } });
-      console.log(`Business ${goal?.title} has been retrieved`);
+      const goal = await Goal.findByPk(id);
+
+      log(`Business ${goal?.title} has been retrieved`);
+
       if (goal) {
-        console.log(goal);
+        log(goal);
       } else {
         log('Goal not found');
       }
+
       return Promise.resolve(goal);
     } catch (err: any) {
       log(err);
@@ -68,12 +74,15 @@ export default class GoalRepository implements CRUD {
   public getAll = async (): Promise<Goal[]> => {
     try {
       const goals = await Goal.findAll();
+
       if (goals) {
-        console.log(goals);
+        log(goals);
       } else {
         log('Goal not found');
       }
+
       log(`Retrieved all goals`);
+
       return Promise.resolve(goals);
     } catch (err: any) {
       log(err);

@@ -1,31 +1,37 @@
-'use strict';
-import { Table, Column, Model, PrimaryKey, BelongsTo, ForeignKey, AutoIncrement } from 'sequelize-typescript';
-import { Account } from "./Account";
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  BelongsTo,
+  ForeignKey,
+  AutoIncrement,
+} from 'sequelize-typescript';
+import { Account } from './Account';
 
 @Table({ timestamps: false })
 export class Call extends Model {
-
   @PrimaryKey
   @AutoIncrement
   @Column
-  id!: number
+  id!: number;
 
   @Column
-  date!: Date
+  date!: Date;
 
   @Column
-  receiverName!: string
+  receiverName!: string;
 
   @Column
-  phoneNumber!: string
+  phoneNumber!: string;
 
   @Column
-  description!: string
+  description!: string;
 
   @ForeignKey(() => Account)
   @Column
-  email!: string
+  email!: string;
 
   @BelongsTo(() => Account)
-  account!: Account
+  account!: Account;
 }

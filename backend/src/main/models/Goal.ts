@@ -1,4 +1,3 @@
-'use strict';
 import {
   Table,
   Column,
@@ -8,12 +7,14 @@ import {
   ForeignKey,
   Default,
   DataType,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import { Business } from './Business';
 
 @Table({ timestamps: false })
 export class Goal extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id!: number;
 
@@ -27,8 +28,8 @@ export class Goal extends Model {
   deadline!: Date;
 
   @Default('SALES')
-  @Column(DataType.ENUM('SALES', 'EXPENSES', 'REJECTED'))
-  type!: 'SALES' | 'EXPENSES' | 'REJECTED';
+  @Column(DataType.ENUM('SALES', 'EXPENSES'))
+  type!: 'SALES' | 'EXPENSES';
 
   @ForeignKey(() => Business)
   @Column

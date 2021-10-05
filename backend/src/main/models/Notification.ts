@@ -1,29 +1,37 @@
-'use strict';
-import { Table, Column, Model, PrimaryKey, BelongsTo, DataType, ForeignKey, Default, AutoIncrement } from 'sequelize-typescript';
-import { Account } from "./Account";
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  BelongsTo,
+  DataType,
+  ForeignKey,
+  Default,
+  AutoIncrement,
+} from 'sequelize-typescript';
+import { Account } from './Account';
 
 @Table({ timestamps: false })
 export class Notification extends Model {
-
   @PrimaryKey
   @AutoIncrement
   @Column
-  id!: number
+  id!: number;
 
   @Column
-  date!: Date
+  date!: Date;
 
   @Column
-  message!: string
+  message!: string;
 
   @ForeignKey(() => Account)
   @Column
-  email!: string
+  email!: string;
 
   @Default('GENERAL')
   @Column(DataType.ENUM('EVENT', 'SYSTEM', 'REMINDER', 'GENERAL'))
   type!: 'EVENT' | 'SYSTEM' | 'REMINDER' | 'GENERAL';
 
   @BelongsTo(() => Account)
-  account!: Account
+  account!: Account;
 }

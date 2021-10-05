@@ -5,7 +5,6 @@ export interface EmailTemplateCreationDTO {
 }
 
 export interface EmailTemplateUpdateDTO {
-  id?: number;
   template?: string;
   title?: string;
   businessId?: number;

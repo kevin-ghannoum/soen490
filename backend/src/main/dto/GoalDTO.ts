@@ -7,16 +7,14 @@ export interface GoalCreationDTO {
 }
 
 export interface GoalUpdateDTO {
-  id?: number;
   title?: string;
   value?: number;
   deadline?: Date;
   type?: Type;
-  businessId: number;
+  businessId?: number;
 }
 
 export enum Type {
   SALES = 'SALES',
   EXPENSES = 'EXPENSES',
-  REJECTED = 'REJECTED',
 }

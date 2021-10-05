@@ -19,6 +19,17 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
+      email: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'businessaccount',
+          key: 'email'
+        }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

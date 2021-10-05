@@ -23,8 +23,8 @@ export default class EmployeeAccountRepository implements CRUD {
       const createdEmployeeAccount = EmployeeAccount.build(accountInfo, {
         include: [Account],
       });
-
       createdEmployeeAccount.save();
+
       log(`added new client account ${createdEmployeeAccount.email}`);
 
       return Promise.resolve(createdEmployeeAccount);
@@ -39,6 +39,7 @@ export default class EmployeeAccountRepository implements CRUD {
       const employeeAccount = await EmployeeAccount.findByPk(email, {
         include: [Account, Pay],
       });
+
       log(
         `Employee Account with email ${employeeAccount?.email} has been retrieved`
       );
@@ -56,6 +57,7 @@ export default class EmployeeAccountRepository implements CRUD {
       const deletedClientAccountStatus = await Account.destroy({
         where: { email: email },
       });
+
       log(`Client Account with email ${email} has been deleted`);
       return Promise.resolve(deletedClientAccountStatus);
     } catch (err: any) {
@@ -92,6 +94,7 @@ export default class EmployeeAccountRepository implements CRUD {
       const clientAccounts = await EmployeeAccount.findAll({
         include: [Account, Pay],
       });
+      
       log(`retrieved all employee accounts`);
       return Promise.resolve(clientAccounts);
     } catch (err: any) {

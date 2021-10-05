@@ -23,6 +23,7 @@ export default class ExpenseRepository implements CRUD {
         include: [Transaction],
       });
       createdExpense.save();
+
       log(`added new expense ${createdExpense.id}`);
       return Promise.resolve(createdExpense);
     } catch (err: any) {
@@ -36,12 +37,14 @@ export default class ExpenseRepository implements CRUD {
       const expense = await Expense.findByPk(id, {
         include: [Transaction],
       });
+
       if (expense) {
-        console.log(expense);
+        log(expense);
         log(`Expense with id ${expense?.id} has been retrieved`);
       } else {
         log(`No expense have been found with id ${id}`);
       }
+
       return Promise.resolve(expense);
     } catch (err: any) {
       log(err);
@@ -55,7 +58,9 @@ export default class ExpenseRepository implements CRUD {
       const deletedExpenseStatus = await Transaction.destroy({
         where: { id: id },
       });
+
       log(`Expense with id ${id} has been deleted`);
+
       return Promise.resolve(deletedExpenseStatus);
     } catch (err: any) {
       log(err);
@@ -77,7 +82,9 @@ export default class ExpenseRepository implements CRUD {
       await Expense.update(updatedExpenseValue, {
         where: { id: id },
       });
+
       log(`Expense with id ${id} has been updated`);
+      
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);
@@ -89,8 +96,10 @@ export default class ExpenseRepository implements CRUD {
       const expenses = await Expense.findAll({
         include: [Transaction],
       });
-      console.log(expenses);
+
+      log(expenses);
       log(`retrieved all expenses`);
+
       return Promise.resolve(expenses);
     } catch (err: any) {
       return Promise.reject(err);

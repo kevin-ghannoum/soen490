@@ -1,4 +1,3 @@
-'use strict';
 import {
   Table,
   Column,
@@ -25,7 +24,7 @@ export class EmailTemplate extends Model {
 
   @ForeignKey(() => Business)
   @Column
-  businessId!: bigint;
+  businessId!: number;
 
   @BelongsTo(() => Business)
   business!: Business;

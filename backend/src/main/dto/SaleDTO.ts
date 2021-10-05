@@ -7,7 +7,6 @@ export interface SaleCreationDTO {
 }
 
 export interface SaleUpdateDTO {
-  id?: number;
   amount?: number;
   createdDate?: Date;
   dueDate?: Date;

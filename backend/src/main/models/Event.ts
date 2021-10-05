@@ -1,32 +1,38 @@
-'use strict';
-import { Table, Column, Model, PrimaryKey, BelongsToMany, AutoIncrement, ForeignKey } from 'sequelize-typescript';
-import { Account } from "./Account";
-import { Invited } from "./Invited";
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  BelongsToMany,
+  AutoIncrement,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Account } from './Account';
+import { Invited } from './Invited';
 
 @Table({ timestamps: false })
 export class Event extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id!: number;
 
-    @PrimaryKey
-    @AutoIncrement
-    @Column
-    id!: number
+  @Column
+  location!: string;
 
-    @Column
-    location!: string
+  @Column
+  description!: string;
 
-    @Column
-    description!: string
+  @Column
+  date!: Date;
 
-    @Column
-    date!: Date
+  @Column
+  type!: string;
 
-    @Column
-    type!: string
+  @Column
+  @ForeignKey(() => Account)
+  createdBy!: string;
 
-    @Column
-    @ForeignKey(() => Account)
-    createdBy!: string
-
-    @BelongsToMany(() => Account, () => Invited)
-    accounts!: Account[]
+  @BelongsToMany(() => Account, () => Invited)
+  accounts!: Account[];
 }

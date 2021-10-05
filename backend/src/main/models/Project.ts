@@ -1,4 +1,3 @@
-'use strict';
 import {
   Default,
   Table,
@@ -19,6 +18,7 @@ import { WorksOn } from './WorksOn';
 
 import { Sale } from './Sale';
 import { Transaction } from './Transaction';
+import { Business } from './Business';
 
 @Table({ timestamps: false })
 export class Project extends Model {
@@ -80,6 +80,10 @@ export class Project extends Model {
   @ForeignKey(() => ClientAccount)
   @Column
   email!: string;
+
+  @ForeignKey(() => Business)
+  @Column
+  businessId!: number;
 
   @BelongsTo(() => ClientAccount)
   clientAccount!: ClientAccount;

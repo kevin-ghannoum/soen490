@@ -23,6 +23,7 @@ export default class ProductionRepository implements CRUD {
         include: [Transaction],
       });
       createdProduciton.save();
+
       log(`added new production ${createdProduciton.id}`);
       return Promise.resolve(createdProduciton);
     } catch (err: any) {
@@ -36,12 +37,14 @@ export default class ProductionRepository implements CRUD {
       const production = await Production.findByPk(id, {
         include: [Transaction],
       });
+
       if (production) {
-        console.log(production);
+        log(production);
         log(`Production with id ${production?.id} has been retrieved`);
       } else {
         log(`No production have been found with id ${id}`);
       }
+
       return Promise.resolve(production);
     } catch (err: any) {
       log(err);
@@ -49,12 +52,12 @@ export default class ProductionRepository implements CRUD {
     }
   };
 
-  // This function deletes the account completely (Account and ClientAccount)
   public delete = async (id: number): Promise<number> => {
     try {
       const deletedProductionStatus = await Transaction.destroy({
         where: { id: id },
       });
+
       log(`Production with id ${id} has been deleted`);
       return Promise.resolve(deletedProductionStatus);
     } catch (err: any) {
@@ -77,6 +80,7 @@ export default class ProductionRepository implements CRUD {
       await Production.update(updatedProductionValue, {
         where: { id: id },
       });
+
       log(`Produciton with id ${id} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
@@ -89,7 +93,8 @@ export default class ProductionRepository implements CRUD {
       const productions = await Production.findAll({
         include: [Transaction],
       });
-      console.log(productions);
+      
+      log(productions);
       log(`retrieved all productions`);
       return Promise.resolve(productions);
     } catch (err: any) {

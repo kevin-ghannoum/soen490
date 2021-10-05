@@ -15,6 +15,7 @@ export default class SaleRepository implements CRUD {
     try {
       const createdSale = Sale.build(saleInfo);
       createdSale.save();
+
       log(`Added new sale with id ${createdSale.id}`);
       return Promise.resolve(createdSale);
     } catch (err: any) {
@@ -28,6 +29,7 @@ export default class SaleRepository implements CRUD {
       const deleteSaleStatus = await Sale.destroy({
         where: { projectId: projectId },
       });
+
       log(`Sale linked to project ${projectId} has been deleted`);
       return Promise.resolve(deleteSaleStatus);
     } catch (err: any) {
@@ -42,6 +44,7 @@ export default class SaleRepository implements CRUD {
   ): Promise<number> => {
     try {
       await Sale.update(updatedValue, { where: { projectId: projectId } });
+
       log(`Sale for project ${projectId} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
@@ -52,12 +55,15 @@ export default class SaleRepository implements CRUD {
   public get = async (projectId: number): Promise<Sale | null> => {
     try {
       const sale = await Sale.findOne({ where: { projectId: projectId } });
-      console.log(`Sale of project ${sale?.projectId} has been retrieved`);
+
+      log(`Sale of project ${sale?.projectId} has been retrieved`);
+
       if (sale) {
-        console.log(sale);
+        log(sale);
       } else {
         log('Sale not found');
       }
+
       return Promise.resolve(sale);
     } catch (err: any) {
       log(err);
@@ -68,12 +74,15 @@ export default class SaleRepository implements CRUD {
   public getAll = async (): Promise<Sale[]> => {
     try {
       const sales = await Sale.findAll();
+      
       if (sales) {
-        console.log(sales);
+        log(sales);
       } else {
         log('Sales not found');
       }
+
       log(`Retrieved all sales`);
+      
       return Promise.resolve(sales);
     } catch (err: any) {
       log(err);

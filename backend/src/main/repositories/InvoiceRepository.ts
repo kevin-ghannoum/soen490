@@ -15,6 +15,7 @@ export default class InvoiceRepository implements CRUD {
     try {
       const createdInvoice = Invoice.build(invoiceInfo);
       createdInvoice.save();
+
       log(`Added new invoice with id ${createdInvoice.id}`);
       return Promise.resolve(createdInvoice);
     } catch (err: any) {
@@ -23,12 +24,13 @@ export default class InvoiceRepository implements CRUD {
     }
   };
 
-  public delete = async (productionId: number): Promise<number> => {
+  public delete = async (invoiceId: number): Promise<number> => {
     try {
       const deleteInvoiceStatus = await Invoice.destroy({
-        where: { productionId: productionId },
+        where: { invoiceId: invoiceId },
       });
-      log(`Invoice for production of id ${productionId} has been deleted`);
+
+      log(`Invoice for production of id ${invoiceId} has been deleted`);
       return Promise.resolve(deleteInvoiceStatus);
     } catch (err: any) {
       log(err);
@@ -44,6 +46,7 @@ export default class InvoiceRepository implements CRUD {
       await Invoice.update(updatedValue, {
         where: { productionId: productionId },
       });
+
       log(`Invoice of production id ${productionId} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
@@ -56,8 +59,9 @@ export default class InvoiceRepository implements CRUD {
       const invoice = await Invoice.findOne({
         where: { productionId: productionId },
       });
+
       if (invoice) {
-        console.log(invoice);
+        log(invoice);
         log(
           `invoice of production with id ${invoice?.productionId} has been retrieved`
         );
@@ -66,9 +70,7 @@ export default class InvoiceRepository implements CRUD {
           `No invoice have been found for production with id ${productionId}`
         );
       }
-      console.log(
-        `Invoice of production id ${invoice?.productionId} has been retrieved`
-      );
+
       return Promise.resolve(invoice);
     } catch (err: any) {
       log(err);
@@ -79,12 +81,14 @@ export default class InvoiceRepository implements CRUD {
   public getAll = async (): Promise<Invoice[]> => {
     try {
       const invoices = await Invoice.findAll();
+
       if (invoices) {
-        console.log(invoices);
+        log(invoices);
         log(`Retrieved all invoices`);
       } else {
         log(`No invoices have been retrieved`);
       }
+      
       return Promise.resolve(invoices);
     } catch (err: any) {
       log(err);

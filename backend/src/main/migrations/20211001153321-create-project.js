@@ -62,7 +62,17 @@ module.exports = {
           model: 'account',
           key: 'email'
         }
-      }
+      },
+      businessId: {
+        allowNull: false,
+        type: Sequelize.BIGINT,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'business',
+          key: 'id',
+        },
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

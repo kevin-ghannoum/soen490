@@ -20,6 +20,7 @@ export default class SocialMediaPageRepository implements CRUD {
     try {
       const createdSocialMediaPage = SocialMediaPage.build(socialMediaPageInfo);
       createdSocialMediaPage.save();
+
       log(`Added new social media page ${createdSocialMediaPage.name}`);
 
       return Promise.resolve(createdSocialMediaPage);
@@ -67,6 +68,7 @@ export default class SocialMediaPageRepository implements CRUD {
           link: socialMediaPageKey.link,
         },
       });
+
       log(
         `Deleted social media page with name ${socialMediaPageKey.name} and link ${socialMediaPageKey.link}`
       );
@@ -99,6 +101,7 @@ export default class SocialMediaPageRepository implements CRUD {
   public getAll = async (): Promise<SocialMediaPage[]> => {
     try {
       const socialMediaPages = await SocialMediaPage.findAll();
+      
       log(`retrieved all social media page`);
       return Promise.resolve(socialMediaPages);
     } catch (err: any) {
