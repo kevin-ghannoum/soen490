@@ -60,6 +60,7 @@ export default class ClientAccountRepository implements CRUD {
       const deletedClientAccountStatus = await Account.destroy({
         where: { email: email },
       });
+
       log(`Client Account with email ${email} has been deleted`);
       return Promise.resolve(deletedClientAccountStatus);
     } catch (err: any) {
@@ -96,6 +97,7 @@ export default class ClientAccountRepository implements CRUD {
       const clientAccounts = await ClientAccount.findAll({
         include: [Account, Project, SocialMediaPage],
       });
+      
       log(`retrieved all client accounts`);
       return Promise.resolve(clientAccounts);
     } catch (err: any) {

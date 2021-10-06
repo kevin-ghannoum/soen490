@@ -10,6 +10,7 @@ export default class PayRepository implements CRUD {
   constructor() {
     log('Created new instance of PayRepository');
   }
+
   public create = async (payInfo: PayCreationDTO): Promise<Pay> => {
     try {
       const createdPay = Pay.build(payInfo);
@@ -47,6 +48,7 @@ export default class PayRepository implements CRUD {
           id: id,
         },
       });
+
       log(`Deleted pay with id ${id}`);
       return Promise.resolve(deletedPayStatus);
     } catch (err: any) {
@@ -76,6 +78,7 @@ export default class PayRepository implements CRUD {
   public getAll = async (): Promise<Pay[]> => {
     try {
       const pays = await Pay.findAll();
+      
       log(`retrieved all pays`);
       return Promise.resolve(pays);
     } catch (err: any) {
@@ -86,6 +89,7 @@ export default class PayRepository implements CRUD {
   public getAllByEmail = async (email: string): Promise<Pay[]> => {
     try {
       const pays = await Pay.findAll({ where: { email: email } });
+      
       log(`retrieved all pays belonging to ${email}`);
       return Promise.resolve(pays);
     } catch (err: any) {

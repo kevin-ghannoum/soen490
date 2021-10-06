@@ -1,33 +1,38 @@
-'use strict';
-import { Table, Column, Model, PrimaryKey, HasMany, AutoIncrement } from 'sequelize-typescript';
-import { Account } from "./Account";
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  HasMany,
+  AutoIncrement,
+} from 'sequelize-typescript';
+import { Account } from './Account';
 
 @Table({ timestamps: false })
 export class Address extends Model {
-
   @PrimaryKey
   @AutoIncrement
   @Column
-  id!: number
+  id!: number;
 
   @Column
-  civicNumber!: number
+  civicNumber!: number;
 
   @Column
-  streetName!: string
+  streetName!: string;
 
   @Column
-  postalCode!: string
+  postalCode!: string;
 
   @Column
-  cityName!: string
+  cityName!: string;
 
   @Column
-  province!: string
+  province!: string;
 
   @Column
-  country!: string
+  country!: string;
 
   @HasMany(() => Account)
-  accounts!: Account[]
+  accounts!: Account[];
 }

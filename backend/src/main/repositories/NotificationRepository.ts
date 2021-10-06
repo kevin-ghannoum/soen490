@@ -74,6 +74,7 @@ export default class NotificationRepository implements CRUD {
           email: specificNotification.email,
         },
       });
+      
       if (notification) {
         log(
           `Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`
