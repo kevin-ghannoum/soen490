@@ -11,6 +11,7 @@ import {
   AutoIncrement,
   BelongsToMany,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { ClientAccount } from './ClientAccount';
 import { EmployeeAccount } from './EmployeeAccount';
@@ -88,6 +89,6 @@ export class Project extends Model {
   @HasMany(() => Task)
   tasks!: Task[];
   
-  @HasMany(() => Feedback)
-  feedback!: Feedback[];
+  @HasOne(() => Feedback)
+  feedback!: Feedback;
 }
