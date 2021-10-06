@@ -5,6 +5,8 @@ import {
   Model,
   PrimaryKey,
   AutoIncrement,
+  DataType,
+  Default,
 } from 'sequelize-typescript';
 
 @Table({ timestamps: true })
@@ -20,6 +22,12 @@ export class SystemLog extends Model {
   @Column
   date!: Date;
 
-  @Column
-  type!: string;
+  @Default('SYSTEM')
+  @Column(
+    DataType.ENUM(
+      'SYSTEM',
+      'APP',
+      'OTHER',
+    ))
+  type!: 'SYSTEM' | 'APP' | 'OTHER';
 }

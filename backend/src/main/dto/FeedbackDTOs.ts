@@ -1,8 +1,8 @@
 export interface FeedbackCreationDTO {
-    title?: string,
-    comment?: string,
-    rating?: number,
-    projectId?: number
+    title: string,
+    comment: string,
+    rating: number,
+    projectId: number
 }
 
 export interface FeedbackUpdateDTO {

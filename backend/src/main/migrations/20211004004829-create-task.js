@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.BIGINT
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       description: {

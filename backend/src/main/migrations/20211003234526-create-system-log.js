@@ -15,9 +15,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      date: {
+      type: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('SYSTEM', 'APP', 'OTHER'),
+        defaultValue: 'SYSTEM'
       },
     });
   },

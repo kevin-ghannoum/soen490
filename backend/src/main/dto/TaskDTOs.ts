@@ -1,11 +1,11 @@
 export interface TaskCreationDTO {
-    title?: string,
-    description?: string,
-    status?: TaskStatus,
-    deadlineDate?: Date,
-    createdDate?: Date,
-    modifiedDate?: Date,
-    projectId?: number
+    title: string,
+    description: string,
+    status: TaskStatus,
+    deadlineDate: Date,
+    createdDate: Date,
+    modifiedDate: Date,
+    projectId: number
 }
 
 export interface TaskUpdateDTO {

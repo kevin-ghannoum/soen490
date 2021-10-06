@@ -4,9 +4,7 @@ import {
   Column,
   Model,
   PrimaryKey,
-  AutoIncrement,
   ForeignKey,
-  BelongsTo,
 } from 'sequelize-typescript';
 import { Account } from './Account';
 import { Task } from './Task';
@@ -14,10 +12,12 @@ import { Task } from './Task';
 @Table({ timestamps: true })
 export class Assigned extends Model {
   @ForeignKey(() => Task)
+  @PrimaryKey
   @Column
   taskId!: number
 
   @ForeignKey(() => Account)
+  @PrimaryKey
   @Column
   email!: string
 }

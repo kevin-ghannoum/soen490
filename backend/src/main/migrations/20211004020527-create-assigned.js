@@ -4,6 +4,7 @@ module.exports = {
     await queryInterface.createTable('Assigned', {
       taskId: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.BIGINT,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -14,6 +15,7 @@ module.exports = {
       },
       email: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.STRING,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',

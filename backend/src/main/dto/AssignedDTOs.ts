@@ -1,6 +1,6 @@
 export interface AssignedCreationDTO {
-    taskId?: number,
-    email?: string,
+    taskId: number,
+    email: string,
 }
 
 export interface AssignedUpdateDTO {

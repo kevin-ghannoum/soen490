@@ -9,6 +9,7 @@ import {
   BelongsTo,
   BelongsToMany,
   DataType,
+  Default,
 } from 'sequelize-typescript';
 import { Account } from './Account';
 import { Assigned } from './Assigned';
@@ -27,6 +28,7 @@ export class Task extends Model {
   @Column
   description!: string;
 
+  @Default('NEW')
   @Column (
     DataType.ENUM(
       'NEW',

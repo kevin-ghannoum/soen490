@@ -9,12 +9,15 @@ module.exports = {
         type: Sequelize.BIGINT
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       comment: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       rating: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       projectId: {

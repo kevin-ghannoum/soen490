@@ -7,10 +7,7 @@ import {
   AutoIncrement,
   ForeignKey,
   BelongsTo,
-  BelongsToMany,
 } from 'sequelize-typescript';
-import { Account } from './Account';
-import { Assigned } from './Assigned';
 import { Project } from './Project';
 
 @Table({ timestamps: true })
