@@ -15,6 +15,8 @@ import {
 import { ClientAccount } from './ClientAccount';
 import { EmployeeAccount } from './EmployeeAccount';
 import { WorksOn } from './WorksOn';
+import { Task } from './Task';
+import { Feedback } from './Feedback';
 
 import { Sale } from './Sale';
 import { Transaction } from './Transaction';
@@ -90,6 +92,12 @@ export class Project extends Model {
 
   @BelongsToMany(() => EmployeeAccount, () => WorksOn)
   employeeAccount!: EmployeeAccount[];
+
+  @HasMany(() => Task)
+  tasks!: Task[];
+  
+  @HasOne(() => Feedback)
+  feedback!: Feedback;
   
   @HasOne(() => Sale)
   sale!: Sale;

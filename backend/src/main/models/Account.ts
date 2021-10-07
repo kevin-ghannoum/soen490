@@ -13,6 +13,8 @@ import { Invited } from './Invited';
 import { Notification } from './Notification';
 import { Call } from './Call';
 import { Address } from './Address';
+import { Assigned } from './Assigned';
+import { Task } from './Task';
 
 @Table({ timestamps: false })
 export class Account extends Model {
@@ -49,5 +51,8 @@ export class Account extends Model {
   calls!: Call[];
 
   @BelongsTo(() => Address)
-  address!: Address;
+  address!: Address
+
+  @BelongsToMany(() => Task, () => Assigned)
+  tasks!: Task[];
 }
