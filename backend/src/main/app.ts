@@ -8,15 +8,11 @@ import * as expressWinston from 'express-winston';
 import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
-import {
-  failSafeHandler,
-  httpMiddlewareError,
-} from './middleware/ErrorMiddleware';
+import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
 
 const main = async () => {
-
-  sequelize.authenticate().then(() => console.log("Authenticated on Sequelize"))
+  sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
 
   const app: express.Application = express();
 

@@ -36,21 +36,8 @@ export class Project extends Model {
   description!: string;
 
   @Default('PENDING')
-  @Column(
-    DataType.ENUM(
-      'BOOKED',
-      'PENDING',
-      'REJECTED',
-      'TO BE RESCHEDULED',
-      'COMPLETED'
-    )
-  )
-  status!:
-    | 'BOOKED'
-    | 'PENDING'
-    | 'REJECTED'
-    | 'TO BE RESCHEDULED'
-    | 'COMPLETED';
+  @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED'))
+  status!: 'BOOKED' | 'PENDING' | 'REJECTED' | 'TO BE RESCHEDULED' | 'COMPLETED';
 
   @Column
   serviceType!: string;
@@ -95,10 +82,10 @@ export class Project extends Model {
 
   @HasMany(() => Task)
   tasks!: Task[];
-  
+
   @HasOne(() => Feedback)
   feedback!: Feedback;
-  
+
   @HasOne(() => Sale)
   sale!: Sale;
 

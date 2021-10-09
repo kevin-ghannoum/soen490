@@ -1,11 +1,4 @@
-import {
-  Table,
-  Column,
-  Model,
-  PrimaryKey,
-  HasMany,
-  AutoIncrement,
-} from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey, HasMany, AutoIncrement } from 'sequelize-typescript';
 import { Account } from './Account';
 
 @Table({ timestamps: false })

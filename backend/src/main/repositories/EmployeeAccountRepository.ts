@@ -1,14 +1,12 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  EmployeeAccountCreationDTO,
-  EmployeeAccountUpdateDTO,
-} from '../dto/Accounts/AccountDTOs';
+import { EmployeeAccountCreationDTO, EmployeeAccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ClientAccountRepository');
 import { Account } from '../models/Account';
 import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
+import { BaseError } from 'sequelize';
 
 @injectable()
 export default class EmployeeAccountRepository implements CRUD {
@@ -16,20 +14,21 @@ export default class EmployeeAccountRepository implements CRUD {
     log('Created new instance of EmployeeAccountRepository');
   }
 
-  public create = async (
-    accountInfo: EmployeeAccountCreationDTO
-  ): Promise<EmployeeAccount> => {
+  public create = async (accountInfo: EmployeeAccountCreationDTO): Promise<EmployeeAccount> => {
     try {
       const createdEmployeeAccount = EmployeeAccount.build(accountInfo, {
         include: [Account],
       });
-      createdEmployeeAccount.save();
-
+      await createdEmployeeAccount.save();
       log(`added new client account ${createdEmployeeAccount.email}`);
 
       return Promise.resolve(createdEmployeeAccount);
     } catch (err: any) {
       log(err);
+      if (err instanceof BaseError) {
+        throw new Error(`${err.name}, message: ${err.message}`);
+      }
+
       return Promise.reject(err);
     }
   };
@@ -40,12 +39,14 @@ export default class EmployeeAccountRepository implements CRUD {
         include: [Account, Pay],
       });
 
-      log(
-        `Employee Account with email ${employeeAccount?.email} has been retrieved`
-      );
+      log(`Employee Account with email ${employeeAccount?.email} has been retrieved`);
       return Promise.resolve(employeeAccount);
     } catch (err: any) {
       log(err);
+      if (err instanceof BaseError) {
+        throw new Error(`${err.name}, message: ${err.message}`);
+      }
+
       return Promise.reject(err);
     }
   };
@@ -61,15 +62,15 @@ export default class EmployeeAccountRepository implements CRUD {
       log(`Client Account with email ${email} has been deleted`);
       return Promise.resolve(deletedClientAccountStatus);
     } catch (err: any) {
+      if (err instanceof BaseError) {
+        throw new Error(`${err.name}, message: ${err.message}`);
+      }
       log(err);
       return Promise.reject(err);
     }
   };
 
-  public update = async (
-    email: string,
-    updatedEmployeeAccountValue: EmployeeAccountUpdateDTO
-  ): Promise<number> => {
+  public update = async (email: string, updatedEmployeeAccountValue: EmployeeAccountUpdateDTO): Promise<number> => {
     try {
       if (updatedEmployeeAccountValue.account) {
         Account.update(updatedEmployeeAccountValue.account, {
@@ -85,6 +86,9 @@ export default class EmployeeAccountRepository implements CRUD {
       log(`Account with email ${email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
+      if (err instanceof BaseError) {
+        throw new Error(`${err.name}, message: ${err.message}`);
+      }
       return Promise.reject(err);
     }
   };
@@ -94,10 +98,13 @@ export default class EmployeeAccountRepository implements CRUD {
       const clientAccounts = await EmployeeAccount.findAll({
         include: [Account, Pay],
       });
-      
+
       log(`retrieved all employee accounts`);
       return Promise.resolve(clientAccounts);
     } catch (err: any) {
+      if (err instanceof BaseError) {
+        throw new Error(`${err.name}, message: ${err.message}`);
+      }
       return Promise.reject(err);
     }
   };

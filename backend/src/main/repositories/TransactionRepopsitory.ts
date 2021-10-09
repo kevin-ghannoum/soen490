@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  TransactionCreationDTO,
-  TransactionUpdateDTO,
-} from '../dto/Transaction/TransactionDTO';
+import { TransactionCreationDTO, TransactionUpdateDTO } from '../dto/Transaction/TransactionDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:TransactionDTO');
 import { Transaction } from '../models/Transaction';
@@ -14,9 +11,7 @@ export default class TransactionRepository implements CRUD {
     log('Created new instance of TransactionRepository');
   }
 
-  public create = async (
-    transactionInfo: TransactionCreationDTO
-  ): Promise<Transaction> => {
+  public create = async (transactionInfo: TransactionCreationDTO): Promise<Transaction> => {
     try {
       const createdTransaction = Transaction.build(transactionInfo);
       createdTransaction.save();
@@ -43,10 +38,7 @@ export default class TransactionRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: TransactionUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: TransactionUpdateDTO): Promise<number> => {
     try {
       await Transaction.update(updatedValue, { where: { id: id } });
 
@@ -77,13 +69,13 @@ export default class TransactionRepository implements CRUD {
   public getAll = async (): Promise<Transaction[]> => {
     try {
       const transactions = await Transaction.findAll();
-      
+
       if (transactions) {
         log(transactions);
       } else {
         log('transaction not found');
       }
-      
+
       log(`Retrieved all transactions`);
       return Promise.resolve(transactions);
     } catch (err: any) {

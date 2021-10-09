@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  NotificationCreationDTO,
-  NotificationUpdateDTO,
-} from '../dto/NotificationDTOs';
+import { NotificationCreationDTO, NotificationUpdateDTO } from '../dto/NotificationDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:NotificationRepository');
 import { Notification } from '../models/Notification';
@@ -14,9 +11,7 @@ export default class NotificationRepository implements CRUD {
     log('Created new instance of NotificationRepository');
   }
 
-  public create = async (
-    notificationInfo: NotificationCreationDTO
-  ): Promise<Notification> => {
+  public create = async (notificationInfo: NotificationCreationDTO): Promise<Notification> => {
     try {
       const createdNotification = Notification.build(notificationInfo);
       createdNotification.save();
@@ -45,10 +40,7 @@ export default class NotificationRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: NotificationUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: NotificationUpdateDTO): Promise<number> => {
     try {
       await Notification.update(updatedValue, {
         where: {
@@ -63,10 +55,7 @@ export default class NotificationRepository implements CRUD {
     }
   };
 
-  public get = async (specificNotification: {
-    id: number;
-    email: string;
-  }): Promise<Notification | null> => {
+  public get = async (specificNotification: { id: number; email: string }): Promise<Notification | null> => {
     try {
       const notification = await Notification.findOne({
         where: {
@@ -74,15 +63,11 @@ export default class NotificationRepository implements CRUD {
           email: specificNotification.email,
         },
       });
-      
+
       if (notification) {
-        log(
-          `Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`
-        );
+        log(`Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`);
       } else {
-        log(
-          `Notification with id ${specificNotification.id} and email ${specificNotification.email} not found`
-        );
+        log(`Notification with id ${specificNotification.id} and email ${specificNotification.email} not found`);
       }
 
       return Promise.resolve(notification);
@@ -100,9 +85,7 @@ export default class NotificationRepository implements CRUD {
         },
       });
 
-      log(
-        `Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`
-      );
+      log(`Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`);
       return Promise.resolve(notification);
     } catch (err: any) {
       log(err);
@@ -118,9 +101,7 @@ export default class NotificationRepository implements CRUD {
         },
       });
 
-      log(
-        `Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`
-      );
+      log(`Notification with id ${notification?.id} and email ${notification?.email} has been retrieved`);
       return Promise.resolve(notification);
     } catch (err: any) {
       log(err);
@@ -128,9 +109,7 @@ export default class NotificationRepository implements CRUD {
     }
   };
 
-  public getAllByEmail = async (
-    email: string
-  ): Promise<Notification[] | null> => {
+  public getAllByEmail = async (email: string): Promise<Notification[] | null> => {
     try {
       const notification: Notification[] = await Notification.findAll({
         where: {

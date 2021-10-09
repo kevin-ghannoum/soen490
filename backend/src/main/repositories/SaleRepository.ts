@@ -38,10 +38,7 @@ export default class SaleRepository implements CRUD {
     }
   };
 
-  public update = async (
-    projectId: number,
-    updatedValue: SaleUpdateDTO
-  ): Promise<number> => {
+  public update = async (projectId: number, updatedValue: SaleUpdateDTO): Promise<number> => {
     try {
       await Sale.update(updatedValue, { where: { projectId: projectId } });
 
@@ -74,7 +71,7 @@ export default class SaleRepository implements CRUD {
   public getAll = async (): Promise<Sale[]> => {
     try {
       const sales = await Sale.findAll();
-      
+
       if (sales) {
         log(sales);
       } else {
@@ -82,7 +79,7 @@ export default class SaleRepository implements CRUD {
       }
 
       log(`Retrieved all sales`);
-      
+
       return Promise.resolve(sales);
     } catch (err: any) {
       log(err);

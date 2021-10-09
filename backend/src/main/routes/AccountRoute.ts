@@ -2,70 +2,53 @@
 
 import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
-import { StatusCodes } from 'http-status-codes';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
-import AccountRepository from '../repositories/AccountRepository';
+import { EmployeeAccountService } from '../services/EmployeeAccountService';
+import HttpException from '../exceptions/HttpException';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
-  // private accountService: accountService;
-  private accountRepo: AccountRepository
+  private employeeAccountService: EmployeeAccountService;
 
-  // Injecting registered instance of the express app (found in app.ts)
-  // Notice that for userRepository, the keyword @inject was not specified because tsyringe auto inject it.
-  // Useful when there is only one implementation of this class. Otherwise, you should register it in app.ts
-  constructor(
-    @inject('express-app') app: express.Application,
-    // accountService: accountService
-    accountRepo: AccountRepository
-  ) {
+  constructor(@inject('express-app') app: express.Application, employeeAccountService: EmployeeAccountService) {
     super(app, 'AccountRoute');
-    // this.accountService = accountService;
-    this.accountRepo= accountRepo;
+    this.employeeAccountService = employeeAccountService;
   }
 
   configureRoutes(): express.Application {
     this.getApp()
-      .route('/accounts')
-      .get((req: express.Request, res: express.Response) => {
+      .route(`/accounts/employee`)
+      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const newEmployeeAccount = await this.employeeAccountService.createEmployeeAccount(req.body);
+          res.status(StatusCodes.CREATED).send(newEmployeeAccount);
+        } catch (err) {
+          next(err);
+        }
+      });
 
-        //EXAMPLE
-        // const test = this.accountRepo.create({ email: 'bobnewemailtesttestteassast@gmail.com', firstName: "Bob", lastName: "Bobby", phoneNumber: "514-123-1234", username: "bob123", password: "ENCRYPTED PASSWORD" })
-
-        res
-          .status(StatusCodes.OK)
-          .send('Normally would return a list of accounts');
+    this.getApp()
+      .route(`/accounts/employee/:email`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(req.params.email);
+          res.status(StatusCodes.OK).send(employeeAccount);
+        } catch (err) {
+          next(err);
+        }
       })
-    //   .post((req: express.Request, res: express.Response) => {
-    //     res
-    //       .status(StatusCodes.CREATED)
-    //       .send('Normally this would create a new account');
-    //   });
-
-    // this.getApp()
-    //   .route('/accounts/:accountEmail')
-    //   // "all" keyword mean before all other request do what's inside. In this case, check if the account email is a string.
-    //   //Refer to the middleware function for more detail.
-    //   .all(validateAccountEmail)
-    //   .get(async (req: express.Request, res: express.Response) => {
-    //     const account = await this.accountService.getAccount(req.params.accountEmail);
-    //     res.status(StatusCodes.OK).send(`GET requested for id ${account}`);
-    //   })
-    //   .put((req: express.Request, res: express.Response) => {
-    //     res
-    //       .status(StatusCodes.OK)
-    //       .send(`PUT requested for id ${req.params.accountEmail}`);
-    //   })
-    //   .patch((req: express.Request, res: express.Response) => {
-    //     res
-    //       .status(StatusCodes.OK)
-    //       .send(`PATCH requested for id ${req.params.accountEmail}`);
-    //   })
-    //   .delete((req: express.Request, res: express.Response) => {
-    //     res
-    //       .status(StatusCodes.OK)
-    //       .send(`DELETE requested for id ${req.params.accountEmail}`);
-    //   });
+      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          if ((await this.employeeAccountService.deleteEmployeeAccountByEmail(req.params.email)) === 1) {
+            res.status(StatusCodes.OK).send();
+          } else {
+            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+          }
+        } catch (err) {
+          next(err);
+        }
+      });
 
     return this.getApp();
   }

@@ -1,13 +1,4 @@
-import {
-  Table,
-  Column,
-  Model,
-  PrimaryKey,
-  BelongsToMany,
-  HasMany,
-  BelongsTo,
-  ForeignKey,
-} from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey, BelongsToMany, HasMany, BelongsTo, ForeignKey } from 'sequelize-typescript';
 import { Event } from './Event';
 import { Invited } from './Invited';
 import { Notification } from './Notification';
@@ -51,7 +42,7 @@ export class Account extends Model {
   calls!: Call[];
 
   @BelongsTo(() => Address)
-  address!: Address
+  address!: Address;
 
   @BelongsToMany(() => Task, () => Assigned)
   tasks!: Task[];

@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 export abstract class CommonRoutesConfig {
   private app: express.Application;
   private name: string;

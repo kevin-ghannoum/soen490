@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  BusinessAccountCreationDTO,
-  BusinessAccountUpdateDTO,
-} from '../dto/Accounts/AccountDTOs';
+import { BusinessAccountCreationDTO, BusinessAccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:BusinessAccountRepository');
 import { AdminAccount } from '../models/AdminAccount';
@@ -16,9 +13,7 @@ export default class BusinessAccountRepository implements CRUD {
     log('Created new instance of BusinessAccountRepository');
   }
 
-  public create = async (
-    accountInfo: BusinessAccountCreationDTO
-  ): Promise<BusinessAccount> => {
+  public create = async (accountInfo: BusinessAccountCreationDTO): Promise<BusinessAccount> => {
     try {
       const createdAccount = BusinessAccount.build(accountInfo, {
         include: [Account],
@@ -47,10 +42,7 @@ export default class BusinessAccountRepository implements CRUD {
     }
   };
 
-  public update = async (
-    email: string,
-    updatedValue: BusinessAccountUpdateDTO
-  ): Promise<number> => {
+  public update = async (email: string, updatedValue: BusinessAccountUpdateDTO): Promise<number> => {
     try {
       if (updatedValue.account) {
         Account.update(updatedValue.account, {
@@ -87,7 +79,7 @@ export default class BusinessAccountRepository implements CRUD {
   public getAll = async (): Promise<BusinessAccount[]> => {
     try {
       const businessAccountList = await BusinessAccount.findAll();
-      
+
       log(`retrieved all business accounts`);
       return Promise.resolve(businessAccountList);
     } catch (err: any) {

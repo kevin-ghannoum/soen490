@@ -1,17 +1,17 @@
 export interface SystemLogCreationDTO {
-    description: string,
-    date: Date,
-    type: SystemLogType,
+  description: string;
+  date: Date;
+  type: SystemLogType;
 }
 
 export interface SystemLogUpdateDTO {
-    description?: string,
-    date?: Date,
-    type?: SystemLogType,
+  description?: string;
+  date?: Date;
+  type?: SystemLogType;
 }
 
 export enum SystemLogType {
-    NEW = 'SYSTEM',
-    ACTIVE = 'APP',
-    RESOLVED = 'OTHER',
+  NEW = 'SYSTEM',
+  ACTIVE = 'APP',
+  RESOLVED = 'OTHER',
 }

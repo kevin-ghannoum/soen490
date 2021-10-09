@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  AdminAccountCreationDTO,
-  AdminAccountUpdateDTO,
-} from '../dto/Accounts/AccountDTOs';
+import { AdminAccountCreationDTO, AdminAccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:AdminAccountRepository');
 import { AdminAccount } from '../models/AdminAccount';
@@ -15,9 +12,7 @@ export default class AdminAccountRepository implements CRUD {
     log('Created new instance of AdminAccountRepository');
   }
 
-  public create = async (
-    accountInfo: AdminAccountCreationDTO
-  ): Promise<AdminAccount> => {
+  public create = async (accountInfo: AdminAccountCreationDTO): Promise<AdminAccount> => {
     try {
       const createdAccount = AdminAccount.build(accountInfo, {
         include: [Account],
@@ -46,10 +41,7 @@ export default class AdminAccountRepository implements CRUD {
     }
   };
 
-  public update = async (
-    email: string,
-    updatedValue: AdminAccountUpdateDTO
-  ): Promise<number> => {
+  public update = async (email: string, updatedValue: AdminAccountUpdateDTO): Promise<number> => {
     try {
       if (updatedValue.account) {
         Account.update(updatedValue.account, {
@@ -86,7 +78,7 @@ export default class AdminAccountRepository implements CRUD {
   public getAll = async (): Promise<AdminAccount[]> => {
     try {
       const accountsExample = await AdminAccount.findAll();
-      
+
       log(`retrieved all admin accounts`);
       return Promise.resolve(accountsExample);
     } catch (err: any) {

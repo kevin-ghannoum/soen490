@@ -11,16 +11,12 @@ export default class AssignedRepository implements CRUD {
     log('Created new instance of AssignedRepository');
   }
 
-  public create = async (
-    assignedInfo: AssignedCreationDTO
-  ): Promise<Assigned> => {
+  public create = async (assignedInfo: AssignedCreationDTO): Promise<Assigned> => {
     try {
       const createdAssigned = Assigned.build(assignedInfo);
       createdAssigned.save();
 
-      log(
-        `Added new assignment taskId: ${createdAssigned.id} and email: ${createdAssigned.email}`
-      );
+      log(`Added new assignment taskId: ${createdAssigned.id} and email: ${createdAssigned.email}`);
       return Promise.resolve(createdAssigned);
     } catch (err: any) {
       log(err);
@@ -28,10 +24,7 @@ export default class AssignedRepository implements CRUD {
     }
   };
 
-  public delete = async (assign: {
-    taskId: number;
-    email: string;
-  }): Promise<number> => {
+  public delete = async (assign: { taskId: number; email: string }): Promise<number> => {
     try {
       const deletedAssignedStatus = await Assigned.destroy({
         where: {
@@ -40,9 +33,7 @@ export default class AssignedRepository implements CRUD {
         },
       });
 
-      log(
-        `Invite with id ${assign.taskId} and email ${assign.email} has been deleted`
-      );
+      log(`Invite with id ${assign.taskId} and email ${assign.email} has been deleted`);
       return Promise.resolve(deletedAssignedStatus);
     } catch (err: any) {
       log(err);
@@ -62,19 +53,14 @@ export default class AssignedRepository implements CRUD {
         },
       });
 
-      log(
-        `Assignment with taskId: ${assign.taskId} and email: ${assign.email} has been updated`
-      );
+      log(`Assignment with taskId: ${assign.taskId} and email: ${assign.email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);
     }
   };
 
-  public get = async (assign: {
-    taskId: number;
-    email: string;
-  }): Promise<Assigned | null> => {
+  public get = async (assign: { taskId: number; email: string }): Promise<Assigned | null> => {
     try {
       const assigned = await Assigned.findOne({
         where: {
@@ -83,13 +69,9 @@ export default class AssignedRepository implements CRUD {
         },
       });
       if (assigned) {
-        log(
-          `Assignment with taskId ${assigned?.taskId} and email ${assigned?.email} has been retrieved`
-        );
+        log(`Assignment with taskId ${assigned?.taskId} and email ${assigned?.email} has been retrieved`);
       } else {
-        log(
-          `Assignment with taskId ${assign.taskId} and email ${assign.email} not found`
-        );
+        log(`Assignment with taskId ${assign.taskId} and email ${assign.email} not found`);
       }
 
       return Promise.resolve(assigned);

@@ -1,12 +1,4 @@
-import {
-  Table,
-  Column,
-  Model,
-  PrimaryKey,
-  BelongsTo,
-  ForeignKey,
-  AutoIncrement,
-} from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey, BelongsTo, ForeignKey, AutoIncrement } from 'sequelize-typescript';
 import { Project } from './Project';
 
 @Table({ timestamps: false })
