@@ -10,7 +10,7 @@ export default class GoalRepository implements CRUD {
   constructor() {
     log('Created new instance of GoalRepository');
   }
-  
+
   public create = async (goalInfo: GoalCreationDTO): Promise<Goal> => {
     try {
       const createdGoal = Goal.build(goalInfo);
@@ -38,10 +38,7 @@ export default class GoalRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: GoalUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: GoalUpdateDTO): Promise<number> => {
     try {
       await Goal.update(updatedValue, { where: { id: id } });
 

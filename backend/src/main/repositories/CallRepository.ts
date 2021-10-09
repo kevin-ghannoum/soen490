@@ -41,10 +41,7 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: CallUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: CallUpdateDTO): Promise<number> => {
     try {
       await Call.update(updatedValue, {
         where: {
@@ -59,10 +56,7 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public get = async (specificCall: {
-    id: number;
-    email: string;
-  }): Promise<Call | null> => {
+  public get = async (specificCall: { id: number; email: string }): Promise<Call | null> => {
     try {
       const call = await Call.findOne({
         where: {
@@ -72,9 +66,7 @@ export default class CallRepository implements CRUD {
         include: [Account],
       });
 
-      log(
-        `Call with id ${call?.id} and email ${call?.email} has been retrieved`
-      );
+      log(`Call with id ${call?.id} and email ${call?.email} has been retrieved`);
       return Promise.resolve(call);
     } catch (err: any) {
       log(err);
@@ -91,9 +83,7 @@ export default class CallRepository implements CRUD {
       });
 
       if (call) {
-        log(
-          `Call with id ${call?.id} and email ${call?.email} has been retrieved`
-        );
+        log(`Call with id ${call?.id} and email ${call?.email} has been retrieved`);
       } else {
         log(`Call with email ${email} not found`);
       }
@@ -114,10 +104,8 @@ export default class CallRepository implements CRUD {
       });
 
       if (call) {
-        log(
-          `Call with id ${call?.id} and email ${call?.email} has been retrieved`
-        );
-      }else{
+        log(`Call with id ${call?.id} and email ${call?.email} has been retrieved`);
+      } else {
         log(`Call with email ${id} not found`);
       }
 

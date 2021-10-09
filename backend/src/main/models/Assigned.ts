@@ -1,11 +1,5 @@
 'use strict';
-import {
-  Table,
-  Column,
-  Model,
-  PrimaryKey,
-  ForeignKey,
-} from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey, ForeignKey } from 'sequelize-typescript';
 import { Account } from './Account';
 import { Task } from './Task';
 
@@ -14,10 +8,10 @@ export class Assigned extends Model {
   @ForeignKey(() => Task)
   @PrimaryKey
   @Column
-  taskId!: number
+  taskId!: number;
 
   @ForeignKey(() => Account)
   @PrimaryKey
   @Column
-  email!: string
+  email!: string;
 }

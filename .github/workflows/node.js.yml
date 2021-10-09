@@ -50,6 +50,16 @@ jobs:
       run: |
         cd backend
         npm run lint
+    
+    - name: Run prettier backend
+      run: |
+        cd backend
+        npm run prettier-check
+    
+    - name: Run prettier frontend
+      run: |
+        cd frontend
+        npm run prettier-check
 
     - name: Build
       run: |

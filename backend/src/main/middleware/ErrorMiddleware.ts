@@ -19,7 +19,7 @@ const httpMiddlewareError = (
 
 // generic handler
 const failSafeHandler = (
-  error: Error,
+  error: any | Error,
   request: express.Request,
   response: express.Response,
   next: express.NextFunction
