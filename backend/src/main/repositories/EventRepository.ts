@@ -41,10 +41,7 @@ export default class EventRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: EventUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: EventUpdateDTO): Promise<number> => {
     try {
       await Event.update(updatedValue, {
         where: {
@@ -63,12 +60,12 @@ export default class EventRepository implements CRUD {
     try {
       const event = await Event.findByPk(id, { include: [Account] });
 
-      if(event){
+      if (event) {
         log(`Event with id ${event?.id} has been retrieved`);
-      }else{
-        log(`Event with id ${id} not found`)
+      } else {
+        log(`Event with id ${id} not found`);
       }
-      
+
       return Promise.resolve(event);
     } catch (err: any) {
       log(err);

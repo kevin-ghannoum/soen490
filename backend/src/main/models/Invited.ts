@@ -1,10 +1,4 @@
-import {
-  Model,
-  Column,
-  Table,
-  ForeignKey,
-  PrimaryKey,
-} from 'sequelize-typescript';
+import { Model, Column, Table, ForeignKey, PrimaryKey } from 'sequelize-typescript';
 import { Account } from './Account';
 import { Event } from './Event';
 

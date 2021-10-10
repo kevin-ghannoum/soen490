@@ -1,10 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  SocialMediaPageCreationDTO,
-  SocialMediaPageKey,
-  SocialMediaPageUpdateDTO,
-} from '../dto/SocialMediaPageDTO';
+import { SocialMediaPageCreationDTO, SocialMediaPageKey, SocialMediaPageUpdateDTO } from '../dto/SocialMediaPageDTO';
 import { SocialMediaPage } from '../models/SocialMediaPage';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:SocialMediaPageRepository');
@@ -14,9 +10,7 @@ export default class SocialMediaPageRepository implements CRUD {
   constructor() {
     log('Created new instance of SocialMediaPageRepository');
   }
-  public create = async (
-    socialMediaPageInfo: SocialMediaPageCreationDTO
-  ): Promise<SocialMediaPage> => {
+  public create = async (socialMediaPageInfo: SocialMediaPageCreationDTO): Promise<SocialMediaPage> => {
     try {
       const createdSocialMediaPage = SocialMediaPage.build(socialMediaPageInfo);
       createdSocialMediaPage.save();
@@ -30,9 +24,7 @@ export default class SocialMediaPageRepository implements CRUD {
     }
   };
 
-  public get = async (
-    socialMediaPageKey: SocialMediaPageKey
-  ): Promise<SocialMediaPage | null> => {
+  public get = async (socialMediaPageKey: SocialMediaPageKey): Promise<SocialMediaPage | null> => {
     try {
       const socialMediaPage = await SocialMediaPage.findOne({
         where: {
@@ -42,13 +34,9 @@ export default class SocialMediaPageRepository implements CRUD {
       });
 
       if (socialMediaPage) {
-        log(
-          `Social media page with name: ${socialMediaPage.name} and link ${socialMediaPage.link} found`
-        );
+        log(`Social media page with name: ${socialMediaPage.name} and link ${socialMediaPage.link} found`);
       } else {
-        log(
-          `No social media page found with ${socialMediaPageKey.name} and ${socialMediaPageKey.link}`
-        );
+        log(`No social media page found with ${socialMediaPageKey.name} and ${socialMediaPageKey.link}`);
       }
 
       return Promise.resolve(socialMediaPage);
@@ -58,9 +46,7 @@ export default class SocialMediaPageRepository implements CRUD {
     }
   };
 
-  public delete = async (
-    socialMediaPageKey: SocialMediaPageKey
-  ): Promise<number> => {
+  public delete = async (socialMediaPageKey: SocialMediaPageKey): Promise<number> => {
     try {
       const deletedSocialMediaStatus = await SocialMediaPage.destroy({
         where: {
@@ -69,9 +55,7 @@ export default class SocialMediaPageRepository implements CRUD {
         },
       });
 
-      log(
-        `Deleted social media page with name ${socialMediaPageKey.name} and link ${socialMediaPageKey.link}`
-      );
+      log(`Deleted social media page with name ${socialMediaPageKey.name} and link ${socialMediaPageKey.link}`);
       return Promise.resolve(deletedSocialMediaStatus);
     } catch (err: any) {
       log(err);
@@ -101,7 +85,7 @@ export default class SocialMediaPageRepository implements CRUD {
   public getAll = async (): Promise<SocialMediaPage[]> => {
     try {
       const socialMediaPages = await SocialMediaPage.findAll();
-      
+
       log(`retrieved all social media page`);
       return Promise.resolve(socialMediaPages);
     } catch (err: any) {

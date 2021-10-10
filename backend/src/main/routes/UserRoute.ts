@@ -14,10 +14,7 @@ export default class UserRoute extends CommonRoutesConfig {
   // Injecting registered instance of the express app (found in app.ts)
   // Notice that for userRepository, the keyword @inject was not specified because tsyringe auto inject it.
   // Useful when there is only one implementation of this class. Otherwise, you should register it in app.ts
-  constructor(
-    @inject('express-app') app: express.Application,
-    userService: UserService
-  ) {
+  constructor(@inject('express-app') app: express.Application, userService: UserService) {
     super(app, 'UserRoute');
     this.userService = userService;
   }
@@ -26,14 +23,10 @@ export default class UserRoute extends CommonRoutesConfig {
     this.getApp()
       .route('/users')
       .get((req: express.Request, res: express.Response) => {
-        res
-          .status(StatusCodes.OK)
-          .send('Normally would return a list of users');
+        res.status(StatusCodes.OK).send('Normally would return a list of users');
       })
       .post((req: express.Request, res: express.Response) => {
-        res
-          .status(StatusCodes.CREATED)
-          .send('Normally this would create a new user');
+        res.status(StatusCodes.CREATED).send('Normally this would create a new user');
       });
 
     this.getApp()
@@ -46,19 +39,13 @@ export default class UserRoute extends CommonRoutesConfig {
         res.status(StatusCodes.OK).send(`GET requested for id ${user}`);
       })
       .put((req: express.Request, res: express.Response) => {
-        res
-          .status(StatusCodes.OK)
-          .send(`PUT requested for id ${req.params.userId}`);
+        res.status(StatusCodes.OK).send(`PUT requested for id ${req.params.userId}`);
       })
       .patch((req: express.Request, res: express.Response) => {
-        res
-          .status(StatusCodes.OK)
-          .send(`PATCH requested for id ${req.params.userId}`);
+        res.status(StatusCodes.OK).send(`PATCH requested for id ${req.params.userId}`);
       })
       .delete((req: express.Request, res: express.Response) => {
-        res
-          .status(StatusCodes.OK)
-          .send(`DELETE requested for id ${req.params.userId}`);
+        res.status(StatusCodes.OK).send(`DELETE requested for id ${req.params.userId}`);
       });
 
     return this.getApp();

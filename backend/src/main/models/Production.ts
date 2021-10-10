@@ -1,12 +1,4 @@
-import {
-  BelongsTo,
-  Column,
-  ForeignKey,
-  HasOne,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
+import { BelongsTo, Column, ForeignKey, HasOne, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import { Transaction } from './Transaction';
 import { Invoice } from './Invoice';
 

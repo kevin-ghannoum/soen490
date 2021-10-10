@@ -9,7 +9,9 @@
     "debug": "set DEBUG=app:* && npm run dev",
     "test": "jest src/test",
     "testCoverage": "jest src/test --coverage",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "prettier-check":"npx prettier --check \"src/main/**/*.ts\"",
+    "prettier-write":"npx prettier --write \"src/main/**/*.ts"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +37,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.10.1",
+    "@types/sequelize": "^4.28.10",
     "@types/validator": "^13.6.3",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",

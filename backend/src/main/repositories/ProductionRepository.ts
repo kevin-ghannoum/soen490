@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  ProductionCreationDTO,
-  ProductionUpdateDTO,
-} from '../dto/Transaction/TransactionDTO';
+import { ProductionCreationDTO, ProductionUpdateDTO } from '../dto/Transaction/TransactionDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ProductionRepository');
 import { Transaction } from '../models/Transaction';
@@ -15,9 +12,7 @@ export default class ProductionRepository implements CRUD {
     log('Created new instance of ProductionRepository');
   }
 
-  public create = async (
-    transactionInfo: ProductionCreationDTO
-  ): Promise<Production> => {
+  public create = async (transactionInfo: ProductionCreationDTO): Promise<Production> => {
     try {
       const createdProduciton = Production.build(transactionInfo, {
         include: [Transaction],
@@ -66,10 +61,7 @@ export default class ProductionRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedProductionValue: ProductionUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedProductionValue: ProductionUpdateDTO): Promise<number> => {
     try {
       if (updatedProductionValue.transaction) {
         Transaction.update(updatedProductionValue.transaction, {
@@ -93,7 +85,7 @@ export default class ProductionRepository implements CRUD {
       const productions = await Production.findAll({
         include: [Transaction],
       });
-      
+
       log(productions);
       log(`retrieved all productions`);
       return Promise.resolve(productions);

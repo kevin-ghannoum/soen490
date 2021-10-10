@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  ClientAccountCreationDTO,
-  ClientAccountUpdateDTO,
-} from '../dto/Accounts/AccountDTOs';
+import { ClientAccountCreationDTO, ClientAccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ClientAccountRepository');
 import { Account } from '../models/Account';
@@ -17,9 +14,7 @@ export default class ClientAccountRepository implements CRUD {
     log('Created new instance of ClientAccountRepository');
   }
 
-  public create = async (
-    accountInfo: ClientAccountCreationDTO
-  ): Promise<ClientAccount> => {
+  public create = async (accountInfo: ClientAccountCreationDTO): Promise<ClientAccount> => {
     try {
       const createdClientAccount = ClientAccount.build(accountInfo, {
         include: [Account],
@@ -69,10 +64,7 @@ export default class ClientAccountRepository implements CRUD {
     }
   };
 
-  public update = async (
-    email: string,
-    updatedClientAccountValue: ClientAccountUpdateDTO
-  ): Promise<number> => {
+  public update = async (email: string, updatedClientAccountValue: ClientAccountUpdateDTO): Promise<number> => {
     try {
       if (updatedClientAccountValue.account) {
         Account.update(updatedClientAccountValue.account, {
@@ -97,7 +89,7 @@ export default class ClientAccountRepository implements CRUD {
       const clientAccounts = await ClientAccount.findAll({
         include: [Account, Project, SocialMediaPage],
       });
-      
+
       log(`retrieved all client accounts`);
       return Promise.resolve(clientAccounts);
     } catch (err: any) {

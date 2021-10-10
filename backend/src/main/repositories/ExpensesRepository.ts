@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  ExpenseCreationDTO,
-  ExpenseUpdateDTO,
-} from '../dto/Transaction/TransactionDTO';
+import { ExpenseCreationDTO, ExpenseUpdateDTO } from '../dto/Transaction/TransactionDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ExpenseRepository');
 import { Transaction } from '../models/Transaction';
@@ -15,9 +12,7 @@ export default class ExpenseRepository implements CRUD {
     log('Created new instance of ExpenseRepository');
   }
 
-  public create = async (
-    transactionInfo: ExpenseCreationDTO
-  ): Promise<Expense> => {
+  public create = async (transactionInfo: ExpenseCreationDTO): Promise<Expense> => {
     try {
       const createdExpense = Expense.build(transactionInfo, {
         include: [Transaction],
@@ -68,10 +63,7 @@ export default class ExpenseRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedExpenseValue: ExpenseUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedExpenseValue: ExpenseUpdateDTO): Promise<number> => {
     try {
       if (updatedExpenseValue.transaction) {
         Transaction.update(updatedExpenseValue.transaction, {
@@ -84,7 +76,7 @@ export default class ExpenseRepository implements CRUD {
       });
 
       log(`Expense with id ${id} has been updated`);
-      
+
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);

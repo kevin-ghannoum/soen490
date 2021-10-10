@@ -16,9 +16,7 @@ export default class InvitedRepository implements CRUD {
       const createdInvited = Invited.build(invitedInfo);
       createdInvited.save();
 
-      log(
-        `Added new invite id: ${createdInvited.id} and email: ${createdInvited.email}`
-      );
+      log(`Added new invite id: ${createdInvited.id} and email: ${createdInvited.email}`);
       return Promise.resolve(createdInvited);
     } catch (err: any) {
       log(err);
@@ -26,10 +24,7 @@ export default class InvitedRepository implements CRUD {
     }
   };
 
-  public delete = async (invite: {
-    id: number;
-    email: string;
-  }): Promise<number> => {
+  public delete = async (invite: { id: number; email: string }): Promise<number> => {
     try {
       const deletedInvitedStatus = await Invited.destroy({
         where: {
@@ -38,9 +33,7 @@ export default class InvitedRepository implements CRUD {
         },
       });
 
-      log(
-        `Invite with id ${invite.id} and email ${invite.email} has been deleted`
-      );
+      log(`Invite with id ${invite.id} and email ${invite.email} has been deleted`);
       return Promise.resolve(deletedInvitedStatus);
     } catch (err: any) {
       log(err);
@@ -48,10 +41,7 @@ export default class InvitedRepository implements CRUD {
     }
   };
 
-  public update = async (
-    invite: { id: number; email: string },
-    updatedValue: InvitedUpdateDTO
-  ): Promise<number> => {
+  public update = async (invite: { id: number; email: string }, updatedValue: InvitedUpdateDTO): Promise<number> => {
     try {
       await Invited.update(updatedValue, {
         where: {
@@ -60,19 +50,14 @@ export default class InvitedRepository implements CRUD {
         },
       });
 
-      log(
-        `Invite with id ${invite.id} and email: ${invite.email} has been updated`
-      );
+      log(`Invite with id ${invite.id} and email: ${invite.email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
       return Promise.reject(err);
     }
   };
 
-  public get = async (specificInvite: {
-    id: number;
-    email: string;
-  }): Promise<Invited | null> => {
+  public get = async (specificInvite: { id: number; email: string }): Promise<Invited | null> => {
     try {
       const invited = await Invited.findOne({
         where: {
@@ -80,15 +65,11 @@ export default class InvitedRepository implements CRUD {
           email: specificInvite.email,
         },
       });
-      
+
       if (invited) {
-        log(
-          `Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`
-        );
+        log(`Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`);
       } else {
-        log(
-          `Invited with id ${specificInvite.id} and email ${specificInvite.email} not found`
-        );
+        log(`Invited with id ${specificInvite.id} and email ${specificInvite.email} not found`);
       }
 
       return Promise.resolve(invited);
@@ -107,9 +88,7 @@ export default class InvitedRepository implements CRUD {
       });
 
       if (invited) {
-        log(
-          `Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`
-        );
+        log(`Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`);
       } else {
         log(`Invited with email ${email} not found`);
       }
@@ -129,9 +108,7 @@ export default class InvitedRepository implements CRUD {
       });
 
       if (invited) {
-        log(
-          `Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`
-        );
+        log(`Invite with id ${invited?.id} and email ${invited?.email} has been retrieved`);
       } else {
         log(`Invited with id ${id} not found`);
       }

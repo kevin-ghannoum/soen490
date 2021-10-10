@@ -1,5 +1,5 @@
-import * as winston from "winston";
-import * as expressWinston from "express-winston";
+import * as winston from 'winston';
+import * as expressWinston from 'express-winston';
 
 export class AppSettings {
   public static BACKEND_PORT = 8000;

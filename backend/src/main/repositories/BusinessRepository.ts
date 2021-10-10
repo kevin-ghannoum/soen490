@@ -11,9 +11,7 @@ export default class BusinessRepository implements CRUD {
     log('Created new instance of BusinessRepository');
   }
 
-  public create = async (
-    businessInfo: BusinessCreationDTO
-  ): Promise<Business> => {
+  public create = async (businessInfo: BusinessCreationDTO): Promise<Business> => {
     try {
       const createdBusiness = Business.build(businessInfo);
       createdBusiness.save();
@@ -40,10 +38,7 @@ export default class BusinessRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: BusinessUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: BusinessUpdateDTO): Promise<number> => {
     try {
       await Business.update(updatedValue, { where: { id: id } });
 
@@ -59,7 +54,7 @@ export default class BusinessRepository implements CRUD {
       const business = await Business.findByPk(id);
 
       if (business) {
-        log(business)
+        log(business);
         log(`Business ${business?.name} has been retrieved`);
       } else {
         log('Business name not found');

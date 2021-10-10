@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  FeedbackCreationDTO,
-  FeedbackUpdateDTO,
-} from '../dto/FeedbackDTOs';
+import { FeedbackCreationDTO, FeedbackUpdateDTO } from '../dto/FeedbackDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:FeedbackRepository');
 import { Feedback } from '../models/Feedback';
@@ -42,10 +39,7 @@ export default class FeedbackRepository implements CRUD {
     }
   };
 
-  public update = async (
-    feedbackId: number,
-    updatedValue: FeedbackUpdateDTO
-  ): Promise<number> => {
+  public update = async (feedbackId: number, updatedValue: FeedbackUpdateDTO): Promise<number> => {
     try {
       await Feedback.update(updatedValue, { where: { id: feedbackId } });
       log(`Feedback with id ${feedbackId} has been updated`);

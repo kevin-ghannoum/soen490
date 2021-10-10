@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  AccountCreationDTO,
-  AccountUpdateDTO,
-} from '../dto/Accounts/AccountDTOs';
+import { AccountCreationDTO, AccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:AccountRepository');
 import { Account } from '../models/Account';
@@ -43,13 +40,10 @@ export default class AccountRepository implements CRUD {
     }
   };
 
-  public update = async (
-    email: string,
-    updatedValue: AccountUpdateDTO
-  ): Promise<number> => {
+  public update = async (email: string, updatedValue: AccountUpdateDTO): Promise<number> => {
     try {
       await Account.update(updatedValue, { where: { email: email } });
-      
+
       log(`Account with email ${email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {

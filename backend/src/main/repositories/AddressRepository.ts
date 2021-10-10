@@ -11,9 +11,7 @@ export default class AddressRepository implements CRUD {
     log('Created new instance of AddressRepository');
   }
 
-  public create = async (
-    addressInfo: AddressCreationDTO
-  ): Promise<[Address, boolean]> => {
+  public create = async (addressInfo: AddressCreationDTO): Promise<[Address, boolean]> => {
     try {
       const createdAddress = await Address.findOrCreate({
         where: {
@@ -58,10 +56,7 @@ export default class AddressRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: AddressUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: AddressUpdateDTO): Promise<number> => {
     try {
       await Address.update(updatedValue, {
         where: {

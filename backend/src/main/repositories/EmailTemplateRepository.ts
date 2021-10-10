@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  EmailTemplateCreationDTO,
-  EmailTemplateUpdateDTO,
-} from '../dto/EmailTemplateDTO';
+import { EmailTemplateCreationDTO, EmailTemplateUpdateDTO } from '../dto/EmailTemplateDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:EmailTemplateRepository');
 import { EmailTemplate } from '../models/EmailTemplate';
@@ -15,9 +12,7 @@ export default class EmailTemplateRepository implements CRUD {
     log('Created new instance of EmailTemplateRepository');
   }
 
-  public create = async (
-    emailTemplateInfo: EmailTemplateCreationDTO
-  ): Promise<EmailTemplate> => {
+  public create = async (emailTemplateInfo: EmailTemplateCreationDTO): Promise<EmailTemplate> => {
     try {
       const createdEmailTemplate = EmailTemplate.build(emailTemplateInfo);
       createdEmailTemplate.save();
@@ -44,10 +39,7 @@ export default class EmailTemplateRepository implements CRUD {
     }
   };
 
-  public update = async (
-    id: number,
-    updatedValue: EmailTemplateUpdateDTO
-  ): Promise<number> => {
+  public update = async (id: number, updatedValue: EmailTemplateUpdateDTO): Promise<number> => {
     try {
       await EmailTemplate.update(updatedValue, { where: { id: id } });
 

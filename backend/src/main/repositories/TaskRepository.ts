@@ -1,9 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import {
-  TaskCreationDTO,
-  TaskUpdateDTO,
-} from '../dto/TaskDTOs';
+import { TaskCreationDTO, TaskUpdateDTO } from '../dto/TaskDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:TaskRepository');
 import { Task } from '../models/Task';
@@ -42,10 +39,7 @@ export default class TaskRepository implements CRUD {
     }
   };
 
-  public update = async (
-    taskId: number,
-    updatedValue: TaskUpdateDTO
-  ): Promise<number> => {
+  public update = async (taskId: number, updatedValue: TaskUpdateDTO): Promise<number> => {
     try {
       await Task.update(updatedValue, { where: { id: taskId } });
       log(`Task with id ${taskId} has been updated`);

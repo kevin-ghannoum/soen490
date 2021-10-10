@@ -38,10 +38,7 @@ export default class InvoiceRepository implements CRUD {
     }
   };
 
-  public update = async (
-    productionId: number,
-    updatedValue: InvoiceUpdateDTO
-  ): Promise<number> => {
+  public update = async (productionId: number, updatedValue: InvoiceUpdateDTO): Promise<number> => {
     try {
       await Invoice.update(updatedValue, {
         where: { productionId: productionId },
@@ -62,13 +59,9 @@ export default class InvoiceRepository implements CRUD {
 
       if (invoice) {
         log(invoice);
-        log(
-          `invoice of production with id ${invoice?.productionId} has been retrieved`
-        );
+        log(`invoice of production with id ${invoice?.productionId} has been retrieved`);
       } else {
-        log(
-          `No invoice have been found for production with id ${productionId}`
-        );
+        log(`No invoice have been found for production with id ${productionId}`);
       }
 
       return Promise.resolve(invoice);
@@ -88,7 +81,7 @@ export default class InvoiceRepository implements CRUD {
       } else {
         log(`No invoices have been retrieved`);
       }
-      
+
       return Promise.resolve(invoices);
     } catch (err: any) {
       log(err);
