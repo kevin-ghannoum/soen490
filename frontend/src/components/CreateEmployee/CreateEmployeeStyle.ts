@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
       width: '90%',
     },
     width: '40%',
-    margin:"10px"
+    margin: '10px',
   },
   createEmployeeFormWrapper: {
     [theme.breakpoints.down('lg')]: {
