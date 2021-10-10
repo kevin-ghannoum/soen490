@@ -11,11 +11,11 @@ const log: debug.IDebugger = debug('app:userService-example');
 
 @injectable()
 export class EmployeeAccountService {
-  private employeeAccountRepository: EmployeeAccountRepository;
-  // private addressRepository:AddressRepository;
-  constructor(employeeAccountRepository: EmployeeAccountRepository, private addressRepository: AddressRepository) {
+  constructor(
+    private employeeAccountRepository: EmployeeAccountRepository,
+    private addressRepository: AddressRepository
+  ) {
     log('Created instance of AccountService');
-    this.employeeAccountRepository = employeeAccountRepository;
   }
 
   public createEmployeeAccount = async (
