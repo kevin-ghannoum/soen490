@@ -94,20 +94,6 @@ const CreateEmployee: React.FunctionComponent = () => {
                 value={formik.values.lastName}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Email *"
-                name="email"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-              {formik.touched.email && formik.errors.email ? (
-                <Typography color="error">{formik.errors.email}</Typography>
-              ) : null}
-            </Grid>
             <Grid item xs={6}>
               <TextField
                 label="Username *"
@@ -131,7 +117,17 @@ const CreateEmployee: React.FunctionComponent = () => {
                 helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
-
+            <Grid item xs={12}>
+              <TextField
+                label="Email *"
+                name="email"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Phone *"
@@ -176,10 +172,10 @@ const CreateEmployee: React.FunctionComponent = () => {
                 helperText={formik.touched.supervisorEmail && formik.errors.supervisorEmail}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
               <Typography variant="h6">Address</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{ paddingTop: '0px' }}>
               <TextField
                 label="Civic number *"
                 name="civicNumber"
@@ -190,7 +186,7 @@ const CreateEmployee: React.FunctionComponent = () => {
                 helperText={formik.touched.civicNumber && formik.errors.title}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{ paddingTop: '0px' }}>
               <TextField
                 label="Street name *"
                 name="streetName"
@@ -199,17 +195,6 @@ const CreateEmployee: React.FunctionComponent = () => {
                 value={formik.values.streetName}
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Postal code *"
-                name="postalCode"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.postalCode}
-                error={formik.touched.postalCode && Boolean(formik.errors.postalCode)}
-                helperText={formik.touched.postalCode && formik.errors.postalCode}
               />
             </Grid>
             <Grid item xs={6}>
@@ -234,7 +219,18 @@ const CreateEmployee: React.FunctionComponent = () => {
                 helperText={formik.touched.province && formik.errors.province}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
+              <TextField
+                label="Postal code *"
+                name="postalCode"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.postalCode}
+                error={formik.touched.postalCode && Boolean(formik.errors.postalCode)}
+                helperText={formik.touched.postalCode && formik.errors.postalCode}
+              />
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Country *"
                 name="country"
