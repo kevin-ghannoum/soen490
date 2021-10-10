@@ -1,8 +1,12 @@
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
+import { useState } from 'react';
+import { createEmployeeAccount } from '../../services/AccountAPI';
 import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
 import useStyles from './CreateEmployeeStyle';
 const CreateEmployee: React.FunctionComponent = () => {
+  const [created, setCreated] = useState<boolean>(false);
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -21,8 +25,33 @@ const CreateEmployee: React.FunctionComponent = () => {
       title: '',
       hourlyWage: '',
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const response = await createEmployeeAccount({
+        accountRequest: {
+          account: {
+            email: values.email,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phone,
+            username: values.username,
+            password: values.password,
+          },
+          address: {
+            civicNumber: Number(values.civicNumber),
+            streetName: values.streetName,
+            postalCode: values.postalCode,
+            cityName: values.cityName,
+            province: values.province,
+            country: values.country,
+          },
+        },
+        hourlyWage: Number(values.hourlyWage),
+        title: values.title,
+        supervisorEmail: values.supervisorEmail,
+      });
+      if (response.status === 201) {
+        setCreated(true);
+      }
     },
     validationSchema: createEmployeeSchema,
   });
@@ -229,6 +258,11 @@ const CreateEmployee: React.FunctionComponent = () => {
               ) : null}
             </Grid>
             <Grid item xs={12}>
+              {created && (
+                <Typography variant="h6" color="primary">
+                  Created succesfully
+                </Typography>
+              )}
               <Button color="primary" variant="contained" type="submit">
                 Add
               </Button>
