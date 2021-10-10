@@ -74,35 +74,35 @@ const CreateEmployee: React.FunctionComponent = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="First name"
+                label="First name *"
                 name="firstName"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.firstName}
+                error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                helperText={formik.touched.firstName && formik.errors.firstName}
               />
-              {formik.touched.firstName && formik.errors.firstName ? (
-                <Typography color="error">{formik.errors.firstName}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Last name"
+                label="Last name *"
                 name="lastName"
                 fullWidth
+                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                helperText={formik.touched.lastName && formik.errors.lastName}
                 onChange={formik.handleChange}
                 value={formik.values.lastName}
               />
-              {formik.touched.lastName && formik.errors.lastName ? (
-                <Typography color="error">{formik.errors.lastName}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Email"
+                label="Email *"
                 name="email"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               {formik.touched.email && formik.errors.email ? (
                 <Typography color="error">{formik.errors.email}</Typography>
@@ -110,152 +110,140 @@ const CreateEmployee: React.FunctionComponent = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Username"
+                label="Username *"
                 name="username"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.username}
+                error={formik.touched.username && Boolean(formik.errors.username)}
+                helperText={formik.touched.username && formik.errors.username}
               />
-              {formik.touched.username && formik.errors.username ? (
-                <Typography color="error">{formik.errors.username}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Password"
+                label="Password *"
                 name="password"
                 type="password"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.password}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
               />
-              {formik.touched.password && formik.errors.password ? (
-                <Typography color="error">{formik.errors.password}</Typography>
-              ) : null}
             </Grid>
 
             <Grid item xs={12}>
               <TextField
-                label="Phone"
+                label="Phone *"
                 name="phone"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.phone}
+                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                helperText={formik.touched.phone && formik.errors.phone}
               />
-              {formik.touched.phone && formik.errors.phone ? (
-                <Typography color="error">{formik.errors.phone}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Title"
+                label="Title *"
                 name="title"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.title}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                helperText={formik.touched.title && formik.errors.title}
               />
-              {formik.touched.title && formik.errors.title ? (
-                <Typography color="error">{formik.errors.title}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Hourly Wage"
+                label="Hourly Wage *"
                 name="hourlyWage"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.hourlyWage}
+                error={formik.touched.hourlyWage && Boolean(formik.errors.hourlyWage)}
+                helperText={formik.touched.hourlyWage && formik.errors.hourlyWage}
               />
-              {formik.touched.hourlyWage && formik.errors.hourlyWage ? (
-                <Typography color="error">{formik.errors.hourlyWage}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Supervisor email"
+                label="Supervisor email *"
                 name="supervisorEmail"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.supervisorEmail}
+                error={formik.touched.supervisorEmail && Boolean(formik.errors.supervisorEmail)}
+                helperText={formik.touched.supervisorEmail && formik.errors.supervisorEmail}
               />
-              {formik.touched.supervisorEmail && formik.errors.supervisorEmail ? (
-                <Typography color="error">{formik.errors.supervisorEmail}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h5">Address</Typography>
+              <Typography variant="h6">Address</Typography>
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Civic number"
+                label="Civic number *"
                 name="civicNumber"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.civicNumber}
+                error={formik.touched.civicNumber && Boolean(formik.errors.civicNumber)}
+                helperText={formik.touched.civicNumber && formik.errors.title}
               />
-              {formik.touched.civicNumber && formik.errors.civicNumber ? (
-                <Typography color="error">{formik.errors.civicNumber}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Street name"
+                label="Street name *"
                 name="streetName"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.streetName}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                helperText={formik.touched.title && formik.errors.title}
               />
-              {formik.touched.streetName && formik.errors.streetName ? (
-                <Typography color="error">{formik.errors.streetName}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Postal code"
+                label="Postal code *"
                 name="postalCode"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.postalCode}
+                error={formik.touched.postalCode && Boolean(formik.errors.postalCode)}
+                helperText={formik.touched.postalCode && formik.errors.postalCode}
               />
-              {formik.touched.postalCode && formik.errors.postalCode ? (
-                <Typography color="error">{formik.errors.postalCode}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="City"
+                label="City *"
                 name="cityName"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.cityName}
+                error={formik.touched.cityName && Boolean(formik.errors.cityName)}
+                helperText={formik.touched.cityName && formik.errors.cityName}
               />
-              {formik.touched.cityName && formik.errors.cityName ? (
-                <Typography color="error">{formik.errors.cityName}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Province"
+                label="Province *"
                 name="province"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.province}
+                error={formik.touched.province && Boolean(formik.errors.province)}
+                helperText={formik.touched.province && formik.errors.province}
               />
-              {formik.touched.province && formik.errors.province ? (
-                <Typography color="error">{formik.errors.province}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Country"
+                label="Country *"
                 name="country"
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.country}
+                error={formik.touched.country && Boolean(formik.errors.country)}
+                helperText={formik.touched.country && formik.errors.country}
               />
-              {formik.touched.country && formik.errors.country ? (
-                <Typography color="error">{formik.errors.country}</Typography>
-              ) : null}
             </Grid>
             <Grid item xs={12}>
               {created && (
