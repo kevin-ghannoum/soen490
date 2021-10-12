@@ -1,10 +1,13 @@
 import './App.css';
 import { ThemeProvider } from '@material-ui/core';
 import { mainTheme } from './configs/MuiConfig';
+<<<<<<< HEAD
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import LandingPage from './components/Shared/LandingPage';
 import CreateEmployee from './components/CreateEmployee/CreateEmployee';
+=======
+>>>>>>> 4889bda (Implemented frontend and formatted code)
 
 const CreateProject = lazy(() => import('./components/Project/CreateProject'));
 const ViewProject = lazy(() => import('./components/Project/ViewProject'));
