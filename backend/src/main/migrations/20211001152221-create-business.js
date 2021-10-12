@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       website: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
       },
       email: {
