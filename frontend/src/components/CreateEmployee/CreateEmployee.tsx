@@ -36,14 +36,14 @@ const CreateEmployee: React.FC = () => {
       password: '',
       phone: '',
       supervisorEmail: '',
-      civicNumber: '',
+      civicNumber: null,
       streetName: '',
       postalCode: '',
       cityName: '',
       province: '',
       country: '',
       title: '',
-      hourlyWage: '',
+      hourlyWage: null,
     },
     onSubmit: async (values) => {
       const response: AxiosResponse<any> = await createEmployeeAccount({

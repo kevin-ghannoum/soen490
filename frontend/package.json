@@ -53,7 +53,10 @@
     ]
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@types/react-router-dom": "^5.3.2",
+=======
+>>>>>>> a80a7e6 (Fixed bug for async db model creation)
     "@types/yup": "^0.29.13",
     "prettier": "2.4.1"
   }
