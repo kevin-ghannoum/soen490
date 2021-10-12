@@ -26,6 +26,7 @@ export class Business extends Model {
   @Column
   industry!: string;
 
+  @AllowNull
   @Column
   website!: string;
 

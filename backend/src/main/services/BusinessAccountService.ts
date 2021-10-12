@@ -8,6 +8,7 @@ import AddressRepository from '../repositories/AddressRepository';
 import BusinessAccountRepository from '../repositories/BusinessAccountRepository';
 import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
+import { SocialMediaPageService } from './SocialMediaPageService';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -15,7 +16,8 @@ export class BusinessAccountService {
   constructor(
     private businessAccountRepository: BusinessAccountRepository,
     private addressRepository: AddressRepository,
-    private businessService: BusinessService
+    private businessService: BusinessService,
+    private socialMediaPageService: SocialMediaPageService
   ) {
     log('Created instance of BusinessAccountService');
   }
@@ -39,7 +41,12 @@ export class BusinessAccountService {
       account: businessCreationRequestDTO.account,
     });
 
-    await this.businessService.createBusiness(businessCreationRequestDTO.businessInfo);
+    const business = await this.businessService.createBusiness(businessCreationRequestDTO.businessInfo);
+    console.log(businessAccount.account.email);
+    businessCreationRequestDTO.socialMediaInfo.email = businessAccount.account.email;
+    businessCreationRequestDTO.socialMediaInfo.businessId = business.id;
+    await this.socialMediaPageService.createSocialMediaPage(businessCreationRequestDTO.socialMediaInfo);
+
     return Promise.resolve(businessAccount);
   };
 

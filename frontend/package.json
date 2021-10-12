@@ -30,7 +30,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
-    "prettier-check": "npx prettier --check src/**/*.{ts,tsx}"
+    "prettier-check": "npx prettier --check src/**/*.{ts,tsx}",
+    "prettier-write": "npx prettier --write src/**/*.{ts,tsx}"
   },
   "eslintConfig": {
     "extends": "react-app"

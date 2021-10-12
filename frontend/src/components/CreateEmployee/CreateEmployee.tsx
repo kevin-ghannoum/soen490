@@ -203,7 +203,7 @@ const CreateEmployee: React.FC = () => {
                 onChange={formik.handleChange}
                 value={formik.values.civicNumber}
                 error={formik.touched.civicNumber && Boolean(formik.errors.civicNumber)}
-                helperText={formik.touched.civicNumber && formik.errors.title}
+                helperText={formik.touched.civicNumber && formik.errors.civicNumber}
               />
             </Grid>
             <Grid item xs={6} style={{ paddingTop: '0px' }}>
@@ -213,8 +213,8 @@ const CreateEmployee: React.FC = () => {
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.streetName}
-                error={formik.touched.title && Boolean(formik.errors.title)}
-                helperText={formik.touched.title && formik.errors.title}
+                error={formik.touched.streetName && Boolean(formik.errors.streetName)}
+                helperText={formik.touched.streetName && formik.errors.streetName}
               />
             </Grid>
             <Grid item xs={6}>
