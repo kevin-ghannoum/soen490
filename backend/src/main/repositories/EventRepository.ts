@@ -15,7 +15,7 @@ export default class EventRepository implements CRUD {
   public create = async (eventInfo: EventCreationDTO): Promise<Event> => {
     try {
       const createdEvent = Event.build(eventInfo);
-      createdEvent.save();
+      await createdEvent.save();
 
       log(`Added new event ${createdEvent.id}`);
       return Promise.resolve(createdEvent);

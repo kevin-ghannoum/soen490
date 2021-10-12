@@ -14,7 +14,7 @@ export default class TransactionRepository implements CRUD {
   public create = async (transactionInfo: TransactionCreationDTO): Promise<Transaction> => {
     try {
       const createdTransaction = Transaction.build(transactionInfo);
-      createdTransaction.save();
+      await createdTransaction.save();
 
       log(`Added new transaction with id ${createdTransaction.id}`);
       return Promise.resolve(createdTransaction);

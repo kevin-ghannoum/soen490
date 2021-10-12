@@ -35,7 +35,7 @@ export interface AccountRequestDTO {
 export interface EmployeeAccountRequestDTO {
   accountRequest: AccountRequestDTO;
   title: string;
-  hourlyWage: number;
+  hourlyWage: number | null;
   supervisorEmail: string;
 }
 

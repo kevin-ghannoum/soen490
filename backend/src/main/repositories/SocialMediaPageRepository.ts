@@ -13,7 +13,7 @@ export default class SocialMediaPageRepository implements CRUD {
   public create = async (socialMediaPageInfo: SocialMediaPageCreationDTO): Promise<SocialMediaPage> => {
     try {
       const createdSocialMediaPage = SocialMediaPage.build(socialMediaPageInfo);
-      createdSocialMediaPage.save();
+      await createdSocialMediaPage.save();
 
       log(`Added new social media page ${createdSocialMediaPage.name}`);
 

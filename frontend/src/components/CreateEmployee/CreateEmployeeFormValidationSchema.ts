@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const createEmployeeSchema = Yup.object().shape({
+const createEmployeeSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
@@ -8,14 +8,14 @@ const createEmployeeSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
   supervisorEmail: Yup.string().required('Required'),
   phone: Yup.string().required('Required'),
-  civicNumber: Yup.number().required('Required'),
+  civicNumber: Yup.number().nullable().required('Required'),
   postalCode: Yup.string().required('Required'),
   streetName: Yup.string().required('Required'),
   cityName: Yup.string().required('Required'),
   province: Yup.string().required('Required'),
   country: Yup.string().required('Required'),
   title: Yup.string().required('Required'),
-  hourlyWage: Yup.string().required('Required'),
+  hourlyWage: Yup.number().nullable().required('Required'),
 });
 
 export default createEmployeeSchema;

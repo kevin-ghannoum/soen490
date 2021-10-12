@@ -1,13 +1,33 @@
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
-import { useFormik } from 'formik';
+import { AxiosResponse } from 'axios';
+import { FormikProps, useFormik } from 'formik';
 import { useState } from 'react';
 import { createEmployeeAccount } from '../../services/AccountAPI';
 import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
 import useStyles from './CreateEmployeeStyle';
-const CreateEmployee: React.FunctionComponent = () => {
+
+interface CreateEmployeeAccountFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  phone: string;
+  supervisorEmail: string;
+  civicNumber: number | null;
+  streetName: string;
+  postalCode: string;
+  cityName: string;
+  province: string;
+  country: string;
+  title: string;
+  hourlyWage: number | null;
+}
+
+const CreateEmployee: React.FC = () => {
   const [created, setCreated] = useState<boolean>(false);
 
-  const formik = useFormik({
+  const formik: FormikProps<CreateEmployeeAccountFormData> = useFormik<CreateEmployeeAccountFormData>({
     initialValues: {
       firstName: '',
       lastName: '',
@@ -16,17 +36,17 @@ const CreateEmployee: React.FunctionComponent = () => {
       password: '',
       phone: '',
       supervisorEmail: '',
-      civicNumber: '',
+      civicNumber: null,
       streetName: '',
       postalCode: '',
       cityName: '',
       province: '',
       country: '',
       title: '',
-      hourlyWage: '',
+      hourlyWage: null,
     },
     onSubmit: async (values) => {
-      const response = await createEmployeeAccount({
+      const response: AxiosResponse<any> = await createEmployeeAccount({
         accountRequest: {
           account: {
             email: values.email,
@@ -37,7 +57,7 @@ const CreateEmployee: React.FunctionComponent = () => {
             password: values.password,
           },
           address: {
-            civicNumber: Number(values.civicNumber),
+            civicNumber: values.civicNumber,
             streetName: values.streetName,
             postalCode: values.postalCode,
             cityName: values.cityName,
@@ -45,7 +65,7 @@ const CreateEmployee: React.FunctionComponent = () => {
             country: values.country,
           },
         },
-        hourlyWage: Number(values.hourlyWage),
+        hourlyWage: values.hourlyWage,
         title: values.title,
         supervisorEmail: values.supervisorEmail,
       });

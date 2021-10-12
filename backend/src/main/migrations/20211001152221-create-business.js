@@ -8,15 +8,15 @@ module.exports = {
         type: Sequelize.BIGINT,
       },
       name: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
       },
       industry: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
       },
       website: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
       },
       email: {

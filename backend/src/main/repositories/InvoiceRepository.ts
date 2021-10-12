@@ -14,7 +14,7 @@ export default class InvoiceRepository implements CRUD {
   public create = async (invoiceInfo: InvoiceCreationDTO): Promise<Invoice> => {
     try {
       const createdInvoice = Invoice.build(invoiceInfo);
-      createdInvoice.save();
+      await createdInvoice.save();
 
       log(`Added new invoice with id ${createdInvoice.id}`);
       return Promise.resolve(createdInvoice);

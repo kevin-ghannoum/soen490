@@ -17,7 +17,7 @@ export default class BusinessAccountRepository implements CRUD {
       const createdAccount = BusinessAccount.build(accountInfo, {
         include: [Account],
       });
-      createdAccount.save();
+      await createdAccount.save();
 
       log(`Added new account ${createdAccount.email}`);
       return Promise.resolve(createdAccount);

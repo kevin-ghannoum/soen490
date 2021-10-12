@@ -17,7 +17,7 @@ export default class ExpenseRepository implements CRUD {
       const createdExpense = Expense.build(transactionInfo, {
         include: [Transaction],
       });
-      createdExpense.save();
+      await createdExpense.save();
 
       log(`added new expense ${createdExpense.id}`);
       return Promise.resolve(createdExpense);
