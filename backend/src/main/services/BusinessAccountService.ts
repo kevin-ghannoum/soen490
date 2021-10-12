@@ -44,7 +44,6 @@ export class BusinessAccountService {
     });
 
     const business = await this.businessService.createBusiness(businessCreationRequestDTO.businessInfo);
-
     businessCreationRequestDTO.socialMediaInfo.email = businessAccount.account.email;
     businessCreationRequestDTO.socialMediaInfo.businessId = business.id;
     await this.socialMediaPageService.createSocialMediaPage(businessCreationRequestDTO.socialMediaInfo);
