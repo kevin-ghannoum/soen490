@@ -98,7 +98,7 @@ const CreateBusinessAccount: React.FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={3} direction="row" xs={12} className={classes.createEmployeeFormWrapper}>
             <Grid item xs={12}>
-              <Typography variant="h5">New Employee</Typography>
+              <Typography variant="h5">New Business Account</Typography>
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -285,7 +285,7 @@ const CreateBusinessAccount: React.FC = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Website"
+                label="Website link"
                 name="website"
                 fullWidth
                 onChange={formik.handleChange}

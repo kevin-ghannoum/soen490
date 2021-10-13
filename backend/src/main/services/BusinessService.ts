@@ -14,7 +14,7 @@ export class BusinessService {
     log('Created instance of BusinessService');
   }
 
-  public createBusiness = async (businessRequestDTO: BusinessCreationDTO) => {
+  public createBusiness = async (businessRequestDTO: BusinessCreationDTO): Promise<Business> => {
     if (BusinessService.isThereNullValueBusinessCreationDTO(businessRequestDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
