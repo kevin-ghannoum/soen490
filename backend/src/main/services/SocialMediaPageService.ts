@@ -36,9 +36,7 @@ export class SocialMediaPageService {
     if (
       socialMediaPageCreationDTO === undefined ||
       !socialMediaPageCreationDTO.link ||
-      !socialMediaPageCreationDTO.name ||
-      !socialMediaPageCreationDTO.email ||
-      !socialMediaPageCreationDTO.businessId
+      !socialMediaPageCreationDTO.name
     ) {
       return true;
     }

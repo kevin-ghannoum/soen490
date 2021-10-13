@@ -18,8 +18,6 @@ export class BusinessService {
     if (BusinessService.isThereNullValueBusinessCreationDTO(businessRequestDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
-
-    console.log(businessRequestDTO);
     return this.businessRepository.create(businessRequestDTO);
   };
 
