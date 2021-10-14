@@ -14,7 +14,7 @@ export default class AssignedRepository implements CRUD {
   public create = async (assignedInfo: AssignedCreationDTO): Promise<Assigned> => {
     try {
       const createdAssigned = Assigned.build(assignedInfo);
-      createdAssigned.save();
+      await createdAssigned.save();
 
       log(`Added new assignment taskId: ${createdAssigned.id} and email: ${createdAssigned.email}`);
       return Promise.resolve(createdAssigned);

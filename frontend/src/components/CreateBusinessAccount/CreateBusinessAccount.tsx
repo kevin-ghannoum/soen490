@@ -1,33 +1,34 @@
+import React, { useState } from 'react';
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
-import { AxiosResponse } from 'axios';
 import { FormikProps, useFormik } from 'formik';
-import { useState } from 'react';
-import { createEmployeeAccount } from '../../services/AccountAPI';
-import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
-import useStyles from './CreateEmployeeStyle';
-
-interface CreateEmployeeAccountFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  username: string;
-  password: string;
-  phone: string;
-  supervisorEmail: string;
-  civicNumber: number | null;
-  streetName: string;
-  postalCode: string;
-  cityName: string;
-  province: string;
-  country: string;
-  title: string;
-  hourlyWage: number | null;
-}
-
-const CreateEmployee: React.FC = () => {
+import { AxiosResponse } from 'axios';
+import { createBusinessAccount } from '../../services/AccountAPI';
+import createBusinessAccontSchema from './CreateBusinessFormValidationSchema';
+import useStyles from './CreateBusinessAccountStyle';
+const CreateBusinessAccount: React.FC = () => {
   const [created, setCreated] = useState<boolean>(false);
 
-  const formik: FormikProps<CreateEmployeeAccountFormData> = useFormik<CreateEmployeeAccountFormData>({
+  interface CreateBusinessAccountFormData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    password: string;
+    phone: string;
+    civicNumber: number | null;
+    streetName: string;
+    postalCode: string;
+    cityName: string;
+    province: string;
+    country: string;
+    name: string;
+    industry: string;
+    website: string;
+    socialMediaName: string;
+    socialMediaLink: string;
+  }
+
+  const formik: FormikProps<CreateBusinessAccountFormData> = useFormik<CreateBusinessAccountFormData>({
     initialValues: {
       firstName: '',
       lastName: '',
@@ -35,45 +36,52 @@ const CreateEmployee: React.FC = () => {
       username: '',
       password: '',
       phone: '',
-      supervisorEmail: '',
       civicNumber: null,
       streetName: '',
       postalCode: '',
       cityName: '',
       province: '',
       country: '',
-      title: '',
-      hourlyWage: null,
+      name: '',
+      industry: '',
+      website: '',
+      socialMediaLink: '',
+      socialMediaName: '',
     },
     onSubmit: async (values) => {
-      const response: AxiosResponse<any> = await createEmployeeAccount({
-        accountRequest: {
-          account: {
-            email: values.email,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            phoneNumber: values.phone,
-            username: values.username,
-            password: values.password,
-          },
-          address: {
-            civicNumber: values.civicNumber,
-            streetName: values.streetName,
-            postalCode: values.postalCode,
-            cityName: values.cityName,
-            province: values.province,
-            country: values.country,
-          },
+      const response: AxiosResponse<any> = await createBusinessAccount({
+        account: {
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phoneNumber: values.phone,
+          username: values.username,
+          password: values.password,
         },
-        hourlyWage: values.hourlyWage,
-        title: values.title,
-        supervisorEmail: values.supervisorEmail,
+        address: {
+          civicNumber: values.civicNumber,
+          streetName: values.streetName,
+          postalCode: values.postalCode,
+          cityName: values.cityName,
+          province: values.province,
+          country: values.country,
+        },
+        businessInfo: {
+          name: values.name,
+          industry: values.industry,
+          website: values.website,
+          email: values.email,
+        },
+        socialMediaInfo: {
+          name: values.socialMediaName,
+          link: values.socialMediaLink,
+        },
       });
       if (response.status === 201) {
         setCreated(true);
       }
     },
-    validationSchema: createEmployeeSchema,
+    validationSchema: createBusinessAccontSchema,
   });
 
   const classes = useStyles();
@@ -90,7 +98,7 @@ const CreateEmployee: React.FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={3} direction="row" xs={12} className={classes.createEmployeeFormWrapper}>
             <Grid item xs={12}>
-              <Typography variant="h5">New Employee</Typography>
+              <Typography variant="h5">New Business Account</Typography>
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -157,39 +165,6 @@ const CreateEmployee: React.FC = () => {
                 value={formik.values.phone}
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 helperText={formik.touched.phone && formik.errors.phone}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Title *"
-                name="title"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.title}
-                error={formik.touched.title && Boolean(formik.errors.title)}
-                helperText={formik.touched.title && formik.errors.title}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Hourly Wage *"
-                name="hourlyWage"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.hourlyWage}
-                error={formik.touched.hourlyWage && Boolean(formik.errors.hourlyWage)}
-                helperText={formik.touched.hourlyWage && formik.errors.hourlyWage}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Supervisor email *"
-                name="supervisorEmail"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.supervisorEmail}
-                error={formik.touched.supervisorEmail && Boolean(formik.errors.supervisorEmail)}
-                helperText={formik.touched.supervisorEmail && formik.errors.supervisorEmail}
               />
             </Grid>
             <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
@@ -261,6 +236,64 @@ const CreateEmployee: React.FC = () => {
                 helperText={formik.touched.country && formik.errors.country}
               />
             </Grid>
+            <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
+              <Typography variant="h6">Business Information</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Business Name *"
+                name="name"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.name}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Industry *"
+                name="industry"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.industry}
+                error={formik.touched.industry && Boolean(formik.errors.industry)}
+                helperText={formik.touched.industry && formik.errors.industry}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Social media name"
+                name="socialMediaName"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.socialMediaName}
+                error={formik.touched.socialMediaName && Boolean(formik.errors.socialMediaName)}
+                helperText={formik.touched.socialMediaName && formik.errors.socialMediaName}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Link"
+                name="socialMediaLink"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.socialMediaLink}
+                error={formik.touched.socialMediaLink && Boolean(formik.errors.socialMediaLink)}
+                helperText={formik.touched.socialMediaLink && formik.errors.socialMediaLink}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Website link"
+                name="website"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.website}
+                error={formik.touched.website && Boolean(formik.errors.website)}
+                helperText={formik.touched.website && formik.errors.website}
+              />
+            </Grid>
             <Grid item xs={12}>
               {created && (
                 <Typography variant="h6" color="primary">
@@ -278,4 +311,4 @@ const CreateEmployee: React.FC = () => {
   );
 };
 
-export default CreateEmployee;
+export default CreateBusinessAccount;

@@ -15,7 +15,7 @@ export default class EmailTemplateRepository implements CRUD {
   public create = async (emailTemplateInfo: EmailTemplateCreationDTO): Promise<EmailTemplate> => {
     try {
       const createdEmailTemplate = EmailTemplate.build(emailTemplateInfo);
-      createdEmailTemplate.save();
+      await createdEmailTemplate.save();
 
       log(`Added new email templace ${createdEmailTemplate.title}`);
       return Promise.resolve(createdEmailTemplate);

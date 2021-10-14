@@ -14,7 +14,7 @@ export default class AccountRepository implements CRUD {
   public create = async (accountInfo: AccountCreationDTO): Promise<Account> => {
     try {
       const createdAccount = Account.build(accountInfo);
-      createdAccount.save();
+      await createdAccount.save();
 
       log(`Added new account ${createdAccount.email}`);
       return Promise.resolve(createdAccount);

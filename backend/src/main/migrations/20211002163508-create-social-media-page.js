@@ -18,7 +18,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'clientaccount',
+          model: 'account',
           key: 'email',
         },
       },

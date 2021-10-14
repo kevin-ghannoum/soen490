@@ -14,7 +14,7 @@ export default class PayRepository implements CRUD {
   public create = async (payInfo: PayCreationDTO): Promise<Pay> => {
     try {
       const createdPay = Pay.build(payInfo);
-      createdPay.save();
+      await createdPay.save();
       log(`Pay id ${createdPay.id} created`);
 
       return Promise.resolve(createdPay);

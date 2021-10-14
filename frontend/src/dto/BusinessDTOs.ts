@@ -4,9 +4,3 @@ export interface BusinessCreationDTO {
   website: string;
   email: string;
 }
-
-export interface BusinessUpdateDTO {
-  name?: string;
-  industry?: string;
-  website?: string;
-}

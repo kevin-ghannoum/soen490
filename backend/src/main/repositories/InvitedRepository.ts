@@ -14,7 +14,7 @@ export default class InvitedRepository implements CRUD {
   public create = async (invitedInfo: InvitedCreationDTO): Promise<Invited> => {
     try {
       const createdInvited = Invited.build(invitedInfo);
-      createdInvited.save();
+      await createdInvited.save();
 
       log(`Added new invite id: ${createdInvited.id} and email: ${createdInvited.email}`);
       return Promise.resolve(createdInvited);

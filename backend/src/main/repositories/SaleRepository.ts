@@ -14,7 +14,7 @@ export default class SaleRepository implements CRUD {
   public create = async (saleInfo: SaleCreationDTO): Promise<Sale> => {
     try {
       const createdSale = Sale.build(saleInfo);
-      createdSale.save();
+      await createdSale.save();
 
       log(`Added new sale with id ${createdSale.id}`);
       return Promise.resolve(createdSale);

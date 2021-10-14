@@ -19,7 +19,7 @@ export default class ClientAccountRepository implements CRUD {
       const createdClientAccount = ClientAccount.build(accountInfo, {
         include: [Account],
       });
-      createdClientAccount.save();
+      await createdClientAccount.save();
 
       log(`added new client account ${createdClientAccount.email}`);
 
