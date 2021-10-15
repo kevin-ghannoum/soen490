@@ -1,5 +1,3 @@
-// Example of a route implementation
-
 import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';

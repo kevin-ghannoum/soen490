@@ -13,6 +13,7 @@ import { sequelize } from './config/sequelize';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import dotenv from 'dotenv';
 import { checkJwt } from './middleware/JWTMiddleware';
+import AuthenticationRoute from './routes/AuthenticationRoute';
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ const main = async () => {
   // here we are adding middleware to allow cross-origin requests
   app.use(cors());
 
-  app.use(checkJwt);
+  //app.use(checkJwt);
 
   const authenticationClient: AuthenticationClient = new AuthenticationClient({
     domain: process.env.AUTH0_DOMAIN as string,
@@ -70,6 +71,7 @@ const main = async () => {
   // Instanciating the routes here:
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
+  routes.push(container.resolve(AuthenticationRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);
