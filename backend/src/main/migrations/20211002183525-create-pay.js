@@ -18,7 +18,7 @@ module.exports = {
       },
       status:{
         allowNull:false,
-        type:Sequelize.ENUM('PAYED', 'NOT_PAID'),
+        type:Sequelize.ENUM('PAID', 'NOT_PAID'),
         default:'NOT_PAID'
       },
       period:{

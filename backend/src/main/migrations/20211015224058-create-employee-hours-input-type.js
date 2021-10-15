@@ -1,0 +1,30 @@
+'use strict';
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('EmployeeHoursInputType', {
+      email: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model:'employeeAccount',
+          key:'email'
+        }
+      },
+      inputType: {
+        allowNull: false,
+        type:Sequelize.ENUM('MANUAL', 'AUTOMATIC'),
+        default: 'MANUAL'
+      },
+      scheduledDay: {
+        allowNull: true,
+        type:Sequelize.ENUM('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'),
+      }
+    });
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('EmployeeHoursInputType');
+  }
+};
