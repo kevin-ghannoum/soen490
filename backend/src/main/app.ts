@@ -10,6 +10,10 @@ import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
 import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
+import { AuthenticationClient, ManagementClient } from 'auth0';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -28,6 +32,17 @@ const main = async () => {
   // here we are adding middleware to allow cross-origin requests
   app.use(cors());
 
+  const authenticationClient: AuthenticationClient = new AuthenticationClient({
+    domain: process.env.AUTH0_DOMAIN as string,
+    clientId: process.env.AUTH0_CLIENT_ID,
+  });
+
+  const managementClient: ManagementClient = new ManagementClient({
+    domain: process.env.AUTH0_DOMAIN as string,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  });
+
   if (!process.env.DEBUG) {
     AppSettings.loggerOptions.meta = false; // when not debugging, log requests as one-liners
   }
@@ -39,6 +54,14 @@ const main = async () => {
   // For express-app i used "useFactory" instead of "useValue" because with useFactory you can't clear it.
   container.register<express.Application>('express-app', {
     useFactory: () => app,
+  });
+
+  container.register<AuthenticationClient>('auth0-authentication-client', {
+    useFactory: () => authenticationClient,
+  });
+
+  container.register<ManagementClient>('auth0-management-client', {
+    useFactory: () => managementClient,
   });
 
   // Instanciating the routes here:

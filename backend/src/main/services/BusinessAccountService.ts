@@ -1,6 +1,7 @@
+import { AppMetadata, AuthenticationClient, ManagementClient, User, UserMetadata } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { BusinessCreationRequestDTO } from '../dto/Accounts/AccountDTOs';
 import HttpException from '../exceptions/HttpException';
 import { BusinessAccount } from '../models/BusinessAccount';
@@ -9,6 +10,8 @@ import BusinessAccountRepository from '../repositories/BusinessAccountRepository
 import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
+import { Roles } from '../security/Roles';
+import { Auth0DataInterface } from '../interfaces/Auth0DataInterface';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -17,7 +20,9 @@ export class BusinessAccountService {
     private businessAccountRepository: BusinessAccountRepository,
     private addressRepository: AddressRepository,
     private businessService: BusinessService,
-    private socialMediaPageService: SocialMediaPageService
+    private socialMediaPageService: SocialMediaPageService,
+    @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
+    @inject('auth0-management-client') private managementClient: ManagementClient
   ) {
     log('Created instance of BusinessAccountService');
   }
@@ -35,6 +40,20 @@ export class BusinessAccountService {
     ) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
+
+    const auth0Data: Auth0DataInterface = {
+      email: businessCreationRequestDTO.account.email,
+      password: businessCreationRequestDTO.account.password,
+      given_name: businessCreationRequestDTO.account.firstName,
+      family_name: businessCreationRequestDTO.account.lastName,
+      connection: process.env.AUTH0_CONNECTION as string,
+    };
+
+    // Create business in auth0
+    const businessData = await this.authenticationClient.database?.signUp(auth0Data);
+
+    // Assign role in auth0
+    await this.managementClient.assignRolestoUser({ id: `auth0|${businessData?._id}` }, { roles: [Roles.BUSINESS] });
 
     const address = await this.addressRepository.create(businessCreationRequestDTO.address);
     businessCreationRequestDTO.account.addressId = address[0].id;
@@ -55,7 +74,13 @@ export class BusinessAccountService {
     return this.businessAccountRepository.get(email);
   };
 
-  public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
+  public deleteBusinessAccountByEmail = async (email: string): Promise<number> => {
+    // Get employee data from auth0
+    const businessData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
+
+    // Delete employee from auth0
+    this.managementClient.deleteUser({ id: businessData[0]?.user_id as string });
+
     return this.businessAccountRepository.delete(email);
   };
 }
