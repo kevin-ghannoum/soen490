@@ -1,10 +1,10 @@
-export interface AssignedCreationDTO {
+export interface EmployeeHoursInputTypeCreationDTO {
   email: string;
   inputType: InputType;
   scheduledDay?: ScheduledDay;
 }
 
-export interface AssignedUpdateDTO {
+export interface EmployeeHoursInputTypeUpdateDTO {
   email?: string;
   inputType?: InputType;
   scheduledDay?: ScheduledDay;
