@@ -17,7 +17,7 @@ export default class ProductionRepository implements CRUD {
       const createdProduciton = Production.build(transactionInfo, {
         include: [Transaction],
       });
-      createdProduciton.save();
+      await createdProduciton.save();
 
       log(`added new production ${createdProduciton.id}`);
       return Promise.resolve(createdProduciton);

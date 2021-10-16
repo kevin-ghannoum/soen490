@@ -7,7 +7,7 @@ import { EmployeeAccount } from '../models/EmployeeAccount';
 import AddressRepository from '../repositories/AddressRepository';
 import EmployeeAccountRepository from '../repositories/EmployeeAccountRepository';
 import { AccountService } from './AccountService';
-const log: debug.IDebugger = debug('app:userService-example');
+const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
 export class EmployeeAccountService {
@@ -15,7 +15,7 @@ export class EmployeeAccountService {
     private employeeAccountRepository: EmployeeAccountRepository,
     private addressRepository: AddressRepository
   ) {
-    log('Created instance of AccountService');
+    log('Created instance of EmployeeAccountService');
   }
 
   public createEmployeeAccount = async (

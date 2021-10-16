@@ -14,7 +14,7 @@ export default class TaskRepository implements CRUD {
   public create = async (taskInfo: TaskCreationDTO): Promise<Task> => {
     try {
       const createdTask = Task.build(taskInfo);
-      createdTask.save();
+      await createdTask.save();
 
       log(`Added new task ${createdTask.title}`);
       return Promise.resolve(createdTask);

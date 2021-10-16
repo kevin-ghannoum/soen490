@@ -14,7 +14,7 @@ export default class GoalRepository implements CRUD {
   public create = async (goalInfo: GoalCreationDTO): Promise<Goal> => {
     try {
       const createdGoal = Goal.build(goalInfo);
-      createdGoal.save();
+      await createdGoal.save();
 
       log(`Added new business ${createdGoal.title}`);
       return Promise.resolve(createdGoal);

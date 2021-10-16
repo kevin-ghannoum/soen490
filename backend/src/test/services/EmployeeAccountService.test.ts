@@ -1,6 +1,5 @@
 import { mock } from 'jest-mock-extended';
 import path from 'path';
-import 'reflect-metadata';
 import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { EmployeeAccountRequestDTO } from '../../main/dto/Accounts/AccountDTOs';

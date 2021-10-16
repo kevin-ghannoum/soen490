@@ -3,7 +3,6 @@ import { injectable } from 'tsyringe';
 import { BusinessAccountCreationDTO, BusinessAccountUpdateDTO } from '../dto/Accounts/AccountDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:BusinessAccountRepository');
-import { AdminAccount } from '../models/AdminAccount';
 import { Account } from '../models/Account';
 import { BusinessAccount } from '../models/BusinessAccount';
 
@@ -18,7 +17,7 @@ export default class BusinessAccountRepository implements CRUD {
       const createdAccount = BusinessAccount.build(accountInfo, {
         include: [Account],
       });
-      createdAccount.save();
+      await createdAccount.save();
 
       log(`Added new account ${createdAccount.email}`);
       return Promise.resolve(createdAccount);
@@ -57,7 +56,7 @@ export default class BusinessAccountRepository implements CRUD {
     }
   };
 
-  public get = async (email: string): Promise<AdminAccount | null> => {
+  public get = async (email: string): Promise<BusinessAccount | null> => {
     try {
       const account = await BusinessAccount.findByPk(email, {
         include: [Account],
@@ -69,7 +68,7 @@ export default class BusinessAccountRepository implements CRUD {
         log('No business account has been found');
       }
 
-      return account;
+      return Promise.resolve(account);
     } catch (err: any) {
       log(err);
       return Promise.reject(err);
