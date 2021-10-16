@@ -1,4 +1,4 @@
-import { AppMetadata, AuthenticationClient, ManagementClient, User, UserMetadata } from 'auth0';
+import { AppMetadata, AuthenticationClient, ManagementClient, SignUpUserData, User, UserMetadata } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
@@ -9,7 +9,6 @@ import AddressRepository from '../repositories/AddressRepository';
 import EmployeeAccountRepository from '../repositories/EmployeeAccountRepository';
 import { AccountService } from './AccountService';
 import { Roles } from '../security/Roles';
-import { Auth0DataInterface } from '../interfaces/Auth0DataInterface';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
@@ -30,7 +29,7 @@ export class EmployeeAccountService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    const auth0Data: Auth0DataInterface = {
+    const auth0Data: SignUpUserData = {
       email: employeeAccountRequestDTO.accountRequest.account.email,
       password: employeeAccountRequestDTO.accountRequest.account.password,
       given_name: employeeAccountRequestDTO.accountRequest.account.firstName,
