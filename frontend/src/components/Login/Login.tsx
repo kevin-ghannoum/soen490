@@ -1,7 +1,6 @@
 import { AppBar, Button, Grid, Paper, TextField, Toolbar, Typography } from '@material-ui/core';
 import useStyles from './LoginStyle';
 import { FormikProps, useFormik } from 'formik';
-import { useState } from 'react';
 import loginSchema from './LoginFormValidationSchema';
 
 interface loginFormData {
@@ -10,7 +9,6 @@ interface loginFormData {
 }
 
 const Login: React.FC = () => {
-  const [created] = useState<boolean>(false);
 
   const formik: FormikProps<loginFormData> = useFormik<loginFormData>({
     initialValues: {
@@ -68,7 +66,7 @@ const Login: React.FC = () => {
 
       <Paper elevation={3} className={classes.loginPaper}>
         <Grid item xs={12}>
-          <Paper className={classes.blueBox} />
+          <Paper square className={classes.blueBox} />
         </Grid>
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={4} direction="row" xs={12} className={classes.loginFormWrapper}>
@@ -102,11 +100,6 @@ const Login: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              {created && (
-                <Typography variant="h6" color="primary">
-                  Logged in
-                </Typography>
-              )}
               <Button size="large" variant="contained" color="primary" type="submit" className={classes.loginButton}>
                 Login
               </Button>
