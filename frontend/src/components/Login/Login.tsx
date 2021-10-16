@@ -9,7 +9,6 @@ interface loginFormData {
 }
 
 const Login: React.FC = () => {
-
   const formik: FormikProps<loginFormData> = useFormik<loginFormData>({
     initialValues: {
       email: '',
