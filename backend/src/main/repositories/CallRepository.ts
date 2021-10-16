@@ -15,7 +15,7 @@ export default class CallRepository implements CRUD {
   public create = async (callInfo: CallCreationDTO): Promise<Call> => {
     try {
       const createdCall = Call.build(callInfo);
-      createdCall.save();
+      await createdCall.save();
 
       log(`Added new call id ${createdCall.id}`);
       return Promise.resolve(createdCall);

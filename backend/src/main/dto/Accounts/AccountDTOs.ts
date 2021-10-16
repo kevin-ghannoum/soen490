@@ -1,4 +1,6 @@
 import { AddressCreationDTO } from '../AddressDTOs';
+import { BusinessCreationDTO } from '../BusinessDTO';
+import { SocialMediaPageCreationDTO } from '../SocialMediaPageDTO';
 
 export interface AccountUpdateDTO {
   email?: string;
@@ -46,6 +48,11 @@ export interface ClientAccountCreationDTO {
   industry: string;
   website: string;
   status: Status;
+}
+
+export interface BusinessCreationRequestDTO extends AccountRequestDTO {
+  businessInfo: BusinessCreationDTO;
+  socialMediaInfo: SocialMediaPageCreationDTO;
 }
 
 enum Status {

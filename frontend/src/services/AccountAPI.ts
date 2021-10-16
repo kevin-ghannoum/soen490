@@ -1,6 +1,14 @@
-import axios from 'axios';
-import { EmployeeAccountRequestDTO } from '../dto/Accounts/AccountDTOs';
+import axios, { AxiosResponse } from 'axios';
+import { BusinessCreationRequestDTO, EmployeeAccountRequestDTO } from '../dto/Accounts/AccountDTOs';
 
-export const createEmployeeAccount = async (employeeAccountRequestDTO: EmployeeAccountRequestDTO): Promise<any> => {
+export const createEmployeeAccount = async (
+  employeeAccountRequestDTO: EmployeeAccountRequestDTO
+): Promise<AxiosResponse<any>> => {
   return axios.post(`/accounts/employee`, employeeAccountRequestDTO);
+};
+
+export const createBusinessAccount = async (
+  businessAccountRequestDTO: BusinessCreationRequestDTO
+): Promise<AxiosResponse<any>> => {
+  return axios.post(`accounts/business`, businessAccountRequestDTO);
 };

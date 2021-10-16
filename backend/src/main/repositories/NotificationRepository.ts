@@ -14,7 +14,7 @@ export default class NotificationRepository implements CRUD {
   public create = async (notificationInfo: NotificationCreationDTO): Promise<Notification> => {
     try {
       const createdNotification = Notification.build(notificationInfo);
-      createdNotification.save();
+      await createdNotification.save();
 
       log(`Added new notification id ${createdNotification.id}`);
       return Promise.resolve(createdNotification);

@@ -14,7 +14,7 @@ export default class BusinessRepository implements CRUD {
   public create = async (businessInfo: BusinessCreationDTO): Promise<Business> => {
     try {
       const createdBusiness = Business.build(businessInfo);
-      createdBusiness.save();
+      await createdBusiness.save();
 
       log(`Added new business ${createdBusiness.name}`);
       return Promise.resolve(createdBusiness);

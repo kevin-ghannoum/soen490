@@ -1,4 +1,14 @@
-import { Table, Column, Model, PrimaryKey, HasMany, AutoIncrement, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  HasMany,
+  AutoIncrement,
+  BelongsTo,
+  ForeignKey,
+  AllowNull,
+} from 'sequelize-typescript';
 import { BusinessAccount } from './BusinessAccount';
 import { EmailTemplate } from './EmailTemplate';
 import { Goal } from './Goal';
@@ -16,6 +26,7 @@ export class Business extends Model {
   @Column
   industry!: string;
 
+  @AllowNull
   @Column
   website!: string;
 

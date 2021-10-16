@@ -14,7 +14,7 @@ export default class FeedbackRepository implements CRUD {
   public create = async (feedbackInfo: FeedbackCreationDTO): Promise<Feedback> => {
     try {
       const createdFeedback = Feedback.build(feedbackInfo);
-      createdFeedback.save();
+      await createdFeedback.save();
 
       log(`Added new feedback ${createdFeedback.title}`);
       return Promise.resolve(createdFeedback);

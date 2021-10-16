@@ -13,5 +13,5 @@ export interface AddressCreationDTO {
   country: string;
   postalCode: string;
   streetName: string;
-  civicNumber: number;
+  civicNumber: number | null;
 }
