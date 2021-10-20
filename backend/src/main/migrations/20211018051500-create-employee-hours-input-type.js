@@ -1,4 +1,7 @@
 'use strict';
+
+const sequelize = require("sequelize");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('EmployeeHoursInputType', {
@@ -13,10 +16,10 @@ module.exports = {
           key:'email'
         }
       },
-      inputType: {
+      automatic: {
         allowNull: false,
-        type:Sequelize.ENUM('MANUAL', 'AUTOMATIC'),
-        default: 'MANUAL'
+        type: sequelize.BOOLEAN,
+        defaultValue: false
       },
       scheduledDay: {
         allowNull: true,
