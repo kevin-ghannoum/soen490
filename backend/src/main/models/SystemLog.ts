@@ -1,7 +1,7 @@
 'use strict';
 import { Table, Column, Model, PrimaryKey, AutoIncrement, DataType, Default } from 'sequelize-typescript';
 
-@Table({ timestamps: true })
+@Table({ timestamps: false })
 export class SystemLog extends Model {
   @PrimaryKey
   @AutoIncrement
