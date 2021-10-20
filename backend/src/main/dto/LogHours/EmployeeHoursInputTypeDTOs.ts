@@ -1,18 +1,13 @@
 export interface EmployeeHoursInputTypeCreationDTO {
   email: string;
-  inputType: InputType;
+  automatic: boolean;
   scheduledDay?: ScheduledDay;
 }
 
 export interface EmployeeHoursInputTypeUpdateDTO {
   email?: string;
-  inputType?: InputType;
+  automatic?: boolean;
   scheduledDay?: ScheduledDay;
-}
-
-export enum InputType {
-  MANUAL = 'MANUAL',
-  AUTOMATIC = 'AUTOMATIC',
 }
 
 export enum ScheduledDay {

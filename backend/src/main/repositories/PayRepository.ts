@@ -1,6 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import { PayCreationDTO, PayUpdateDTO } from '../dto/PayDTOs';
+import { PayCreationDTO, PayUpdateDTO } from '../dto/LogHours/PayDTOs';
 import { Pay } from '../models/Pay';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:PayRepository');

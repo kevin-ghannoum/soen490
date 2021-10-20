@@ -1,8 +1,9 @@
 export interface PayCreationDTO {
   issueDate: Date;
   hoursWorked: number;
-  status?: PayStatus;
-  period: string;
+  status: PayStatus;
+  periodStart: string;
+  periodEnd: string;
   email: string;
 }
 
@@ -10,7 +11,8 @@ export interface PayUpdateDTO {
   issueDate?: Date;
   hoursWorked?: number;
   status?: PayStatus;
-  period?: string;
+  periodStart?: string;
+  periodEnd?: string;
   email?: string;
 }
 
