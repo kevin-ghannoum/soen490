@@ -11,7 +11,7 @@ module.exports = {
       issueDate:{
         allowNull:false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        defaultValue: Sequelize.NOW
       },
       hoursWorked:{
         allowNull:false,

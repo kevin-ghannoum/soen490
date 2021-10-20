@@ -78,7 +78,6 @@ export class LogHoursService {
       !logHoursCreationDTO.employeeHoursInputType.email ||
       !logHoursCreationDTO.pay.email ||
       !logHoursCreationDTO.pay.hoursWorked ||
-      !logHoursCreationDTO.pay.issueDate ||
       !logHoursCreationDTO.pay.periodStart ||
       !logHoursCreationDTO.pay.periodEnd ||
       (logHoursCreationDTO.employeeHoursInputType.automatic && !logHoursCreationDTO.employeeHoursInputType.scheduledDay)
