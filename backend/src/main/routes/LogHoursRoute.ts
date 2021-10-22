@@ -41,7 +41,7 @@ export default class LogHoursRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
-      .route(`/logHours/latestPay/:email`)
+      .route(`/logHours/pay/latest/:email`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccount = await this.logHoursService.getLatestPay(req.params.email);
