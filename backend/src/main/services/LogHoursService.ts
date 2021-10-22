@@ -47,8 +47,8 @@ export class LogHoursService {
     return await this.payRepository.getAllByEmail(email);
   };
 
-  public getLastPay = async (email: string): Promise<Pay | null> => {
-    return await this.payRepository.getLastByEmail(email);
+  public getLatestPay = async (email: string): Promise<Pay | null> => {
+    return await this.payRepository.getLatestByEmail(email);
   };
 
   public getEmployeeHoursInputType = async (email: string): Promise<EmployeeHoursInputType | null> => {

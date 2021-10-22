@@ -94,7 +94,7 @@ export default class PayRepository implements CRUD {
     }
   };
 
-  public getLastByEmail = async (email: string): Promise<Pay | null> => {
+  public getLatestByEmail = async (email: string): Promise<Pay | null> => {
     try {
       const pay = await Pay.findOne({ where: { email: email }, order: [ [ 'issueDate', 'DESC']] });
 
