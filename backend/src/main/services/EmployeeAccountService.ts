@@ -61,4 +61,12 @@ export class EmployeeAccountService {
 
     return AccountService.isThereNullValueAccountDTO(employeeAccountRequestDTO.accountRequest);
   };
+
+  public getAllEmployeeAccounts = async (): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getAll();
+  };
+
+  public getAllEmployeeAccountsByBusiness = async (email: string): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getAllByBusiness(email);
+  };
 }

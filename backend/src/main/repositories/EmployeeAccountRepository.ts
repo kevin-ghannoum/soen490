@@ -108,4 +108,22 @@ export default class EmployeeAccountRepository implements CRUD {
       return Promise.reject(err);
     }
   };
+
+  public getAllByBusiness = async (email: string): Promise<EmployeeAccount[]> => {
+    try {
+      const clientAccounts = await EmployeeAccount.findAll({
+        where: {
+          supervisorEmail: email,
+        },
+      });
+
+      log(`retrieved all employee accounts`);
+      return Promise.resolve(clientAccounts);
+    } catch (err: any) {
+      if (err instanceof BaseError) {
+        throw new Error(`${err.name}, message: ${err.message}`);
+      }
+      return Promise.reject(err);
+    }
+  };
 }
