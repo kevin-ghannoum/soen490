@@ -24,6 +24,18 @@ export default class EmployeeHoursInputTypeRepository implements CRUD {
     }
   };
 
+  public upsert = async (employeeHoursInputTypeCreationInfo: EmployeeHoursInputTypeCreationDTO): Promise<[EmployeeHoursInputType, boolean | null]> => {
+    try {
+      const createdEmployeeHoursInputType = EmployeeHoursInputType.upsert(employeeHoursInputTypeCreationInfo);
+
+      log(`Added or updated employee hours input type automatic ${employeeHoursInputTypeCreationInfo.automatic} for ${employeeHoursInputTypeCreationInfo.email}`);
+      return Promise.resolve(createdEmployeeHoursInputType);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
   public delete = async (email: string): Promise<number> => {
     try {
       const deletedEmployeeHoursInputTypeStatus = await EmployeeHoursInputType.destroy({

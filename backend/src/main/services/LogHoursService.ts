@@ -32,12 +32,7 @@ export class LogHoursService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    if (this.getEmployeeHoursInputType(logHoursCreationDTO.employeeHoursInputType.email) === null) {
-      await this.employeeHoursInputTypeRepository.create(logHoursCreationDTO.employeeHoursInputType);
-    }
-    else {
-      await this.updateEmployeeHoursInputType(logHoursCreationDTO.employeeHoursInputType.email, logHoursCreationDTO.employeeHoursInputType);
-    }
+    await this.employeeHoursInputTypeRepository.upsert(logHoursCreationDTO.employeeHoursInputType);
 
     if (logHoursCreationDTO.employeeHoursInputType.automatic) {
       // schedule pay creation
