@@ -30,6 +30,10 @@ module.exports = {
         allowNull:false,
         type:Sequelize.STRING
       },
+      amount:{
+        allowNull:false,
+        type:Sequelize.FLOAT
+      },
       email:{
         type:Sequelize.STRING,
         allowNull:false,

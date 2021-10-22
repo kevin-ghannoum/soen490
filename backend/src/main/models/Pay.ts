@@ -40,6 +40,10 @@ export class Pay extends Model {
   @Column
   periodEnd!: string;
 
+  @AllowNull(false)
+  @Column
+  amount!: number;
+
   @ForeignKey(() => EmployeeAccount)
   @Column
   email!: string;

@@ -5,6 +5,7 @@ export interface PayCreationDTO {
   periodStart: string;
   periodEnd: string;
   email: string;
+  amount: number;
 }
 
 export interface PayUpdateDTO {
@@ -14,6 +15,7 @@ export interface PayUpdateDTO {
   periodStart?: string;
   periodEnd?: string;
   email?: string;
+  amount: number;
 }
 
 export enum PayStatus {
