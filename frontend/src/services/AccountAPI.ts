@@ -12,3 +12,11 @@ export const createBusinessAccount = async (
 ): Promise<AxiosResponse<any>> => {
   return axios.post(`accounts/business`, businessAccountRequestDTO);
 };
+
+export const getAllEmployeeAccounts = async (): Promise<any> => {
+  return axios.get(`/accounts/allEmployees`);
+};
+
+export const getAllEmployeeAccountsByEmail = async (businessEmail: string): Promise<any> => {
+  return axios.get(`/accounts/allEmployees/${businessEmail}`);
+};

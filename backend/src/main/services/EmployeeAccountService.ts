@@ -66,7 +66,7 @@ export class EmployeeAccountService {
     return this.employeeAccountRepository.getAll();
   };
 
-  public getAllEmployeeAccountsByBusiness = async (email: string): Promise<EmployeeAccount[] | null> => {
-    return this.employeeAccountRepository.getAllByBusiness(email);
+  public getAllEmployeeAccountsByBusiness = async (businessEmail: string): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getAllByBusiness(businessEmail);
   };
 }

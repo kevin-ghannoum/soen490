@@ -17,15 +17,25 @@ import {
 import { Autocomplete } from '@material-ui/lab';
 import { Formik, useFormik, useFormikContext, Field, FormikProvider } from 'formik';
 import { useEffect, useState } from 'react';
-import { createEmployeeAccount } from '../../services/AccountAPI';
+import { createEmployeeAccount, getAllEmployeeAccounts } from '../../services/AccountAPI';
 import logHoursSchema from './LogHoursFormValidationSchema';
 import useStyles from './LogHoursStyle';
-import { createLogHours } from '../../services/LogHoursAPI';
+import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../services/LogHoursAPI';
 import { values } from 'cypress/types/lodash';
 import { ScheduledDay } from '../../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
+  const [employeeList, setEmployeeList] = useState<string[]>([]);
+  const [email, setEmail] = useState<string>('');
+  const [latestPayInfo, setLatestPayInfo] = useState({
+    automatic: false,
+    startDate: '',
+    endDate: '',
+    hoursWorked: '',
+    paidAmount: '',
+    status: PayStatus.NOT_PAID,
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -52,9 +62,9 @@ const LogHours: React.FunctionComponent = () => {
           periodStart: values.startDate,
           periodEnd: values.endDate,
           email: values.email,
+          amount: Number(values.paidAmount),
         },
       };
-      console.log(obj)
       const response = await createLogHours(obj);
       if (response.status === 201) {
         setCreated(true);
@@ -62,6 +72,56 @@ const LogHours: React.FunctionComponent = () => {
     },
     validationSchema: logHoursSchema,
   });
+
+  useEffect(() => {
+    const fetchEmployeeEmails =  async () => {
+      const responseEmployees = await getAllEmployeeAccounts();
+      const employeeEmails= [];
+      for (let employee of responseEmployees.data) {
+        employeeEmails.push(employee.email)
+      }
+      setEmployeeList(employeeEmails);
+    }
+    fetchEmployeeEmails();
+  }, [])
+
+  useEffect(() => {
+    const updateAutomaticByEmail = async (email: string) => {
+      formik.values.email = email;
+      formik.values.automatic = false;
+      formik.values.scheduledDay = ScheduledDay.SUNDAY;
+      formik.values.startDate = '';
+      formik.values.endDate = '';
+      formik.values.hoursWorked = '';
+      formik.values.paidAmount = '';
+      formik.values.status = PayStatus.NOT_PAID;
+      if (!!email) {
+        const responseInputType = await getInputTypeByEmail(email);
+        const responseLatestPayInfo = await getLatestPayByEmail(email);
+        if (!!responseInputType.data) {
+          formik.values.automatic = responseInputType.data.automatic;
+          formik.values.scheduledDay = responseInputType.data.scheduledDay || ScheduledDay.SUNDAY;
+
+          formik.values.startDate = responseLatestPayInfo.data.periodStart;
+          formik.values.endDate = responseLatestPayInfo.data.periodEnd;
+          formik.values.hoursWorked = responseLatestPayInfo.data.hoursWorked;
+          formik.values.paidAmount = responseLatestPayInfo.data.amount;
+          formik.values.status = responseLatestPayInfo.data.status;
+        }
+      } else {
+        formik.values.email = '';
+      }
+      setLatestPayInfo({
+        automatic: formik.values.automatic,
+        startDate: formik.values.startDate,
+        endDate: formik.values.endDate,
+        hoursWorked: formik.values.hoursWorked,
+        paidAmount: formik.values.paidAmount,
+        status: formik.values.status,
+      });
+    };
+    updateAutomaticByEmail(email);
+  }, [email]);
 
   const classes = useStyles();
   return (
@@ -76,34 +136,42 @@ const LogHours: React.FunctionComponent = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl className={classes.formControl}>
-                {/* <Autocomplete
-                  options={options}
-                  renderInput={(params) => <TextField {...params} label="Employee email" />}
-                /> */}
-                <TextField
-                  // select
-                  name="email"
-                  value={formik.values.email}
-                  label="Employee email"
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                >
-                  {/* <MenuItem value={'10'}>Ten</MenuItem>
-                  <MenuItem value={'20'}>Twenty</MenuItem>
-                  <MenuItem value={'30'}>Thirty</MenuItem> */}
-                </TextField>
+                <Autocomplete
+                  value={email}
+                  options={employeeList}
+                  getOptionSelected={(option, value) => {
+                    return option.toString === value.toString;
+                  }}
+                  onChange={(e, value) => {
+                    setEmail(value || '');
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Employee email"
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      helperText={formik.touched.email && formik.errors.email}
+                    />
+                  )}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControlLabel
                 name="automatic"
-                value="automatic"
-                control={<Switch />}
+                value={formik.values.automatic}
+                checked={formik.values.automatic}
+                control={
+                  <Switch
+                    classes={{
+                      switchBase: classes.switch_base,
+                    }}
+                  />
+                }
                 label="Automatically repeat weekly"
                 labelPlacement="start"
                 onChange={formik.handleChange}
-                className={classes.switch}
+                className={classes.automaticContainer}
               />
             </Grid>
             {formik.values.automatic && (
@@ -172,7 +240,6 @@ const LogHours: React.FunctionComponent = () => {
                 <TextField
                   label="Paid amount"
                   name="paidAmount"
-                  type="paidAmount"
                   fullWidth
                   onChange={formik.handleChange}
                   value={formik.values.paidAmount}
@@ -188,10 +255,18 @@ const LogHours: React.FunctionComponent = () => {
               <Grid item>
                 <RadioGroup row defaultValue={formik.values.status}>
                   <Grid item>
-                    <FormControlLabel value={PayStatus.PAID} control={<Radio />} label="Paid" />
+                    <FormControlLabel
+                      value={PayStatus.PAID}
+                      control={<Radio className={classes.radio} />}
+                      label="Paid"
+                    />
                   </Grid>
                   <Grid item>
-                    <FormControlLabel value={PayStatus.NOT_PAID} control={<Radio />} label="Unpaid" />
+                    <FormControlLabel
+                      value={PayStatus.NOT_PAID}
+                      control={<Radio className={classes.radio} />}
+                      label="Unpaid"
+                    />
                   </Grid>
                 </RadioGroup>
               </Grid>

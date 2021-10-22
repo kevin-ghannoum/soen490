@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { mainTheme } from '../../configs/MuiConfig';
 
 const useStyles = makeStyles((theme) => ({
   logHoursPaper: {
@@ -16,14 +17,25 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: '100%',
   },
-  switchContainer: {
-    height: 72,
-  },
-  switch: {
+  automaticContainer: {
     margin: '0',
   },
   successMessage: {
     marginRight: 15,
+  },
+  switch_base: {
+    '&.Mui-checked': {
+      color: mainTheme.palette.primary.main,
+    },
+    '&.Mui-checked + .MuiSwitch-track': {
+      backgroundColor: mainTheme.palette.primary.main,
+      opacity: 0.4,
+    },
+  },
+  radio: {
+    '&.Mui-checked': {
+      color: mainTheme.palette.primary.main,
+    },
   }
 }));
 

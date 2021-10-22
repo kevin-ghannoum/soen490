@@ -10,6 +10,7 @@ import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
 import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
+import LogHoursRoute from './routes/LogHoursRoute';
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -44,6 +45,7 @@ const main = async () => {
   // Instanciating the routes here:
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
+  routes.push(container.resolve(LogHoursRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);

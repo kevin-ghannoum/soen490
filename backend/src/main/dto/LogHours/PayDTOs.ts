@@ -15,7 +15,7 @@ export interface PayUpdateDTO {
   periodStart?: string;
   periodEnd?: string;
   email?: string;
-  amount: number;
+  amount?: number;
 }
 
 export enum PayStatus {

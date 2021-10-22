@@ -109,11 +109,11 @@ export default class EmployeeAccountRepository implements CRUD {
     }
   };
 
-  public getAllByBusiness = async (email: string): Promise<EmployeeAccount[]> => {
+  public getAllByBusiness = async (businessEmail: string): Promise<EmployeeAccount[]> => {
     try {
       const clientAccounts = await EmployeeAccount.findAll({
         where: {
-          supervisorEmail: email,
+          supervisorEmail: businessEmail,
         },
       });
 
