@@ -76,7 +76,7 @@ export default class PayRepository implements CRUD {
     try {
       const pays = await Pay.findAll();
 
-      log(`retrieved all pays`);
+      log(`Retrieved all pays`);
       return Promise.resolve(pays);
     } catch (err: any) {
       return Promise.reject(err);
@@ -87,8 +87,19 @@ export default class PayRepository implements CRUD {
     try {
       const pays = await Pay.findAll({ where: { email: email } });
 
-      log(`retrieved all pays belonging to ${email}`);
+      log(`Retrieved all pays belonging to ${email}`);
       return Promise.resolve(pays);
+    } catch (err: any) {
+      return Promise.reject(err);
+    }
+  };
+
+  public getLastByEmail = async (email: string): Promise<Pay | null> => {
+    try {
+      const pay = await Pay.findOne({ where: { email: email }, order: [ [ 'issueDate', 'DESC']] });
+
+      log(`Rretrieved most recent pay belonging to ${email}`);
+      return Promise.resolve(pay);
     } catch (err: any) {
       return Promise.reject(err);
     }

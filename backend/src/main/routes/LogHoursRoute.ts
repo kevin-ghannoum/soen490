@@ -41,6 +41,17 @@ export default class LogHoursRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
+      .route(`/logHours/lastPay/:email`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const employeeAccount = await this.logHoursService.getLastPay(req.params.email);
+          res.status(StatusCodes.OK).send(employeeAccount);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
       .route(`/logHours/inputType/:email`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
