@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { AuthenticationService } from '../services/AuthenticationService';
 import { checkJwt } from '../middleware/JWTMiddleware';
+import { TokenResponse } from 'auth0';
 
 @injectable()
 export default class AuthenticationRoute extends CommonRoutesConfig {
@@ -19,7 +20,7 @@ export default class AuthenticationRoute extends CommonRoutesConfig {
       .route('/login')
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const token = await this.authenticationService.login({
+          const token: TokenResponse = await this.authenticationService.login({
             username: req.body.email,
             password: req.body.password,
           });
@@ -28,13 +29,6 @@ export default class AuthenticationRoute extends CommonRoutesConfig {
           next(err);
         }
       });
-    this.getApp()
-      .route('/test')
-      .get(checkJwt, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-          this.authenticationService.getProfile(req.body.accessToken)
-        res.status(200).send('success private');
-      });
-
     return this.getApp();
   }
 }

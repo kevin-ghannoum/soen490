@@ -1,4 +1,4 @@
-import { AppMetadata, AuthenticationClient, ManagementClient, User, UserMetadata } from 'auth0';
+import { AppMetadata, AuthenticationClient, ManagementClient, SignUpUserData, User, UserMetadata } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
@@ -11,7 +11,6 @@ import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
-import { Auth0DataInterface } from '../interfaces/Auth0DataInterface';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -41,7 +40,7 @@ export class BusinessAccountService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    const auth0Data: Auth0DataInterface = {
+    const auth0Data: SignUpUserData = {
       email: businessCreationRequestDTO.account.email,
       password: businessCreationRequestDTO.account.password,
       given_name: businessCreationRequestDTO.account.firstName,
