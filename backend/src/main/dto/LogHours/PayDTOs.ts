@@ -2,8 +2,8 @@ export interface PayCreationDTO {
   issueDate: Date;
   hoursWorked: number;
   status: PayStatus;
-  periodStart: string;
-  periodEnd: string;
+  periodStart?: string;
+  periodEnd?: string;
   email: string;
   amount: number;
 }

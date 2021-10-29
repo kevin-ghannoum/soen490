@@ -1,11 +1,10 @@
 import { injectable } from 'tsyringe';
 import debug from 'debug';
-import UserRepository from '../repositories/UserRepository';
-import { UserDTO } from '../dto/UserDTO';
 import EmployeeHoursInputTypeRepository from '../repositories/EmployeeHoursInputTypeRepository';
 import {
   EmployeeHoursInputTypeCreationDTO,
   EmployeeHoursInputTypeUpdateDTO,
+  ScheduledDay,
 } from '../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { LogHoursCreationDTO } from '../dto/LogHours/LogHoursDTOs';
 import { PayCreationDTO, PayUpdateDTO } from '../dto/LogHours/PayDTOs';
@@ -14,6 +13,7 @@ import { StatusCodes } from 'http-status-codes';
 import PayRepository from '../repositories/PayRepository';
 import { Pay } from '../models/Pay';
 import { EmployeeHoursInputType } from '../models/EmployeeHoursInputType';
+import * as schedule from 'node-schedule';
 const log: debug.IDebugger = debug('app:userService-example');
 
 @injectable()
@@ -32,15 +32,47 @@ export class LogHoursService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    await this.employeeHoursInputTypeRepository.upsert(logHoursCreationDTO.employeeHoursInputType);
+    const inputTypeInserted = await this.employeeHoursInputTypeRepository.upsert(
+      logHoursCreationDTO.employeeHoursInputType
+    );
 
-    if (logHoursCreationDTO.employeeHoursInputType.automatic) {
-      // schedule pay creation
-    } else {
-      return await this.payRepository.create(logHoursCreationDTO.pay);
+    // delete scheduled job if exists
+    const job = schedule.scheduledJobs[logHoursCreationDTO.pay.email];
+    if (!!job) {
+      job.cancel();
     }
 
-    return null;
+    if (inputTypeInserted[0].automatic) {
+      const scheduledDay = logHoursCreationDTO.employeeHoursInputType.scheduledDay;
+      const prevMonday = new Date();
+      const prevFriday = new Date();
+      // get last monday and last friday
+      if (scheduledDay === ScheduledDay.SATURDAY || scheduledDay === ScheduledDay.SUNDAY) {
+        prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7));
+        prevFriday.setDate(prevFriday.getDate() - ((prevFriday.getDay() + 2) % 7));
+      }
+      // get last last monday and last friday
+      else {
+        prevMonday.setDate(prevMonday.getDate() - (((prevMonday.getDay() + 6) % 7) + 7));
+        prevFriday.setDate(prevFriday.getDate() - (prevFriday.getDay() + 2));
+      }
+      logHoursCreationDTO.pay.periodStart = prevMonday.toLocaleDateString();
+      logHoursCreationDTO.pay.periodEnd = prevFriday.toLocaleDateString();
+      const weekdayNumber = LogHoursService.getWeekdayNumber(scheduledDay!);
+      // create scheduled job
+      const job = schedule.scheduleJob(logHoursCreationDTO.pay.email, {dayOfWeek: weekdayNumber}, () =>
+        this.createPay(logHoursCreationDTO.pay)
+      );
+      return null;
+    } else {
+      // create pay
+      console.log(logHoursCreationDTO.employeeHoursInputType.scheduledDay)
+      return await this.payRepository.create(logHoursCreationDTO.pay);
+    }
+  };
+
+  public createPay = async (payCreationDTO: PayCreationDTO): Promise<Pay> => {
+    return await this.payRepository.create(payCreationDTO);
   };
 
   public getPaysByEmail = async (email: string): Promise<Pay[] | null> => {
@@ -77,13 +109,42 @@ export class LogHoursService {
       !logHoursCreationDTO.employeeHoursInputType.email ||
       !logHoursCreationDTO.pay.email ||
       !logHoursCreationDTO.pay.hoursWorked ||
-      !logHoursCreationDTO.pay.periodStart ||
-      !logHoursCreationDTO.pay.periodEnd ||
-      (logHoursCreationDTO.employeeHoursInputType.automatic && !logHoursCreationDTO.employeeHoursInputType.scheduledDay)
+      (logHoursCreationDTO.employeeHoursInputType.automatic &&
+        !logHoursCreationDTO.employeeHoursInputType.scheduledDay) ||
+      (!logHoursCreationDTO.employeeHoursInputType.automatic && !logHoursCreationDTO.pay.periodStart) ||
+      (!logHoursCreationDTO.employeeHoursInputType.automatic && !logHoursCreationDTO.pay.periodEnd)
     ) {
       return true;
     }
 
     return false;
+  };
+
+  public static getWeekdayNumber = (scheduledDay: ScheduledDay): number => {
+    var weekdayNumber = 0;
+    switch (scheduledDay) {
+      case ScheduledDay.SUNDAY:
+        weekdayNumber = 0;
+        break;
+      case ScheduledDay.MONDAY:
+        weekdayNumber = 1;
+        break;
+      case ScheduledDay.TUESDAY:
+        weekdayNumber = 2;
+        break;
+      case ScheduledDay.WEDNESDAY:
+        weekdayNumber = 3;
+        break;
+      case ScheduledDay.THURSDAY:
+        weekdayNumber = 4;
+        break;
+      case ScheduledDay.FRIDAY:
+        weekdayNumber = 5;
+        break;
+      case ScheduledDay.SATURDAY:
+        weekdayNumber = 6;
+        break;
+    }
+    return weekdayNumber;
   };
 }

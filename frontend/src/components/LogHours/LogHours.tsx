@@ -4,9 +4,7 @@ import {
   Paper,
   TextField,
   Typography,
-  Select,
   MenuItem,
-  InputLabel,
   RadioGroup,
   FormLabel,
   FormControlLabel,
@@ -15,20 +13,19 @@ import {
   Switch,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
-import { Formik, useFormik, useFormikContext, Field, FormikProvider } from 'formik';
+import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import { createEmployeeAccount, getAllEmployeeAccounts } from '../../services/AccountAPI';
+import { getAllEmployeeAccounts } from '../../services/AccountAPI';
 import logHoursSchema from './LogHoursFormValidationSchema';
 import useStyles from './LogHoursStyle';
 import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../services/LogHoursAPI';
-import { values } from 'cypress/types/lodash';
 import { ScheduledDay } from '../../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
   const [email, setEmail] = useState<string>('');
-  const [latestPayInfo, setLatestPayInfo] = useState({
+  const [, setLatestPayInfo] = useState({
     automatic: false,
     startDate: '',
     endDate: '',
@@ -195,6 +192,7 @@ const LogHours: React.FunctionComponent = () => {
                 </FormControl>
               </Grid>
             )}
+            {!formik.values.automatic && (
             <Grid item container direction="row" spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -223,6 +221,7 @@ const LogHours: React.FunctionComponent = () => {
                 />
               </Grid>
             </Grid>
+            )}
             <Grid item container direction="row" spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
