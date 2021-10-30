@@ -66,7 +66,6 @@ export class LogHoursService {
       return null;
     } else {
       // create pay
-      console.log(logHoursCreationDTO.employeeHoursInputType.scheduledDay)
       return await this.payRepository.create(logHoursCreationDTO.pay);
     }
   };
@@ -107,8 +106,10 @@ export class LogHoursService {
       logHoursCreationDTO.employeeHoursInputType === undefined ||
       logHoursCreationDTO.pay === undefined ||
       !logHoursCreationDTO.employeeHoursInputType.email ||
+      !logHoursCreationDTO.pay.status ||
       !logHoursCreationDTO.pay.email ||
       !logHoursCreationDTO.pay.hoursWorked ||
+      !logHoursCreationDTO.pay.amount ||
       (logHoursCreationDTO.employeeHoursInputType.automatic &&
         !logHoursCreationDTO.employeeHoursInputType.scheduledDay) ||
       (!logHoursCreationDTO.employeeHoursInputType.automatic && !logHoursCreationDTO.pay.periodStart) ||
