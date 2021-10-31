@@ -1,3 +1,4 @@
+import { throws } from 'assert';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'tsyringe';
@@ -41,6 +42,10 @@ export class EmployeeAccountService {
   public getEmployeeAccountByEmail = async (email: string): Promise<EmployeeAccount | null> => {
     return this.employeeAccountRepository.get(email);
   };
+
+  public getEmployeesByRegex = async (email: string): Promise< EmployeeAccount []| null> => {
+    return this.employeeAccountRepository.getEmployeesByRegex(email);
+  }
 
   public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
     return this.employeeAccountRepository.delete(email);

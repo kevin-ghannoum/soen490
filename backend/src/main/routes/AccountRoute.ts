@@ -7,13 +7,15 @@ import { inject, injectable } from 'tsyringe';
 import { EmployeeAccountService } from '../services/EmployeeAccountService';
 import HttpException from '../exceptions/HttpException';
 import { BusinessAccountService } from '../services/BusinessAccountService';
+import { ClientAccountService } from '../services/ClientAccountService';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
   constructor(
     @inject('express-app') app: express.Application,
     private employeeAccountService: EmployeeAccountService,
-    private businessAccountService: BusinessAccountService
+    private businessAccountService: BusinessAccountService,
+    private clientAccountService: ClientAccountService
   ) {
     super(app, 'AccountRoute');
   }
@@ -49,6 +51,28 @@ export default class AccountRoute extends CommonRoutesConfig {
           } else {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           }
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/employee`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
+            res.status(StatusCodes.OK).send(regexEmployeeAccount);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/client`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const regexClientAccout = await this.clientAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexClientAccout);
         } catch (err) {
           next(err);
         }

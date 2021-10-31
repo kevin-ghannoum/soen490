@@ -10,8 +10,8 @@
     "test": "jest src/test",
     "testCoverage": "jest src/test --coverage",
     "lint": "eslint . --ext .ts",
-    "prettier-check":"npx prettier --check \"src/main/**/*.ts\"",
-    "prettier-write":"npx prettier --write \"src/main/**/*.ts"
+    "prettier-check": "npx prettier --check \"src/main/**/*.ts\"",
+    "prettier-write": "npx prettier --write \"src/main/**/*.ts"
   },
   "author": "",
   "license": "ISC",
