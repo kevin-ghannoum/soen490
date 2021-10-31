@@ -2,10 +2,8 @@
 
 import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
-import { EmployeeAccountService } from '../services/EmployeeAccountService';
-import HttpException from '../exceptions/HttpException';
 import { LogHoursService } from '../services/LogHoursService';
 
 @injectable()

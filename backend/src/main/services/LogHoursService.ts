@@ -1,11 +1,7 @@
 import { injectable } from 'tsyringe';
 import debug from 'debug';
 import EmployeeHoursInputTypeRepository from '../repositories/EmployeeHoursInputTypeRepository';
-import {
-  EmployeeHoursInputTypeCreationDTO,
-  EmployeeHoursInputTypeUpdateDTO,
-  ScheduledDay,
-} from '../dto/LogHours/EmployeeHoursInputTypeDTOs';
+import { EmployeeHoursInputTypeUpdateDTO, ScheduledDay } from '../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { LogHoursCreationDTO } from '../dto/LogHours/LogHoursDTOs';
 import { PayCreationDTO, PayUpdateDTO } from '../dto/LogHours/PayDTOs';
 import HttpException from '../exceptions/HttpException';
@@ -38,12 +34,15 @@ export class LogHoursService {
 
     // delete scheduled job if exists
     const job = schedule.scheduledJobs[logHoursCreationDTO.pay.email];
-    if (!!job) {
+    if (job != null) {
       job.cancel();
     }
 
     if (inputTypeInserted[0].automatic) {
-      const scheduledDay = logHoursCreationDTO.employeeHoursInputType.scheduledDay;
+      let scheduledDay = logHoursCreationDTO.employeeHoursInputType.scheduledDay;
+      if (scheduledDay === undefined) {
+        scheduledDay = ScheduledDay.SUNDAY;
+      }
       const prevMonday = new Date();
       const prevFriday = new Date();
       // get last monday and last friday
@@ -58,9 +57,9 @@ export class LogHoursService {
       }
       logHoursCreationDTO.pay.periodStart = prevMonday.toLocaleDateString();
       logHoursCreationDTO.pay.periodEnd = prevFriday.toLocaleDateString();
-      const weekdayNumber = LogHoursService.getWeekdayNumber(scheduledDay!);
+      const weekdayNumber = LogHoursService.getWeekdayNumber(scheduledDay);
       // create scheduled job
-      const job = schedule.scheduleJob(logHoursCreationDTO.pay.email, { dayOfWeek: weekdayNumber }, () => {
+      schedule.scheduleJob(logHoursCreationDTO.pay.email, { hour: 0, minute: 0, dayOfWeek: weekdayNumber }, () => {
         logHoursCreationDTO.pay.issueDate = new Date();
         this.createPay(logHoursCreationDTO.pay);
       });
@@ -87,7 +86,7 @@ export class LogHoursService {
     return await this.employeeHoursInputTypeRepository.get(email);
   };
 
-  public updatePay = async (id: number, payUpdateDTO: PayUpdateDTO): Promise<Number> => {
+  public updatePay = async (id: number, payUpdateDTO: PayUpdateDTO): Promise<number> => {
     return await this.payRepository.update(id, payUpdateDTO);
   };
 
@@ -123,7 +122,7 @@ export class LogHoursService {
   };
 
   public static getWeekdayNumber = (scheduledDay: ScheduledDay): number => {
-    var weekdayNumber = 0;
+    let weekdayNumber = 0;
     switch (scheduledDay) {
       case ScheduledDay.SUNDAY:
         weekdayNumber = 0;

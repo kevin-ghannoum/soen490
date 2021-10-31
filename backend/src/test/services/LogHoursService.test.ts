@@ -5,7 +5,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { ScheduledDay } from '../../main/dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { LogHoursCreationDTO } from '../../main/dto/LogHours/LogHoursDTOs';
-import { PayCreationDTO, PayStatus } from '../../main/dto/LogHours/PayDTOs';
+import { PayStatus } from '../../main/dto/LogHours/PayDTOs';
 import { EmployeeHoursInputType } from '../../main/models/EmployeeHoursInputType';
 import { Pay } from '../../main/models/Pay';
 import EmployeeHoursInputTypeRepository from '../../main/repositories/EmployeeHoursInputTypeRepository';
@@ -15,8 +15,6 @@ import { LogHoursService } from '../../main/services/LogHoursService';
 describe('Log Hours test', () => {
   let payRepositoryMock: any = null;
   let employeeHoursInputTypeRepositoryMock: any = null;
-  let addressRepositoryMock: any = null;
-  let employeeAccountRepositoryMock: any = null;
 
   new Sequelize({
     validateOnly: true,

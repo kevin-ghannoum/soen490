@@ -84,30 +84,30 @@ const LogHours: React.FunctionComponent = () => {
 
   useEffect(() => {
     const updateAutomaticByEmail = async (email: string) => {
-      formik.values.email = email;
-      formik.values.automatic = false;
-      formik.values.scheduledDay = ScheduledDay.SUNDAY;
-      formik.values.startDate = '';
-      formik.values.endDate = '';
-      formik.values.hoursWorked = '';
-      formik.values.paidAmount = '';
-      formik.values.status = PayStatus.NOT_PAID;
+      formik.setFieldValue('email', email);
+      formik.setFieldValue('automatic', false);
+      formik.setFieldValue('scheduledDay', ScheduledDay.SUNDAY);
+      formik.setFieldValue('startDate', '');
+      formik.setFieldValue('endDate', '');
+      formik.setFieldValue('hoursWorked', '');
+      formik.setFieldValue('paidAmount', '');
+      formik.setFieldValue('status', PayStatus.NOT_PAID);
       if (!!email) {
         const responseInputType = await getInputTypeByEmail(email);
         const responseLatestPayInfo = await getLatestPayByEmail(email);
         if (!!responseInputType.data) {
-          formik.values.automatic = responseInputType.data.automatic;
-          formik.values.scheduledDay = responseInputType.data.scheduledDay || ScheduledDay.SUNDAY;
+          formik.setFieldValue('automatic', responseInputType.data.automatic);
+          formik.setFieldValue('scheduledDay', responseInputType.data.scheduledDay || ScheduledDay.SUNDAY);
         }
         if (!!responseLatestPayInfo.data) {
-          formik.values.startDate = responseLatestPayInfo.data.periodStart;
-          formik.values.endDate = responseLatestPayInfo.data.periodEnd;
-          formik.values.hoursWorked = responseLatestPayInfo.data.hoursWorked;
-          formik.values.paidAmount = responseLatestPayInfo.data.amount;
-          formik.values.status = responseLatestPayInfo.data.status;
+          formik.setFieldValue('startDate', responseLatestPayInfo.data.periodStart);
+          formik.setFieldValue('endDate', responseLatestPayInfo.data.periodEnd);
+          formik.setFieldValue('hoursWorked', responseLatestPayInfo.data.hoursWorked);
+          formik.setFieldValue('paidAmount', responseLatestPayInfo.data.amount);
+          formik.setFieldValue('status', responseLatestPayInfo.data.status);
         }
       } else {
-        formik.values.email = '';
+        formik.setFieldValue('email', '');
       }
       setLatestPayInfo({
         automatic: formik.values.automatic,
@@ -119,7 +119,8 @@ const LogHours: React.FunctionComponent = () => {
       });
     };
     updateAutomaticByEmail(email);
-  }, [email]);
+    // eslint-disable-next-line
+  }, [email, formik.setFieldValue]);
 
   const classes = useStyles();
   return (
@@ -166,7 +167,7 @@ const LogHours: React.FunctionComponent = () => {
                     }}
                   />
                 }
-                label="Automatically repeat weekly"
+                label="Automatically log weekly"
                 labelPlacement="start"
                 onChange={formik.handleChange}
                 className={classes.automaticContainer}
