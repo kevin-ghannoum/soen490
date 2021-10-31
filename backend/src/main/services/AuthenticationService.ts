@@ -1,4 +1,4 @@
-import { AuthenticationClient, ManagementClient, TokenResponse } from 'auth0';
+import { AuthenticationClient, TokenResponse } from 'auth0';
 import debug from 'debug';
 import { inject, injectable } from 'tsyringe';
 
@@ -17,11 +17,28 @@ export class AuthenticationService {
       ...accountInfo,
       client_id: process.env.AUTH0_CLIENT_ID,
       realm: process.env.AUTH0_CONNECTION,
-      scope: 'openid',
+      scope: 'offline_access',
     };
 
     return this.authenticationClient.passwordGrant(data);
   };
 
-  public logout = () => { };
+  public logout = async (refreshToken: string): Promise<void> => {
+    const data = {
+      token: refreshToken,
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_CLIENT_SECRET,
+    };
+
+    this.authenticationClient.tokens?.revokeRefreshToken(data)
+  };
+
+  public refreshTokens = async (refreshToken: string): Promise<TokenResponse> => {
+    const data = {
+      refresh_token: refreshToken,
+      client_id: process.env.AUTH0_CLIENT_ID,
+    };
+
+    return this.authenticationClient.refreshToken(data)
+  };
 }
