@@ -4,10 +4,7 @@ import { ProjectCreationDTO, ProjectUpdateDTO } from '../dto/ProjectDTO';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ProjectRepository');
 import { Project } from '../models/Project';
-import { title } from 'process';
-import { ClientAccount } from '../models/ClientAccount';
 import { Sale } from '../models/Sale';
-import { WorksOn } from '../models/WorksOn';
 
 @injectable()
 export default class ProjectRepository implements CRUD {

@@ -3,7 +3,6 @@ import { injectable } from 'tsyringe';
 import { WorksOnCreationDTO } from '../dto/WorksOnDTO';
 const log: debug.IDebugger = debug('app:WorksOnRepository');
 import { WorksOn } from '../models/WorksOn';
-import { title } from 'process';
 import { RelationCRUD } from './CRUDInterface';
 
 @injectable()

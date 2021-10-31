@@ -186,7 +186,7 @@ const ViewProject: React.FC = () => {
               Add Project
             </Button>
           </Grid>
-          <Grid item xs={12} style={{ height: 650, width: '100%' }}>
+          <Grid item xs={12} style={{ height: 560, width: '100%' }}>
             {' '}
             <DataGrid
               style={{ maxWidth: '75%', margin: 'auto' }}

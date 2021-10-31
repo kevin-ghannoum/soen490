@@ -26,7 +26,7 @@ export class ProjectService {
     log('Created instance of ProjectService');
   }
 
-  public createProject = async (projectRequestDTO: ProjectRequestDTO) => {
+  public createProject = async (projectRequestDTO: ProjectRequestDTO): Promise<Project> => {
     const currentAndModifiiedDate = new Date();
     projectRequestDTO.project.createdDate = currentAndModifiiedDate;
     projectRequestDTO.project.modifiedDate = currentAndModifiiedDate;
@@ -60,7 +60,7 @@ export class ProjectService {
     return this.projectRepository.getAllofBusiness(businessId);
   };
 
-  public updateProject = async (projectUpdateRequestDTO: ProjectUpdateRequestDTO) => {
+  public updateProject = async (projectUpdateRequestDTO: ProjectUpdateRequestDTO): Promise<number> => {
     const modifiedDate = new Date();
     projectUpdateRequestDTO.project.modifiedDate = modifiedDate;
 

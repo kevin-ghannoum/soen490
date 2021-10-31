@@ -6,7 +6,7 @@ const log: debug.IDebugger = debug('app:ClientAccountRepository');
 import { Account } from '../models/Account';
 import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
-import { BaseError, Sequelize, Op } from 'sequelize';
+import { BaseError, Op } from 'sequelize';
 
 @injectable()
 export default class EmployeeAccountRepository implements CRUD {

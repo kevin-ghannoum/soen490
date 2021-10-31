@@ -64,7 +64,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
       })
       .put(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const updateProject = await this.projectService.updateProject(req.body);
+          await this.projectService.updateProject(req.body);
           res.status(StatusCodes.OK).send('Updated');
         } catch (err) {
           next(err);
