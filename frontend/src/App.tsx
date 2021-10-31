@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import LandingPage from './components/Shared/LandingPage';
 import CreateEmployee from './components/CreateEmployee/CreateEmployee';
+import Login from './components/Login/Login';
 
 const CreateProject = lazy(() => import('./components/Project/CreateProject'));
 const ViewProject = lazy(() => import('./components/Project/ViewProject'));
@@ -24,6 +25,7 @@ const App = () => {
               <Route exact path="/projects" render={() => <ViewProject />} />
               <Route exact path="/error" render={() => <PageNotFound />} />
               <Route exact path="/employee" render={() => <CreateEmployee />} />
+              <Route exact path="/login" render={() => <Login/>}/>
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
