@@ -35,7 +35,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
         } catch (err) {
           next(err);
         }
-      });;
+      });
 
       this.getApp()
       .route(`/project/:id`)

@@ -24,7 +24,7 @@ export class ProjectService {
   }
 
   public createProject = async (projectRequestDTO: ProjectRequestDTO) => {
-    let currentAndModifiiedDate = new Date();
+    const currentAndModifiiedDate = new Date();
     projectRequestDTO.project.createdDate = currentAndModifiiedDate;
     projectRequestDTO.project.modifiedDate = currentAndModifiiedDate;
 
