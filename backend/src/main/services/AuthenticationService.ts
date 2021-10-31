@@ -6,9 +6,7 @@ const log: debug.IDebugger = debug('app:AuthenticationService');
 
 @injectable()
 export class AuthenticationService {
-  constructor(
-    @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
-  ) {
+  constructor(@inject('auth0-authentication-client') private authenticationClient: AuthenticationClient) {
     log('Created instance of AuthenticationService');
   }
 
@@ -30,7 +28,7 @@ export class AuthenticationService {
       client_secret: process.env.AUTH0_CLIENT_SECRET,
     };
 
-    this.authenticationClient.tokens?.revokeRefreshToken(data)
+    this.authenticationClient.tokens?.revokeRefreshToken(data);
   };
 
   public refreshTokens = async (refreshToken: string): Promise<TokenResponse> => {
@@ -39,6 +37,6 @@ export class AuthenticationService {
       client_id: process.env.AUTH0_CLIENT_ID,
     };
 
-    return this.authenticationClient.refreshToken(data)
+    return this.authenticationClient.refreshToken(data);
   };
 }
