@@ -1,4 +1,4 @@
-import { SaleCreationDTO } from "./SaleDTO";
+import { SaleCreationDTO } from './SaleDTO';
 
 export interface ProjectCreationDTO {
   title: string;
@@ -35,10 +35,10 @@ export interface ProjectUpdateDTO {
 
 export interface ProjectRequestDTO {
   project: ProjectCreationDTO;
-  sale: SaleCreationDTO
+  sale: SaleCreationDTO;
 }
 
 export interface ProjectUpdateRequestDTO {
   project: ProjectUpdateDTO;
-  sale: SaleCreationDTO
+  sale: SaleCreationDTO;
 }

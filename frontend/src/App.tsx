@@ -17,13 +17,13 @@ const App = () => {
     <Router>
       <ThemeProvider theme={mainTheme}>
         <div className="App">
-          <Suspense fallback={<LandingPage/>}>
+          <Suspense fallback={<LandingPage />}>
             <Switch>
               <Route exact path="/project" render={() => <CreateProject edit="false" />} />
               <Route exact path="/project/:id" render={({ match }) => <EditProject id={match.params.id} />} />
               <Route exact path="/projects" render={() => <ViewProject />} />
               <Route exact path="/error" render={() => <PageNotFound />} />
-              <Route exact path="/employee" render={() => <CreateEmployee/>} />
+              <Route exact path="/employee" render={() => <CreateEmployee />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>

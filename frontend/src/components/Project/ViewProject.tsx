@@ -50,8 +50,8 @@ const ViewProject: React.FC = () => {
   };
 
   const clickAddProject = () => {
-    history.push("/project")
-  }
+    history.push('/project');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -159,7 +159,7 @@ const ViewProject: React.FC = () => {
       headerName: 'LeadRanking',
       width: 170,
       editable: false,
-    }
+    },
   ];
 
   return (

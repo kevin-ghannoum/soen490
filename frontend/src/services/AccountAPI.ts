@@ -14,10 +14,9 @@ export const createBusinessAccount = async (
 };
 
 export const getAllRegexEmployeeAccount = async (emailPattern: string): Promise<AxiosResponse<any>> => {
-  return axios.get(`/accounts/employee`, {params:{email: emailPattern}});
+  return axios.get(`/accounts/employee`, { params: { email: emailPattern } });
 };
 
 export const getAllClientAccount = async (emailPattern: string): Promise<AxiosPromise<any>> => {
-  return axios.get(`/accounts/client`, {params:{email: emailPattern}});
-}
-
+  return axios.get(`/accounts/client`, { params: { email: emailPattern } });
+};

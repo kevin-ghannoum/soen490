@@ -119,7 +119,6 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
     validationSchema: createProjectFromSchema,
   });
 
-
   const Input = styled('input')({
     display: 'none',
   });
