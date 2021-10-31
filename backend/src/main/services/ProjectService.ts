@@ -1,13 +1,16 @@
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'tsyringe';
-import { AssigneesFormat, ProjectCreationDTO, ProjectRequestDTO, ProjectUpdateDTO, ProjectUpdateRequestDTO} from '../dto/ProjectDTO';
-import { SaleCreationDTO } from '../dto/SaleDTO';
+import {
+  AssigneesFormat,
+  ProjectCreationDTO,
+  ProjectRequestDTO,
+  ProjectUpdateDTO,
+  ProjectUpdateRequestDTO,
+} from '../dto/ProjectDTO';
 import HttpException from '../exceptions/HttpException';
 import { Project } from '../models/Project';
 import ProjectRepository from '../repositories/ProjectRepository';
-import SaleRepository from '../repositories/SaleRepository';
-import WorksOnRepository from '../repositories/WorksOnRepository';
 import { SaleService } from './SaleService';
 import { WorksonService } from './WorksOnService';
 
@@ -16,9 +19,9 @@ const log: debug.IDebugger = debug('app:ProjectService');
 @injectable()
 export class ProjectService {
   constructor(
-     private projectRepository: ProjectRepository,
-     private saleService: SaleService,
-     private worksOnService: WorksonService
+    private projectRepository: ProjectRepository,
+    private saleService: SaleService,
+    private worksOnService: WorksonService
   ) {
     log('Created instance of ProjectService');
   }
@@ -34,15 +37,15 @@ export class ProjectService {
     projectRequestDTO.sale.createdDate = currentAndModifiiedDate;
 
     const project = await this.projectRepository.create(projectRequestDTO.project);
-    projectRequestDTO.sale.projectId = project.id
+    projectRequestDTO.sale.projectId = project.id;
 
-    await this.saleService.createSale(projectRequestDTO.sale)
+    await this.saleService.createSale(projectRequestDTO.sale);
     projectRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email = element.label
-      const id = project.id
-      await this.worksOnService.createWorksOn({email, id})
+      const email = element.label;
+      const id = project.id;
+      await this.worksOnService.createWorksOn({ email, id });
     });
-    return Promise.resolve(project); 
+    return Promise.resolve(project);
   };
 
   public getProject = async (id: number): Promise<Project | null> => {
@@ -53,11 +56,11 @@ export class ProjectService {
     return this.projectRepository.delete(id);
   };
 
-  public getProjectofBusiness = async (businessId: number): Promise<Project[] | null> => { 
-    return this.projectRepository.getAllofBusiness(businessId)
-  }
+  public getProjectofBusiness = async (businessId: number): Promise<Project[] | null> => {
+    return this.projectRepository.getAllofBusiness(businessId);
+  };
 
-  public updateProject = async (projectUpdateRequestDTO : ProjectUpdateRequestDTO) => {
+  public updateProject = async (projectUpdateRequestDTO: ProjectUpdateRequestDTO) => {
     const modifiedDate = new Date();
     projectUpdateRequestDTO.project.modifiedDate = modifiedDate;
 
@@ -65,18 +68,21 @@ export class ProjectService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    this.worksOnService.deleteWorksOn(projectUpdateRequestDTO.project.id)
+    this.worksOnService.deleteWorksOn(projectUpdateRequestDTO.project.id);
 
     projectUpdateRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email = element.label
-      const id = projectUpdateRequestDTO.project.id
-      await this.worksOnService.createWorksOn({email, id})
+      const email = element.label;
+      const id = projectUpdateRequestDTO.project.id;
+      await this.worksOnService.createWorksOn({ email, id });
     });
-    
-    const updateProject = await this.projectRepository.update(projectUpdateRequestDTO.project.id, projectUpdateRequestDTO.project)
-    await this.saleService.updateSale(projectUpdateRequestDTO.project.id, projectUpdateRequestDTO.sale)
-    return Promise.resolve(updateProject); 
-  }
+
+    const updateProject = await this.projectRepository.update(
+      projectUpdateRequestDTO.project.id,
+      projectUpdateRequestDTO.project
+    );
+    await this.saleService.updateSale(projectUpdateRequestDTO.project.id, projectUpdateRequestDTO.sale);
+    return Promise.resolve(updateProject);
+  };
 
   public static isThereNullValueProjectCreationDTO = (ProjectCreationDTO: ProjectCreationDTO): boolean => {
     if (

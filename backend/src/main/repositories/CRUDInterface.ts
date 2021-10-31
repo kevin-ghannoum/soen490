@@ -9,5 +9,5 @@ export interface CRUD {
 export interface RelationCRUD {
   create: (resource: any) => Promise<any>;
   delete: (resourceA: any, resourceB: any) => Promise<any>;
-  get: (resource:any) => Promise<any>;
+  get: (resource: any) => Promise<any>;
 }

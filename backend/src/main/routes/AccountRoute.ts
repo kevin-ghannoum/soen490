@@ -60,8 +60,8 @@ export default class AccountRoute extends CommonRoutesConfig {
       .route(`/accounts/employee`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
-            res.status(StatusCodes.OK).send(regexEmployeeAccount);
+          const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexEmployeeAccount);
         } catch (err) {
           next(err);
         }

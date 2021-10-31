@@ -25,16 +25,12 @@ export class WorksonService {
     return this.worksOnRepository.delete(id);
   };
 
-  public getWorksOn = async (id: number): Promise<WorksOn[] | null> => { 
-    return this.worksOnRepository.get(id)
-  }
+  public getWorksOn = async (id: number): Promise<WorksOn[] | null> => {
+    return this.worksOnRepository.get(id);
+  };
 
   public static isThereNullValueWorksOnDTO = (worksOnCreationDTO: WorksOnCreationDTO): boolean => {
-    if (
-      worksOnCreationDTO === undefined ||
-      !worksOnCreationDTO.id ||
-      !worksOnCreationDTO.email
-    ) {
+    if (worksOnCreationDTO === undefined || !worksOnCreationDTO.id || !worksOnCreationDTO.email) {
       return true;
     }
     return false;

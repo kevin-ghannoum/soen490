@@ -6,18 +6,15 @@ const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
 export class ClientAccountService {
-  constructor(
-    private clientAccountRepository: ClientAccountRepository
-  ) {
+  constructor(private clientAccountRepository: ClientAccountRepository) {
     log('Created instance of ClientAccountService');
   }
 
-  public getAllClientAccount = async (): Promise< ClientAccount []| null> => {
+  public getAllClientAccount = async (): Promise<ClientAccount[] | null> => {
     return this.clientAccountRepository.getAll();
   };
 
-  public getEmployeesByRegex = async (email: string): Promise< ClientAccount []| null> => {
+  public getEmployeesByRegex = async (email: string): Promise<ClientAccount[] | null> => {
     return this.clientAccountRepository.getClientsByRegex(email);
-  }
-
+  };
 }
