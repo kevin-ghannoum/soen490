@@ -21,39 +21,39 @@ const useStyles = makeStyles((theme) => ({
     width: '90%',
     margin: 'auto',
   },
-  assigneeWrapper : {
-      display: "flex",
+  assigneeWrapper: {
+    display: 'flex',
   },
   selectBox: {
-      width: "75%",
+    width: '75%',
   },
   Typo: {
-      padding:7,
-      marginTop: 2
+    padding: 7,
+    marginTop: 2,
   },
   upload: {
-      float: "right"
+    float: 'right',
   },
   projectTitle: {
     fontWeight: 600,
-    float: "left" 
+    float: 'left',
   },
-  descriptionBox : {
-      width: "100%",
-      marginTop: 15
+  descriptionBox: {
+    width: '100%',
+    marginTop: 15,
   },
-  optionalDescriptionBox : {
-    width: "100%",
-    marginTop: 10
-},
+  optionalDescriptionBox: {
+    width: '100%',
+    marginTop: 10,
+  },
   descriptionFields: {
-      width: "100%",
-      marginTop: 5
+    width: '100%',
+    marginTop: 5,
   },
   dateFields: {
-    width: "100%",
-    marginTop: 35
-},
+    width: '100%',
+    marginTop: 35,
+  },
 }));
 
 export default useStyles;
