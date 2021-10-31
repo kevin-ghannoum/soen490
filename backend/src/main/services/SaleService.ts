@@ -14,7 +14,7 @@ export class SaleService {
     log('Created instance of SaleService');
   }
 
-  public createSale = async (saleRequestDTO: SaleCreationDTO) => {
+  public createSale = async (saleRequestDTO: SaleCreationDTO): Promise<Sale> => {
     if (SaleService.isThereNullValueSaleRequestDTO(saleRequestDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
@@ -25,7 +25,7 @@ export class SaleService {
     return this.saleRepository.get(id);
   };
 
-  public updateSale = async (id: number, saleUpdateDTO: SaleUpdateDTO) => {
+  public updateSale = async (id: number, saleUpdateDTO: SaleUpdateDTO): Promise<number> => {
     return this.saleRepository.update(id, saleUpdateDTO);
   };
 

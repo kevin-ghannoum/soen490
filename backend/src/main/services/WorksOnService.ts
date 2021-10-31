@@ -14,7 +14,7 @@ export class WorksonService {
     log('Created instance of WorksOnService');
   }
 
-  public createWorksOn = async (worksOnCreationDTO: WorksOnCreationDTO) => {
+  public createWorksOn = async (worksOnCreationDTO: WorksOnCreationDTO): Promise<WorksOn> => {
     if (WorksonService.isThereNullValueWorksOnDTO(worksOnCreationDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }

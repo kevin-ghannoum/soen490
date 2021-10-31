@@ -1,4 +1,3 @@
-import { throws } from 'assert';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'tsyringe';

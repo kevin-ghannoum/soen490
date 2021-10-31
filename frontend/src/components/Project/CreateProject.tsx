@@ -169,6 +169,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
       }
     };
     getEditProjectData();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
