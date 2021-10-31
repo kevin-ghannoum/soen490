@@ -7,7 +7,7 @@ import { title } from 'process';
 import { RelationCRUD } from './CRUDInterface';
 
 @injectable()
-export default class WorksOnRepository implements RelationCRUD{
+export default class WorksOnRepository implements RelationCRUD {
   constructor() {
     log('Created new instance of WorksOnRepository');
   }
@@ -46,6 +46,7 @@ export default class WorksOnRepository implements RelationCRUD{
           id: id,
         },
       });
+
       log(worksOn);
       log(`Retrieved all projects`);
 

@@ -30,22 +30,22 @@ export default class ProjectRoute extends CommonRoutesConfig {
       })
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(req.query.businessId));
-            res.status(StatusCodes.OK).send(projectOfBusiness);
+          const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(req.query.businessId));
+          res.status(StatusCodes.OK).send(projectOfBusiness);
         } catch (err) {
           next(err);
         }
       });
 
-      this.getApp()
+    this.getApp()
       .route(`/project/:id`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const project = await this.projectService.getProject(Number(req.params.id));
-          const employees = await this.worksOn.getWorksOn(Number(req.params.id))
-          const array = []
-          array.push(project)
-          array.push(employees)
+          const employees = await this.worksOn.getWorksOn(Number(req.params.id));
+          const array = [];
+          array.push(project);
+          array.push(employees);
           res.status(StatusCodes.OK).send(array);
         } catch (err) {
           next(err);
@@ -65,7 +65,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
       .put(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const updateProject = await this.projectService.updateProject(req.body);
-          res.status(StatusCodes.OK).send("Updated");
+          res.status(StatusCodes.OK).send('Updated');
         } catch (err) {
           next(err);
         }

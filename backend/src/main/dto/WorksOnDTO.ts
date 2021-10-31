@@ -1,4 +1,4 @@
 export interface WorksOnCreationDTO {
-    email: string;
-    id: number;
+  email: string;
+  id: number;
 }

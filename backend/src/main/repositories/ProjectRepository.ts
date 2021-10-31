@@ -20,7 +20,7 @@ export default class ProjectRepository implements CRUD {
       const createdProject = Project.build(projectInfo);
       await createdProject.save();
       log(`Added new project ${createdProject.title}`);
-      
+
       return Promise.resolve(createdProject);
     } catch (err: any) {
       log(err);
@@ -55,7 +55,7 @@ export default class ProjectRepository implements CRUD {
 
   public get = async (id: number): Promise<Project | null> => {
     try {
-      const project = await Project.findByPk(id, {include: [Sale]});
+      const project = await Project.findByPk(id, { include: [Sale] });
       if (project) {
         log(`Project ${project?.title} has been retrieved`);
       } else {
@@ -75,7 +75,7 @@ export default class ProjectRepository implements CRUD {
         where: {
           businessId: businessId,
         },
-        include: [Sale]
+        include: [Sale],
       });
       log(projects);
       log(`Retrieved all projects`);

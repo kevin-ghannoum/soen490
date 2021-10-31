@@ -25,9 +25,9 @@ export class SaleService {
     return this.saleRepository.get(id);
   };
 
-  public updateSale = async (id : number, saleUpdateDTO : SaleUpdateDTO) => {
-    return this.saleRepository.update(id, saleUpdateDTO)
-  }
+  public updateSale = async (id: number, saleUpdateDTO: SaleUpdateDTO) => {
+    return this.saleRepository.update(id, saleUpdateDTO);
+  };
 
   public deleteSale = async (id: number): Promise<number> => {
     return this.saleRepository.delete(id);
