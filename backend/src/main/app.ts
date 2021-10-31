@@ -7,6 +7,7 @@ import cors from 'cors';
 import * as expressWinston from 'express-winston';
 import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
+import ProjectRoute from './routes/ProjectRoute';
 import { container } from 'tsyringe';
 import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
@@ -46,6 +47,7 @@ const main = async () => {
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
   routes.push(container.resolve(LogHoursRoute));
+  routes.push(container.resolve(ProjectRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);

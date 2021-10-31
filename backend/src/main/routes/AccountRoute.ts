@@ -80,6 +80,28 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
+      .route(`/accounts/employee`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexEmployeeAccount);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/client`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const regexClientAccout = await this.clientAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexClientAccout);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
       .route(`/accounts/business`)
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
