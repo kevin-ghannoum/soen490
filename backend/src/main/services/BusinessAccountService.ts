@@ -2,6 +2,7 @@ import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'tsyringe';
 import { BusinessCreationRequestDTO } from '../dto/Accounts/AccountDTOs';
+import { AccountRequestDTO } from '../dto/Accounts/AccountDTOs';
 import HttpException from '../exceptions/HttpException';
 import { BusinessAccount } from '../models/BusinessAccount';
 import AddressRepository from '../repositories/AddressRepository';
