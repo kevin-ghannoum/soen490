@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     '&.Mui-checked': {
       color: mainTheme.palette.primary.main,
     },
-  }
+  },
 }));
 
 export default useStyles;

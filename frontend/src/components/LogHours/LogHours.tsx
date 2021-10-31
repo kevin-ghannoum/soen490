@@ -46,6 +46,7 @@ const LogHours: React.FunctionComponent = () => {
       status: PayStatus.NOT_PAID,
     },
     onSubmit: async (values) => {
+      console.log(values)
       const obj = {
         employeeHoursInputType: {
           email: values.email,
@@ -71,16 +72,16 @@ const LogHours: React.FunctionComponent = () => {
   });
 
   useEffect(() => {
-    const fetchEmployeeEmails =  async () => {
+    const fetchEmployeeEmails = async () => {
       const responseEmployees = await getAllEmployeeAccounts();
-      const employeeEmails= [];
+      const employeeEmails = [];
       for (let employee of responseEmployees.data) {
-        employeeEmails.push(employee.email)
+        employeeEmails.push(employee.email);
       }
       setEmployeeList(employeeEmails);
-    }
+    };
     fetchEmployeeEmails();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const updateAutomaticByEmail = async (email: string) => {
@@ -96,9 +97,10 @@ const LogHours: React.FunctionComponent = () => {
         const responseInputType = await getInputTypeByEmail(email);
         const responseLatestPayInfo = await getLatestPayByEmail(email);
         if (!!responseInputType.data) {
-          formik.values.automatic = responseInputType.data.automatic;
+        formik.values.automatic = responseInputType.data.automatic;
           formik.values.scheduledDay = responseInputType.data.scheduledDay || ScheduledDay.SUNDAY;
-
+        }
+        if (!!responseLatestPayInfo.data) {
           formik.values.startDate = responseLatestPayInfo.data.periodStart;
           formik.values.endDate = responseLatestPayInfo.data.periodEnd;
           formik.values.hoursWorked = responseLatestPayInfo.data.hoursWorked;
@@ -193,34 +195,34 @@ const LogHours: React.FunctionComponent = () => {
               </Grid>
             )}
             {!formik.values.automatic && (
-            <Grid item container direction="row" spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="startDate"
-                  type="date"
-                  label="Period start date"
-                  fullWidth
-                  value={formik.values.startDate}
-                  InputLabelProps={{ shrink: true }}
-                  onChange={formik.handleChange}
-                  error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-                  helperText={formik.touched.startDate && formik.errors.startDate}
-                />
+              <Grid item container direction="row" spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    name="startDate"
+                    type="date"
+                    label="Period start date"
+                    fullWidth
+                    value={formik.values.startDate}
+                    InputLabelProps={{ shrink: true }}
+                    onChange={formik.handleChange}
+                    error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                    helperText={formik.touched.startDate && formik.errors.startDate}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    name="endDate"
+                    type="date"
+                    label="Period end date"
+                    fullWidth
+                    value={formik.values.endDate}
+                    InputLabelProps={{ shrink: true }}
+                    onChange={formik.handleChange}
+                    error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                    helperText={formik.touched.endDate && formik.errors.endDate}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="endDate"
-                  type="date"
-                  label="Period end date"
-                  fullWidth
-                  value={formik.values.endDate}
-                  InputLabelProps={{ shrink: true }}
-                  onChange={formik.handleChange}
-                  error={formik.touched.endDate && Boolean(formik.errors.endDate)}
-                  helperText={formik.touched.endDate && formik.errors.endDate}
-                />
-              </Grid>
-            </Grid>
             )}
             <Grid item container direction="row" spacing={2}>
               <Grid item xs={12} sm={6}>
