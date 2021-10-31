@@ -47,7 +47,9 @@ export default class AccountRoute extends CommonRoutesConfig {
       .route(`/accounts/allEmployees/:business`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const employeeAccount = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(req.params.business);
+          const employeeAccount = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
+            req.params.business
+          );
           res.status(StatusCodes.OK).send(employeeAccount);
         } catch (err) {
           next(err);

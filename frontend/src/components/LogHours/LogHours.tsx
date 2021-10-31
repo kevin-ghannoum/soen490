@@ -46,7 +46,6 @@ const LogHours: React.FunctionComponent = () => {
       status: PayStatus.NOT_PAID,
     },
     onSubmit: async (values) => {
-      console.log(values)
       const obj = {
         employeeHoursInputType: {
           email: values.email,
@@ -97,7 +96,7 @@ const LogHours: React.FunctionComponent = () => {
         const responseInputType = await getInputTypeByEmail(email);
         const responseLatestPayInfo = await getLatestPayByEmail(email);
         if (!!responseInputType.data) {
-        formik.values.automatic = responseInputType.data.automatic;
+          formik.values.automatic = responseInputType.data.automatic;
           formik.values.scheduledDay = responseInputType.data.scheduledDay || ScheduledDay.SUNDAY;
         }
         if (!!responseLatestPayInfo.data) {

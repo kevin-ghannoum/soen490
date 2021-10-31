@@ -18,7 +18,7 @@ export class Pay extends Model {
   @PrimaryKey
   @Column
   id!: number;
-  
+
   @AllowNull(false)
   @Default(new Date())
   @Column

@@ -2,7 +2,10 @@ import debug from 'debug';
 import { injectable } from 'tsyringe';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:FeedbackRepository');
-import { EmployeeHoursInputTypeCreationDTO, EmployeeHoursInputTypeUpdateDTO } from '../dto/LogHours/EmployeeHoursInputTypeDTOs';
+import {
+  EmployeeHoursInputTypeCreationDTO,
+  EmployeeHoursInputTypeUpdateDTO,
+} from '../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { EmployeeHoursInputType } from '../models/EmployeeHoursInputType';
 
 @injectable()
@@ -11,12 +14,16 @@ export default class EmployeeHoursInputTypeRepository implements CRUD {
     log('Created new instance of EmployeeHoursInputTypeRepository');
   }
 
-  public create = async (employeeHoursInputTypeCreationInfo: EmployeeHoursInputTypeCreationDTO): Promise<EmployeeHoursInputType> => {
+  public create = async (
+    employeeHoursInputTypeCreationInfo: EmployeeHoursInputTypeCreationDTO
+  ): Promise<EmployeeHoursInputType> => {
     try {
       const createdEmployeeHoursInputType = EmployeeHoursInputType.build(employeeHoursInputTypeCreationInfo);
       createdEmployeeHoursInputType.save();
 
-      log(`Added new employee hours input type automatic ${createdEmployeeHoursInputType.automatic} for ${createdEmployeeHoursInputType.email}`);
+      log(
+        `Added new employee hours input type automatic ${createdEmployeeHoursInputType.automatic} for ${createdEmployeeHoursInputType.email}`
+      );
       return Promise.resolve(createdEmployeeHoursInputType);
     } catch (err: any) {
       log(err);
@@ -24,11 +31,15 @@ export default class EmployeeHoursInputTypeRepository implements CRUD {
     }
   };
 
-  public upsert = async (employeeHoursInputTypeCreationInfo: EmployeeHoursInputTypeCreationDTO): Promise<[EmployeeHoursInputType, boolean | null]> => {
+  public upsert = async (
+    employeeHoursInputTypeCreationInfo: EmployeeHoursInputTypeCreationDTO
+  ): Promise<[EmployeeHoursInputType, boolean | null]> => {
     try {
       const createdEmployeeHoursInputType = EmployeeHoursInputType.upsert(employeeHoursInputTypeCreationInfo);
 
-      log(`Added or updated employee hours input type automatic ${employeeHoursInputTypeCreationInfo.automatic} for ${employeeHoursInputTypeCreationInfo.email}`);
+      log(
+        `Added or updated employee hours input type automatic ${employeeHoursInputTypeCreationInfo.automatic} for ${employeeHoursInputTypeCreationInfo.email}`
+      );
       return Promise.resolve(createdEmployeeHoursInputType);
     } catch (err: any) {
       log(err);
