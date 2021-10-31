@@ -60,9 +60,10 @@ export class LogHoursService {
       logHoursCreationDTO.pay.periodEnd = prevFriday.toLocaleDateString();
       const weekdayNumber = LogHoursService.getWeekdayNumber(scheduledDay!);
       // create scheduled job
-      const job = schedule.scheduleJob(logHoursCreationDTO.pay.email, {dayOfWeek: weekdayNumber}, () =>
-        this.createPay(logHoursCreationDTO.pay)
-      );
+      const job = schedule.scheduleJob(logHoursCreationDTO.pay.email, { dayOfWeek: weekdayNumber }, () => {
+        logHoursCreationDTO.pay.issueDate = new Date();
+        this.createPay(logHoursCreationDTO.pay);
+      });
       return null;
     } else {
       // create pay
