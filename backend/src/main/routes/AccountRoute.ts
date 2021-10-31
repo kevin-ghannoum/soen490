@@ -80,7 +80,6 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
-<<<<<<< HEAD
       .route(`/accounts/employee`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
@@ -103,8 +102,6 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
-=======
->>>>>>> 42e7661 (Implemented create business account in backend)
       .route(`/accounts/business`)
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
@@ -140,7 +137,6 @@ export default class AccountRoute extends CommonRoutesConfig {
         }
       });
 
-<<<<<<< HEAD
     this.getApp()
       .route(`/accounts/client`)
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -173,8 +169,6 @@ export default class AccountRoute extends CommonRoutesConfig {
           next(err);
         }
       });
-=======
->>>>>>> 42e7661 (Implemented create business account in backend)
     return this.getApp();
   }
 }
