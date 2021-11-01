@@ -1,5 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { BusinessCreationRequestDTO, EmployeeAccountRequestDTO } from '../dto/Accounts/AccountDTOs';
+import {
+  BusinessCreationRequestDTO,
+  ClientAccountCreationRequestDTO,
+  EmployeeAccountRequestDTO,
+} from '../dto/Accounts/AccountDTOs';
 
 export const createEmployeeAccount = async (
   employeeAccountRequestDTO: EmployeeAccountRequestDTO
@@ -11,6 +15,12 @@ export const createBusinessAccount = async (
   businessAccountRequestDTO: BusinessCreationRequestDTO
 ): Promise<AxiosResponse<any>> => {
   return axios.post(`accounts/business`, businessAccountRequestDTO);
+};
+
+export const createClientAccount = async (
+  clientAccountCreationRequestDTO: ClientAccountCreationRequestDTO
+): Promise<AxiosResponse<any>> => {
+  return axios.post(`accounts/client`, clientAccountCreationRequestDTO);
 };
 
 export const getAllEmployeeAccounts = async (): Promise<AxiosResponse<any>> => {

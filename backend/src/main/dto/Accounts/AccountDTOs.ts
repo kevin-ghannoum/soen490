@@ -55,7 +55,7 @@ export interface BusinessCreationRequestDTO extends AccountRequestDTO {
   socialMediaInfo: SocialMediaPageCreationDTO;
 }
 
-enum Status {
+export enum Status {
   LEAD = 'LEAD',
   SCHEDULE = 'SCHEDULED',
   REJECTED = 'REJECTED',
@@ -98,4 +98,12 @@ export interface BusinessAccountCreationDTO {
 
 export interface BusinessAccountUpdateDTO {
   account?: AccountUpdateDTO;
+}
+
+export interface ClientAccountCreationRequestDTO extends AccountRequestDTO {
+  businessName: string;
+  industry: string;
+  website: string;
+  status: Status;
+  socialMediaInfo: SocialMediaPageCreationDTO;
 }
