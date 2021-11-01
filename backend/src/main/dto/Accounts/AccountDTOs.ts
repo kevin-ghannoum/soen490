@@ -55,7 +55,7 @@ export interface BusinessCreationRequestDTO extends AccountRequestDTO {
   socialMediaInfo: SocialMediaPageCreationDTO;
 }
 
-enum Status {
+export enum Status {
   LEAD = 'LEAD',
   SCHEDULE = 'SCHEDULED',
   REJECTED = 'REJECTED',
