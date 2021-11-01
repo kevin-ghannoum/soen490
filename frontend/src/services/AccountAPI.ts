@@ -1,4 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import {
   BusinessCreationRequestDTO,
   ClientAccountCreationRequestDTO,
@@ -34,6 +34,6 @@ export const getAllRegexEmployeeAccount = async (emailPattern: string): Promise<
   return axios.get(`/accounts/employee`, { params: { email: emailPattern } });
 };
 
-export const getAllClientAccount = async (emailPattern: string): Promise<AxiosPromise<any>> => {
+export const getAllClientAccount = async (emailPattern: string): Promise<AxiosResponse<any>> => {
   return axios.get(`/accounts/client`, { params: { email: emailPattern } });
 };

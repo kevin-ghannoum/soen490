@@ -26,12 +26,12 @@ export default class WorksOnRepository implements RelationCRUD {
 
   public delete = async (id: number): Promise<number> => {
     try {
-      const delteWorksOn = await WorksOn.destroy({
+      const deleteWorksOn = await WorksOn.destroy({
         where: { id: id },
       });
       log(`WorksOn for ${id} has been deleted`);
 
-      return Promise.resolve(delteWorksOn);
+      return Promise.resolve(deleteWorksOn);
     } catch (err: any) {
       log(err);
       return Promise.resolve(err);

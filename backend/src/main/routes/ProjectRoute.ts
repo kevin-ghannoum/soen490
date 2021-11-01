@@ -43,9 +43,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
         try {
           const project = await this.projectService.getProject(Number(req.params.id));
           const employees = await this.worksOn.getWorksOn(Number(req.params.id));
-          const array = [];
-          array.push(project);
-          array.push(employees);
+          const array = [project, employees];
           res.status(StatusCodes.OK).send(array);
         } catch (err) {
           next(err);

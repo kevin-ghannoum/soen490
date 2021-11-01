@@ -5,11 +5,11 @@ export const createProject = async (projectResquestionDTO: ProjectRequestDTO): P
   return axios.post(`/project`, projectResquestionDTO);
 };
 
-export const getAllBusinessProject = async (businessId: number): Promise<AxiosPromise<any>> => {
+export const getAllBusinessProject = async (businessId: number): Promise<AxiosResponse<any>> => {
   return axios.get(`/project`, { params: { businessId: businessId } });
 };
 
-export const getProject = async (projectId: string): Promise<AxiosPromise<any>> => {
+export const getProject = async (projectId: string): Promise<AxiosResponse<any>> => {
   return axios.get(`/project/${projectId}`);
 };
 

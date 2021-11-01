@@ -25,46 +25,52 @@ interface Props {
   edit: string;
 }
 
+interface workson {
+  email: string;
+  id: number;
+}
+
+interface CreateProjectFormData {
+  title: string;
+  description: string;
+  status: string;
+  serviceType: string;
+  leadSource: string;
+  leadCredit: string;
+  leadRanking: string;
+  followUpDate: string;
+  deadLineDate: string;
+  extraNotes: string;
+  email: string;
+  saleDescription: string;
+  saleValue: number | string;
+  assignee: Object[] | undefined;
+}
+
+interface EditFetchData {
+  id: number;
+  businessId: string;
+  createdDate: string;
+  deadlineDate: string;
+  description: string;
+  email: string;
+  extraNotes: string;
+  followUpDate: string;
+  leadCredit: string;
+  leadRanking: string;
+  leadSource: string;
+  sale: SaleCreationDTO;
+  serviceType: string;
+  status: string;
+  title: string;
+}
+
 const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const [created, setCreated] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const date = new Date();
   const history = useHistory();
   const classes = useStyles();
-
-  interface CreateProjectFormData {
-    title: string;
-    description: string;
-    status: string;
-    serviceType: string;
-    leadSource: string;
-    leadCredit: string;
-    leadRanking: string;
-    followUpDate: string;
-    deadLineDate: string;
-    extraNotes: string;
-    email: string;
-    saleDescription: string;
-    saleValue: number | string;
-    assignee: Object[] | undefined;
-  }
-
-  interface EditFetchData {
-    id: number;
-    businessId: string;
-    createdDate: string;
-    deadlineDate: string;
-    description: string;
-    email: string;
-    extraNotes: string;
-    followUpDate: string;
-    leadCredit: string;
-    leadRanking: string;
-    leadSource: string;
-    sale: SaleCreationDTO;
-    serviceType: string;
-    status: string;
-    title: string;
-  }
 
   const formik: FormikProps<CreateProjectFormData> = useFormik<CreateProjectFormData>({
     onReset: () => {},
@@ -88,31 +94,35 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
       if (editState === 'true') {
         submitEdit();
       } else {
-        const response: AxiosResponse<any> = await createProject({
-          project: {
-            title: values.title,
-            description: values.description,
-            status: values.status,
-            serviceType: values.serviceType,
-            leadSource: values.leadSource,
-            leadCredit: values.leadCredit,
-            leadRanking: values.leadRanking,
-            deadlineDate: values.deadLineDate,
-            followUpDate: values.followUpDate,
-            extraNotes: values.extraNotes,
-            email: values.email,
-            businessId: 1,
-            assignee: values.assignee,
-          },
-          sale: {
-            amount: values.saleValue,
-            description: values.saleDescription,
-            dueDate: values.deadLineDate,
-          },
-        });
-        if (response.status === 201) {
-          setCreated(true);
-          history.push('/projects');
+        try {
+          const response: AxiosResponse<any> = await createProject({
+            project: {
+              title: values.title,
+              description: values.description,
+              status: values.status,
+              serviceType: values.serviceType,
+              leadSource: values.leadSource,
+              leadCredit: values.leadCredit,
+              leadRanking: values.leadRanking,
+              deadlineDate: values.deadLineDate,
+              followUpDate: values.followUpDate,
+              extraNotes: values.extraNotes,
+              email: values.email,
+              businessId: 1,
+              assignee: values.assignee,
+            },
+            sale: {
+              amount: values.saleValue,
+              description: values.saleDescription,
+              dueDate: values.deadLineDate,
+            },
+          });
+          if (response.status === 201) {
+            setCreated(true);
+            history.push('/projects');
+          }
+        } catch (error) {
+          setError(true);
         }
       }
     },
@@ -130,11 +140,6 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const [assigneeLoading, setAssigeeLoading] = useState<boolean>(false);
   const [editState, setEditState] = useState<string>(edit);
   const [disabled, setDisabled] = useState<boolean>(false);
-
-  interface workson {
-    email: string;
-    id: number;
-  }
 
   useEffect(() => {
     const getEditProjectData = async () => {
@@ -549,6 +554,11 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
               {created && (
                 <Typography variant="h6" color="primary">
                   Created succesfully
+                </Typography>
+              )}
+              {error && (
+                <Typography variant="h6" style={{ color: 'red' }}>
+                  Error
                 </Typography>
               )}
             </Grid>

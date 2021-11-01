@@ -1,51 +1,52 @@
 import * as React from 'react';
-import { DataGrid, GridColDef } from '@material-ui/data-grid';
+import { DataGrid, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react';
 import { getAllBusinessProject } from '../../services/ProjectAPI';
 import { Button, Grid, Link } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
+interface Sale {
+  amount: number;
+}
+
+interface Data {
+  id: number;
+  title: string;
+  email: string;
+  description: string;
+  status: string;
+  serviceType: string;
+  createdDate: string;
+  followUpDate: string;
+  deadlineDate: string;
+  leadSource: string;
+  leadRanking: string;
+  leadCredit: string;
+  sale: Sale;
+}
+interface DataDisplay {
+  id: number;
+  title: string | any;
+  email: string;
+  description: string;
+  status: string;
+  service: string;
+  createdDate: string;
+  followUpDate: string;
+  deadlineDate: string;
+  leadSource: string;
+  leadRanking: string;
+  leadCredit: string;
+  sale: number;
+}
+
 const ViewProject: React.FC = () => {
   const [projectList, setProjectList] = useState<any>([]);
   const history = useHistory();
 
-  interface Sale {
-    amount: number;
-  }
-
-  interface Data {
-    id: number;
-    title: string;
-    email: string;
-    description: string;
-    status: string;
-    serviceType: string;
-    createdDate: string;
-    followUpDate: string;
-    deadlineDate: string;
-    leadSource: string;
-    leadRanking: string;
-    leadCredit: string;
-    sale: Sale;
-  }
-  interface DataDisplay {
-    id: number;
-    title: string | any;
-    email: string;
-    description: string;
-    status: string;
-    service: string;
-    createdDate: string;
-    followUpDate: string;
-    deadlineDate: string;
-    leadSource: string;
-    leadRanking: string;
-    leadCredit: string;
-    sale: number;
-  }
-
-  const [select, setSelection] = useState<any>('');
-  const handleRowSelection = (id: any) => {
+  const [select, setSelection] = useState<GridSelectionModel>();
+  const handleRowSelection = (id: GridSelectionModel) => {
+    console.log(id);
     setSelection(id);
   };
 
@@ -58,7 +59,6 @@ const ViewProject: React.FC = () => {
       const projects = await getAllBusinessProject(1);
       const display: DataDisplay[] = [];
       projects.data.forEach((element: Data) => {
-        const amount: number = element.sale.amount;
         const createdDate = element.createdDate.split('T');
         const followUpDate = element.followUpDate.split('T');
         const deadlineDate = element.deadlineDate.split('T');
@@ -75,7 +75,7 @@ const ViewProject: React.FC = () => {
           leadSource: element.leadSource,
           leadCredit: element.leadCredit,
           leadRanking: element.leadRanking,
-          sale: amount,
+          sale: element.sale.amount,
         });
       });
       setProjectList(display);
