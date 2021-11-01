@@ -121,7 +121,7 @@ export default class EmployeeAccountRepository implements CRUD {
       return Promise.resolve(clientAccounts);
     } catch (err: any) {
       if (err instanceof BaseError) {
-        throw new Error(`${err.name}, message: ${err.message}`);
+        Promise.reject(new Error(`${err.name}, message: ${err.message}`));
       }
       return Promise.reject(err);
     }

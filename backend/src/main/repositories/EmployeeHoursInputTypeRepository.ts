@@ -19,7 +19,7 @@ export default class EmployeeHoursInputTypeRepository implements CRUD {
   ): Promise<EmployeeHoursInputType> => {
     try {
       const createdEmployeeHoursInputType = EmployeeHoursInputType.build(employeeHoursInputTypeCreationInfo);
-      createdEmployeeHoursInputType.save();
+      await createdEmployeeHoursInputType.save();
 
       log(
         `Added new employee hours input type automatic ${createdEmployeeHoursInputType.automatic} for ${createdEmployeeHoursInputType.email}`

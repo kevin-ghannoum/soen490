@@ -66,39 +66,39 @@ export class LogHoursService {
       return null;
     } else {
       // create pay
-      return await this.payRepository.create(logHoursCreationDTO.pay);
+      return this.payRepository.create(logHoursCreationDTO.pay);
     }
   };
 
   public createPay = async (payCreationDTO: PayCreationDTO): Promise<Pay> => {
-    return await this.payRepository.create(payCreationDTO);
+    return this.payRepository.create(payCreationDTO);
   };
 
   public getPaysByEmail = async (email: string): Promise<Pay[] | null> => {
-    return await this.payRepository.getAllByEmail(email);
+    return this.payRepository.getAllByEmail(email);
   };
 
   public getLatestPay = async (email: string): Promise<Pay | null> => {
-    return await this.payRepository.getLatestByEmail(email);
+    return this.payRepository.getLatestByEmail(email);
   };
 
   public getEmployeeHoursInputType = async (email: string): Promise<EmployeeHoursInputType | null> => {
-    return await this.employeeHoursInputTypeRepository.get(email);
+    return this.employeeHoursInputTypeRepository.get(email);
   };
 
   public updatePay = async (id: number, payUpdateDTO: PayUpdateDTO): Promise<number> => {
-    return await this.payRepository.update(id, payUpdateDTO);
+    return this.payRepository.update(id, payUpdateDTO);
   };
 
   public updateEmployeeHoursInputType = async (
     email: string,
     employeeHoursInputTypeUpdateDTO: EmployeeHoursInputTypeUpdateDTO
   ): Promise<number> => {
-    return await this.employeeHoursInputTypeRepository.update(email, employeeHoursInputTypeUpdateDTO);
+    return this.employeeHoursInputTypeRepository.update(email, employeeHoursInputTypeUpdateDTO);
   };
 
   public deleteEmployeeHoursInputType = async (email: string): Promise<number> => {
-    return await this.employeeHoursInputTypeRepository.delete(email);
+    return this.employeeHoursInputTypeRepository.delete(email);
   };
 
   public static isThereNullValueLogHoursDTO = (logHoursCreationDTO: LogHoursCreationDTO): boolean => {
