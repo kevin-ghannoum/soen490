@@ -61,7 +61,7 @@ export class ClientAccountService {
 
   public static isThereNullClientAccountCreationRequestDTO = (
     clientAccountCreationRequestDTO: ClientAccountCreationRequestDTO
-  ) => {
+  ): boolean => {
     if (
       clientAccountCreationRequestDTO === undefined ||
       !clientAccountCreationRequestDTO.businessName ||

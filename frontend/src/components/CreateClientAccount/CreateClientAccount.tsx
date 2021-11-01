@@ -93,7 +93,6 @@ const CreateClientAccount: React.FC = () => {
         } else if (err.response.data.message) {
           setErrMessage(err.response.data.message);
         }
-        console.log(err.response.data.message);
       }
     },
     validationSchema: createClientAccountSchema,
