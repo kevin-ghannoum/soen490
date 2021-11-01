@@ -7,7 +7,7 @@ const createClientAccountSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   username: Yup.string().required('Required'),
   password: Yup.string().required('Required'),
   phone: Yup.string().required('Required'),
-  civicNumber: Yup.number().nullable().required('Required').typeError("Civic number must be a number"),
+  civicNumber: Yup.number().nullable().required('Required').typeError('Civic number must be a number'),
   postalCode: Yup.string().required('Required'),
   streetName: Yup.string().required('Required'),
   cityName: Yup.string().required('Required'),
@@ -18,7 +18,7 @@ const createClientAccountSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   website: Yup.string().optional(),
   socialMediaName: Yup.string().optional(),
   socialMediaLink: Yup.string().optional(),
-  status:Yup.string().required('Required')
+  status: Yup.string().required('Required'),
 });
 
 export default createClientAccountSchema;
