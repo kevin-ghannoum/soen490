@@ -15,7 +15,7 @@ import { Account } from './Account';
 import { Assigned } from './Assigned';
 import { Project } from './Project';
 
-@Table({ timestamps: true })
+@Table({ timestamps: false })
 export class Task extends Model {
   @PrimaryKey
   @AutoIncrement

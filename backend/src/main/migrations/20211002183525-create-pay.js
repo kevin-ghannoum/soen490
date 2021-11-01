@@ -10,7 +10,8 @@ module.exports = {
       },
       issueDate:{
         allowNull:false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       },
       hoursWorked:{
         allowNull:false,
@@ -18,12 +19,20 @@ module.exports = {
       },
       status:{
         allowNull:false,
-        type:Sequelize.ENUM('PAYED', 'NOT_PAID'),
-        default:'NOT_PAID'
+        type:Sequelize.ENUM('PAID', 'NOT_PAID'),
+        defaultValue:'NOT_PAID'
       },
-      period:{
+      periodStart:{
         allowNull:false,
         type:Sequelize.STRING
+      },
+      periodEnd:{
+        allowNull:false,
+        type:Sequelize.STRING
+      },
+      amount:{
+        allowNull:false,
+        type:Sequelize.FLOAT
       },
       email:{
         type:Sequelize.STRING,

@@ -3,7 +3,7 @@ import { Table, Column, Model, PrimaryKey, ForeignKey } from 'sequelize-typescri
 import { Account } from './Account';
 import { Task } from './Task';
 
-@Table({ timestamps: true })
+@Table({ timestamps: false })
 export class Assigned extends Model {
   @ForeignKey(() => Task)
   @PrimaryKey
