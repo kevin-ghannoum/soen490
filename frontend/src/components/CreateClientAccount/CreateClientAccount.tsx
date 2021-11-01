@@ -1,33 +1,42 @@
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
-import { AxiosResponse } from 'axios';
+import { Button, Grid, Paper, Select, TextField, Typography, MenuItem } from '@material-ui/core';
 import { FormikProps, useFormik } from 'formik';
 import { useState } from 'react';
-import { createEmployeeAccount } from '../../services/AccountAPI';
-import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
-import useStyles from './CreateEmployeeStyle';
-
-interface CreateEmployeeAccountFormData {
+import { Status } from '../../dto/Accounts/AccountDTOs';
+import { createClientAccount } from '../../services/AccountAPI';
+import useStyles from './CreateClientAccountStyle';
+import createClientAccountSchema from './CreateClientFormValidationSchema';
+interface CreateClientAccountFormData {
   firstName: string;
   lastName: string;
   email: string;
   username: string;
   password: string;
   phone: string;
-  supervisorEmail: string;
   civicNumber: number | string;
   streetName: string;
   postalCode: string;
   cityName: string;
   province: string;
   country: string;
-  title: string;
-  hourlyWage: number | string;
+  businessName: string;
+  industry: string;
+  website: string;
+  socialMediaName: string;
+  socialMediaLink: string;
+  status: string;
 }
 
-const CreateEmployee: React.FC = () => {
+const CreateClientAccount: React.FC = () => {
   const [created, setCreated] = useState<boolean>(false);
-
-  const formik: FormikProps<CreateEmployeeAccountFormData> = useFormik<CreateEmployeeAccountFormData>({
+  const [errMessage, setErrMessage] = useState<string>('');
+  const statusValue: Array<{ value: string; label: string }> = [
+    { value: 'LEAD', label: 'Lead' },
+    { value: 'SCHEDULED', label: 'Scheduled' },
+    { value: 'REJECTED', label: 'Rejected' },
+    { value: 'TO BE RESCHEDULED', label: 'To be rescheduled' },
+    { value: 'PENDING', label: 'Pending' },
+  ];
+  const formik: FormikProps<CreateClientAccountFormData> = useFormik<CreateClientAccountFormData>({
     initialValues: {
       firstName: '',
       lastName: '',
@@ -35,19 +44,22 @@ const CreateEmployee: React.FC = () => {
       username: '',
       password: '',
       phone: '',
-      supervisorEmail: '',
       civicNumber: '',
       streetName: '',
       postalCode: '',
       cityName: '',
       province: '',
       country: '',
-      title: '',
-      hourlyWage: '',
+      businessName: '',
+      industry: '',
+      website: '',
+      socialMediaLink: '',
+      socialMediaName: '',
+      status: 'PENDING',
     },
     onSubmit: async (values) => {
-      const response: AxiosResponse<any> = await createEmployeeAccount({
-        accountRequest: {
+      try {
+        await createClientAccount({
           account: {
             email: values.email,
             firstName: values.firstName,
@@ -64,19 +76,30 @@ const CreateEmployee: React.FC = () => {
             province: values.province,
             country: values.country,
           },
-        },
-        hourlyWage: values.hourlyWage,
-        title: values.title,
-        supervisorEmail: values.supervisorEmail,
-      });
-      if (response.status === 201) {
+          businessName: values.businessName,
+          industry: values.industry,
+          website: values.website,
+          status: Status[values.status as keyof typeof Status],
+          socialMediaInfo: {
+            name: values.socialMediaName,
+            link: values.socialMediaLink,
+          },
+        });
+
         setCreated(true);
+      } catch (err: any) {
+        if (err.response.data.status === 500) {
+          setErrMessage('Unexpected error');
+        } else if (err.response.data.message) {
+          setErrMessage(err.response.data.message);
+        }
       }
     },
-    validationSchema: createEmployeeSchema,
+    validationSchema: createClientAccountSchema,
   });
 
   const classes = useStyles();
+
   return (
     <Grid
       container
@@ -86,11 +109,11 @@ const CreateEmployee: React.FC = () => {
       justifyContent="center"
       style={{ minHeight: '100vh' }}
     >
-      <Paper elevation={3} className={classes.createEmployeePaper}>
+      <Paper elevation={3} className={classes.createClientPaper}>
         <form onSubmit={formik.handleSubmit}>
-          <Grid item container spacing={3} direction="row" xs={12} className={classes.createEmployeeFormWrapper}>
+          <Grid item container spacing={3} direction="row" xs={12} className={classes.createClientFormWrapper}>
             <Grid item xs={12}>
-              <Typography variant="h5">New Employee</Typography>
+              <Typography variant="h5">New Client Account</Typography>
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -157,39 +180,6 @@ const CreateEmployee: React.FC = () => {
                 value={formik.values.phone}
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 helperText={formik.touched.phone && formik.errors.phone}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Title *"
-                name="title"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.title}
-                error={formik.touched.title && Boolean(formik.errors.title)}
-                helperText={formik.touched.title && formik.errors.title}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Hourly Wage *"
-                name="hourlyWage"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.hourlyWage}
-                error={formik.touched.hourlyWage && Boolean(formik.errors.hourlyWage)}
-                helperText={formik.touched.hourlyWage && formik.errors.hourlyWage}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Supervisor email *"
-                name="supervisorEmail"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.supervisorEmail}
-                error={formik.touched.supervisorEmail && Boolean(formik.errors.supervisorEmail)}
-                helperText={formik.touched.supervisorEmail && formik.errors.supervisorEmail}
               />
             </Grid>
             <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
@@ -261,14 +251,95 @@ const CreateEmployee: React.FC = () => {
                 helperText={formik.touched.country && formik.errors.country}
               />
             </Grid>
+            <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
+              <Typography variant="h6">Business Information</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Company name *"
+                name="businessName"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.businessName}
+                error={formik.touched.businessName && Boolean(formik.errors.businessName)}
+                helperText={formik.touched.businessName && formik.errors.businessName}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Industry *"
+                name="industry"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.industry}
+                error={formik.touched.industry && Boolean(formik.errors.industry)}
+                helperText={formik.touched.industry && formik.errors.industry}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Social media name"
+                name="socialMediaName"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.socialMediaName}
+                error={formik.touched.socialMediaName && Boolean(formik.errors.socialMediaName)}
+                helperText={formik.touched.socialMediaName && formik.errors.socialMediaName}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Link"
+                name="socialMediaLink"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.socialMediaLink}
+                error={formik.touched.socialMediaLink && Boolean(formik.errors.socialMediaLink)}
+                helperText={formik.touched.socialMediaLink && formik.errors.socialMediaLink}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Website link"
+                name="website"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.website}
+                error={formik.touched.website && Boolean(formik.errors.website)}
+                helperText={formik.touched.website && formik.errors.website}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography align="left">Client Status:</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Select
+                fullWidth
+                name="status"
+                value={formik.values.status}
+                onChange={formik.handleChange}
+                error={formik.touched.status && Boolean(formik.errors.status)}
+              >
+                {statusValue.map((status) => (
+                  <MenuItem key={status.value} value={status.value}>
+                    {status.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
             <Grid item xs={12}>
               {created && (
                 <Typography variant="h6" color="primary">
                   Created succesfully
                 </Typography>
               )}
+              {errMessage && (
+                <Typography variant="h6" color="error">
+                  {errMessage}
+                </Typography>
+              )}
               <Button color="primary" variant="contained" type="submit">
-                Add
+                Create
               </Button>
             </Grid>
           </Grid>
@@ -278,4 +349,4 @@ const CreateEmployee: React.FC = () => {
   );
 };
 
-export default CreateEmployee;
+export default CreateClientAccount;

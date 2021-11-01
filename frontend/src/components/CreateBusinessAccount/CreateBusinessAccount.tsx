@@ -15,7 +15,7 @@ const CreateBusinessAccount: React.FC = () => {
     username: string;
     password: string;
     phone: string;
-    civicNumber: number | null;
+    civicNumber: number | string;
     streetName: string;
     postalCode: string;
     cityName: string;
@@ -36,7 +36,7 @@ const CreateBusinessAccount: React.FC = () => {
       username: '',
       password: '',
       phone: '',
-      civicNumber: null,
+      civicNumber: '',
       streetName: '',
       postalCode: '',
       cityName: '',

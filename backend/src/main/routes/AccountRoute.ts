@@ -1,5 +1,3 @@
-// Example of a route implementation
-
 import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
@@ -7,13 +5,16 @@ import { inject, injectable } from 'tsyringe';
 import { EmployeeAccountService } from '../services/EmployeeAccountService';
 import HttpException from '../exceptions/HttpException';
 import { BusinessAccountService } from '../services/BusinessAccountService';
+import { ClientAccountService } from '../services/ClientAccountService';
+import { ClientAccount } from '../models/ClientAccount';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
   constructor(
     @inject('express-app') app: express.Application,
     private employeeAccountService: EmployeeAccountService,
-    private businessAccountService: BusinessAccountService
+    private businessAccountService: BusinessAccountService,
+    private clientAccountService: ClientAccountService
   ) {
     super(app, 'AccountRoute');
   }
@@ -90,6 +91,38 @@ export default class AccountRoute extends CommonRoutesConfig {
         }
       });
 
+    this.getApp()
+      .route(`/accounts/client`)
+      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const clientAccount: ClientAccount = await this.clientAccountService.createClientAccount(req.body);
+          const dto = JSON.parse(JSON.stringify(clientAccount));
+          delete dto.account.password;
+          res.status(StatusCodes.CREATED).send(dto);
+        } catch (err) {
+          next(err);
+        }
+      });
+    this.getApp()
+      .route(`/accounts/client/:email`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(
+            req.params.email
+          );
+          res.status(StatusCodes.OK).send(clientAccount);
+        } catch (err) {
+          next(err);
+        }
+      })
+      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          await this.clientAccountService.deleteClientAccountByEmail(req.params.email);
+          res.status(StatusCodes.OK).send();
+        } catch (err) {
+          next(err);
+        }
+      });
     return this.getApp();
   }
 }
