@@ -7,6 +7,7 @@ import { Account } from '../models/Account';
 import { ClientAccount } from '../models/ClientAccount';
 import { Project } from '../models/Project';
 import { SocialMediaPage } from '../models/SocialMediaPage';
+import { BaseError, Op } from 'sequelize';
 
 @injectable()
 export default class ClientAccountRepository implements CRUD {
@@ -80,6 +81,28 @@ export default class ClientAccountRepository implements CRUD {
       log(`Account with email ${email} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
+      return Promise.reject(err);
+    }
+  };
+
+  public getClientsByRegex = async (email: string): Promise<ClientAccount[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const data = await ClientAccount.findAll({
+        limit: 5,
+        where: {
+          email: {
+            [operatorsAliases.like]: `${email}%`,
+          },
+        },
+      });
+      return Promise.resolve(data);
+    } catch (err: any) {
+      if (err instanceof BaseError) {
+        return Promise.reject(new Error(`${err.name}, message: ${err.message}`));
+      }
       return Promise.reject(err);
     }
   };

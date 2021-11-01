@@ -42,6 +42,10 @@ export class EmployeeAccountService {
     return this.employeeAccountRepository.get(email);
   };
 
+  public getEmployeesByRegex = async (email: string): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getEmployeesByRegex(email);
+  };
+
   public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
     return this.employeeAccountRepository.delete(email);
   };

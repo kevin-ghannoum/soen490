@@ -13,6 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       description: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       status: {
@@ -25,15 +26,19 @@ module.exports = {
         ),
       },
       serviceType: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       leadSource: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       leadCredit: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       leadRanking: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       createdDate: {
@@ -41,9 +46,11 @@ module.exports = {
         type: Sequelize.DATE,
       },
       deadlineDate: {
+        allowNull: false,
         type: Sequelize.DATE,
       },
       followUpDate: {
+        allowNull: true,
         type: Sequelize.DATE,
       },
       modifiedDate: {
@@ -51,6 +58,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       extraNotes: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       email: {

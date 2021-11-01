@@ -74,4 +74,11 @@ export class ClientAccountService {
 
     return false;
   };
+  public getAllClientAccount = async (): Promise<ClientAccount[] | null> => {
+    return this.clientAccountRepository.getAll();
+  };
+
+  public getEmployeesByRegex = async (email: string): Promise<ClientAccount[] | null> => {
+    return this.clientAccountRepository.getClientsByRegex(email);
+  };
 }

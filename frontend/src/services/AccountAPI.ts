@@ -30,3 +30,10 @@ export const getAllEmployeeAccounts = async (): Promise<AxiosResponse<any>> => {
 export const getAllEmployeeAccountsByEmail = async (businessEmail: string): Promise<AxiosResponse<any>> => {
   return axios.get(`/accounts/allEmployees/${businessEmail}`);
 };
+export const getAllRegexEmployeeAccount = async (emailPattern: string): Promise<AxiosResponse<any>> => {
+  return axios.get(`/accounts/employee`, { params: { email: emailPattern } });
+};
+
+export const getAllClientAccount = async (emailPattern: string): Promise<AxiosResponse<any>> => {
+  return axios.get(`/accounts/client`, { params: { email: emailPattern } });
+};
