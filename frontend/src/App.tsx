@@ -25,7 +25,7 @@ const App = () => {
               <Route exact path="/projects" render={() => <ViewProject />} />
               <Route exact path="/error" render={() => <PageNotFound />} />
               <Route exact path="/employee" render={() => <CreateEmployee />} />
-              <Route exact path="/login" render={() => <Login/>}/>
+              <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
