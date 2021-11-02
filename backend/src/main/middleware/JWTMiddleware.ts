@@ -29,7 +29,7 @@ export const checkRole = (
   return async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
     const userRoles: Role[] = await getProfileRoles(req.headers['access_token'] as string);
 
-    for (let i: number = 0; i < userRoles.length; i++) {
+    for (let i = 0; i < userRoles.length; i++) {
       if (accessRole.has((<any>Roles)[userRoles[i].name as string])) {
         next();
         break;
