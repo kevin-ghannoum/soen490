@@ -58,7 +58,6 @@ const CreateClientAccount: React.FC = () => {
       status: 'PENDING',
     },
     onSubmit: async (values) => {
-      console.log(values);
       try {
         await createClientAccount({
           account: {
