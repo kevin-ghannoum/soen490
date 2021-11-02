@@ -20,7 +20,6 @@ export const createBusinessAccount = async (
 export const createClientAccount = async (
   clientAccountCreationRequestDTO: ClientAccountCreationRequestDTO
 ): Promise<AxiosResponse<any>> => {
-  console.log(clientAccountCreationRequestDTO)
   return axios.post(`/accounts/client`, clientAccountCreationRequestDTO);
 };
 
