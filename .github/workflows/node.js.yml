@@ -81,10 +81,15 @@ jobs:
         run: |
           cd frontend
           npm install
+      - uses: actions/checkout@master
+      - name: Install dependencies
+        uses: cypress-io/github-action@v2
+        with:
+          # just perform install
+          runTests: false
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          working-directory: frontend/cypress
-          build: npm run build
-          start: npm start
+          install: false
+          working-directory: ./frontend/cypress
