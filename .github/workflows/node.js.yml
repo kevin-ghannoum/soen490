@@ -72,11 +72,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Cypress run
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies
         run: |
           cd frontend
           npm install
-          
+
+      - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           build: npm run build
