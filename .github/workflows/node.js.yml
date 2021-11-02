@@ -69,15 +69,21 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Install dependencies
-        uses: cypress-io/github-action@v2
-        with:
-          # just perform install
-          runTests: false
+      - name: Checkout
+        uses: actions/checkout@v2
 
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          install: false
-          working-directory: ./frontend/cypress
+          working-directory: frontend
+          build: npm run build
+          start: npm start
