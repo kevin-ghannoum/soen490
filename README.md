@@ -1,5 +1,8 @@
 # Soen490 Team Badob Tech
 
+![Node.js CI](https://github.com/kevin-ghannoum/soen490/workflows/CI/CD/badge.svg)
+![License](https://img.shields.io/github/license/kevin-ghannoum/soen490)
+
 ### Project description
 The goal of this application is to answer all business needs. To be more exact, this software is motivated by entrepreneurs who deal with service-based businesses. This application will help them boost productivity by funnelling the business into a single software so that they have an easier time having an overview of their business, employees, and clients. In addition, compared to other competitors, this software will be an in house solution. Hence, users of the application will be able to control, customize and maintain based on their needs. 
 
