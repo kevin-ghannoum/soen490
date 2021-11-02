@@ -102,6 +102,7 @@ const CreateClientAccount: React.FC = () => {
 
   return (
     <Grid
+      id="CreateClientAccount-Grid"
       container
       spacing={0}
       direction="column"
@@ -314,6 +315,7 @@ const CreateClientAccount: React.FC = () => {
             </Grid>
             <Grid item xs={3}>
               <Select
+                id="select-status"
                 fullWidth
                 name="status"
                 value={formik.values.status}
