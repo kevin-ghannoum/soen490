@@ -25,8 +25,8 @@ const App = () => {
               <Route exact path="/projects" render={() => <ViewProject />} />
               <Route exact path="/error" render={() => <PageNotFound />} />
               <Route exact path="/businessAccount/new" render={() => <CreateBusinessAccount />} />
-              <Route exact path="/client/new" render={() => <CreateClientAccount />} />
-              <Route exact path="/employee/new" render={() => <CreateEmployee />} />
+              <Route exact path="/clientAccount/new" render={() => <CreateClientAccount />} />
+              <Route exact path="/employeeAccount/new" render={() => <CreateEmployee />} />
               <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />

@@ -33,7 +33,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
       { fixture: 'createClientAccount.json', statusCode: 201 }
     ).as('createClientAccountAPI');
     
-    cy.visit('/client/new');
+    cy.visit('/clientAccount/new');
 
     cy.get('input[name=firstName]').type(firstName);
     cy.get('input[name=lastName]').type(lastName);
@@ -60,7 +60,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
   });
 
   it('should render', () => {
-    cy.visit('/client/new');
+    cy.visit('/clientAccount/new');
     cy.get('#CreateClientAccount-Grid').should('exist');
   });
 });

@@ -33,7 +33,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
       { fixture: 'createEmployeeAccount.json', statusCode: 201 }
     ).as('createEmployeeAccountAPI');
 
-    cy.visit('/employee/new');
+    cy.visit('/employeeAccount/new');
 
     cy.get('input[name=firstName]').type(firstName);
     cy.get('input[name=lastName]').type(lastName);
@@ -59,7 +59,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
   });
 
   it('should render', () => {
-    cy.visit('/employee/new');
+    cy.visit('/employeeAccount/new');
     cy.get('#CreateEmployeeAccount-Grid').should('exist');
   });
 });
