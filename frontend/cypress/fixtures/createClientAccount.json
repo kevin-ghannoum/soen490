@@ -1,0 +1,15 @@
+{
+  "email": "johndoe@gmail.com",
+  "account": {
+    "email": "johndoe@gmail.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "5145555555",
+    "username": "JohnUsername",
+    "addressId": 1
+  },
+  "businessName": "John Store",
+  "industry": "Clothing",
+  "status": "SCHEDULED",
+  "website": "john.com"
+}

@@ -88,6 +88,7 @@ const CreateBusinessAccount: React.FC = () => {
   return (
     <Grid
       container
+      id="CreateBusinessAccount-Grid"
       spacing={0}
       direction="column"
       alignItems="center"

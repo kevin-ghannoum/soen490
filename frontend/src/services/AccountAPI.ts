@@ -14,13 +14,14 @@ export const createEmployeeAccount = async (
 export const createBusinessAccount = async (
   businessAccountRequestDTO: BusinessCreationRequestDTO
 ): Promise<AxiosResponse<any>> => {
-  return axios.post(`accounts/business`, businessAccountRequestDTO);
+  return axios.post(`/accounts/business`, businessAccountRequestDTO);
 };
 
 export const createClientAccount = async (
   clientAccountCreationRequestDTO: ClientAccountCreationRequestDTO
 ): Promise<AxiosResponse<any>> => {
-  return axios.post(`accounts/client`, clientAccountCreationRequestDTO);
+  console.log(clientAccountCreationRequestDTO)
+  return axios.post(`/accounts/client`, clientAccountCreationRequestDTO);
 };
 
 export const getAllEmployeeAccounts = async (): Promise<AxiosResponse<any>> => {

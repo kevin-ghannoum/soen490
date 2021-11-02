@@ -33,6 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "cypress:test": "cypress run",
     "cypress:open": "cypress open",
     "prettier-check": "npx prettier --check src/**/*.{ts,tsx}",
     "prettier-write": "npx prettier --write src/**/*.{ts,tsx}"
