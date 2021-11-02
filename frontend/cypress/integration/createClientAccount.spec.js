@@ -23,7 +23,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
     cy.visit('/');
   });
 
-  // Test user store: As a business user, I want to create a client account
+  // Test user story: #32 As a business user, I want to create a client account
   it('Should create a new client account', () => {
     cy.intercept(
       {

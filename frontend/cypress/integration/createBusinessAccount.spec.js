@@ -23,7 +23,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
     cy.visit('/');
   });
 
-  // Test user story: As an admin, I want to create new account for business
+  // Test user story: #25 As an admin, I want to create new account for business
   it('Should create a new business account', () => {
     cy.intercept(
       {
