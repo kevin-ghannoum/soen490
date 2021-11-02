@@ -40,6 +40,12 @@ jobs:
       run: |
         cd frontend
         npm test
+    
+    - name: Run system test (e2e) with Cypress
+      uses: cypress-io/github-action@v2
+      with: |
+        build: npm run build
+        start: npm start
 
     - name: Run backend tests
       run: |
