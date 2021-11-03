@@ -38,7 +38,14 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
-          res.status(StatusCodes.OK).send(employeeAccounts);
+          const employeeAccountsDTOs: Array<any> = [];
+          employeeAccounts?.forEach((employeeAccount) => {
+            const dto = JSON.parse(JSON.stringify(employeeAccount));
+            delete dto.account.password;
+            employeeAccountsDTOs.push(dto);
+          });
+
+          res.status(StatusCodes.OK).send(employeeAccountsDTOs);
         } catch (err) {
           next(err);
         }
@@ -48,10 +55,18 @@ export default class AccountRoute extends CommonRoutesConfig {
       .route(`/accounts/allEmployees/:business`)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const employeeAccount = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
+          const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
             req.params.business
           );
-          res.status(StatusCodes.OK).send(employeeAccount);
+
+          const employeeAccountsDTOs: Array<any> = [];
+          employeeAccounts?.forEach((employeeAccount) => {
+            const dto = JSON.parse(JSON.stringify(employeeAccount));
+            delete dto.account.password;
+            employeeAccountsDTOs.push(dto);
+          });
+
+          res.status(StatusCodes.OK).send(employeeAccountsDTOs);
         } catch (err) {
           next(err);
         }
@@ -62,7 +77,10 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(req.params.email);
-          res.status(StatusCodes.OK).send(employeeAccount);
+          console.log(employeeAccount);
+          const dto = JSON.parse(JSON.stringify(employeeAccount));
+          delete dto.account.password;
+          res.status(StatusCodes.OK).send(dto);
         } catch (err) {
           next(err);
         }
@@ -119,8 +137,9 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const businessAccount = await this.businessAccountService.getBusinessAccountByEmail(req.params.email);
-          // Sending full entity for now. Might switch to dto
-          res.status(StatusCodes.OK).send(businessAccount);
+          const dto = JSON.parse(JSON.stringify(businessAccount));
+          delete dto.account.password;
+          res.status(StatusCodes.OK).send(dto);
         } catch (err) {
           next(err);
         }
@@ -156,7 +175,9 @@ export default class AccountRoute extends CommonRoutesConfig {
           const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(
             req.params.email
           );
-          res.status(StatusCodes.OK).send(clientAccount);
+          const dto = JSON.parse(JSON.stringify(clientAccount));
+          delete dto.account.password;
+          res.status(StatusCodes.OK).send(dto);
         } catch (err) {
           next(err);
         }
