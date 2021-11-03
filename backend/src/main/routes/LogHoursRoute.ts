@@ -6,11 +6,9 @@ import { LogHoursService } from '../services/LogHoursService';
 
 @injectable()
 export default class LogHoursRoute extends CommonRoutesConfig {
-  private logHoursService: LogHoursService;
 
-  constructor(@inject('express-app') app: express.Application, logHoursService: LogHoursService) {
+  constructor(@inject('express-app') app: express.Application, private logHoursService: LogHoursService) {
     super(app, 'AccountRoute');
-    this.logHoursService = logHoursService;
   }
 
   configureRoutes(): express.Application {
