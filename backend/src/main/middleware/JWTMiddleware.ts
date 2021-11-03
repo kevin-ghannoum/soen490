@@ -52,7 +52,6 @@ const getProfileRoles = async (accessToken: string): Promise<Role[]> => {
     const roles: any = (await managementClient.getUserRoles(params)) as any;
 
     return Promise.resolve(roles.roles);
-    
   } catch (e: any) {
     return Promise.reject(e);
   }
