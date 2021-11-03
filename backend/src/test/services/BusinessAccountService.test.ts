@@ -41,7 +41,9 @@ describe('BusinessAccountService tests', () => {
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(BusinessRepository, businessRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
-    container.register<AuthenticationClient>('auth0-authentication-client', { useFactory: () => authenticationClientMock });
+    container.register<AuthenticationClient>('auth0-authentication-client', {
+      useFactory: () => authenticationClientMock,
+    });
     container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
   });
 
@@ -80,20 +82,18 @@ describe('BusinessAccountService tests', () => {
       },
     };
 
-    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue(
-      {
-        given_name: 'test',
-        family_name: 'test',
-        _id: '61818a29369f4f0069c892c0',
-        email_verified: false,
-        email: 'test@gmail.com'
-      }
-    );
-  
-    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve()); 
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
+      given_name: 'test',
+      family_name: 'test',
+      _id: '61818a29369f4f0069c892c0',
+      email_verified: false,
+      email: 'test@gmail.com',
+    });
+
+    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     addressRepositoryMock.create.mockResolvedValue([
-      Address.build({ 
+      Address.build({
         id: 1,
         ...NEW_BUSINESS_ACCCOUNT_INFO.address,
       }),
@@ -145,8 +145,18 @@ describe('BusinessAccountService tests', () => {
         industry: 'clothing',
         website: 'simon.com',
         email: 'business@gmail.com',
-      }
+      },
     };
+
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
+      given_name: 'test',
+      family_name: 'test',
+      _id: '61818a29369f4f0069c892c0',
+      email_verified: false,
+      email: 'test@gmail.com',
+    });
+
+    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
