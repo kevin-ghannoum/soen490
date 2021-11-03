@@ -43,12 +43,17 @@ export const checkRole = (
 };
 
 const getProfileRoles = async (accessToken: string): Promise<Role[]> => {
-  const authenticationClient: AuthenticationClient = container.resolve('auth0-authentication-client');
-  const managementClient: ManagementClient = container.resolve('auth0-management-client');
+  try {
+    const authenticationClient: AuthenticationClient = container.resolve('auth0-authentication-client');
+    const managementClient: ManagementClient = container.resolve('auth0-management-client');
 
-  const user: any = await authenticationClient.getProfile(accessToken);
-  const params = { id: user.sub, page: 0, per_page: 50, sort: 'date:-1', include_totals: true };
-  3;
-  const roles: any = (await managementClient.getUserRoles(params)) as any;
-  return Promise.resolve(roles.roles);
+    const user: any = await authenticationClient.getProfile(accessToken);
+    const params = { id: user.sub, page: 0, per_page: 50, sort: 'date:-1', include_totals: true };
+    const roles: any = (await managementClient.getUserRoles(params)) as any;
+
+    return Promise.resolve(roles.roles);
+    
+  } catch (e: any) {
+    return Promise.reject(e);
+  }
 };
