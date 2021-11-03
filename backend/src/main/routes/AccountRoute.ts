@@ -38,14 +38,17 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
-          const employeeAccountsDTOs: Array<any> = [];
-          employeeAccounts?.forEach((employeeAccount) => {
-            const dto = JSON.parse(JSON.stringify(employeeAccount));
-            delete dto.account.password;
-            employeeAccountsDTOs.push(dto);
-          });
-
-          res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+          if (employeeAccounts === null || employeeAccounts.length === 0) {
+            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+          } else {
+            const employeeAccountsDTOs: Array<any> = [];
+            employeeAccounts?.forEach((employeeAccount) => {
+              const dto = JSON.parse(JSON.stringify(employeeAccount));
+              delete dto.account.password;
+              employeeAccountsDTOs.push(dto);
+            });
+            res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+          }
         } catch (err) {
           next(err);
         }
@@ -59,14 +62,17 @@ export default class AccountRoute extends CommonRoutesConfig {
             req.params.business
           );
 
-          const employeeAccountsDTOs: Array<any> = [];
-          employeeAccounts?.forEach((employeeAccount) => {
-            const dto = JSON.parse(JSON.stringify(employeeAccount));
-            delete dto.account.password;
-            employeeAccountsDTOs.push(dto);
-          });
-
-          res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+          if (employeeAccounts === null || employeeAccounts.length === 0) {
+            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+          } else {
+            const employeeAccountsDTOs: Array<any> = [];
+            employeeAccounts?.forEach((employeeAccount) => {
+              const dto = JSON.parse(JSON.stringify(employeeAccount));
+              delete dto.account.password;
+              employeeAccountsDTOs.push(dto);
+            });
+            res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+          }
         } catch (err) {
           next(err);
         }
@@ -77,9 +83,13 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(req.params.email);
-          const dto = JSON.parse(JSON.stringify(employeeAccount));
-          delete dto.account.password;
-          res.status(StatusCodes.OK).send(dto);
+          if (employeeAccount === null) {
+            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+          } else {
+            const dto = JSON.parse(JSON.stringify(employeeAccount));
+            delete dto.account.password;
+            res.status(StatusCodes.OK).send(dto);
+          }
         } catch (err) {
           next(err);
         }
@@ -136,9 +146,13 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const businessAccount = await this.businessAccountService.getBusinessAccountByEmail(req.params.email);
-          const dto = JSON.parse(JSON.stringify(businessAccount));
-          delete dto.account.password;
-          res.status(StatusCodes.OK).send(dto);
+          if (businessAccount === null) {
+            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+          } else {
+            const dto = JSON.parse(JSON.stringify(businessAccount));
+            delete dto.account.password;
+            res.status(StatusCodes.OK).send(dto);
+          }
         } catch (err) {
           next(err);
         }
@@ -174,9 +188,13 @@ export default class AccountRoute extends CommonRoutesConfig {
           const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(
             req.params.email
           );
-          const dto = JSON.parse(JSON.stringify(clientAccount));
-          delete dto.account.password;
-          res.status(StatusCodes.OK).send(dto);
+          if (clientAccount === null) {
+            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+          } else {
+            const dto = JSON.parse(JSON.stringify(clientAccount));
+            delete dto.account.password;
+            res.status(StatusCodes.OK).send(dto);
+          }
         } catch (err) {
           next(err);
         }
