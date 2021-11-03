@@ -6,7 +6,7 @@ const log: debug.IDebugger = debug('app:ClientAccountRepository');
 import { Account } from '../models/Account';
 import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
-import { BaseError } from 'sequelize';
+import { BaseError, Op } from 'sequelize';
 
 @injectable()
 export default class EmployeeAccountRepository implements CRUD {
@@ -93,6 +93,28 @@ export default class EmployeeAccountRepository implements CRUD {
     }
   };
 
+  public getEmployeesByRegex = async (email: string): Promise<EmployeeAccount[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const data = await EmployeeAccount.findAll({
+        limit: 5,
+        where: {
+          email: {
+            [operatorsAliases.like]: `${email}%`,
+          },
+        },
+      });
+      return Promise.resolve(data);
+    } catch (err: any) {
+      if (err instanceof BaseError) {
+        return Promise.reject(new Error(`${err.name}, message: ${err.message}`));
+      }
+      return Promise.reject(err);
+    }
+  };
+
   public getAll = async (): Promise<EmployeeAccount[]> => {
     try {
       const clientAccounts = await EmployeeAccount.findAll({
@@ -104,6 +126,24 @@ export default class EmployeeAccountRepository implements CRUD {
     } catch (err: any) {
       if (err instanceof BaseError) {
         throw new Error(`${err.name}, message: ${err.message}`);
+      }
+      return Promise.reject(err);
+    }
+  };
+
+  public getAllByBusiness = async (businessEmail: string): Promise<EmployeeAccount[]> => {
+    try {
+      const clientAccounts = await EmployeeAccount.findAll({
+        where: {
+          supervisorEmail: businessEmail,
+        },
+      });
+
+      log(`retrieved all employee accounts`);
+      return Promise.resolve(clientAccounts);
+    } catch (err: any) {
+      if (err instanceof BaseError) {
+        Promise.reject(new Error(`${err.name}, message: ${err.message}`));
       }
       return Promise.reject(err);
     }

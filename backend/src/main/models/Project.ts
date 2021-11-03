@@ -11,6 +11,7 @@ import {
   BelongsToMany,
   HasOne,
   HasMany,
+  AllowNull,
 } from 'sequelize-typescript';
 import { ClientAccount } from './ClientAccount';
 import { EmployeeAccount } from './EmployeeAccount';
@@ -32,6 +33,7 @@ export class Project extends Model {
   @Column
   title!: string;
 
+  @AllowNull
   @Column
   description!: string;
 
@@ -39,15 +41,19 @@ export class Project extends Model {
   @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED'))
   status!: 'BOOKED' | 'PENDING' | 'REJECTED' | 'TO BE RESCHEDULED' | 'COMPLETED';
 
+  @AllowNull
   @Column
   serviceType!: string;
 
+  @AllowNull
   @Column
   leadSource!: string;
 
+  @AllowNull
   @Column
   leadCredit!: string;
 
+  @AllowNull
   @Column
   leadRanking!: string;
 
@@ -57,12 +63,14 @@ export class Project extends Model {
   @Column
   deadlineDate!: Date;
 
+  @AllowNull
   @Column
   followUpDate!: Date;
 
   @Column
   modifiedDate!: Date;
 
+  @AllowNull
   @Column
   extraNotes!: string;
 

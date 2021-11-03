@@ -2,7 +2,7 @@
 import { Table, Column, Model, PrimaryKey, AutoIncrement, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Project } from './Project';
 
-@Table({ timestamps: true })
+@Table({ timestamps: false })
 export class Feedback extends Model {
   @PrimaryKey
   @AutoIncrement

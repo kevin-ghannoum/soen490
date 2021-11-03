@@ -60,6 +60,10 @@ export class EmployeeAccountService {
     return this.employeeAccountRepository.get(email);
   };
 
+  public getEmployeesByRegex = async (email: string): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getEmployeesByRegex(email);
+  };
+
   public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
     // Get employee data from auth0
     const employeeData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
@@ -84,5 +88,13 @@ export class EmployeeAccountService {
     }
 
     return AccountService.isThereNullValueAccountDTO(employeeAccountRequestDTO.accountRequest);
+  };
+
+  public getAllEmployeeAccounts = async (): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getAll();
+  };
+
+  public getAllEmployeeAccountsByBusiness = async (businessEmail: string): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getAllByBusiness(businessEmail);
   };
 }

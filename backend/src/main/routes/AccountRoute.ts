@@ -5,13 +5,16 @@ import { inject, injectable } from 'tsyringe';
 import { EmployeeAccountService } from '../services/EmployeeAccountService';
 import HttpException from '../exceptions/HttpException';
 import { BusinessAccountService } from '../services/BusinessAccountService';
+import { ClientAccountService } from '../services/ClientAccountService';
+import { ClientAccount } from '../models/ClientAccount';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
   constructor(
     @inject('express-app') app: express.Application,
     private employeeAccountService: EmployeeAccountService,
-    private businessAccountService: BusinessAccountService
+    private businessAccountService: BusinessAccountService,
+    private clientAccountService: ClientAccountService
   ) {
     super(app, 'AccountRoute');
   }
@@ -25,6 +28,30 @@ export default class AccountRoute extends CommonRoutesConfig {
           const dto = JSON.parse(JSON.stringify(newEmployeeAccount));
           delete dto.account.password;
           res.status(StatusCodes.CREATED).send(dto);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/allEmployees`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
+          res.status(StatusCodes.OK).send(employeeAccounts);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/allEmployees/:business`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const employeeAccount = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
+            req.params.business
+          );
+          res.status(StatusCodes.OK).send(employeeAccount);
         } catch (err) {
           next(err);
         }
@@ -47,6 +74,28 @@ export default class AccountRoute extends CommonRoutesConfig {
           } else {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           }
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/employee`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexEmployeeAccount);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/accounts/client`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const regexClientAccout = await this.clientAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexClientAccout);
         } catch (err) {
           next(err);
         }
@@ -88,6 +137,38 @@ export default class AccountRoute extends CommonRoutesConfig {
         }
       });
 
+    this.getApp()
+      .route(`/accounts/client`)
+      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const clientAccount: ClientAccount = await this.clientAccountService.createClientAccount(req.body);
+          const dto = JSON.parse(JSON.stringify(clientAccount));
+          delete dto.account.password;
+          res.status(StatusCodes.CREATED).send(dto);
+        } catch (err) {
+          next(err);
+        }
+      });
+    this.getApp()
+      .route(`/accounts/client/:email`)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(
+            req.params.email
+          );
+          res.status(StatusCodes.OK).send(clientAccount);
+        } catch (err) {
+          next(err);
+        }
+      })
+      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          await this.clientAccountService.deleteClientAccountByEmail(req.params.email);
+          res.status(StatusCodes.OK).send();
+        } catch (err) {
+          next(err);
+        }
+      });
     return this.getApp();
   }
 }

@@ -7,6 +7,7 @@ import cors from 'cors';
 import * as expressWinston from 'express-winston';
 import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
+import ProjectRoute from './routes/ProjectRoute';
 import { container } from 'tsyringe';
 import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
@@ -15,6 +16,7 @@ import dotenv from 'dotenv';
 import AuthenticationRoute from './routes/AuthenticationRoute';
 
 dotenv.config();
+import LogHoursRoute from './routes/LogHoursRoute';
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -69,10 +71,9 @@ const main = async () => {
   // Instanciating the routes here:
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
-  routes.push(container.resolve(AuthenticationRoute));
+  routes.push(container.resolve(LogHoursRoute));
 
   // Registering express error handling middleware
-  app.use(httpMiddlewareError);
   app.use(failSafeHandler);
 
   app.listen(port, () => {

@@ -15,7 +15,7 @@ const CreateBusinessAccount: React.FC = () => {
     username: string;
     password: string;
     phone: string;
-    civicNumber: number | null;
+    civicNumber: number | string;
     streetName: string;
     postalCode: string;
     cityName: string;
@@ -36,7 +36,7 @@ const CreateBusinessAccount: React.FC = () => {
       username: '',
       password: '',
       phone: '',
-      civicNumber: null,
+      civicNumber: '',
       streetName: '',
       postalCode: '',
       cityName: '',
@@ -88,6 +88,7 @@ const CreateBusinessAccount: React.FC = () => {
   return (
     <Grid
       container
+      id="CreateBusinessAccount-Grid"
       spacing={0}
       direction="column"
       alignItems="center"

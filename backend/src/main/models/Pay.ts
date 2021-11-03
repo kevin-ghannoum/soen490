@@ -20,6 +20,7 @@ export class Pay extends Model {
   id!: number;
 
   @AllowNull(false)
+  @Default(new Date())
   @Column
   issueDate!: Date;
 
@@ -33,7 +34,15 @@ export class Pay extends Model {
 
   @AllowNull(false)
   @Column
-  period!: string;
+  periodStart!: string;
+
+  @AllowNull(false)
+  @Column
+  periodEnd!: string;
+
+  @AllowNull(false)
+  @Column
+  amount!: number;
 
   @ForeignKey(() => EmployeeAccount)
   @Column

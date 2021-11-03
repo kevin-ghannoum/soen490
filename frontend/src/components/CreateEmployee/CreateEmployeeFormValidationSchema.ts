@@ -8,14 +8,14 @@ const createEmployeeSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   password: Yup.string().required('Required'),
   supervisorEmail: Yup.string().required('Required'),
   phone: Yup.string().required('Required'),
-  civicNumber: Yup.number().nullable().required('Required'),
+  civicNumber: Yup.number().nullable().required('Required').typeError('Civic number must be a number'),
   postalCode: Yup.string().required('Required'),
   streetName: Yup.string().required('Required'),
   cityName: Yup.string().required('Required'),
   province: Yup.string().required('Required'),
   country: Yup.string().required('Required'),
   title: Yup.string().required('Required'),
-  hourlyWage: Yup.number().nullable().required('Required'),
+  hourlyWage: Yup.number().nullable().required('Required').typeError('Hourly wage must be a number'),
 });
 
 export default createEmployeeSchema;

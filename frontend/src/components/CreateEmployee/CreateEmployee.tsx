@@ -14,14 +14,14 @@ interface CreateEmployeeAccountFormData {
   password: string;
   phone: string;
   supervisorEmail: string;
-  civicNumber: number | null;
+  civicNumber: number | string;
   streetName: string;
   postalCode: string;
   cityName: string;
   province: string;
   country: string;
   title: string;
-  hourlyWage: number | null;
+  hourlyWage: number | string;
 }
 
 const CreateEmployee: React.FC = () => {
@@ -36,14 +36,14 @@ const CreateEmployee: React.FC = () => {
       password: '',
       phone: '',
       supervisorEmail: '',
-      civicNumber: null,
+      civicNumber: '',
       streetName: '',
       postalCode: '',
       cityName: '',
       province: '',
       country: '',
       title: '',
-      hourlyWage: null,
+      hourlyWage: '',
     },
     onSubmit: async (values) => {
       const response: AxiosResponse<any> = await createEmployeeAccount({
@@ -79,6 +79,7 @@ const CreateEmployee: React.FC = () => {
   const classes = useStyles();
   return (
     <Grid
+      id="CreateEmployeeAccount-Grid"
       container
       spacing={0}
       direction="column"
