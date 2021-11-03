@@ -22,8 +22,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newProject = await this.projectService.createProject(req.body);
-          const dto = JSON.parse(JSON.stringify(newProject));
-          res.status(StatusCodes.CREATED).send(dto);
+          res.status(StatusCodes.CREATED).send(newProject);
         } catch (err) {
           next(err);
         }
