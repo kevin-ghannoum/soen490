@@ -1,18 +1,18 @@
+import 'reflect-metadata';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
-import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { SaleCreationDTO } from '../../main/dto/SaleDTO';
 import { Sale } from '../../main/models/Sale';
 import SaleRepository from '../../main/repositories/SaleRepository';
 import { SaleService } from '../../main/services/SaleService';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('SaleService tests', () => {
   let saleRepositoryMock: any = null;
   const date = new Date();
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {

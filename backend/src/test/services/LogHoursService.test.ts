@@ -1,7 +1,5 @@
-import { mock } from 'jest-mock-extended';
-import path from 'path';
 import 'reflect-metadata';
-import { Sequelize } from 'sequelize-typescript';
+import { mock } from 'jest-mock-extended';
 import { container } from 'tsyringe';
 import { ScheduledDay } from '../../main/dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { LogHoursCreationDTO } from '../../main/dto/LogHours/LogHoursDTOs';
@@ -11,14 +9,14 @@ import { Pay } from '../../main/models/Pay';
 import EmployeeHoursInputTypeRepository from '../../main/repositories/EmployeeHoursInputTypeRepository';
 import PayRepository from '../../main/repositories/PayRepository';
 import { LogHoursService } from '../../main/services/LogHoursService';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('Log Hours test', () => {
   let payRepositoryMock: any = null;
   let employeeHoursInputTypeRepositoryMock: any = null;
 
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {

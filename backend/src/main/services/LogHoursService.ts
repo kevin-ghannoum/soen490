@@ -119,7 +119,7 @@ export class LogHoursService {
   };
 
   public static getWeekdayNumber = (scheduledDay: ScheduledDay): number => {
-    let weekdayNumber: number = 0;
+    let weekdayNumber = 0;
     switch (scheduledDay) {
       case ScheduledDay.SUNDAY:
         weekdayNumber = 0;

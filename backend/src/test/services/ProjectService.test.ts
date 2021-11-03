@@ -1,6 +1,5 @@
+import 'reflect-metadata';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
-import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { ProjectRequestDTO, Status, AssigneesFormat } from '../../main/dto/ProjectDTO';
 import { Project } from '../../main/models/Project';
@@ -9,6 +8,7 @@ import ProjectRepository from '../../main/repositories/ProjectRepository';
 import { ProjectService } from '../../main/services/ProjectService';
 import { SaleService } from '../../main/services/SaleService';
 import { WorksonService } from '../../main/services/WorksOnService';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('ProjectService tests', () => {
   let projectRepositoryMock: any = null;
@@ -16,9 +16,8 @@ describe('ProjectService tests', () => {
   let worksOnServiceMock: any = null;
   const date = new Date();
 
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {

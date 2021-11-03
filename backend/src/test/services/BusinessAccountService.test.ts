@@ -1,7 +1,5 @@
 import 'reflect-metadata';
-import { Sequelize } from 'sequelize-typescript';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
 import { container } from 'tsyringe';
 import BusinessAccountRepository from '../../main/repositories/BusinessAccountRepository';
 import AddressRepository from '../../main/repositories/AddressRepository';
@@ -15,6 +13,7 @@ import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRe
 import { SocialMediaPage } from '../../main/models/SocialMediaPage';
 import { BusinessAccountService } from '../../main/services/BusinessAccountService';
 import { AuthenticationClient, ManagementClient } from 'auth0';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('BusinessAccountService tests', () => {
   let businessAccountRepositoryMock: any = null;
@@ -24,9 +23,8 @@ describe('BusinessAccountService tests', () => {
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
 
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {
