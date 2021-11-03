@@ -26,12 +26,11 @@ export class LogHoursService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    const inputTypeInserted = await this.employeeHoursInputTypeRepository.upsert(
-      logHoursCreationDTO.employeeHoursInputType
-    );
+    const inputTypeInserted: [EmployeeHoursInputType, boolean | null] =
+      await this.employeeHoursInputTypeRepository.upsert(logHoursCreationDTO.employeeHoursInputType);
 
     // delete scheduled job if exists
-    const job = schedule.scheduledJobs[logHoursCreationDTO.pay.email];
+    const job: schedule.Job = schedule.scheduledJobs[logHoursCreationDTO.pay.email];
     if (job != null) {
       job.cancel();
     }
@@ -41,8 +40,8 @@ export class LogHoursService {
       if (scheduledDay === undefined) {
         scheduledDay = ScheduledDay.SUNDAY;
       }
-      const prevMonday = new Date();
-      const prevFriday = new Date();
+      const prevMonday: Date = new Date();
+      const prevFriday: Date = new Date();
       // get last monday and last friday
       if (scheduledDay === ScheduledDay.SATURDAY || scheduledDay === ScheduledDay.SUNDAY) {
         prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7));
@@ -55,7 +54,7 @@ export class LogHoursService {
       }
       logHoursCreationDTO.pay.periodStart = prevMonday.toLocaleDateString();
       logHoursCreationDTO.pay.periodEnd = prevFriday.toLocaleDateString();
-      const weekdayNumber = LogHoursService.getWeekdayNumber(scheduledDay);
+      const weekdayNumber: number = LogHoursService.getWeekdayNumber(scheduledDay);
       // create scheduled job
       schedule.scheduleJob(logHoursCreationDTO.pay.email, { hour: 0, minute: 0, dayOfWeek: weekdayNumber }, () => {
         logHoursCreationDTO.pay.issueDate = new Date();
@@ -120,7 +119,7 @@ export class LogHoursService {
   };
 
   public static getWeekdayNumber = (scheduledDay: ScheduledDay): number => {
-    let weekdayNumber = 0;
+    let weekdayNumber: number = 0;
     switch (scheduledDay) {
       case ScheduledDay.SUNDAY:
         weekdayNumber = 0;
