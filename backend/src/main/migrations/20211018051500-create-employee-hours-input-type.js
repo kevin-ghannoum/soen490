@@ -15,7 +15,7 @@ module.exports = {
       },
       automatic: {
         allowNull: false,
-        type: sequelize.BOOLEAN,
+        type: Sequelize.BOOLEAN,
         defaultValue: false
       },
       scheduledDay: {

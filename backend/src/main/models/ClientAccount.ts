@@ -32,7 +32,7 @@ export class ClientAccount extends Model {
   @Column
   industry!: string;
 
-  @AllowNull(false)
+  @AllowNull
   @Column
   website!: string;
 

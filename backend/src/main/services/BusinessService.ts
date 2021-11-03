@@ -34,8 +34,7 @@ export class BusinessService {
       businessRequestDTO === undefined ||
       !businessRequestDTO.email ||
       !businessRequestDTO.industry ||
-      !businessRequestDTO.name ||
-      !businessRequestDTO.website
+      !businessRequestDTO.name
     ) {
       return true;
     }

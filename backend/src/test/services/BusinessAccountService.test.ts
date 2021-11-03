@@ -101,6 +101,54 @@ describe('BusinessAccountService tests', () => {
     expect(result.account.email).toBe(NEW_BUSINESS_ACCCOUNT_INFO.account.email);
   });
 
+  it('should create a business account without social media', async () => {
+    const NEW_BUSINESS_ACCCOUNT_INFO: BusinessCreationRequestDTO = {
+      account: {
+        email: 'business@gmail.com',
+        firstName: 'bob',
+        lastName: 'bob',
+        phoneNumber: '5145555555',
+        username: 'bob',
+        password: 'bob',
+        addressId: 1,
+      },
+      address: {
+        civicNumber: 111,
+        streetName: 'St-Catherine',
+        postalCode: 'H6Y 8U6',
+        cityName: 'MTL',
+        province: 'QC',
+        country: 'Canada',
+      },
+      businessInfo: {
+        name: 'Bob Store',
+        industry: 'clothing',
+        website: 'simon.com',
+        email: 'business@gmail.com',
+      }
+    };
+
+    addressRepositoryMock.create.mockResolvedValue([
+      Address.build({
+        id: 1,
+        ...NEW_BUSINESS_ACCCOUNT_INFO.address,
+      }),
+      true,
+    ]);
+
+    businessAccountRepositoryMock.create.mockResolvedValue(
+      BusinessAccount.build({ account: NEW_BUSINESS_ACCCOUNT_INFO.account }, { include: [Account] })
+    );
+
+    businessRepositoryMock.create.mockResolvedValue(
+      Business.build({ id: 4, ...NEW_BUSINESS_ACCCOUNT_INFO.businessInfo })
+    );
+
+    const businessAccountService = container.resolve(BusinessAccountService);
+    const result = await businessAccountService.createBusinessAccount(NEW_BUSINESS_ACCCOUNT_INFO);
+    expect(result.account.email).toBe(NEW_BUSINESS_ACCCOUNT_INFO.account.email);
+  });
+
   it('should fail because of missing data in request in account (firstName)', async () => {
     const NEW_BUSINESS_ACCCOUNT_INFO: any = {
       account: {

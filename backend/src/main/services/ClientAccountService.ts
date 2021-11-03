@@ -30,7 +30,10 @@ export class ClientAccountService {
         address: clientAccountCreationRequestDTO.address,
       }) ||
       ClientAccountService.isThereNullClientAccountCreationRequestDTO(clientAccountCreationRequestDTO) ||
-      SocialMediaPageService.isThereNullValueSocialMediaPageCreationDTO(clientAccountCreationRequestDTO.socialMediaInfo)
+      (clientAccountCreationRequestDTO.socialMediaInfo &&
+        SocialMediaPageService.isThereNullValueSocialMediaPageCreationDTO(
+          clientAccountCreationRequestDTO.socialMediaInfo
+        ))
     ) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
@@ -45,8 +48,10 @@ export class ClientAccountService {
       website: clientAccountCreationRequestDTO.website,
     });
 
-    clientAccountCreationRequestDTO.socialMediaInfo.email = clientAccount.account.email;
-    await this.socialMediaPageService.createSocialMediaPage(clientAccountCreationRequestDTO.socialMediaInfo);
+    if (clientAccountCreationRequestDTO.socialMediaInfo) {
+      clientAccountCreationRequestDTO.socialMediaInfo.email = clientAccount.account.email;
+      await this.socialMediaPageService.createSocialMediaPage(clientAccountCreationRequestDTO.socialMediaInfo);
+    }
 
     return Promise.resolve(clientAccount);
   };
@@ -66,8 +71,7 @@ export class ClientAccountService {
       clientAccountCreationRequestDTO === undefined ||
       !clientAccountCreationRequestDTO.businessName ||
       !clientAccountCreationRequestDTO.industry ||
-      !clientAccountCreationRequestDTO.status ||
-      !clientAccountCreationRequestDTO.website
+      !clientAccountCreationRequestDTO.status
     ) {
       return true;
     }

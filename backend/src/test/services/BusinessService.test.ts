@@ -38,15 +38,17 @@ describe('BusinessService tests', () => {
     expect(result.email).toBe(BUSINESS_REQUEST.email);
   });
 
-  it('should fail because of missing value in request data (missing line website)', async () => {
-    const BUSINESS_REQUEST: any = {
+  it('should create business without website', async () => {
+    const BUSINESS_REQUEST: BusinessCreationDTO = {
       name: 'Test store',
       industry: 'Clothing',
       email: 'TestStore@test.com',
     };
+
+    businessRepositoryMock.create.mockResolvedValue(Business.build(BUSINESS_REQUEST));
+
     const businessService = container.resolve(BusinessService);
-    await expect(businessService.createBusiness(BUSINESS_REQUEST as BusinessCreationDTO)).rejects.toThrowError(
-      'Request data is missing some values'
-    );
+    const result = await businessService.createBusiness(BUSINESS_REQUEST);
+    expect(result.email).toBe(BUSINESS_REQUEST.email);
   });
 });

@@ -51,7 +51,7 @@ export interface ClientAccountCreationDTO {
 
 export interface BusinessCreationRequestDTO extends AccountRequestDTO {
   businessInfo: BusinessCreationDTO;
-  socialMediaInfo: SocialMediaPageCreationDTO;
+  socialMediaInfo?: SocialMediaPageCreationDTO;
 }
 
 export enum Status {
@@ -104,5 +104,5 @@ export interface ClientAccountCreationRequestDTO extends AccountRequestDTO {
   industry: string;
   website: string;
   status: Status;
-  socialMediaInfo: SocialMediaPageCreationDTO;
+  socialMediaInfo?: SocialMediaPageCreationDTO;
 }
