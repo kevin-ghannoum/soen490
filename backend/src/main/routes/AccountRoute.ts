@@ -127,7 +127,7 @@ export default class AccountRoute extends CommonRoutesConfig {
       })
       .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          if ((await this.businessAccountService.deleteEmployeeAccountByEmail(req.params.email)) === 1) {
+          if ((await this.businessAccountService.deleteBusinessAccountByEmail(req.params.email)) === 1) {
             res.status(StatusCodes.OK).send();
           } else {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));

@@ -7,10 +7,13 @@ import cors from 'cors';
 import * as expressWinston from 'express-winston';
 import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
-import ProjectRoute from './routes/ProjectRoute';
 import { container } from 'tsyringe';
-import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
+import { failSafeHandler } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
+import { AuthenticationClient, ManagementClient } from 'auth0';
+import dotenv from 'dotenv';
+
+dotenv.config();
 import LogHoursRoute from './routes/LogHoursRoute';
 
 const main = async () => {
@@ -30,6 +33,18 @@ const main = async () => {
   // here we are adding middleware to allow cross-origin requests
   app.use(cors());
 
+  const authenticationClient: AuthenticationClient = new AuthenticationClient({
+    domain: process.env.AUTH0_DOMAIN as string,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  });
+
+  const managementClient: ManagementClient = new ManagementClient({
+    domain: process.env.AUTH0_DOMAIN as string,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  });
+
   if (!process.env.DEBUG) {
     AppSettings.loggerOptions.meta = false; // when not debugging, log requests as one-liners
   }
@@ -43,14 +58,20 @@ const main = async () => {
     useFactory: () => app,
   });
 
+  container.register<AuthenticationClient>('auth0-authentication-client', {
+    useFactory: () => authenticationClient,
+  });
+
+  container.register<ManagementClient>('auth0-management-client', {
+    useFactory: () => managementClient,
+  });
+
   // Instanciating the routes here:
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
   routes.push(container.resolve(LogHoursRoute));
-  routes.push(container.resolve(ProjectRoute));
 
   // Registering express error handling middleware
-  app.use(httpMiddlewareError);
   app.use(failSafeHandler);
 
   app.listen(port, () => {

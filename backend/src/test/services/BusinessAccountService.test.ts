@@ -14,12 +14,15 @@ import { Business } from '../../main/models/Business';
 import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRepository';
 import { SocialMediaPage } from '../../main/models/SocialMediaPage';
 import { BusinessAccountService } from '../../main/services/BusinessAccountService';
+import { AuthenticationClient, ManagementClient } from 'auth0';
 
 describe('BusinessAccountService tests', () => {
   let businessAccountRepositoryMock: any = null;
   let addressRepositoryMock: any = null;
   let businessRepositoryMock: any = null;
   let socialMediaPageRepositoryMock: any = null;
+  let authenticationClientMock: any = null;
+  let managementClientMock: any = null;
 
   new Sequelize({
     validateOnly: true,
@@ -31,10 +34,15 @@ describe('BusinessAccountService tests', () => {
     addressRepositoryMock = mock<AddressRepository>();
     businessRepositoryMock = mock<BusinessRepository>();
     socialMediaPageRepositoryMock = mock<SocialMediaPageRepository>();
+    authenticationClientMock = mock<AuthenticationClient>();
+    managementClientMock = mock<ManagementClient>();
+
     container.registerInstance(BusinessAccountRepository, businessAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(BusinessRepository, businessRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
+    container.register<AuthenticationClient>('auth0-authentication-client', { useFactory: () => authenticationClientMock });
+    container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
   });
 
   afterEach(() => {
@@ -72,8 +80,20 @@ describe('BusinessAccountService tests', () => {
       },
     };
 
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue(
+      {
+        given_name: 'test',
+        family_name: 'test',
+        _id: '61818a29369f4f0069c892c0',
+        email_verified: false,
+        email: 'test@gmail.com'
+      }
+    );
+  
+    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve()); 
+
     addressRepositoryMock.create.mockResolvedValue([
-      Address.build({
+      Address.build({ 
         id: 1,
         ...NEW_BUSINESS_ACCCOUNT_INFO.address,
       }),

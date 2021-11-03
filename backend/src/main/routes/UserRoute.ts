@@ -6,6 +6,8 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { UserService } from '../services/UserService';
 import { validateUserIdIsNumber } from '../middleware/UserMiddleware';
+import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
+import { Roles } from '../security/Roles';
 
 @injectable()
 export default class UserRoute extends CommonRoutesConfig {
@@ -22,6 +24,13 @@ export default class UserRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route('/users')
+      // Example of restriction on route
+      //CheckJwt to check if user is logged in
+      //checkRole to check if the user role has the permission to use this endpoint
+      //.all to apply to all routes of /users
+      //If we don't want to apply for all routes of /users, we can add checkJwt and checkRole in the specific route method of the endpoint
+      //i.e.: .route('/users/:userId', checkJwt, checkRole)
+      .all(checkJwt, checkRole(new Set([Roles.ADMIN, Roles.SUPERVISOR])))
       .get((req: express.Request, res: express.Response) => {
         res.status(StatusCodes.OK).send('Normally would return a list of users');
       })

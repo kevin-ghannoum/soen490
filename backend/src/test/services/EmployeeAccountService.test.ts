@@ -9,10 +9,13 @@ import { EmployeeAccount } from '../../main/models/EmployeeAccount';
 import AddressRepository from '../../main/repositories/AddressRepository';
 import EmployeeAccountRepository from '../../main/repositories/EmployeeAccountRepository';
 import { EmployeeAccountService } from '../../main/services/EmployeeAccountService';
+import { AuthenticationClient, ManagementClient } from 'auth0';
 
 describe('Employee Account test', () => {
   let employeeAccountRepositoryMock: any = null;
   let addressRepositoryMock: any = null;
+  let authenticationClientMock: any = null;
+  let managementClientMock: any = null;
 
   new Sequelize({
     validateOnly: true,
@@ -22,8 +25,13 @@ describe('Employee Account test', () => {
   beforeEach(() => {
     employeeAccountRepositoryMock = mock<EmployeeAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
+    authenticationClientMock = mock<AuthenticationClient>();
+    managementClientMock = mock<ManagementClient>();
+
     container.registerInstance(EmployeeAccountRepository, employeeAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
+    container.register<AuthenticationClient>('auth0-authentication-client', { useFactory: () => authenticationClientMock });
+    container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
   });
 
   afterEach(() => {
@@ -80,6 +88,18 @@ describe('Employee Account test', () => {
         { include: [Account] }
       )
     );
+
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue(
+        {
+          given_name: 'test',
+          family_name: 'test',
+          _id: '61818a29369f4f0069c892c0',
+          email_verified: false,
+          email: 'test@gmail.com'
+        }
+      );
+
+      managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve()); 
 
     const employeeAccountService: EmployeeAccountService = container.resolve(EmployeeAccountService);
     const result = await employeeAccountService.createEmployeeAccount(newEmployeeInfo);
