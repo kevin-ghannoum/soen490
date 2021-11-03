@@ -77,7 +77,6 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(req.params.email);
-          console.log(employeeAccount);
           const dto = JSON.parse(JSON.stringify(employeeAccount));
           delete dto.account.password;
           res.status(StatusCodes.OK).send(dto);
