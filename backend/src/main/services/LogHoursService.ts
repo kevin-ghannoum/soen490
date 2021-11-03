@@ -14,13 +14,11 @@ const log: debug.IDebugger = debug('app:userService-example');
 
 @injectable()
 export class LogHoursService {
-  private employeeHoursInputTypeRepository: EmployeeHoursInputTypeRepository;
-  private payRepository: PayRepository;
-
-  constructor(employeeHoursInputTypeRepository: EmployeeHoursInputTypeRepository, payRepository: PayRepository) {
+  constructor(
+    private employeeHoursInputTypeRepository: EmployeeHoursInputTypeRepository,
+    private payRepository: PayRepository
+  ) {
     log('Created new instance of LogHoursService');
-    this.employeeHoursInputTypeRepository = employeeHoursInputTypeRepository;
-    this.payRepository = payRepository;
   }
 
   public createLogHours = async (logHoursCreationDTO: LogHoursCreationDTO): Promise<Pay | null> => {
