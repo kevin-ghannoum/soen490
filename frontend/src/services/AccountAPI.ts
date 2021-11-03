@@ -14,12 +14,18 @@ export const createEmployeeAccount = async (
 export const createBusinessAccount = async (
   businessAccountRequestDTO: BusinessCreationRequestDTO
 ): Promise<AxiosResponse<any>> => {
+  if (!businessAccountRequestDTO.socialMediaInfo || !businessAccountRequestDTO.socialMediaInfo.link) {
+    delete businessAccountRequestDTO.socialMediaInfo;
+  }
   return axios.post(`/accounts/business`, businessAccountRequestDTO);
 };
 
 export const createClientAccount = async (
   clientAccountCreationRequestDTO: ClientAccountCreationRequestDTO
 ): Promise<AxiosResponse<any>> => {
+  if (!clientAccountCreationRequestDTO.socialMediaInfo || !clientAccountCreationRequestDTO.socialMediaInfo.link) {
+    delete clientAccountCreationRequestDTO.socialMediaInfo;
+  }
   return axios.post(`/accounts/client`, clientAccountCreationRequestDTO);
 };
 

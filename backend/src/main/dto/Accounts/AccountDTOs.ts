@@ -46,13 +46,13 @@ export interface ClientAccountCreationDTO {
   account: AccountCreationDTO;
   businessName: string;
   industry: string;
-  website: string;
+  website?: string;
   status: Status;
 }
 
 export interface BusinessCreationRequestDTO extends AccountRequestDTO {
   businessInfo: BusinessCreationDTO;
-  socialMediaInfo: SocialMediaPageCreationDTO;
+  socialMediaInfo?: SocialMediaPageCreationDTO;
 }
 
 export enum Status {
@@ -103,7 +103,7 @@ export interface BusinessAccountUpdateDTO {
 export interface ClientAccountCreationRequestDTO extends AccountRequestDTO {
   businessName: string;
   industry: string;
-  website: string;
+  website?: string;
   status: Status;
-  socialMediaInfo: SocialMediaPageCreationDTO;
+  socialMediaInfo?: SocialMediaPageCreationDTO;
 }

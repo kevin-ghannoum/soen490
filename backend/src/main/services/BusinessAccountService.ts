@@ -35,7 +35,8 @@ export class BusinessAccountService {
         address: businessCreationRequestDTO.address,
       }) ||
       BusinessService.isThereNullValueBusinessCreationDTO(businessCreationRequestDTO.businessInfo) ||
-      SocialMediaPageService.isThereNullValueSocialMediaPageCreationDTO(businessCreationRequestDTO.socialMediaInfo)
+      (businessCreationRequestDTO.socialMediaInfo &&
+        SocialMediaPageService.isThereNullValueSocialMediaPageCreationDTO(businessCreationRequestDTO.socialMediaInfo))
     ) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
@@ -61,9 +62,12 @@ export class BusinessAccountService {
     });
 
     const business = await this.businessService.createBusiness(businessCreationRequestDTO.businessInfo);
-    businessCreationRequestDTO.socialMediaInfo.email = businessAccount.account.email;
-    businessCreationRequestDTO.socialMediaInfo.businessId = business.id;
-    await this.socialMediaPageService.createSocialMediaPage(businessCreationRequestDTO.socialMediaInfo);
+
+    if (businessCreationRequestDTO.socialMediaInfo) {
+      businessCreationRequestDTO.socialMediaInfo.email = businessAccount.account.email;
+      businessCreationRequestDTO.socialMediaInfo.businessId = business.id;
+      await this.socialMediaPageService.createSocialMediaPage(businessCreationRequestDTO.socialMediaInfo);
+    }
 
     return Promise.resolve(businessAccount);
   };
