@@ -27,7 +27,7 @@ export class ProjectService {
   }
 
   public createProject = async (projectRequestDTO: ProjectRequestDTO): Promise<Project> => {
-    const currentAndModifiedDate = new Date();
+    const currentAndModifiedDate: Date = new Date();
     projectRequestDTO.project.createdDate = currentAndModifiedDate;
     projectRequestDTO.project.modifiedDate = currentAndModifiedDate;
 
@@ -36,13 +36,13 @@ export class ProjectService {
     }
     projectRequestDTO.sale.createdDate = currentAndModifiedDate;
 
-    const project = await this.projectRepository.create(projectRequestDTO.project);
+    const project: Project = await this.projectRepository.create(projectRequestDTO.project);
     projectRequestDTO.sale.projectId = project.id;
 
     await this.saleService.createSale(projectRequestDTO.sale);
     projectRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email = element.label;
-      const id = project.id;
+      const email: string = element.label;
+      const id: number = project.id;
       await this.worksOnService.createWorksOn({ email, id });
     });
     return Promise.resolve(project);
@@ -61,7 +61,7 @@ export class ProjectService {
   };
 
   public updateProject = async (projectUpdateRequestDTO: ProjectUpdateRequestDTO): Promise<number> => {
-    const modifiedDate = new Date();
+    const modifiedDate: Date = new Date();
     projectUpdateRequestDTO.project.modifiedDate = modifiedDate;
 
     if (ProjectService.isThereNullProjectUpdateDTO(projectUpdateRequestDTO.project)) {
@@ -71,8 +71,8 @@ export class ProjectService {
     this.worksOnService.deleteWorksOn(projectUpdateRequestDTO.project.id);
 
     projectUpdateRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email = element.label;
-      const id = projectUpdateRequestDTO.project.id;
+      const email: string = element.label;
+      const id: number = projectUpdateRequestDTO.project.id;
       await this.worksOnService.createWorksOn({ email, id });
     });
 
