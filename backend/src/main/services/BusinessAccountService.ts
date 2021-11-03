@@ -41,7 +41,7 @@ export class BusinessAccountService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    const auth0Data: SignUpUserData = {
+    const auth0UserData: SignUpUserData = {
       email: businessCreationRequestDTO.account.email,
       password: businessCreationRequestDTO.account.password,
       given_name: businessCreationRequestDTO.account.firstName,
@@ -50,7 +50,7 @@ export class BusinessAccountService {
     };
 
     // Create business in auth0
-    const auth0BusinessAccountData = await this.authenticationClient.database?.signUp(auth0Data);
+    const auth0BusinessAccountData = await this.authenticationClient.database?.signUp(auth0UserData);
 
     // Assign role in auth0
     await this.managementClient.assignRolestoUser(
@@ -60,6 +60,7 @@ export class BusinessAccountService {
 
     const address = await this.addressRepository.create(businessCreationRequestDTO.address);
     businessCreationRequestDTO.account.addressId = address[0].id;
+
     const businessAccount = await this.businessAccountRepository.create({
       account: businessCreationRequestDTO.account,
     });
