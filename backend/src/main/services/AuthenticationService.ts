@@ -10,33 +10,33 @@ export class AuthenticationService {
     log('Created instance of AuthenticationService');
   }
 
-  public login = async (accountInfo: { username: string; password: string }): Promise<TokenResponse> => {
-    const data = {
+  public login = async (accountInfo: { username: string; password: string; }): Promise<TokenResponse> => {
+    const auth0LoginData = {
       ...accountInfo,
       client_id: process.env.AUTH0_CLIENT_ID,
       realm: process.env.AUTH0_CONNECTION,
       scope: 'offline_access',
     };
 
-    return this.authenticationClient.passwordGrant(data);
+    return this.authenticationClient.passwordGrant(auth0LoginData);
   };
 
   public logout = async (refreshToken: string): Promise<void> => {
-    const data = {
+    const auth0LogoutData = {
       token: refreshToken,
       client_id: process.env.AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_CLIENT_SECRET,
     };
 
-    this.authenticationClient.tokens?.revokeRefreshToken(data);
+    this.authenticationClient.tokens?.revokeRefreshToken(auth0LogoutData);
   };
 
   public refreshTokens = async (refreshToken: string): Promise<TokenResponse> => {
-    const data = {
+    const auth0RefreshTokenData = {
       refresh_token: refreshToken,
       client_id: process.env.AUTH0_CLIENT_ID,
     };
 
-    return this.authenticationClient.refreshToken(data);
+    return this.authenticationClient.refreshToken(auth0RefreshTokenData);
   };
 }
