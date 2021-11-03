@@ -50,10 +50,13 @@ export class BusinessAccountService {
     };
 
     // Create business in auth0
-    const businessData = await this.authenticationClient.database?.signUp(auth0Data);
+    const auth0BusinessAccountData = await this.authenticationClient.database?.signUp(auth0Data);
 
     // Assign role in auth0
-    await this.managementClient.assignRolestoUser({ id: `auth0|${businessData?._id}` }, { roles: [Roles.BUSINESS] });
+    await this.managementClient.assignRolestoUser(
+      { id: `auth0|${auth0BusinessAccountData?._id}` },
+      { roles: [Roles.BUSINESS] }
+    );
 
     const address = await this.addressRepository.create(businessCreationRequestDTO.address);
     businessCreationRequestDTO.account.addressId = address[0].id;
@@ -78,10 +81,12 @@ export class BusinessAccountService {
 
   public deleteBusinessAccountByEmail = async (email: string): Promise<number> => {
     // Get employee data from auth0
-    const businessData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
+    const auth0BusinessAccountData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(
+      email
+    );
 
     // Delete employee from auth0
-    this.managementClient.deleteUser({ id: businessData[0]?.user_id as string });
+    this.managementClient.deleteUser({ id: auth0BusinessAccountData[0]?.user_id as string });
 
     return this.businessAccountRepository.delete(email);
   };
