@@ -27,14 +27,14 @@ export class ProjectService {
   }
 
   public createProject = async (projectRequestDTO: ProjectRequestDTO): Promise<Project> => {
-    const currentAndModifiiedDate = new Date();
-    projectRequestDTO.project.createdDate = currentAndModifiiedDate;
-    projectRequestDTO.project.modifiedDate = currentAndModifiiedDate;
+    const currentAndModifiedDate = new Date();
+    projectRequestDTO.project.createdDate = currentAndModifiedDate;
+    projectRequestDTO.project.modifiedDate = currentAndModifiedDate;
 
     if (ProjectService.isThereNullValueProjectCreationDTO(projectRequestDTO.project)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
-    projectRequestDTO.sale.createdDate = currentAndModifiiedDate;
+    projectRequestDTO.sale.createdDate = currentAndModifiedDate;
 
     const project = await this.projectRepository.create(projectRequestDTO.project);
     projectRequestDTO.sale.projectId = project.id;
