@@ -193,6 +193,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
 
   const getClientInput = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
     const clientResponse = await getAllClientAccount(value);
+    console.log(clientResponse.data)
     const clients: any[] = [];
     clientResponse.data.forEach((element: any) => {
       clients.push(`${element.email}`);
@@ -297,7 +298,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
               <Autocomplete
                 loading={clientLoading}
                 className={classes.selectBox}
-                id="combo-box-demo"
+                id="selectClient"
                 loadingText="No Options"
                 options={clientList}
                 value={formik.values.email}
@@ -329,7 +330,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 onChange={onAssigneeTagsChange}
                 ListboxProps={{ style: { maxHeight: '10rem' }, position: 'bottom-start' }}
                 multiple
-                id="tags-outlined"
+                id="selectEmployee"
                 options={employeeList}
                 getOptionLabel={(option) => option.label}
                 filterSelectedOptions
@@ -342,7 +343,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 <Typography className={classes.Typo}>Status</Typography>
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="selectStatus"
                   name="status"
                   className={classes.selectBox}
                   value={formik.values.status}
@@ -350,10 +351,10 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   error={formik.touched.status && Boolean(formik.errors.status)}
                   disabled={disabled}
                 >
-                  <MenuItem value={'BOOKED'}>Booked</MenuItem>
-                  <MenuItem value={'REJECTED'}>Rejected</MenuItem>
-                  <MenuItem value={'TO BE RESCHEDULED'}>To Be Reschedule</MenuItem>
-                  <MenuItem value={'PENDING'}>Pending</MenuItem>
+                  <MenuItem id="booked" value={'BOOKED'}>Booked</MenuItem>
+                  <MenuItem id="rejected" value={'REJECTED'}>Rejected</MenuItem>
+                  <MenuItem id="toBeScheduled" value={'TO BE RESCHEDULED'}>To Be Reschedule</MenuItem>
+                  <MenuItem id="pending" value={'PENDING'}>Pending</MenuItem>
                 </Select>
               </Grid>
               <Grid item>
