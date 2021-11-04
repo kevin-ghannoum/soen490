@@ -1,6 +1,5 @@
+import 'reflect-metadata';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
-import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { EmployeeAccountRequestDTO } from '../../main/dto/Accounts/AccountDTOs';
 import { Account } from '../../main/models/Account';
@@ -10,6 +9,7 @@ import AddressRepository from '../../main/repositories/AddressRepository';
 import EmployeeAccountRepository from '../../main/repositories/EmployeeAccountRepository';
 import { EmployeeAccountService } from '../../main/services/EmployeeAccountService';
 import { AuthenticationClient, ManagementClient } from 'auth0';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('Employee Account test', () => {
   let employeeAccountRepositoryMock: any = null;
@@ -17,9 +17,8 @@ describe('Employee Account test', () => {
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
 
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {

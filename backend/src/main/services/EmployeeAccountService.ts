@@ -29,7 +29,7 @@ export class EmployeeAccountService {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
 
-    const auth0Data: SignUpUserData = {
+    const userData: SignUpUserData = {
       email: employeeAccountRequestDTO.accountRequest.account.email,
       password: employeeAccountRequestDTO.accountRequest.account.password,
       given_name: employeeAccountRequestDTO.accountRequest.account.firstName,
@@ -38,10 +38,13 @@ export class EmployeeAccountService {
     };
 
     // Create employee in auth0
-    const employeeData = await this.authenticationClient.database?.signUp(auth0Data);
+    const auth0EmployeeData = await this.authenticationClient.database?.signUp(userData);
 
     // Assign role in auth0
-    await this.managementClient.assignRolestoUser({ id: `auth0|${employeeData?._id}` }, { roles: [Roles.EMPLOYEE] });
+    await this.managementClient.assignRolestoUser(
+      { id: `auth0|${auth0EmployeeData?._id}` },
+      { roles: [Roles.EMPLOYEE] }
+    );
 
     // Create address in order to obtain its id for creating an account
     const address = await this.addressRepository.create(employeeAccountRequestDTO.accountRequest.address);
@@ -66,10 +69,10 @@ export class EmployeeAccountService {
 
   public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
     // Get employee data from auth0
-    const employeeData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
+    const auth0EmployeeData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
 
     // Delete employee from auth0
-    this.managementClient.deleteUser({ id: employeeData[0]?.user_id as string });
+    this.managementClient.deleteUser({ id: auth0EmployeeData[0]?.user_id as string });
 
     return this.employeeAccountRepository.delete(email);
   };
