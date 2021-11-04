@@ -124,7 +124,7 @@ const LogHours: React.FunctionComponent = () => {
 
   const classes = useStyles();
   return (
-    <Grid container justifyContent="center">
+    <Grid id="LogHours-Grid" container justifyContent="center">
       <Paper elevation={3} className={classes.logHoursPaper}>
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={3} direction="row" className={classes.logHoursFormWrapper}>
@@ -146,6 +146,7 @@ const LogHours: React.FunctionComponent = () => {
                   }}
                   renderInput={(params) => (
                     <TextField
+                      name="email"
                       {...params}
                       label="Employee email"
                       error={formik.touched.email && Boolean(formik.errors.email)}

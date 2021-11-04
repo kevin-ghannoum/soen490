@@ -4,6 +4,7 @@ import { mainTheme } from './configs/MuiConfig';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import LandingPage from './components/Shared/LandingPage';
+import LogHours from './components/LogHours/LogHours';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -23,6 +24,7 @@ const App = () => {
               <Route exact path="/project" render={() => <CreateProject edit="false" />} />
               <Route exact path="/project/:id" render={({ match }) => <EditProject id={match.params.id} />} />
               <Route exact path="/projects" render={() => <ViewProject />} />
+              <Route exact path="/employees" render={() => <LogHours />} />
               <Route exact path="/error" render={() => <PageNotFound />} />
               <Route exact path="/businessAccount/new" render={() => <CreateBusinessAccount />} />
               <Route exact path="/clientAccount/new" render={() => <CreateClientAccount />} />
