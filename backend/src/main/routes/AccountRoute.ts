@@ -7,6 +7,9 @@ import HttpException from '../exceptions/HttpException';
 import { BusinessAccountService } from '../services/BusinessAccountService';
 import { ClientAccountService } from '../services/ClientAccountService';
 import { ClientAccount } from '../models/ClientAccount';
+import { checkJwt } from '../middleware/JWTMiddleware';
+import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
@@ -166,6 +169,28 @@ export default class AccountRoute extends CommonRoutesConfig {
           }
         } catch (err) {
           next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/redux/accounts/business/`)
+      .get(checkJwt, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        //receive the header authorization
+        const authHeader = req.headers.authorization;
+
+        if (authHeader) {
+          console.log('hi');
+          const jwtToken = authHeader.replace('Bearer ', '');
+          console.log(jwtToken);
+          try {
+            console.log('gi');
+            const decoded = JSON.parse(JSON.stringify(jwt_decode(jwtToken)));
+            const ress = await this.businessAccountService.getRedux(decoded.email)
+            console.log(ress)
+            res.status(StatusCodes.OK).send(res);
+          } catch (err) {
+            // err
+          }
         }
       });
 

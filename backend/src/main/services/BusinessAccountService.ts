@@ -11,6 +11,7 @@ import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
+import { Account } from '../models/Account';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -90,5 +91,9 @@ export class BusinessAccountService {
     this.managementClient.deleteUser({ id: auth0BusinessAccountData[0]?.user_id as string });
 
     return this.businessAccountRepository.delete(email);
+  };
+
+  public getRedux = async (email: string): Promise<BusinessAccount | null> => {
+    return this.businessAccountRepository.getRedux(email);
   };
 }
