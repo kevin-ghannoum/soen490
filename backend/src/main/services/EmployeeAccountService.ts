@@ -41,7 +41,10 @@ export class EmployeeAccountService {
     const auth0EmployeeData = await this.authenticationClient.database?.signUp(userData);
 
     // Assign role in auth0
-    await this.managementClient.assignRolestoUser({ id: `auth0|${auth0EmployeeData?._id}` }, { roles: [Roles.EMPLOYEE] });
+    await this.managementClient.assignRolestoUser(
+      { id: `auth0|${auth0EmployeeData?._id}` },
+      { roles: [Roles.EMPLOYEE] }
+    );
 
     // Create address in order to obtain its id for creating an account
     const address = await this.addressRepository.create(employeeAccountRequestDTO.accountRequest.address);

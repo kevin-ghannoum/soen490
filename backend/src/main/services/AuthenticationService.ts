@@ -10,7 +10,7 @@ export class AuthenticationService {
     log('Created instance of AuthenticationService');
   }
 
-  public login = async (accountInfo: { username: string; password: string; }): Promise<TokenResponse> => {
+  public login = async (accountInfo: { username: string; password: string }): Promise<TokenResponse> => {
     const auth0LoginData = {
       ...accountInfo,
       client_id: process.env.AUTH0_CLIENT_ID,
