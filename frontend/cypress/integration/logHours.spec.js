@@ -11,11 +11,6 @@ describe('CreateBusinessAccount feature e2e test', () => {
       cy.visit('/');
     });
   
-    it('should render', () => {
-      cy.visit('/employees');
-      cy.get('#LogHours-Grid').should('exist');
-    });
-  
     // Test user story: #31. As a business user, I want to log hours
     it('Should log hours for one employee', () => {
       cy.intercept(
@@ -58,6 +53,11 @@ describe('CreateBusinessAccount feature e2e test', () => {
       cy.get('form').submit();
       cy.wait('@logHoursAPI').its('response.statusCode').should('eq', 201);
       cy.contains('Created succesfully');
+  
+      it('should render', () => {
+        cy.visit('/employees');
+        cy.get('#LogHours-Grid').should('exist');
+      });
     });
   });
   
