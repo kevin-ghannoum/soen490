@@ -193,7 +193,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
 
   const getClientInput = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
     const clientResponse = await getAllClientAccount(value);
-    console.log(clientResponse)
+    console.log(clientResponse);
     const clients: any[] = [];
     clientResponse.data.forEach((element: any) => {
       clients.push(`${element.email}`);
@@ -351,10 +351,18 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   error={formik.touched.status && Boolean(formik.errors.status)}
                   disabled={disabled}
                 >
-                  <MenuItem id="booked" value={'BOOKED'}>Booked</MenuItem>
-                  <MenuItem id="rejected" value={'REJECTED'}>Rejected</MenuItem>
-                  <MenuItem id="toBeScheduled" value={'TO BE RESCHEDULED'}>To Be Reschedule</MenuItem>
-                  <MenuItem id="pending" value={'PENDING'}>Pending</MenuItem>
+                  <MenuItem id="booked" value={'BOOKED'}>
+                    Booked
+                  </MenuItem>
+                  <MenuItem id="rejected" value={'REJECTED'}>
+                    Rejected
+                  </MenuItem>
+                  <MenuItem id="toBeScheduled" value={'TO BE RESCHEDULED'}>
+                    To Be Reschedule
+                  </MenuItem>
+                  <MenuItem id="pending" value={'PENDING'}>
+                    Pending
+                  </MenuItem>
                 </Select>
               </Grid>
               <Grid item>
