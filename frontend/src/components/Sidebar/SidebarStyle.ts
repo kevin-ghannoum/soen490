@@ -9,16 +9,16 @@ const useStyles = makeStyles(() => ({
     background: '#FFFFFF',
   },
   paper: {
-    background: "#0B26B7",
+    background: '#0B26B7',
   },
   icon: {
-    color: "#FFFFFF",
+    color: '#FFFFFF',
   },
   menuicon: {
-    color: "#0B26B7",
+    color: '#0B26B7',
   },
   logo: {
-    padding: "10px",
+    padding: '10px',
   },
 }));
 
