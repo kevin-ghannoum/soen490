@@ -1,8 +1,10 @@
 import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { RootState } from '../../redux/store';
 
 interface AccountState {
   loading: boolean;
+  authenticated: boolean;
   account: {
     email: string;
     firstName: string;
@@ -26,6 +28,7 @@ interface AccountState {
 
 const initialState: AccountState = {
   loading: false,
+  authenticated: false,
   account: {
     email: '',
     firstName: '',
@@ -38,24 +41,33 @@ const initialState: AccountState = {
   admin: false,
 };
 
-const getBusinessAccount = createAsyncThunk('getBusinessAccount', async (email: string) => {
-  const response = await axios.get('/redux/accounts/business/:email');
+export const getAccount = createAsyncThunk('getAccount', async () => {
+  const response = await axios.get('/redux/accounts/');
   return response.data;
 });
 
 export const AccountSlice = createSlice({
-  name: 'businessAccount',
+  name: 'account',
   initialState,
   reducers: {},
   extraReducers: (builder: ActionReducerMapBuilder<AccountState>) => {
     builder
-      .addCase(getBusinessAccount.pending, (state) => {
+      .addCase(getAccount.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getBusinessAccount.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.account = action.payload.account;
-        state.businessAcc = action.payload.businessAcc;
+      .addCase(getAccount.fulfilled, (state, action) => {
+        if (action.payload.account) {
+          state.authenticated = true;
+          state.account = action.payload.account;
+          state.businessAcc = action.payload.businessAcc!;
+          state.clientAcc = action.payload.clientAcc!;
+          state.employeeAcc = action.payload.employeeAcc!;
+          state.admin = action.payload.admin === 'true' ? true : false;
+        }
       });
   },
 });
+
+export const selectAccount = (state: RootState) => state.account;
+
+export default AccountSlice.reducer;

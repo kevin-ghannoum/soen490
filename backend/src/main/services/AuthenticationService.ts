@@ -52,7 +52,7 @@ export class AuthenticationService {
     return this.authenticationClient.refreshToken(auth0RefreshTokenData);
   };
 
-  public getReduxAccountByRole = async (role: string, email: string): Promise<Object> => {
+  public getReduxAccountByRole = async (role: string, email: string): Promise<any> => {
 
     let response = {}
 
@@ -92,7 +92,6 @@ export class AuthenticationService {
       }
       case "EMPLOYEE": {
         const result = await this.employeeAccountService.getRedux(email)
-        console.log(result)
         response = {
           account: {
             email: result?.account.email,
@@ -104,6 +103,7 @@ export class AuthenticationService {
             title: result?.title
           }
         }
+        break;
       }
       case "ADMIN": {
         const result = await this.adminAccountService.getRedux(email)
@@ -116,6 +116,7 @@ export class AuthenticationService {
           },
           admin: true
         }
+        break;
       }
       default: {
         return Promise.reject(new HttpException(StatusCodes.BAD_REQUEST, "The role does not match with any of the existing roles."))

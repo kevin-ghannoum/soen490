@@ -1,4 +1,4 @@
-import express, { response } from 'express';
+import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
@@ -223,7 +223,7 @@ export default class AccountRoute extends CommonRoutesConfig {
           const jwtToken = authHeader.replace('Bearer ', '');
           try {
             const decoded = JSON.parse(JSON.stringify(jwt_decode(jwtToken)));
-            const response = await this.authenticationService.getReduxAccountByRole(userRole[0].name!, decoded.email)
+            const response = await this.authenticationService.getReduxAccountByRole(userRole[0].name as string, decoded.email)
             res.status(StatusCodes.OK).send(response);
           } catch (err) {
             next(err);

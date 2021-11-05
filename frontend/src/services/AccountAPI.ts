@@ -43,3 +43,11 @@ export const getAllRegexEmployeeAccount = async (emailPattern: string): Promise<
 export const getAllClientAccount = async (emailPattern: string): Promise<AxiosResponse<any>> => {
   return axios.get(`/accounts/client`, { params: { email: emailPattern } });
 };
+
+export const login = async (credential: { email: string; password: string }): Promise<AxiosResponse<any>> => {
+  return axios.post(`/auth/login`, credential);
+};
+
+export const loginWithRefreshToken = async (refreshToken: string) => {
+  return axios.post(`/auth/refreshTokens`, { refresh_token: refreshToken });
+};
