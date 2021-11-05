@@ -1,15 +1,15 @@
-import { injectable } from "tsyringe";
-import debug from "debug";
-import UserRepository from "../repositories/UserRepository";
-import { UserDTO } from "../dto/UserDTO";
-const log: debug.IDebugger = debug("app:userService-example");
+import { injectable } from 'tsyringe';
+import debug from 'debug';
+import UserRepository from '../repositories/UserRepository';
+import { UserDTO } from '../dto/UserDTO';
+const log: debug.IDebugger = debug('app:userService-example');
 
 @injectable()
 export class UserService {
   private userRepository: UserRepository;
 
   constructor(userRepository: UserRepository) {
-    log("Created new instance of UserService");
+    log('Created new instance of UserService');
     this.userRepository = userRepository;
   }
 
