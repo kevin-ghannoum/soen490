@@ -1,6 +1,5 @@
+import 'reflect-metadata';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
-import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { ClientAccountCreationRequestDTO, Status } from '../../main/dto/Accounts/AccountDTOs';
 import { Account } from '../../main/models/Account';
@@ -11,15 +10,15 @@ import AddressRepository from '../../main/repositories/AddressRepository';
 import ClientAccountRepository from '../../main/repositories/ClientAccountRepository';
 import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRepository';
 import { ClientAccountService } from '../../main/services/ClientAccountService';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('ClientAccountService tests', () => {
   let clientAccountRepositoryMock: any = null;
   let addressRepositoryMock: any = null;
   let socialMediaPageRepositoryMock: any = null;
 
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {

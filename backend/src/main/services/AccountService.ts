@@ -6,10 +6,8 @@ const log: debug.IDebugger = debug('app:userService-example');
 
 @injectable()
 export class AccountService {
-  private accountRepository: AccountRepository;
-  constructor(accountRepository: AccountRepository) {
+  constructor(private accountRepository: AccountRepository) {
     log('Created instance of AccountService');
-    this.accountRepository = accountRepository;
   }
 
   public static isThereNullValueAccountDTO = (accountRequestDTO: AccountRequestDTO): boolean => {

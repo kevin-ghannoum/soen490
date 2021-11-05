@@ -272,6 +272,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   };
 
   return (
+
     <>
       <Sidebar />
       <Grid
@@ -282,23 +283,71 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
         justifyContent="center"
         style={{ minHeight: '100vh', paddingTop: '75px' }}
       >
-        <Paper elevation={3} className={classes.createProjectPaper}>
-          <form onSubmit={formik.handleSubmit}>
-            <Grid item container spacing={3} direction="row" xs={12} className={classes.createProjectFormWrapper}>
-              <Grid item xs={12} style={{ marginTop: 20 }}>
-                <label htmlFor="contained-button-file">
-                  <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                  <Button className={classes.upload} variant="contained" color="secondary" component="span">
-                    Upload Contract
-                  </Button>
-                </label>
-              </Grid>
-              <Grid className={classes.assigneeWrapper} item xs={4} style={{ marginTop: 6 }}>
-                <Typography className={classes.Typo} style={{ marginRight: 3 }}>
-                  Client
-                </Typography>
-                <Autocomplete
-                  loading={clientLoading}
+      <Paper elevation={3} className={classes.createProjectPaper}>
+        <form onSubmit={formik.handleSubmit}>
+          <Grid item container spacing={3} direction="row" xs={12} className={classes.createProjectFormWrapper}>
+            <Grid item xs={12} style={{ marginTop: 20 }}>
+              <label htmlFor="contained-button-file">
+                <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                <Button className={classes.upload} variant="contained" color="secondary" component="span">
+                  Upload Contract
+                </Button>
+              </label>
+            </Grid>
+            <Grid className={classes.assigneeWrapper} item xs={4} style={{ marginTop: 6 }}>
+              <Typography className={classes.Typo} style={{ marginRight: 3 }}>
+                Client
+              </Typography>
+              <Autocomplete
+                loading={clientLoading}
+                className={classes.selectBox}
+                id="selectClient"
+                loadingText="No Options"
+                options={clientList}
+                value={formik.values.email}
+                onInputChange={getClientInput}
+                onChange={(event, value) => formik.setFieldValue('email', value)}
+                getOptionLabel={(option) => option}
+                style={{ marginTop: 6, alignItems: 'center' }}
+                renderInput={(params) => (
+                  <TextField
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                    {...params}
+                    variant="standard"
+                    style={{ alignContent: 'center' }}
+                  />
+                )}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={8} className={classes.assigneeWrapper} style={{ marginTop: 5 }}>
+              <Typography className={classes.Typo}>Assignees</Typography>
+              <Autocomplete
+                loading={assigneeLoading}
+                onInputChange={getEmployeeInput}
+                loadingText="No Options"
+                noOptionsText="No Options found"
+                style={{ width: '90%' }}
+                value={assignee}
+                onChange={onAssigneeTagsChange}
+                ListboxProps={{ style: { maxHeight: '10rem' }, position: 'bottom-start' }}
+                multiple
+                id="selectEmployee"
+                options={employeeList}
+                getOptionLabel={(option) => option.label}
+                filterSelectedOptions
+                renderInput={(params) => <TextField {...params} variant="standard" size="small" />}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid container item xs={4} className={classes.assigneeWrapper}>
+              <Grid item xs={12} className={classes.assigneeWrapper}>
+                <Typography className={classes.Typo}>Status</Typography>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="selectStatus"
+                  name="status"
                   className={classes.selectBox}
                   id="combo-box-demo"
                   loadingText="No Options"
@@ -387,6 +436,19 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   fullWidth
                   disabled={disabled}
                 />
+                  <MenuItem id="booked" value={'BOOKED'}>
+                    Booked
+                  </MenuItem>
+                  <MenuItem id="rejected" value={'REJECTED'}>
+                    Rejected
+                  </MenuItem>
+                  <MenuItem id="toBeScheduled" value={'TO BE RESCHEDULED'}>
+                    To Be Reschedule
+                  </MenuItem>
+                  <MenuItem id="pending" value={'PENDING'}>
+                    Pending
+                  </MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={2} style={{ paddingTop: '20px' }}>
                 <TextField
@@ -401,156 +463,189 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   disabled={disabled}
                 />
               </Grid>
-              <Grid item xs={2} style={{ paddingTop: '20px' }}>
-                <TextField
-                  label="Lead Credit *"
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  name="leadCredit"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.leadCredit}
-                  error={formik.touched.leadCredit && Boolean(formik.errors.leadCredit)}
-                  helperText={formik.touched.leadCredit && formik.errors.leadCredit}
-                  disabled={disabled}
-                />
-              </Grid>
-              <Grid item xs={2} style={{ paddingTop: '20px' }}>
-                <TextField
-                  label="Lead Ranking *"
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  name="leadRanking"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.leadRanking}
-                  error={formik.touched.leadRanking && Boolean(formik.errors.leadRanking)}
-                  helperText={formik.touched.leadRanking && formik.errors.leadRanking}
-                  disabled={disabled}
-                />
-              </Grid>
-              <Grid item xs={6} style={{ paddingTop: '3px' }}>
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Description"
-                  name="description"
-                  variant="outlined"
-                  multiline
-                  rows={3}
-                  className={classes.descriptionBox}
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  helperText={formik.touched.description && formik.errors.description}
-                  disabled={disabled}
-                ></TextField>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  label="Service Type *"
-                  name="serviceType"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.serviceType}
-                  error={formik.touched.serviceType && Boolean(formik.errors.serviceType)}
-                  helperText={formik.touched.serviceType && formik.errors.serviceType}
-                  disabled={disabled}
-                />
-                <TextField
-                  label="Sale value *"
-                  name="saleValue"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.saleValue}
-                  error={formik.touched.saleValue && Boolean(formik.errors.saleValue)}
-                  helperText={formik.touched.saleValue && formik.errors.saleValue}
-                  disabled={disabled}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Sale Description"
-                  multiline
-                  variant="outlined"
-                  rows={2}
-                  name="saleDescription"
-                  className={classes.optionalDescriptionBox}
-                  onChange={formik.handleChange}
-                  value={formik.values.saleDescription}
-                  error={formik.touched.saleDescription && Boolean(formik.errors.saleDescription)}
-                  helperText={formik.touched.saleDescription && formik.errors.saleDescription}
-                  disabled={disabled}
-                ></TextField>
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Extra Notes"
-                  multiline
-                  rows={2}
-                  variant="outlined"
-                  name="extraNotes"
-                  className={classes.optionalDescriptionBox}
-                  onChange={formik.handleChange}
-                  value={formik.values.extraNotes}
-                  error={formik.touched.extraNotes && Boolean(formik.errors.extraNotes)}
-                  helperText={formik.touched.extraNotes && formik.errors.extraNotes}
-                  disabled={disabled}
-                ></TextField>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="date"
-                  label="Follow Up Date"
-                  type="date"
-                  name="followUpDate"
-                  className={classes.dateFields}
-                  InputLabelProps={{
-                    shrink: true,
+            </Grid>
+            <Grid item xs={8}></Grid>
+            <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '100px' }}>
+              <Typography variant="h5" className={classes.projectTitle}>
+                Project Specification
+              </Typography>
+            </Grid>
+            <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '100px' }}>
+              <Typography variant="h5" className={classes.projectTitle}>
+                Project Description
+              </Typography>
+            </Grid>
+            <Grid item xs={6} style={{ paddingTop: '20px' }}>
+              <TextField
+                onChange={formik.handleChange}
+                value={formik.values.title}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                helperText={formik.touched.title && formik.errors.title}
+                label="Title *"
+                name="title"
+                fullWidth
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={2} style={{ paddingTop: '20px' }}>
+              <TextField
+                label="Lead Source *"
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                name="leadSource"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.leadSource}
+                error={formik.touched.leadSource && Boolean(formik.errors.leadSource)}
+                helperText={formik.touched.leadSource && formik.errors.leadSource}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={2} style={{ paddingTop: '20px' }}>
+              <TextField
+                label="Lead Credit *"
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                name="leadCredit"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.leadCredit}
+                error={formik.touched.leadCredit && Boolean(formik.errors.leadCredit)}
+                helperText={formik.touched.leadCredit && formik.errors.leadCredit}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={2} style={{ paddingTop: '20px' }}>
+              <TextField
+                label="Lead Ranking *"
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                name="leadRanking"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.leadRanking}
+                error={formik.touched.leadRanking && Boolean(formik.errors.leadRanking)}
+                helperText={formik.touched.leadRanking && formik.errors.leadRanking}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={6} style={{ paddingTop: '3px' }}>
+              <TextField
+                id="description"
+                label="Description"
+                name="description"
+                variant="outlined"
+                multiline
+                rows={3}
+                className={classes.descriptionBox}
+                onChange={formik.handleChange}
+                value={formik.values.description}
+                error={formik.touched.description && Boolean(formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
+                disabled={disabled}
+              ></TextField>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Service Type *"
+                name="serviceType"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.serviceType}
+                error={formik.touched.serviceType && Boolean(formik.errors.serviceType)}
+                helperText={formik.touched.serviceType && formik.errors.serviceType}
+                disabled={disabled}
+              />
+              <TextField
+                label="Sale value *"
+                name="saleValue"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.saleValue}
+                error={formik.touched.saleValue && Boolean(formik.errors.saleValue)}
+                helperText={formik.touched.saleValue && formik.errors.saleValue}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="saleDescription"
+                label="Sale Description"
+                multiline
+                variant="outlined"
+                rows={2}
+                name="saleDescription"
+                className={classes.optionalDescriptionBox}
+                onChange={formik.handleChange}
+                value={formik.values.saleDescription}
+                error={formik.touched.saleDescription && Boolean(formik.errors.saleDescription)}
+                helperText={formik.touched.saleDescription && formik.errors.saleDescription}
+                disabled={disabled}
+              ></TextField>
+              <TextField
+                id="extraNotes"
+                label="Extra Notes"
+                multiline
+                rows={2}
+                variant="outlined"
+                name="extraNotes"
+                className={classes.optionalDescriptionBox}
+                onChange={formik.handleChange}
+                value={formik.values.extraNotes}
+                error={formik.touched.extraNotes && Boolean(formik.errors.extraNotes)}
+                helperText={formik.touched.extraNotes && formik.errors.extraNotes}
+                disabled={disabled}
+              ></TextField>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="date"
+                label="Follow Up Date"
+                type="date"
+                name="followUpDate"
+                className={classes.dateFields}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={formik.handleChange}
+                value={formik.values.followUpDate}
+                error={formik.touched.followUpDate && Boolean(formik.errors.followUpDate)}
+                helperText={formik.touched.followUpDate && formik.errors.followUpDate}
+                disabled={disabled}
+              />
+              <TextField
+                id="date"
+                label="Project Deadline"
+                type="date"
+                className={classes.dateFields}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="deadLineDate"
+                onChange={formik.handleChange}
+                value={formik.values.deadLineDate}
+                error={formik.touched.deadLineDate && Boolean(formik.errors.deadLineDate)}
+                helperText={formik.touched.deadLineDate && formik.errors.deadLineDate}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: 40 }}>
+              {editState === 'true' ? (
+                <Button color="primary" variant="contained" type="submit" id="save">
+                  Save
+                </Button>
+              ) : id ? (
+                <Button
+                  id="editButton"
+                  color="primary"
+                  variant="contained"
+                  key="NotSubmit"
+                  onClick={() => {
+                    setEditState('true');
                   }}
-                  onChange={formik.handleChange}
-                  value={formik.values.followUpDate}
-                  error={formik.touched.followUpDate && Boolean(formik.errors.followUpDate)}
-                  helperText={formik.touched.followUpDate && formik.errors.followUpDate}
-                  disabled={disabled}
-                />
-                <TextField
-                  id="date"
-                  label="Project Deadline"
-                  type="date"
-                  className={classes.dateFields}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  name="deadLineDate"
-                  onChange={formik.handleChange}
-                  value={formik.values.deadLineDate}
-                  error={formik.touched.deadLineDate && Boolean(formik.errors.deadLineDate)}
-                  helperText={formik.touched.deadLineDate && formik.errors.deadLineDate}
-                  disabled={disabled}
-                />
-              </Grid>
-              <Grid item xs={12} style={{ marginTop: 40 }}>
-                {editState === 'true' ? (
-                  <Button color="primary" variant="contained" type="submit">
-                    Save
-                  </Button>
-                ) : id ? (
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    key="NotSubmit"
-                    onClick={() => {
-                      setEditState('true');
-                    }}
-                  >
-                    Edit
-                  </Button>
-                ) : (
-                  <Button color="primary" variant="contained" type="submit" onClick={handleErrorCreate}>
-                    Create
-                  </Button>
-                )}
-                &nbsp; &nbsp;
-                <Button disabled={disabled} type="reset" onClick={reset} color="primary" variant="outlined">
-                  Clear
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Button color="primary" variant="contained" id="submitButton" type="submit" onClick={handleErrorCreate}>
+                  Create
                 </Button>
               </Grid>
               <Grid item xs={12}>

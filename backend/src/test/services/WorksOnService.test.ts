@@ -1,18 +1,17 @@
+import 'reflect-metadata';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
-import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { WorksOnCreationDTO } from '../../main/dto/WorksOnDTO';
 import { WorksOn } from '../../main/models/WorksOn';
 import WorksOnRepository from '../../main/repositories/WorksOnRepository';
 import { WorksonService } from '../../main/services/WorksOnService';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('WorksOnService tests', () => {
   let worksOnRepository: any = null;
 
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {

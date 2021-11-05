@@ -1,0 +1,8 @@
+[
+    {
+        "email": "employee@gmail.com",
+        "title": "Developer",
+        "hourlyWage": 30,
+        "supervisorEmail": "supervisor@gmail.com"
+    }
+]

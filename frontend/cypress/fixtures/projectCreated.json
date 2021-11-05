@@ -1,0 +1,27 @@
+[
+    {
+        "id": 11,
+        "title": "My Project Title",
+        "description": "this is a description",
+        "status": "BOOKED",
+        "serviceType": "service",
+        "leadSource": "lead Source",
+        "leadCredit": "lead Credit",
+        "leadRanking": "lead Ranking",
+        "createdDate": "2021-11-05T00:00:00.000Z",
+        "deadlineDate": "2021-11-05T00:00:00.000Z",
+        "followUpDate": "2021-11-05T00:00:00.000Z",
+        "modifiedDate": "2021-11-05T00:00:00.000Z",
+        "extraNotes": "extra Notes",
+        "email": "a@a.com",
+        "businessId": 1,
+        "sale": {
+            "id": 1,
+            "amount": 100,
+            "createdDate": "2021-10-29T04:09:38.000Z",
+            "dueDate": "2021-10-31T00:00:00.000Z",
+            "description": "asd",
+            "projectId": 11
+        }
+    }
+]

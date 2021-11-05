@@ -15,6 +15,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import LogHoursRoute from './routes/LogHoursRoute';
+import ProjectRoute from './routes/ProjectRoute';
+import AuthenticationRoute from './routes/AuthenticationRoute';
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -70,6 +72,8 @@ const main = async () => {
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
   routes.push(container.resolve(LogHoursRoute));
+  routes.push(container.resolve(ProjectRoute));
+  routes.push(container.resolve(AuthenticationRoute));
 
   // Registering express error handling middleware
   app.use(failSafeHandler);

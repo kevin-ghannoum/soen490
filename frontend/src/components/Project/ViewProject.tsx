@@ -174,31 +174,20 @@ const ViewProject: React.FC = () => {
         alignContent="center"
         style={{ minHeight: '100vh', paddingTop: '75px' }}
       >
-        <div style={{ height: 650, width: '100%' }}>
-          <Grid item container spacing={3} direction="row" xs={12}>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                style={{ width: '150px', marginBottom: 50, alignItems: 'right' }}
-                color="primary"
-                component="span"
-                onClick={clickAddProject}
-              >
-                Add Project
-              </Button>
-            </Grid>
-            <Grid item xs={12} style={{ height: 560, width: '100%' }}>
-              {' '}
-              <DataGrid
-                style={{ maxWidth: '75%', margin: 'auto' }}
-                rows={projectList}
-                columns={columns}
-                pageSize={8}
-                onSelectionModelChange={handleRowSelection}
-              />
-            </Grid>
+      <div style={{ height: 650, width: '100%' }}>
+        <Grid item container spacing={3} direction="row" xs={12}>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <Button
+              variant="contained"
+              style={{ width: '150px', marginBottom: 50, alignItems: 'right' }}
+              color="primary"
+              component="span"
+              onClick={clickAddProject}
+            >
+              Add Project
+            </Button>
           </Grid>
         </div>
       </Grid>

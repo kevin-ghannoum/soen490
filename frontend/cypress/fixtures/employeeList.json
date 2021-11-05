@@ -1,0 +1,16 @@
+[
+    {
+        "email": "b@b.com",
+        "businessName": "asdasd",
+        "industry": "asdasd",
+        "website": "asdas",
+        "status": "LEAD"
+    },
+    {
+        "email": "c@c.com",
+        "businessName": "asda",
+        "industry": "dasda",
+        "website": "sdasd",
+        "status": "LEAD"
+    }
+]

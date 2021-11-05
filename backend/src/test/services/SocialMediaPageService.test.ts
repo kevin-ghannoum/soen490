@@ -1,17 +1,17 @@
+import 'reflect-metadata';
 import { mock } from 'jest-mock-extended';
-import path from 'path';
-import { Sequelize } from 'sequelize-typescript';
 import { container } from 'tsyringe';
 import { SocialMediaPageCreationDTO } from '../../main/dto/SocialMediaPageDTO';
 import { SocialMediaPage } from '../../main/models/SocialMediaPage';
 import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRepository';
 import { SocialMediaPageService } from '../../main/services/SocialMediaPageService';
+import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('SocialMediaPageService tests', () => {
   let socialMediaPageRepositoryMock: any = null;
-  new Sequelize({
-    validateOnly: true,
-    models: [path.join(__dirname, '../../main/models', '*.ts')],
+  
+  beforeAll(() => {
+    sequelizeMock();
   });
 
   beforeEach(() => {
