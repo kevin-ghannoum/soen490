@@ -6,9 +6,7 @@ const log: debug.IDebugger = debug('app:ClientAccountService');
 
 @injectable()
 export class AdminAccountService {
-  constructor(
-    private adminAccountRepository: AdminAccountRepository,
-  ) {
+  constructor(private adminAccountRepository: AdminAccountRepository) {
     log('Created instance of ClientAccountService');
   }
 

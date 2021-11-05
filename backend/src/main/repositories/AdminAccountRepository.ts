@@ -92,10 +92,11 @@ export default class AdminAccountRepository implements CRUD {
       const account = await AdminAccount.findByPk(email, {
         include: [
           {
-          model: Account,
-          attributes: ['email','firstName', 'lastName'], 
-          }
-      ]})
+            model: Account,
+            attributes: ['email', 'firstName', 'lastName'],
+          },
+        ],
+      });
 
       if (account) {
         log(`Admin Account with email ${account?.email} has been retrieved`);

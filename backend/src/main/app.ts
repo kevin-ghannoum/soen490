@@ -73,8 +73,8 @@ const main = async () => {
   routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
   routes.push(container.resolve(LogHoursRoute));
-  routes.push(container.resolve(ProjectRoute))
-  routes.push(container.resolve(AuthenticationRoute))
+  routes.push(container.resolve(ProjectRoute));
+  routes.push(container.resolve(AuthenticationRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);

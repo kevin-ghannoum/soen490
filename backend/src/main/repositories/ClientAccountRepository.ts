@@ -130,8 +130,8 @@ export default class ClientAccountRepository implements CRUD {
             model: Account,
             attributes: ['email', 'firstName', 'lastName'],
           },
-        ]
-      })
+        ],
+      });
 
       if (account) {
         log(`Client Account with email ${account?.email} has been retrieved`);

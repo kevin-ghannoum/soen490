@@ -19,7 +19,7 @@ export default class AccountRoute extends CommonRoutesConfig {
     private employeeAccountService: EmployeeAccountService,
     private businessAccountService: BusinessAccountService,
     private clientAccountService: ClientAccountService,
-    private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService
   ) {
     super(app, 'AccountRoute');
   }
@@ -213,7 +213,7 @@ export default class AccountRoute extends CommonRoutesConfig {
         }
       });
 
-      this.getApp()
+    this.getApp()
       .route(`/redux/accounts/`)
       .get(checkJwt, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         //receive the header authorization
@@ -223,13 +223,16 @@ export default class AccountRoute extends CommonRoutesConfig {
           const jwtToken = authHeader.replace('Bearer ', '');
           try {
             const decoded = JSON.parse(JSON.stringify(jwt_decode(jwtToken)));
-            const response = await this.authenticationService.getReduxAccountByRole(userRole[0].name as string, decoded.email)
+            const response = await this.authenticationService.getReduxAccountByRole(
+              userRole[0].name as string,
+              decoded.email
+            );
             res.status(StatusCodes.OK).send(response);
           } catch (err) {
             next(err);
           }
         } else {
-          next(new HttpException(StatusCodes.BAD_REQUEST, "The user does not have a role."));
+          next(new HttpException(StatusCodes.BAD_REQUEST, 'The user does not have a role.'));
         }
       });
 

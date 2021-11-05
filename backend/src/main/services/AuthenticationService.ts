@@ -12,12 +12,13 @@ const log: debug.IDebugger = debug('app:AuthenticationService');
 
 @injectable()
 export class AuthenticationService {
-  constructor(@inject('auth0-authentication-client')
-  private authenticationClient: AuthenticationClient,
+  constructor(
+    @inject('auth0-authentication-client')
+    private authenticationClient: AuthenticationClient,
     private businessAccountService: BusinessAccountService,
     private clientAccountService: ClientAccountService,
     private employeeAccountService: EmployeeAccountService,
-    private adminAccountService: AdminAccountService,
+    private adminAccountService: AdminAccountService
   ) {
     log('Created instance of AuthenticationService');
   }
@@ -53,73 +54,74 @@ export class AuthenticationService {
   };
 
   public getReduxAccountByRole = async (role: string, email: string): Promise<any> => {
-
-    let response = {}
+    let response = {};
 
     switch (role) {
-      case "BUSINESS": {
-        const result = await this.businessAccountService.getRedux(email)
+      case 'BUSINESS': {
+        const result = await this.businessAccountService.getRedux(email);
         response = {
           account: {
             email: result?.account.email,
             firstName: result?.account.firstName,
             lastName: result?.account.lastName,
-            role: "BUSINESS",
+            role: 'BUSINESS',
           },
           businessAcc: {
-            businessId: result?.business.id
-          }
-        }
+            businessId: result?.business.id,
+          },
+        };
         break;
       }
-      case "CLIENT": {
-        const result = await this.clientAccountService.getRedux(email)
+      case 'CLIENT': {
+        const result = await this.clientAccountService.getRedux(email);
         response = {
           account: {
             email: result?.account.email,
             firstName: result?.account.firstName,
             lastName: result?.account.lastName,
-            role: "BUSINESS",
+            role: 'BUSINESS',
           },
           clientAcc: {
             website: result?.website,
             businessName: result?.businessName,
             status: result?.status,
-            industry: result?.industry
-          }
-        }
+            industry: result?.industry,
+          },
+        };
         break;
       }
-      case "EMPLOYEE": {
-        const result = await this.employeeAccountService.getRedux(email)
+      case 'EMPLOYEE': {
+        const result = await this.employeeAccountService.getRedux(email);
         response = {
           account: {
             email: result?.account.email,
             firstName: result?.account.firstName,
             lastName: result?.account.lastName,
-            role: "BUSINESS",
+            role: 'BUSINESS',
           },
           employeeAcc: {
-            title: result?.title
-          }
-        }
+            title: result?.title,
+          },
+        };
         break;
       }
-      case "ADMIN": {
-        const result = await this.adminAccountService.getRedux(email)
+      case 'ADMIN': {
+        const result = await this.adminAccountService.getRedux(email);
         response = {
           account: {
             email: result?.account.email,
             firstName: result?.account.firstName,
             lastName: result?.account.lastName,
-            role: "ADMIN",
+            role: 'ADMIN',
           },
-          admin: true
-        }
+          admin: true,
+        };
         break;
       }
       default: {
-        return Promise.reject(new HttpException(StatusCodes.BAD_REQUEST, "The role does not match with any of the existing roles."))
+        return Promise.reject(
+          new HttpException(StatusCodes.BAD_REQUEST, 'The role does not match with any of the existing roles.')
+        );
       }
     }
 

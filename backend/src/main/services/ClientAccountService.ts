@@ -85,7 +85,7 @@ export class ClientAccountService {
   public getEmployeesByRegex = async (email: string): Promise<ClientAccount[] | null> => {
     return this.clientAccountRepository.getClientsByRegex(email);
   };
-   
+
   public getRedux = async (email: string): Promise<ClientAccount | null> => {
     return this.clientAccountRepository.getRedux(email);
   };

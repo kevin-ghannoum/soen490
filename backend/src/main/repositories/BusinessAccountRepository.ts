@@ -94,14 +94,15 @@ export default class BusinessAccountRepository implements CRUD {
       const account = await BusinessAccount.findByPk(email, {
         include: [
           {
-          model: Account,
-          attributes: ['email','firstName', 'lastName'], 
+            model: Account,
+            attributes: ['email', 'firstName', 'lastName'],
           },
           {
             model: Business,
             attributes: ['id'],
-          }
-      ]})
+          },
+        ],
+      });
 
       if (account) {
         log(`Business Account with email ${account?.email} has been retrieved`);
@@ -116,5 +117,3 @@ export default class BusinessAccountRepository implements CRUD {
     }
   };
 }
-
-
