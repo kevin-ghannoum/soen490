@@ -3,16 +3,16 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
   list: {
     width: 'auto',
-    color: 'white',
+    color: '#FFFFFF',
   },
   appbar: {
-    background: 'white',
+    background: '#FFFFFF',
   },
   paper: {
     background: "#0B26B7",
   },
   icon: {
-    color: "white",
+    color: "#FFFFFF",
   },
   menuicon: {
     color: "#0B26B7",

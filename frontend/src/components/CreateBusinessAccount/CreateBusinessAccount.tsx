@@ -5,7 +5,6 @@ import { AxiosResponse } from 'axios';
 import { createBusinessAccount } from '../../services/AccountAPI';
 import createBusinessAccontSchema from './CreateBusinessFormValidationSchema';
 import useStyles from './CreateBusinessAccountStyle';
-// import Sidebar from '../Sidebar/Sidebar';
 const CreateBusinessAccount: React.FC = () => {
   const [created, setCreated] = useState<boolean>(false);
 
@@ -87,8 +86,6 @@ const CreateBusinessAccount: React.FC = () => {
 
   const classes = useStyles();
   return (
-    // <>
-    //   <Sidebar />
     <Grid
       container
       id="CreateBusinessAccount-Grid"
@@ -312,7 +309,6 @@ const CreateBusinessAccount: React.FC = () => {
         </form>
       </Paper>
     </Grid>
-    // </>
   );
 };
 

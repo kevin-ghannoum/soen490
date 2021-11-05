@@ -3,7 +3,6 @@ import { FormikProps, useFormik } from 'formik';
 import { useState } from 'react';
 import { Status } from '../../dto/Accounts/AccountDTOs';
 import { createClientAccount } from '../../services/AccountAPI';
-// import Sidebar from '../Sidebar/Sidebar';
 import useStyles from './CreateClientAccountStyle';
 import createClientAccountSchema from './CreateClientFormValidationSchema';
 interface CreateClientAccountFormData {
@@ -102,8 +101,6 @@ const CreateClientAccount: React.FC = () => {
   const classes = useStyles();
 
   return (
-    // <>
-    //   <Sidebar />
     <Grid
       id="CreateClientAccount-Grid"
       container
@@ -351,7 +348,6 @@ const CreateClientAccount: React.FC = () => {
         </form>
       </Paper>
     </Grid>
-    // </>
   );
 };
 

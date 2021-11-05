@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { getAllBusinessProject } from '../../services/ProjectAPI';
 import { Button, Grid, Link } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-// import Sidebar from '../Sidebar/Sidebar';
 
 interface Sale {
   amount: number;
@@ -164,8 +163,6 @@ const ViewProject: React.FC = () => {
   ];
 
   return (
-    // <>
-    //   <Sidebar />
     <Grid
       id="View-Project-Grid"
       container
@@ -203,7 +200,6 @@ const ViewProject: React.FC = () => {
         </Grid>
       </div>
     </Grid>
-    // </>
   );
 };
 

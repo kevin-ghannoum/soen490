@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios';
 import { FormikProps, useFormik } from 'formik';
 import { useState } from 'react';
 import { createEmployeeAccount } from '../../services/AccountAPI';
-// import Sidebar from '../Sidebar/Sidebar';
 import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
 import useStyles from './CreateEmployeeStyle';
 
@@ -79,8 +78,6 @@ const CreateEmployee: React.FC = () => {
 
   const classes = useStyles();
   return (
-    // <>
-    //   <Sidebar />
     <Grid
       id="CreateEmployeeAccount-Grid"
       container
@@ -279,7 +276,6 @@ const CreateEmployee: React.FC = () => {
         </form>
       </Paper>
     </Grid>
-    // </>
   );
 };
 

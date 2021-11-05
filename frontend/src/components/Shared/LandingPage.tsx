@@ -1,7 +1,7 @@
-// import Sidebar from '../Sidebar/Sidebar';
+import React from 'react';
 
 const LandingPage = () => {
-  return <div>{/* <Sidebar /> */}</div>;
+  return <div>landing page</div>;
 };
 
 export default LandingPage;

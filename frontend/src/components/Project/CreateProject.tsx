@@ -19,7 +19,6 @@ import useStyles from './CreateProjectStyle';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 import { SaleCreationDTO } from '../../dto/SaleDTO';
-// import Sidebar from '../Sidebar/Sidebar';
 
 interface Props {
   id?: string;
@@ -272,8 +271,6 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   };
 
   return (
-    // <>
-    //   <Sidebar />
     <Grid
       container
       spacing={0}
@@ -578,7 +575,6 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
         </form>
       </Paper>
     </Grid>
-    // </>
   );
 };
 
