@@ -193,7 +193,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
 
   const getClientInput = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
     const clientResponse = await getAllClientAccount(value);
-    console.log(clientResponse.data)
+    console.log(clientResponse)
     const clients: any[] = [];
     clientResponse.data.forEach((element: any) => {
       clients.push(`${element.email}`);
@@ -427,7 +427,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={6} style={{ paddingTop: '3px' }}>
               <TextField
-                id="outlined-multiline-static"
+                id="description"
                 label="Description"
                 name="description"
                 variant="outlined"
@@ -465,7 +465,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                id="outlined-multiline-static"
+                id="saleDescription"
                 label="Sale Description"
                 multiline
                 variant="outlined"
@@ -479,7 +479,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 disabled={disabled}
               ></TextField>
               <TextField
-                id="outlined-multiline-static"
+                id="extraNotes"
                 label="Extra Notes"
                 multiline
                 rows={2}
@@ -527,11 +527,12 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={12} style={{ marginTop: 40 }}>
               {editState === 'true' ? (
-                <Button color="primary" variant="contained" type="submit">
+                <Button color="primary" variant="contained" type="submit" id="save">
                   Save
                 </Button>
               ) : id ? (
                 <Button
+                  id="editButton"
                   color="primary"
                   variant="contained"
                   key="NotSubmit"
@@ -542,7 +543,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   Edit
                 </Button>
               ) : (
-                <Button color="primary" variant="contained" type="submit" onClick={handleErrorCreate}>
+                <Button color="primary" variant="contained" id="submitButton" type="submit" onClick={handleErrorCreate}>
                   Create
                 </Button>
               )}
