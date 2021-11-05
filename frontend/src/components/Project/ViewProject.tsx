@@ -163,6 +163,7 @@ const ViewProject: React.FC = () => {
 
   return (
     <Grid
+      id="View-Project-Grid"
       container
       spacing={0}
       direction="column"

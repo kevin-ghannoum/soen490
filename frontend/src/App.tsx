@@ -15,6 +15,7 @@ const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/
 const CreateProject = lazy(() => import('./components/Project/CreateProject'));
 const ViewProject = lazy(() => import('./components/Project/ViewProject'));
 const EditProject = lazy(() => import('./components/Project/EditProject'));
+const LogHours = lazy(() => import('./components/LogHours/LogHours'));
 const PageNotFound = lazy(() => import('./components/Shared/PageNotFound'));
 const CreateBusinessAccount = lazy(() => import('./components/CreateBusinessAccount/CreateBusinessAccount'));
 
@@ -76,6 +77,7 @@ const App = () => {
               <Route exact path="/project" render={() => <CreateProject edit="false" />} />
               <Route exact path="/project/:id" render={({ match }) => <EditProject id={match.params.id} />} />
               <Route exact path="/projects" render={() => <ViewProject />} />
+              <Route exact path="/employees" render={() => <LogHours />} />
               <Route exact path="/error" render={() => <PageNotFound />} />
               <Route exact path="/businessAccount/new" render={() => <CreateBusinessAccount />} />
               <Route exact path="/clientAccount/new" render={() => <CreateClientAccount />} />
