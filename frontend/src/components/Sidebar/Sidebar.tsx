@@ -70,7 +70,7 @@ const Sidebar = (props: { history: any }) => {
   ];
 
   function handleClick() {
-    history.push("/");
+    history.push('/');
   }
 
   const list = (anchor: Anchor) => (

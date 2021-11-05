@@ -16,10 +16,10 @@ import { getAllClientAccount, getAllRegexEmployeeAccount } from '../../services/
 import { createProject, getProject, updateProject } from '../../services/ProjectAPI';
 import createProjectFromSchema from './CreateProjectFormValidationSchema';
 import useStyles from './CreateProjectStyle';
-import Sidebar from '../Sidebar/Sidebar';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 import { SaleCreationDTO } from '../../dto/SaleDTO';
+// import Sidebar from '../Sidebar/Sidebar';
 
 interface Props {
   id?: string;
@@ -272,17 +272,16 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   };
 
   return (
-
-    <>
-      <Sidebar />
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: '100vh', paddingTop: '75px' }}
-      >
+    // <>
+    //   <Sidebar />
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: '100vh', paddingTop: '75px' }}
+    >
       <Paper elevation={3} className={classes.createProjectPaper}>
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={3} direction="row" xs={12} className={classes.createProjectFormWrapper}>
@@ -349,93 +348,11 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   id="selectStatus"
                   name="status"
                   className={classes.selectBox}
-                  id="combo-box-demo"
-                  loadingText="No Options"
-                  options={clientList}
-                  value={formik.values.email}
-                  onInputChange={getClientInput}
-                  onChange={(event, value) => formik.setFieldValue('email', value)}
-                  getOptionLabel={(option) => option}
-                  style={{ marginTop: 6, alignItems: 'center' }}
-                  renderInput={(params) => (
-                    <TextField
-                      error={formik.touched.email && Boolean(formik.errors.email)}
-                      helperText={formik.touched.email && formik.errors.email}
-                      {...params}
-                      variant="standard"
-                      style={{ alignContent: 'center' }}
-                    />
-                  )}
-                  disabled={disabled}
-                />
-              </Grid>
-              <Grid item xs={8} className={classes.assigneeWrapper} style={{ marginTop: 5 }}>
-                <Typography className={classes.Typo}>Assignees</Typography>
-                <Autocomplete
-                  loading={assigneeLoading}
-                  onInputChange={getEmployeeInput}
-                  loadingText="No Options"
-                  noOptionsText="No Options found"
-                  style={{ width: '90%' }}
-                  value={assignee}
-                  onChange={onAssigneeTagsChange}
-                  ListboxProps={{ style: { maxHeight: '10rem' }, position: 'bottom-start' }}
-                  multiple
-                  id="tags-outlined"
-                  options={employeeList}
-                  getOptionLabel={(option) => option.label}
-                  filterSelectedOptions
-                  renderInput={(params) => <TextField {...params} variant="standard" size="small" />}
-                  disabled={disabled}
-                />
-              </Grid>
-              <Grid container item xs={4} className={classes.assigneeWrapper}>
-                <Grid item xs={12} className={classes.assigneeWrapper}>
-                  <Typography className={classes.Typo}>Status</Typography>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="status"
-                    className={classes.selectBox}
-                    value={formik.values.status}
-                    onChange={formik.handleChange}
-                    error={formik.touched.status && Boolean(formik.errors.status)}
-                    disabled={disabled}
-                  >
-                    <MenuItem value={'BOOKED'}>Booked</MenuItem>
-                    <MenuItem value={'REJECTED'}>Rejected</MenuItem>
-                    <MenuItem value={'TO BE RESCHEDULED'}>To Be Reschedule</MenuItem>
-                    <MenuItem value={'PENDING'}>Pending</MenuItem>
-                  </Select>
-                </Grid>
-                <Grid item>
-                  {formik.touched.status && Boolean(formik.errors.status) && (
-                    <FormHelperText style={{ color: 'red', marginLeft: 60 }}>Required</FormHelperText>
-                  )}
-                </Grid>
-              </Grid>
-              <Grid item xs={8}></Grid>
-              <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '100px' }}>
-                <Typography variant="h5" className={classes.projectTitle}>
-                  Project Specification
-                </Typography>
-              </Grid>
-              <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '100px' }}>
-                <Typography variant="h5" className={classes.projectTitle}>
-                  Project Description
-                </Typography>
-              </Grid>
-              <Grid item xs={6} style={{ paddingTop: '20px' }}>
-                <TextField
+                  value={formik.values.status}
                   onChange={formik.handleChange}
-                  value={formik.values.title}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.touched.title && formik.errors.title}
-                  label="Title *"
-                  name="title"
-                  fullWidth
+                  error={formik.touched.status && Boolean(formik.errors.status)}
                   disabled={disabled}
-                />
+                >
                   <MenuItem id="booked" value={'BOOKED'}>
                     Booked
                   </MenuItem>
@@ -450,18 +367,10 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   </MenuItem>
                 </Select>
               </Grid>
-              <Grid item xs={2} style={{ paddingTop: '20px' }}>
-                <TextField
-                  label="Lead Source *"
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  name="leadSource"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.leadSource}
-                  error={formik.touched.leadSource && Boolean(formik.errors.leadSource)}
-                  helperText={formik.touched.leadSource && formik.errors.leadSource}
-                  disabled={disabled}
-                />
+              <Grid item>
+                {formik.touched.status && Boolean(formik.errors.status) && (
+                  <FormHelperText style={{ color: 'red', marginLeft: 60 }}>Required</FormHelperText>
+                )}
               </Grid>
             </Grid>
             <Grid item xs={8}></Grid>
@@ -647,24 +556,29 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 <Button color="primary" variant="contained" id="submitButton" type="submit" onClick={handleErrorCreate}>
                   Create
                 </Button>
-              </Grid>
-              <Grid item xs={12}>
-                {created && (
-                  <Typography variant="h6" color="primary">
-                    Created succesfully
-                  </Typography>
-                )}
-                {error && (
-                  <Typography variant="h6" style={{ color: 'red' }}>
-                    Error
-                  </Typography>
-                )}
-              </Grid>
+              )}
+              &nbsp; &nbsp;
+              <Button disabled={disabled} type="reset" onClick={reset} color="primary" variant="outlined">
+                Clear
+              </Button>
             </Grid>
-          </form>
-        </Paper>
-      </Grid>
-    </>
+            <Grid item xs={12}>
+              {created && (
+                <Typography variant="h6" color="primary">
+                  Created succesfully
+                </Typography>
+              )}
+              {error && (
+                <Typography variant="h6" style={{ color: 'red' }}>
+                  Error
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Grid>
+    // </>
   );
 };
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getAllBusinessProject } from '../../services/ProjectAPI';
 import { Button, Grid, Link } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import Sidebar from '../Sidebar/Sidebar';
+// import Sidebar from '../Sidebar/Sidebar';
 
 interface Sale {
   amount: number;
@@ -164,16 +164,17 @@ const ViewProject: React.FC = () => {
   ];
 
   return (
-    <>
-      <Sidebar />
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        justifyContent="center"
-        alignContent="center"
-        style={{ minHeight: '100vh', paddingTop: '75px' }}
-      >
+    // <>
+    //   <Sidebar />
+    <Grid
+      id="View-Project-Grid"
+      container
+      spacing={0}
+      direction="column"
+      justifyContent="center"
+      alignContent="center"
+      style={{ minHeight: '100vh', paddingTop: '75px' }}
+    >
       <div style={{ height: 650, width: '100%' }}>
         <Grid item container spacing={3} direction="row" xs={12}>
           <Grid item xs={4}></Grid>
@@ -189,9 +190,20 @@ const ViewProject: React.FC = () => {
               Add Project
             </Button>
           </Grid>
-        </div>
-      </Grid>
-    </>
+          <Grid item xs={12} style={{ height: 560, width: '100%' }}>
+            {' '}
+            <DataGrid
+              style={{ maxWidth: '75%', margin: 'auto' }}
+              rows={projectList}
+              columns={columns}
+              pageSize={8}
+              onSelectionModelChange={handleRowSelection}
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </Grid>
+    // </>
   );
 };
 
