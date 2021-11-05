@@ -32,6 +32,20 @@ describe('CreateBusinessAccount feature e2e test', () => {
               fixture: 'allEmployees.json'
           })
       })
+
+      cy.intercept('GET', '/logHours/inputType/employee@gmail.com', (req) => {
+          req.reply({
+              statusCode: 200,
+              fixture: 'emptyInputType.json'
+          })
+      })
+
+      cy.intercept('GET', '/logHours/pay/latest/employee@gmail.com', (req) => {
+          req.reply({
+              statusCode: 200,
+              fixture: 'emptyLatestPay.json'
+          })
+      })
   
       cy.visit('/employees');
   
