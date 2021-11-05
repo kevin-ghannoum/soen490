@@ -297,7 +297,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
               <Autocomplete
                 loading={clientLoading}
                 className={classes.selectBox}
-                id="combo-box-demo"
+                id="selectClient"
                 loadingText="No Options"
                 options={clientList}
                 value={formik.values.email}
@@ -329,7 +329,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 onChange={onAssigneeTagsChange}
                 ListboxProps={{ style: { maxHeight: '10rem' }, position: 'bottom-start' }}
                 multiple
-                id="tags-outlined"
+                id="selectEmployee"
                 options={employeeList}
                 getOptionLabel={(option) => option.label}
                 filterSelectedOptions
@@ -342,7 +342,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 <Typography className={classes.Typo}>Status</Typography>
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="selectStatus"
                   name="status"
                   className={classes.selectBox}
                   value={formik.values.status}
@@ -350,10 +350,18 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   error={formik.touched.status && Boolean(formik.errors.status)}
                   disabled={disabled}
                 >
-                  <MenuItem value={'BOOKED'}>Booked</MenuItem>
-                  <MenuItem value={'REJECTED'}>Rejected</MenuItem>
-                  <MenuItem value={'TO BE RESCHEDULED'}>To Be Reschedule</MenuItem>
-                  <MenuItem value={'PENDING'}>Pending</MenuItem>
+                  <MenuItem id="booked" value={'BOOKED'}>
+                    Booked
+                  </MenuItem>
+                  <MenuItem id="rejected" value={'REJECTED'}>
+                    Rejected
+                  </MenuItem>
+                  <MenuItem id="toBeScheduled" value={'TO BE RESCHEDULED'}>
+                    To Be Reschedule
+                  </MenuItem>
+                  <MenuItem id="pending" value={'PENDING'}>
+                    Pending
+                  </MenuItem>
                 </Select>
               </Grid>
               <Grid item>
@@ -426,7 +434,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={6} style={{ paddingTop: '3px' }}>
               <TextField
-                id="outlined-multiline-static"
+                id="description"
                 label="Description"
                 name="description"
                 variant="outlined"
@@ -464,7 +472,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                id="outlined-multiline-static"
+                id="saleDescription"
                 label="Sale Description"
                 multiline
                 variant="outlined"
@@ -478,7 +486,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 disabled={disabled}
               ></TextField>
               <TextField
-                id="outlined-multiline-static"
+                id="extraNotes"
                 label="Extra Notes"
                 multiline
                 rows={2}
@@ -526,11 +534,12 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={12} style={{ marginTop: 40 }}>
               {editState === 'true' ? (
-                <Button color="primary" variant="contained" type="submit">
+                <Button color="primary" variant="contained" type="submit" id="save">
                   Save
                 </Button>
               ) : id ? (
                 <Button
+                  id="editButton"
                   color="primary"
                   variant="contained"
                   key="NotSubmit"
@@ -541,7 +550,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   Edit
                 </Button>
               ) : (
-                <Button color="primary" variant="contained" type="submit" onClick={handleErrorCreate}>
+                <Button color="primary" variant="contained" id="submitButton" type="submit" onClick={handleErrorCreate}>
                   Create
                 </Button>
               )}
