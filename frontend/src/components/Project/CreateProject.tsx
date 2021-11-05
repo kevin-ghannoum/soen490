@@ -193,7 +193,6 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
 
   const getClientInput = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
     const clientResponse = await getAllClientAccount(value);
-    console.log(clientResponse);
     const clients: any[] = [];
     clientResponse.data.forEach((element: any) => {
       clients.push(`${element.email}`);
