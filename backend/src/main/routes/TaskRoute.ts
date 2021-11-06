@@ -44,7 +44,7 @@ export default class TaskRoute extends CommonRoutesConfig {
       .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const deletedTask = await this.taskService.deleteTask(req.params.taskId);
-          res.status(StatusCodes.OK).send(deletedTask);
+          res.sendStatus(StatusCodes.OK).send(deletedTask);
         } catch (err) {
           next(err);
         }

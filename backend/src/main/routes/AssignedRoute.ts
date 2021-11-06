@@ -39,6 +39,14 @@ export default class AssignedRoute extends CommonRoutesConfig {
         } catch (err) {
           next(err);
         }
+      })
+      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const nbDeleted = await this.assignedService.deleteAllByTaskId(req.params.taskid);
+          res.sendStatus(StatusCodes.OK).send(nbDeleted);
+        } catch (err) {
+          next(err);
+        }
       });
     return this.getApp();
   }

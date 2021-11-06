@@ -42,11 +42,9 @@ export default class TaskRepository implements CRUD {
   public update = async (taskId: number, updatedValue: TaskUpdateDTO): Promise<number> => {
     try {
       await Task.update(updatedValue, { where: { id: taskId } });
-      console.log('scum fuck');
       log(`Task with id ${taskId} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
-      console.log('scum fuck err');
       return Promise.reject(err);
     }
   };
