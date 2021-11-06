@@ -30,7 +30,8 @@ const editTaskStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   chip: {
-    margin: 0,
+    marginRight: 2,
+    marginLeft: 1,
   },
   noBorder: {
     border: "none",

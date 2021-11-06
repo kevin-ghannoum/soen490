@@ -29,7 +29,7 @@ export class AssignedService {
     taskId: string,
     assignedToUpdateDTO: MultipleAssignedCreationDTO
   ): Promise<number> => {
-      const intTaskId: number = parseInt(taskId, 10);
+    const intTaskId: number = parseInt(taskId, 10);
     const existingAssignments = await this.assignedRepository.getByTaskId(parseInt(taskId, 10));
     const emailList: string[] = [];
     const newEmailList: string[] = assignedToUpdateDTO.emails;
@@ -42,12 +42,16 @@ export class AssignedService {
     const emailsToAdd = newEmailList.filter(function (em) {
       return !emailList.includes(em);
     });
-    emailsToRemove.forEach((em) =>{
-        this.assignedRepository.delete({taskId: intTaskId, email: em});
+    emailsToRemove.forEach((em) => {
+      this.assignedRepository.delete({ taskId: intTaskId, email: em });
     });
-    emailsToAdd.forEach((em) =>{
-        this.assignedRepository.create({taskId: intTaskId, email: em});
+    emailsToAdd.forEach((em) => {
+      this.assignedRepository.create({ taskId: intTaskId, email: em });
     });
     return emailsToRemove.concat(emailsToAdd).length;
   };
+
+  public deleteAllByTaskId = async (taskId: string):Promise<number>=>{
+    return this.assignedRepository.deleteById(parseInt(taskId, 10));
+  }
 }

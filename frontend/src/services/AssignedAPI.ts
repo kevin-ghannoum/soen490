@@ -12,3 +12,7 @@ export const getAssignedByTaskId = async(taskId: string): Promise<AxiosResponse<
 export const updateAssignedByTaskId = async(multipleAssignedCreationDTO: MultipleAssignedCreationDTO): Promise<AxiosResponse<any>>=>{
   return axios.post(`/assignedByTaskId/${multipleAssignedCreationDTO.taskId}`, multipleAssignedCreationDTO);
 };
+
+export const deleteAssignedByTaskId = async(taskId: string): Promise<AxiosResponse<any>>=>{
+  return axios.delete(`/assignedByTaskId/${taskId}`);
+};
