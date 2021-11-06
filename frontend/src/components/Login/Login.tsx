@@ -2,6 +2,11 @@ import { AppBar, Button, Grid, Paper, TextField, Toolbar, Typography } from '@ma
 import useStyles from './LoginStyle';
 import { FormikProps, useFormik } from 'formik';
 import loginSchema from './LoginFormValidationSchema';
+import { login } from '../../services/AccountAPI';
+import localStorageService from '../../services/LocalStorageService';
+import { useAppDispatch } from '../../redux/hooks';
+import { getAccount } from '../../features/account/AccountSlice';
+import { useState } from 'react';
 
 interface loginFormData {
   email: string;
@@ -9,14 +14,35 @@ interface loginFormData {
 }
 
 const Login: React.FC = () => {
+  const [error, setError] = useState<string>('');
   const formik: FormikProps<loginFormData> = useFormik<loginFormData>({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      try {
+        const response = await login(values);
+        localStorageService.setToken({
+          accessToken: response.data.access_token,
+          idToken: response.data.id_token,
+          refreshToken: response.data.refresh_token,
+        });
+        localStorageService.setBearerToken();
+        dispatch(getAccount());
+      } catch (err: any) {
+        if (err.response.data.status === 403) {
+          const errorMessage = JSON.parse(err.response.data.message.message);
+          setError(errorMessage.error_description);
+        } else {
+          setError('Unable to login');
+        }
+      }
+    },
     validationSchema: loginSchema,
   });
+
+  const dispatch = useAppDispatch();
 
   const classes = useStyles();
   return (
@@ -98,6 +124,11 @@ const Login: React.FC = () => {
                 helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
+            {error && (
+              <Grid item xs={12}>
+                <Typography color="error">{error}</Typography>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Button size="large" variant="contained" color="primary" type="submit" className={classes.loginButton}>
                 Login

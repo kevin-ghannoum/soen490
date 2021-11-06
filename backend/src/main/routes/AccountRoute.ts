@@ -2,11 +2,15 @@ import express from 'express';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
-import { EmployeeAccountService } from '../services/EmployeeAccountService';
 import HttpException from '../exceptions/HttpException';
 import { BusinessAccountService } from '../services/BusinessAccountService';
 import { ClientAccountService } from '../services/ClientAccountService';
+import { EmployeeAccountService } from '../services/EmployeeAccountService';
+import { AuthenticationService } from '../services/AuthenticationService';
 import { ClientAccount } from '../models/ClientAccount';
+import { checkJwt, getProfileRoles } from '../middleware/JWTMiddleware';
+import jwt_decode from 'jwt-decode';
+import { Role } from 'auth0';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
@@ -14,7 +18,8 @@ export default class AccountRoute extends CommonRoutesConfig {
     @inject('express-app') app: express.Application,
     private employeeAccountService: EmployeeAccountService,
     private businessAccountService: BusinessAccountService,
-    private clientAccountService: ClientAccountService
+    private clientAccountService: ClientAccountService,
+    private authenticationService: AuthenticationService
   ) {
     super(app, 'AccountRoute');
   }
@@ -207,6 +212,30 @@ export default class AccountRoute extends CommonRoutesConfig {
           next(err);
         }
       });
+
+    this.getApp()
+      .route(`/redux/accounts/`)
+      .get(checkJwt, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        //receive the header authorization
+        const authHeader = req.headers.authorization;
+        const userRole: Role[] = await getProfileRoles(req.headers['access_token'] as string);
+        if (authHeader && userRole.length > 0) {
+          const jwtToken = authHeader.replace('Bearer ', '');
+          try {
+            const decoded = JSON.parse(JSON.stringify(jwt_decode(jwtToken)));
+            const response = await this.authenticationService.getReduxAccountByRole(
+              userRole[0].name as string,
+              decoded.email
+            );
+            res.status(StatusCodes.OK).send(response);
+          } catch (err) {
+            next(err);
+          }
+        } else {
+          next(new HttpException(StatusCodes.BAD_REQUEST, 'The user does not have a role.'));
+        }
+      });
+
     return this.getApp();
   }
 }

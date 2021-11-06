@@ -100,4 +100,8 @@ export class EmployeeAccountService {
   public getAllEmployeeAccountsByBusiness = async (businessEmail: string): Promise<EmployeeAccount[] | null> => {
     return this.employeeAccountRepository.getAllByBusiness(businessEmail);
   };
+
+  public getRedux = async (email: string): Promise<EmployeeAccount | null> => {
+    return this.employeeAccountRepository.getRedux(email);
+  };
 }

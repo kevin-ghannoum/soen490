@@ -46,7 +46,6 @@ const ViewProject: React.FC = () => {
 
   const [select, setSelection] = useState<GridSelectionModel>();
   const handleRowSelection = (id: GridSelectionModel) => {
-    console.log(id);
     setSelection(id);
   };
 

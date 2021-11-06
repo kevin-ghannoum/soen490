@@ -119,4 +119,30 @@ export default class ClientAccountRepository implements CRUD {
       return Promise.reject(err);
     }
   };
+
+  // Retrieve the client account information needed for redux store
+  public getRedux = async (email: string): Promise<ClientAccount | null> => {
+    try {
+      const account = await ClientAccount.findByPk(email, {
+        attributes: ['website', 'businessName', 'industry', 'status'],
+        include: [
+          {
+            model: Account,
+            attributes: ['email', 'firstName', 'lastName'],
+          },
+        ],
+      });
+
+      if (account) {
+        log(`Client Account with email ${account?.email} has been retrieved`);
+      } else {
+        log('No client account has been found');
+      }
+
+      return Promise.resolve(account);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
 }
