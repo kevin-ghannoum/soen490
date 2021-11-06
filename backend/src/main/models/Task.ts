@@ -36,7 +36,7 @@ export class Task extends Model {
   deadlineDate!: Date;
 
   @Column
-  createDate!: Date;
+  createdDate!: Date;
 
   @Column
   modifiedDate!: Date;

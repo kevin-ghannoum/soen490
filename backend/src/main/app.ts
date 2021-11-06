@@ -14,6 +14,8 @@ import { AuthenticationClient, ManagementClient } from 'auth0';
 import dotenv from 'dotenv';
 
 dotenv.config();
+import AssignedRoute from './routes/AssignedRoute';
+import TaskRoute from './routes/TaskRoute';
 import LogHoursRoute from './routes/LogHoursRoute';
 import ProjectRoute from './routes/ProjectRoute';
 import AuthenticationRoute from './routes/AuthenticationRoute';
@@ -74,6 +76,8 @@ const main = async () => {
   routes.push(container.resolve(LogHoursRoute));
   routes.push(container.resolve(ProjectRoute));
   routes.push(container.resolve(AuthenticationRoute));
+  routes.push(container.resolve(TaskRoute));
+  routes.push(container.resolve(AssignedRoute));
 
   // Registering express error handling middleware
   app.use(failSafeHandler);
