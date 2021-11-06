@@ -35,7 +35,6 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
   const [created, setCreated] = useState<boolean>(false);
   const [projectList, setProjectList] = useState<any>([]);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
-  //merci lauren
   const [editState] = useState<boolean>(edit);
   const [open, setOpen] = React.useState(false);
 
@@ -72,7 +71,6 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
     validationSchema: createTaskFromSchema,
     onSubmit: async (values) => {
       if (editState && id) {
-        console.log('edit');
         const taskResponse: AxiosResponse<any> = await updateTaskById(id, {
           title: values.title,
           description: values.description,
@@ -116,7 +114,6 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
 
   useEffect(() => {
     if (editState && id) {
-      console.log('edit');
       const getEditTask = async () => {
         try {
           const taskToEdit = await getTaskById(id);
