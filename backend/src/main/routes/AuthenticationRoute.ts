@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { AuthenticationService } from '../services/AuthenticationService';
 import { TokenResponse } from 'auth0';
+import HttpException from '../exceptions/HttpException';
 
 @injectable()
 export default class AuthenticationRoute extends CommonRoutesConfig {
@@ -24,8 +25,12 @@ export default class AuthenticationRoute extends CommonRoutesConfig {
             password: req.body.password,
           });
           res.status(StatusCodes.ACCEPTED).send(token);
-        } catch (err) {
-          next(err);
+        } catch (err: any) {
+          if (err.statusCode === StatusCodes.FORBIDDEN) {
+            next(new HttpException(StatusCodes.FORBIDDEN, err));
+          } else {
+            next(err);
+          }
         }
       });
 

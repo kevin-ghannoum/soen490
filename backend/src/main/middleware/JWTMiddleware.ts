@@ -42,7 +42,7 @@ export const checkRole = (
   };
 };
 
-const getProfileRoles = async (accessToken: string): Promise<Role[]> => {
+export const getProfileRoles = async (accessToken: string): Promise<Role[]> => {
   try {
     const authenticationClient: AuthenticationClient = container.resolve('auth0-authentication-client');
     const managementClient: ManagementClient = container.resolve('auth0-management-client');

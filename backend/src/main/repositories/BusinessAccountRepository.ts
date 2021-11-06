@@ -5,6 +5,7 @@ import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:BusinessAccountRepository');
 import { Account } from '../models/Account';
 import { BusinessAccount } from '../models/BusinessAccount';
+import { Business } from '../models/Business';
 
 @injectable()
 export default class BusinessAccountRepository implements CRUD {
@@ -81,6 +82,35 @@ export default class BusinessAccountRepository implements CRUD {
 
       log(`retrieved all business accounts`);
       return Promise.resolve(businessAccountList);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  // Retrieve the business account information needed for redux store
+  public getRedux = async (email: string): Promise<BusinessAccount | null> => {
+    try {
+      const account = await BusinessAccount.findByPk(email, {
+        include: [
+          {
+            model: Account,
+            attributes: ['email', 'firstName', 'lastName'],
+          },
+          {
+            model: Business,
+            attributes: ['id'],
+          },
+        ],
+      });
+
+      if (account) {
+        log(`Business Account with email ${account?.email} has been retrieved`);
+      } else {
+        log('No business account has been found');
+      }
+
+      return Promise.resolve(account);
     } catch (err: any) {
       log(err);
       return Promise.reject(err);

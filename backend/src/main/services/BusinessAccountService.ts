@@ -91,4 +91,8 @@ export class BusinessAccountService {
 
     return this.businessAccountRepository.delete(email);
   };
+
+  public getRedux = async (email: string): Promise<BusinessAccount | null> => {
+    return this.businessAccountRepository.getRedux(email);
+  };
 }

@@ -148,4 +148,30 @@ export default class EmployeeAccountRepository implements CRUD {
       return Promise.reject(err);
     }
   };
+
+  // Retrieve the employee account information needed for redux store
+  public getRedux = async (email: string): Promise<EmployeeAccount | null> => {
+    try {
+      const account = await EmployeeAccount.findByPk(email, {
+        attributes: ['title'],
+        include: [
+          {
+            model: Account,
+            attributes: ['email', 'firstName', 'lastName'],
+          },
+        ],
+      });
+
+      if (account) {
+        log(`Employee Account with email ${account?.email} has been retrieved`);
+      } else {
+        log('No employee account has been found');
+      }
+
+      return Promise.resolve(account);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
 }

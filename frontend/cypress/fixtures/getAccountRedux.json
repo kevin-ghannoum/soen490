@@ -1,0 +1,4 @@
+{
+  "account": { "email": "john@gmail.com", "firstName": "John", "lastName": "Doe", "role": "BUSINESS" },
+  "businessAcc": { "businessId": 4 }
+}

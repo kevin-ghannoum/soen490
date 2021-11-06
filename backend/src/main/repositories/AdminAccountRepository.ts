@@ -86,4 +86,28 @@ export default class AdminAccountRepository implements CRUD {
       return Promise.reject(err);
     }
   };
+
+  public getRedux = async (email: string): Promise<AdminAccount | null> => {
+    try {
+      const account = await AdminAccount.findByPk(email, {
+        include: [
+          {
+            model: Account,
+            attributes: ['email', 'firstName', 'lastName'],
+          },
+        ],
+      });
+
+      if (account) {
+        log(`Admin Account with email ${account?.email} has been retrieved`);
+      } else {
+        log('No admin account has been found');
+      }
+
+      return Promise.resolve(account);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
 }

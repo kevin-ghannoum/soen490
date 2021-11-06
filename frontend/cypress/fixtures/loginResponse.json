@@ -1,0 +1,8 @@
+{
+  "access_token": "xxxxxxxxxxxxxxxxxxxxx",
+  "refresh_token": "xxxxxxxxx",
+  "id_token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "scope": "openid profile email address phone offline_access",
+  "expires_in": 86400,
+  "token_type": "Bearer"
+}
