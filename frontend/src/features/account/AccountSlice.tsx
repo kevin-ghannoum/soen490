@@ -78,7 +78,7 @@ export const AccountSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.authenticated = false;
-        state.account = {email: "", firstName: "", lastName: "", role: ""};
+        state.account = { email: '', firstName: '', lastName: '', role: '' };
         state.businessAcc = undefined;
         state.clientAcc = undefined;
         state.employeeAcc = undefined;
@@ -86,7 +86,7 @@ export const AccountSlice = createSlice({
         localStorageService.clearAllTokens();
       })
       .addCase(logout.rejected, (state) => {
-        console.log("error while logging out");
+        console.log('error while logging out');
       });
   },
 });
