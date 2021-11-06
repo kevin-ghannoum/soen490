@@ -17,6 +17,8 @@ import CreateIcon from '@material-ui/icons/Create';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import useStyles from './SidebarStyle';
+import { useAppDispatch } from '../../redux/hooks';
+import { logout } from '../../features/account/AccountSlice';
 
 type Anchor = 'left';
 
@@ -26,6 +28,8 @@ const Sidebar = (props: { history: any }) => {
   const [state, setState] = React.useState({
     left: false,
   });
+
+  const dispatch = useAppDispatch();
 
   const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -94,6 +98,10 @@ const Sidebar = (props: { history: any }) => {
     </Box>
   );
 
+  const logoutButton = () => {
+    dispatch(logout());
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <React.Fragment key="left">
@@ -104,8 +112,8 @@ const Sidebar = (props: { history: any }) => {
                 <MenuIcon className={classes.menuicon} />
               </IconButton>
             </Box>
-            <Box sx={{ position: 'absolute', right: 0, paddingRight: "20px" }}>
-              <Button size="medium" variant="contained" color="primary">
+            <Box sx={{ position: 'absolute', right: 0, paddingRight: '20px' }}>
+              <Button size="medium" variant="contained" color="primary" onClick={logoutButton}>
                 Log out
               </Button>
             </Box>
