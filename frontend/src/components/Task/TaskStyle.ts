@@ -24,7 +24,7 @@ const editTaskStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-  }, 
+  },
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -34,7 +34,7 @@ const editTaskStyles = makeStyles((theme) => ({
     marginLeft: 1,
   },
   noBorder: {
-    border: "none",
+    border: 'none',
   },
 }));
 
@@ -48,12 +48,12 @@ const listTaskStyles = makeStyles((theme) => ({
     },
     width: '60%',
     margin: '10px',
-  }
+  },
 }));
 
 const _ = {
   listTaskStyles,
-  editTaskStyles
-}
+  editTaskStyles,
+};
 
 export default _;

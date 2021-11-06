@@ -9,13 +9,13 @@ export const getAllTask = async (): Promise<AxiosResponse<any>> => {
   return axios.get(`/task`);
 };
 
-export const getTaskById = async (taskId: string): Promise<AxiosResponse<any>> =>{
-    return axios.get(`/task/${taskId}`);
+export const getTaskById = async (taskId: string): Promise<AxiosResponse<any>> => {
+  return axios.get(`/task/${taskId}`);
 };
 
-export const updateTaskById = async (taskId: string, taskUpdateDTO: TaskUpdateDTO): Promise<AxiosResponse<any>> =>{
+export const updateTaskById = async (taskId: string, taskUpdateDTO: TaskUpdateDTO): Promise<AxiosResponse<any>> => {
   return axios.post(`/task/${taskId}`, taskUpdateDTO);
 };
-export const deleteTaskById = async (taskId: string): Promise<AxiosResponse<any>> =>{
+export const deleteTaskById = async (taskId: string): Promise<AxiosResponse<any>> => {
   return axios.delete(`/task/${taskId}`);
 };
