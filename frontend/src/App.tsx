@@ -32,6 +32,7 @@ const App = () => {
             idToken: res.data.id_token,
             refreshToken: localStorageService.getRefreshToken() as string,
           });
+          localStorageService.setBearerToken();
           dispatch(getAccount());
         })
         .catch(() => {
@@ -57,6 +58,7 @@ const App = () => {
               idToken: res.data.id_token,
               refreshToken: localStorageService.getRefreshToken() as string,
             });
+            localStorageService.setBearerToken();
           })
           .catch((err) => {
             localStorageService.clearAllTokens();
