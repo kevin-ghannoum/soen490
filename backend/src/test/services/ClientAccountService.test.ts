@@ -11,11 +11,14 @@ import ClientAccountRepository from '../../main/repositories/ClientAccountReposi
 import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRepository';
 import { ClientAccountService } from '../../main/services/ClientAccountService';
 import { sequelizeMock } from '../helpers/SequelizeMock';
+import { AuthenticationClient, ManagementClient } from 'auth0';
 
 describe('ClientAccountService tests', () => {
   let clientAccountRepositoryMock: any = null;
   let addressRepositoryMock: any = null;
   let socialMediaPageRepositoryMock: any = null;
+  let authenticationClientMock: any = null;
+  let managementClientMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
@@ -25,9 +28,15 @@ describe('ClientAccountService tests', () => {
     clientAccountRepositoryMock = mock<ClientAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
     socialMediaPageRepositoryMock = mock<SocialMediaPageRepository>();
+    authenticationClientMock = mock<AuthenticationClient>();
+    managementClientMock = mock<ManagementClient>();
     container.registerInstance(ClientAccountRepository, clientAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
+    container.register<AuthenticationClient>('auth0-authentication-client', {
+      useFactory: () => authenticationClientMock,
+    });
+    container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
   });
 
   afterEach(() => {
@@ -62,6 +71,16 @@ describe('ClientAccountService tests', () => {
         link: 'instagram.com',
       },
     };
+
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
+      given_name: 'bob',
+      family_name: 'bob',
+      _id: '61818a29369f4f0069c892c0',
+      email_verified: false,
+      email: 'client@gmail.com',
+    });
+
+    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
@@ -124,6 +143,16 @@ describe('ClientAccountService tests', () => {
         link: 'instagram.com',
       },
     };
+    
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
+      given_name: 'bob',
+      family_name: 'bob',
+      _id: '61818a29369f4f0069c892c0',
+      email_verified: false,
+      email: 'client@gmail.com',
+    });
+
+    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({

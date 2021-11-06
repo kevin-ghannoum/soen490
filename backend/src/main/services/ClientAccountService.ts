@@ -1,12 +1,14 @@
+import { AuthenticationClient, ManagementClient, SignUpUserData } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { ClientAccountCreationRequestDTO } from '../dto/Accounts/AccountDTOs';
 import HttpException from '../exceptions/HttpException';
 import { Address } from '../models/Address';
 import { ClientAccount } from '../models/ClientAccount';
 import AddressRepository from '../repositories/AddressRepository';
 import ClientAccountRepository from '../repositories/ClientAccountRepository';
+import { Roles } from '../security/Roles';
 import { AccountService } from './AccountService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 const log: debug.IDebugger = debug('app:ClientAccountService');
@@ -16,7 +18,9 @@ export class ClientAccountService {
   constructor(
     private clientAccountRepository: ClientAccountRepository,
     private addressRepository: AddressRepository,
-    private socialMediaPageService: SocialMediaPageService
+    private socialMediaPageService: SocialMediaPageService,
+    @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
+    @inject('auth0-management-client') private managementClient: ManagementClient
   ) {
     log('Created instance of ClientAccountService');
   }
@@ -37,6 +41,23 @@ export class ClientAccountService {
     ) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
+
+    const auth0UserData: SignUpUserData = {
+      email: clientAccountCreationRequestDTO.account.email,
+      password: clientAccountCreationRequestDTO.account.password,
+      given_name: clientAccountCreationRequestDTO.account.firstName,
+      family_name: clientAccountCreationRequestDTO.account.lastName,
+      connection: process.env.AUTH0_CONNECTION as string,
+    };
+
+    // Create client in auth0
+    const auth0ClientAccountData = await this.authenticationClient.database?.signUp(auth0UserData);
+
+    // Assign role in auth0
+    await this.managementClient.assignRolestoUser(
+      { id: `auth0|${auth0ClientAccountData?._id}` },
+      { roles: [Roles.CLIENT] }
+    );
 
     const address: [Address, boolean] = await this.addressRepository.create(clientAccountCreationRequestDTO.address);
     clientAccountCreationRequestDTO.account.addressId = address[0].id;

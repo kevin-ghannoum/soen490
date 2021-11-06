@@ -33,7 +33,7 @@ const CreateClientAccount: React.FC = () => {
     { value: 'LEAD', label: 'Lead' },
     { value: 'SCHEDULED', label: 'Scheduled' },
     { value: 'REJECTED', label: 'Rejected' },
-    { value: 'TO BE RESCHEDULED', label: 'To be rescheduled' },
+    { value: 'TO_BE_RESCHEDULED', label: 'To be rescheduled' },
     { value: 'PENDING', label: 'Pending' },
   ];
   const formik: FormikProps<CreateClientAccountFormData> = useFormik<CreateClientAccountFormData>({
