@@ -5,7 +5,7 @@ export interface TaskCreationDTO {
   deadlineDate: Date;
   createdDate: Date;
   modifiedDate: Date;
-  projectId: number;
+  projectId?: number;
 }
 
 export interface TaskUpdateDTO {

@@ -20,6 +20,9 @@ const EditProject = lazy(() => import('./components/Project/EditProject'));
 const LogHours = lazy(() => import('./components/LogHours/LogHours'));
 const PageNotFound = lazy(() => import('./components/Shared/PageNotFound'));
 const CreateBusinessAccount = lazy(() => import('./components/CreateBusinessAccount/CreateBusinessAccount'));
+const TaskList = lazy(()=>import('./components/Task/TaskList'));
+const CreateTask = lazy(() => import('./components/Task/CreateTask'));
+const EditTask = lazy(() => import('./components/Task/EditTask')); 
 
 const App = () => {
   const account = useAppSelector(selectAccount);
@@ -164,6 +167,9 @@ const App = () => {
                   </React.Fragment>
                 )}
               />
+              <Route exact path="/tasks" render={() => <TaskList/>}/>
+              <Route exact path="/tasks/new" render={() => <CreateTask edit="false" />}/>
+              <Route exact path="/tasks/edit/:id" render={({ match }) => <EditTask id={match.params.id}/>}/>
               <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
