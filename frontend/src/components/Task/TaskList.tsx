@@ -74,7 +74,6 @@ const TaskList: React.FC = () => {
       width: 190,
       editable: false,
     },
-
   ];
 
   const classes = _.listTaskStyles();

@@ -1,4 +1,4 @@
 export interface MultipleAssignedCreationDTO {
-    taskId: number;
-    emails: string[];
+  taskId: number;
+  emails: string[];
 }

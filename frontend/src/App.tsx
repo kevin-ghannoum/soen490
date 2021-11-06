@@ -20,9 +20,9 @@ const EditProject = lazy(() => import('./components/Project/EditProject'));
 const LogHours = lazy(() => import('./components/LogHours/LogHours'));
 const PageNotFound = lazy(() => import('./components/Shared/PageNotFound'));
 const CreateBusinessAccount = lazy(() => import('./components/CreateBusinessAccount/CreateBusinessAccount'));
-const TaskList = lazy(()=>import('./components/Task/TaskList'));
+const TaskList = lazy(() => import('./components/Task/TaskList'));
 const CreateTask = lazy(() => import('./components/Task/CreateTask'));
-const EditTask = lazy(() => import('./components/Task/EditTask')); 
+const EditTask = lazy(() => import('./components/Task/EditTask'));
 
 const App = () => {
   const account = useAppSelector(selectAccount);

@@ -23,7 +23,12 @@ import { createTask, deleteTaskById, getTaskById, updateTaskById } from '../../s
 import { getAllBusinessProject } from '../../services/ProjectAPI';
 import createTaskFromSchema from './CreateTaskFormValidation';
 import { getAllEmployeeAccounts } from '../../services/AccountAPI';
-import { createAssignment, deleteAssignedByTaskId, getAssignedByTaskId, updateAssignedByTaskId } from '../../services/AssignedAPI';
+import {
+  createAssignment,
+  deleteAssignedByTaskId,
+  getAssignedByTaskId,
+  updateAssignedByTaskId,
+} from '../../services/AssignedAPI';
 import { useHistory } from 'react-router';
 
 const ManageTask: React.FC<any> = ({ id, edit }) => {
@@ -43,7 +48,7 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
     setOpen(false);
     const assignResponse: AxiosResponse<any> = await deleteAssignedByTaskId(id);
     const taskResponse: AxiosResponse<any> = await deleteTaskById(id);
-    if(assignResponse.status === 200 && taskResponse.status === 200){
+    if (assignResponse.status === 200 && taskResponse.status === 200) {
       history.push('/tasks');
     }
   };
@@ -355,14 +360,14 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Delete this Task?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Delete this Task?'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure you want to delete this Task? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-        <Button onClick={handleClickConfirm} color="secondary">
+          <Button onClick={handleClickConfirm} color="secondary">
             Delete
           </Button>
           <Button onClick={handleClose} color="primary" autoFocus>
