@@ -51,7 +51,7 @@ export class AssignedService {
     return emailsToRemove.concat(emailsToAdd).length;
   };
 
-  public deleteAllByTaskId = async (taskId: string):Promise<number>=>{
+  public deleteAllByTaskId = async (taskId: string): Promise<number> => {
     return this.assignedRepository.deleteById(parseInt(taskId, 10));
-  }
+  };
 }
