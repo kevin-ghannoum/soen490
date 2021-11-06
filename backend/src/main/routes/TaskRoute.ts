@@ -6,7 +6,6 @@ import { CommonRoutesConfig } from './CommonRoutesConfig';
 
 @injectable()
 export default class TaskRoute extends CommonRoutesConfig {
-
   constructor(@inject('express-app') app: express.Application, private taskService: TaskService) {
     super(app, 'TaskRoute');
   }
@@ -49,7 +48,7 @@ export default class TaskRoute extends CommonRoutesConfig {
           next(err);
         }
       })
-      .post(async(req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const updatedTaskId = await this.taskService.updateTask(req.params.taskId, req.body);
 
