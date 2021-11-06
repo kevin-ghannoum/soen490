@@ -41,7 +41,7 @@ export class ClientAccountService {
     ) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
-    
+
     const auth0UserData: SignUpUserData = {
       email: clientAccountCreationRequestDTO.account.email,
       password: clientAccountCreationRequestDTO.account.password,
