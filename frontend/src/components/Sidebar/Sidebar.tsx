@@ -69,9 +69,9 @@ const Sidebar = (props: { history: any }) => {
     },
   ];
 
-  function handleClick() {
+  const handleClick = () => {
     history.push('/');
-  }
+  };
 
   const list = (anchor: Anchor) => (
     <Box
@@ -95,37 +95,42 @@ const Sidebar = (props: { history: any }) => {
   );
 
   return (
-    <div>
-      {(['left'] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <AppBar position="fixed" className={classes.appbar}>
-            <Toolbar>
-              <IconButton onClick={toggleDrawer(anchor, true)} edge="start">
+    <Box sx={{ flexGrow: 1 }}>
+      <React.Fragment key="left">
+        <AppBar position="fixed" className={classes.appbar}>
+          <Toolbar>
+            <Box>
+              <IconButton onClick={toggleDrawer('left', true)} edge="start">
                 <MenuIcon className={classes.menuicon} />
               </IconButton>
-            </Toolbar>
-          </AppBar>
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-            classes={{ paper: classes.paper }}
-          >
-            <Button onClick={handleClick}>
-              <img
-                width="190px"
-                height="40px"
-                alt="Logo"
-                src="https://cdn.discordapp.com/attachments/885685523954401340/899316466883645460/Logo_White.png"
-                className={classes.logo}
-              />
-            </Button>
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
-    </div>
+            </Box>
+            <Box sx={{ position: 'absolute', right: 0, paddingRight: "20px" }}>
+              <Button size="medium" variant="contained" color="primary">
+                Log out
+              </Button>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <SwipeableDrawer
+          anchor="left"
+          open={state['left']}
+          onClose={toggleDrawer('left', false)}
+          onOpen={toggleDrawer('left', true)}
+          classes={{ paper: classes.paper }}
+        >
+          <Button onClick={handleClick}>
+            <img
+              width="190px"
+              height="40px"
+              alt="Logo"
+              src="https://cdn.discordapp.com/attachments/885685523954401340/899316466883645460/Logo_White.png"
+              className={classes.logo}
+            />
+          </Button>
+          {list('left')}
+        </SwipeableDrawer>
+      </React.Fragment>
+    </Box>
   );
 };
 

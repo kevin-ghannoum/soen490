@@ -110,15 +110,7 @@ const App = () => {
                 )}
               />
               <Route exact path="/login" render={() => <Login />} />
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <div style={{ paddingTop: '75px' }}>
-                    <Sidebar /> root
-                  </div>
-                )}
-              />
+              <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
           </Suspense>
