@@ -38,7 +38,7 @@ export default class AuthenticationRoute extends CommonRoutesConfig {
       .route('/auth/logout')
       .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          await this.authenticationService.logout(req.body.refresh_token);
+          await this.authenticationService.logout(req.query.refresh_token as string);
           res.status(StatusCodes.ACCEPTED).send();
         } catch (err) {
           next(err);

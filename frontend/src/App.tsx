@@ -4,6 +4,8 @@ import { mainTheme } from './configs/MuiConfig';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import LandingPage from './components/Shared/LandingPage';
+import Sidebar from './components/Sidebar/Sidebar';
+import React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import localStorageService from './services/LocalStorageService';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
@@ -76,14 +78,92 @@ const App = () => {
         <div className="App">
           <Suspense fallback={<LandingPage />}>
             <Switch>
-              <Route exact path="/project" render={() => <CreateProject edit="false" />} />
-              <Route exact path="/project/:id" render={({ match }) => <EditProject id={match.params.id} />} />
-              <Route exact path="/projects" render={() => <ViewProject />} />
-              <Route exact path="/employees" render={() => <LogHours />} />
-              <Route exact path="/error" render={() => <PageNotFound />} />
-              <Route exact path="/businessAccount/new" render={() => <CreateBusinessAccount />} />
-              <Route exact path="/clientAccount/new" render={() => <CreateClientAccount />} />
-              <Route exact path="/employeeAccount/new" render={() => <CreateEmployee />} />
+              <Route
+                exact
+                path="/project"
+                render={() => (
+                  <React.Fragment>
+                    <Sidebar />
+                    <CreateProject edit="false" />
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/project/:id"
+                render={({ match }) => (
+                  <React.Fragment>
+                    <Sidebar />
+                    <EditProject id={match.params.id} />
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/projects"
+                render={() => (
+                  <React.Fragment>
+                    <Sidebar />
+                    <ViewProject />
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/employees"
+                render={() => (
+                  <React.Fragment>
+                    <Sidebar />
+                    <LogHours />
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/error"
+                render={() => (
+                  <React.Fragment>
+                    <Sidebar />
+                    <PageNotFound />
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/businessAccount/new"
+                render={() => (
+                  <React.Fragment>
+                    <div style={{ paddingTop: '75px' }}>
+                      <Sidebar />
+                      <CreateBusinessAccount />
+                    </div>
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/clientAccount/new"
+                render={() => (
+                  <React.Fragment>
+                    <div style={{ paddingTop: '75px' }}>
+                      <Sidebar />
+                      <CreateClientAccount />
+                    </div>
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/employeeAccount/new"
+                render={() => (
+                  <React.Fragment>
+                    <div style={{ paddingTop: '75px' }}>
+                      <Sidebar />
+                      <CreateEmployee />
+                    </div>
+                  </React.Fragment>
+                )}
+              />
               <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />

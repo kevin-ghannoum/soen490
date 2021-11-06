@@ -169,7 +169,7 @@ const ViewProject: React.FC = () => {
       direction="column"
       justifyContent="center"
       alignContent="center"
-      style={{ minHeight: '100vh' }}
+      style={{ minHeight: '100vh', paddingTop: '75px' }}
     >
       <div style={{ height: 650, width: '100%' }}>
         <Grid item container spacing={3} direction="row" xs={12}>

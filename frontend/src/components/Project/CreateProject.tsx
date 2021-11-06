@@ -277,7 +277,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
       direction="column"
       alignItems="center"
       justifyContent="center"
-      style={{ minHeight: '100vh' }}
+      style={{ minHeight: '100vh', paddingTop: '75px' }}
     >
       <Paper elevation={3} className={classes.createProjectPaper}>
         <form onSubmit={formik.handleSubmit}>

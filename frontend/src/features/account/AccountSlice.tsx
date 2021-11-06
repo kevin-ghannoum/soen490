@@ -1,6 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from '../../redux/store';
+import localStorageService from '../../services/LocalStorageService';
 
 interface AccountState {
   loading: boolean;
@@ -46,6 +47,13 @@ export const getAccount = createAsyncThunk('getAccount', async () => {
   return response.data;
 });
 
+export const logout = createAsyncThunk('logout', async () => {
+  const response = await axios.delete('/auth/logout', {
+    params: { refresh_token: localStorageService.getRefreshToken() },
+  });
+  return response.data;
+});
+
 export const AccountSlice = createSlice({
   name: 'account',
   initialState,
@@ -64,6 +72,21 @@ export const AccountSlice = createSlice({
           state.employeeAcc = action.payload.employeeAcc!;
           state.admin = action.payload.admin === 'true' ? true : false;
         }
+      })
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.authenticated = false;
+        state.account = { email: '', firstName: '', lastName: '', role: '' };
+        state.businessAcc = undefined;
+        state.clientAcc = undefined;
+        state.employeeAcc = undefined;
+        state.admin = false;
+        localStorageService.clearAllTokens();
+      })
+      .addCase(logout.rejected, (state) => {
+        console.log('error while logging out');
       });
   },
 });
