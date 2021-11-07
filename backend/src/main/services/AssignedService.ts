@@ -44,7 +44,6 @@ export class AssignedService {
     if (assignedToUpdateDTO.taskId === undefined) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
-
     if (newEmailList === undefined) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
@@ -79,6 +78,7 @@ export class AssignedService {
     }
     return false;
   };
+
   public static isThereNullMultipleAssignedCreationDTO = (
     multipleAssignedCreationDTO: MultipleAssignedCreationDTO
   ): boolean => {

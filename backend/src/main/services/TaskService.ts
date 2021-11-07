@@ -35,6 +35,7 @@ export class TaskService {
   public updateTask = async (taskId: string, taskUpdateDTO: TaskUpdateDTO): Promise<number> => {
     return this.taskRepository.update(parseInt(taskId, 10), taskUpdateDTO);
   };
+
   public static isThereNullValueTaskCreationDTO = (taskCreationDTO: TaskCreationDTO): boolean => {
     if (
       taskCreationDTO === undefined ||

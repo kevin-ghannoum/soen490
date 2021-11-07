@@ -9,13 +9,16 @@ import { AssignedService } from '../../main/services/AssignedService';
 
 describe('AssignedService tests', () => {
   let assignedRepositoryMock: any = null;
+  
   beforeAll(() => {
     sequelizeMock();
   });
+
   beforeEach(() => {
     assignedRepositoryMock = mock<AssignedRepository>();
     container.registerInstance(AssignedRepository, assignedRepositoryMock);
   });
+
   afterEach(() => {
     container.clearInstances();
   });

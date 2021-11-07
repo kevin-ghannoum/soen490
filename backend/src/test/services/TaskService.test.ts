@@ -10,13 +10,16 @@ import { TaskCreationDTO, TaskStatus, TaskUpdateDTO } from '../../main/dto/TaskD
 describe('TaskService tests', () => {
   let taskRepositoryMock: any = null;
   const date = new Date();
+  
   beforeAll(() => {
     sequelizeMock();
   });
+
   beforeEach(() => {
     taskRepositoryMock = mock<TaskRepository>();
     container.registerInstance(TaskRepository, taskRepositoryMock);
   });
+
   afterEach(() => {
     container.clearInstances();
   });
@@ -67,6 +70,7 @@ describe('TaskService tests', () => {
       'Request data is missing some values'
     );
   });
+
   it('should fail because of missing value in request data (missing status)', async () => {
     const NEW_TASK = {
       title: 'title',
@@ -81,6 +85,7 @@ describe('TaskService tests', () => {
       'Request data is missing some values'
     );
   });
+
   it('should fail because of missing value in request data (missing description)', async () => {
     const NEW_TASK = {
       title: 'title',
@@ -95,6 +100,7 @@ describe('TaskService tests', () => {
       'Request data is missing some values'
     );
   });
+
   it('should fail because of missing value in request data (missing deadlineDate)', async () => {
     const NEW_TASK = {
       title: 'title',
@@ -109,6 +115,7 @@ describe('TaskService tests', () => {
       'Request data is missing some values'
     );
   });
+
   it('should fail because of missing value in request data (missing createdDate)', async () => {
     const NEW_TASK = {
       title: 'title',
@@ -123,6 +130,7 @@ describe('TaskService tests', () => {
       'Request data is missing some values'
     );
   });
+
   it('should fail because of missing value in request data (missing modifiedDate)', async () => {
     const NEW_TASK = {
       title: 'title',
@@ -166,7 +174,6 @@ describe('TaskService tests', () => {
       status: TaskStatus.REMOVED
     };
     taskRepositoryMock.update.mockResolvedValue(1);
-
     const taskService = container.resolve(TaskService);
     const createResult = await taskService.createTask(NEW_TASK);
     const finalResult = await taskService.updateTask('1', NEWER_TASK);

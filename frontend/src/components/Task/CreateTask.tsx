@@ -135,7 +135,6 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
           employees.data.forEach((element: any) => {
             tempEmployees.push(element.email);
           });
-          //mega efficient (use moment.js or smt for dates)
           let deadDate = new Date(Date.parse(taskData.deadlineDate));
           formik.setFieldValue('title', taskData.title);
           formik.setFieldValue('status', taskData.status);
