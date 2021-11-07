@@ -167,24 +167,42 @@ const App = () => {
                   </React.Fragment>
                 )}
               />
-              <Route exact path="/tasks" render={() =><React.Fragment>
+              <Route
+                exact
+                path="/tasks"
+                render={() => (
+                  <React.Fragment>
                     <div style={{ paddingTop: '75px' }}>
                       <Sidebar />
-                      <TaskList/>
+                      <TaskList />
                     </div>
-                  </React.Fragment> }/>
-              <Route exact path="/tasks/new" render={() =><React.Fragment>
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/tasks/new"
+                render={() => (
+                  <React.Fragment>
                     <div style={{ paddingTop: '75px' }}>
                       <Sidebar />
                       <CreateTask edit="false" />
                     </div>
-                  </React.Fragment> }/>
-              <Route exact path="/tasks/edit/:id" render={({ match }) =><React.Fragment>
+                  </React.Fragment>
+                )}
+              />
+              <Route
+                exact
+                path="/tasks/edit/:id"
+                render={({ match }) => (
+                  <React.Fragment>
                     <div style={{ paddingTop: '75px' }}>
                       <Sidebar />
-                      <EditTask id={match.params.id}/>
+                      <EditTask id={match.params.id} />
                     </div>
-                  </React.Fragment> }/>
+                  </React.Fragment>
+                )}
+              />
               <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
