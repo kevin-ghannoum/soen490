@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-// beforeEach(() => {
-//   cy.visit('/');
-// });
+beforeEach(() => {
+  cy.visit('/');
+});
 
 it('Should view a list of tasks', () => {
   cy.intercept(
