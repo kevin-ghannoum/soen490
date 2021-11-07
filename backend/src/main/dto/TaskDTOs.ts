@@ -5,7 +5,6 @@ export interface TaskCreationDTO {
   deadlineDate: Date;
   createdDate: Date;
   modifiedDate: Date;
-  //To update in database: make projectId optional
   projectId?: number;
 }
 
