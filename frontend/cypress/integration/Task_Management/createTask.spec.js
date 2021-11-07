@@ -7,6 +7,13 @@ it('Should create a new Task', () => {
   cy.intercept(
     {
       method: 'GET',
+      url: '/task',
+    },
+    { fixture: 'taskList.json', statusCode: 200 }
+  );
+  cy.intercept(
+    {
+      method: 'GET',
       url: '/accounts/allEmployees',
     },
     { fixture: 'employeeList.json', statusCode: 200 }
