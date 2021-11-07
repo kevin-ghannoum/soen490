@@ -7,3 +7,8 @@ export interface AssignedUpdateDTO {
   taskId?: number;
   email?: string;
 }
+
+export interface MultipleAssignedCreationDTO {
+  taskId: number;
+  emails: string[];
+}

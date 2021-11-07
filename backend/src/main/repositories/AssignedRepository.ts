@@ -132,4 +132,18 @@ export default class AssignedRepository implements CRUD {
       return Promise.reject(err);
     }
   };
+  public deleteById = async (taskId: number): Promise<number> => {
+    try {
+      const numberOfRows = await Assigned.destroy({
+        where: {
+          taskId: taskId,
+        },
+      });
+      log(`ALL invites with id ${taskId} have been deleted`);
+      return Promise.resolve(numberOfRows);
+    } catch (err: any) {
+      log(err);
+      return Promise.resolve(err);
+    }
+  };
 }

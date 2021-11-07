@@ -2,9 +2,9 @@ export interface TaskCreationDTO {
   title: string;
   description: string;
   status: TaskStatus;
-  deadlineDate: Date;
-  createdDate: Date;
-  modifiedDate: Date;
+  deadlineDate: Date | null;
+  createdDate: string;
+  modifiedDate: string;
   projectId?: number;
 }
 
@@ -13,8 +13,8 @@ export interface TaskUpdateDTO {
   description?: string;
   status?: TaskStatus;
   deadlineDate?: Date;
-  createdDate?: Date;
-  modifiedDate?: Date;
+  createdDate?: string;
+  modifiedDate?: string;
   projectId?: number;
 }
 
