@@ -1,16 +1,11 @@
 import CreateTask from './CreateTask';
-import { useLocation } from 'react-router';
 
 interface Props {
   id?: string;
+  edit?: string;
 }
 
-const EditTask: React.FC<Props> = ({ id }) => {
-  const { search } = useLocation();
-
-  const searchParams = new URLSearchParams(search);
-  const edit = searchParams.get('edit');
-
+const EditTask: React.FC<Props> = ({ id, edit }) => {
   return (
     <div>
       <CreateTask id={id} edit={edit}></CreateTask>

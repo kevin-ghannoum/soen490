@@ -31,6 +31,17 @@ import {
 } from '../../services/AssignedAPI';
 import { useHistory } from 'react-router';
 
+interface Task {
+  createdDate: string;
+  deadlineDate: string;
+  description: string;
+  id: number;
+  modifiedDate: string;
+  projectId: number;
+  status: string;
+  title: string;
+}
+
 const ManageTask: React.FC<any> = ({ id, edit }) => {
   const [created, setCreated] = useState<boolean>(false);
   const [projectList, setProjectList] = useState<any>([]);
@@ -118,15 +129,13 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
         try {
           const taskToEdit = await getTaskById(id);
           const employees = await getAssignedByTaskId(id);
-          const taskData = taskToEdit.data;
+          const taskData: Task = taskToEdit.data;
           let tempEmployees: string[] = [];
 
           employees.data.forEach((element: any) => {
             tempEmployees.push(element.email);
           });
-
-          //mega efficient (use moment.js or smt for dates)
-          let deadDate: Date = new Date(Date.parse(taskData.deadlineDate));
+          let deadDate = new Date(Date.parse(taskData.deadlineDate));
           formik.setFieldValue('title', taskData.title);
           formik.setFieldValue('status', taskData.status);
           formik.setFieldValue('description', taskData.description);
@@ -239,7 +248,6 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
                   </Grid>
                   <Grid item>
                     <FormControl variant="standard" className={classes.formControl}>
-                      {/* <InputLabel>Employees</InputLabel> */}
                       <Select
                         name="employees"
                         value={formik.values.employees}
@@ -250,15 +258,11 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
                               <Typography variant="subtitle2" className={classes.chip} gutterBottom>
                                 {value}
                               </Typography>
-                              // <Chip key={value} label={value} className={classes.chip} />
                             ))}
                           </div>
                         )}
                         multiple
                       >
-                        {/* <MenuItem key="" value="" disabled>
-                      <em>None</em>
-                    </MenuItem> */}
                         {employeeList.map((employee: any) => {
                           return <MenuItem value={employee}>{employee}</MenuItem>;
                         })}
@@ -272,11 +276,10 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
                   </Grid>
                   <Grid item>
                     <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel id="demo-simple-select-outlined-label">Project</InputLabel> */}
                       <TextField
                         label="Project"
                         name="projectId"
-                        id="demo-simple-select-outlined"
+                        id="projectId-select"
                         value={formik.values.projectId}
                         onChange={formik.handleChange}
                         select
@@ -300,7 +303,7 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
                       <TextField
                         label="Status"
                         name="status"
-                        id="demo-simple-select-outlined"
+                        id="status-select"
                         value={formik.values.status}
                         onChange={formik.handleChange}
                         select
@@ -319,7 +322,7 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
                 <Grid item container xs={12} direction="row" justifyContent="flex-start" alignItems="center">
                   <Grid item xs={1}></Grid>
                   <Grid item>
-                    <Button color="secondary" onClick={onClickDelete} disabled={!(editState && id)}>
+                    <Button color="secondary" id="deleteButton" onClick={onClickDelete} disabled={!(editState && id)}>
                       Delete
                     </Button>
                   </Grid>
@@ -364,10 +367,10 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClickConfirm} color="secondary">
+          <Button id="dialogDelete" onClick={handleClickConfirm} color="secondary">
             Delete
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button id="dialogCancel" onClick={handleClose} color="primary" autoFocus>
             Cancel
           </Button>
         </DialogActions>

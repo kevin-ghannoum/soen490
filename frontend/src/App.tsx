@@ -198,7 +198,7 @@ const App = () => {
                   <React.Fragment>
                     <div style={{ paddingTop: '75px' }}>
                       <Sidebar />
-                      <EditTask id={match.params.id} />
+                      <EditTask id={match.params.id} edit="true" />
                     </div>
                   </React.Fragment>
                 )}
