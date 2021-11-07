@@ -3,6 +3,8 @@ import debug from 'debug';
 import TaskRepository from '../repositories/TaskRepository';
 import { TaskCreationDTO, TaskUpdateDTO } from '../dto/TaskDTOs';
 import { Task } from '../models/Task';
+import HttpException from '../exceptions/HttpException';
+import { StatusCodes } from 'http-status-codes';
 const log: debug.IDebugger = debug('app:SocialMediaPageService');
 
 @injectable()
@@ -12,6 +14,9 @@ export class TaskService {
   }
 
   public createTask = async (taskDTO: TaskCreationDTO): Promise<Task> => {
+    if (TaskService.isThereNullValueTaskCreationDTO(taskDTO)) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
+    }
     return await this.taskRepository.create(taskDTO);
   };
 
@@ -30,4 +35,20 @@ export class TaskService {
   public updateTask = async (taskId: string, taskUpdateDTO: TaskUpdateDTO): Promise<number> => {
     return this.taskRepository.update(parseInt(taskId, 10), taskUpdateDTO);
   };
+  public static isThereNullValueTaskCreationDTO = (taskCreationDTO: TaskCreationDTO): boolean => {
+    if (
+      taskCreationDTO === undefined ||
+      !taskCreationDTO.title ||
+      !taskCreationDTO.description ||
+      !taskCreationDTO.status ||
+      !taskCreationDTO.deadlineDate ||
+      !taskCreationDTO.createdDate ||
+      !taskCreationDTO.modifiedDate ||
+      !taskCreationDTO.projectId 
+    ) {
+      return true;
+    }
+    return false;
+  };
+
 }
