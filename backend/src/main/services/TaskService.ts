@@ -44,11 +44,10 @@ export class TaskService {
       !taskCreationDTO.deadlineDate ||
       !taskCreationDTO.createdDate ||
       !taskCreationDTO.modifiedDate ||
-      !taskCreationDTO.projectId 
+      !taskCreationDTO.projectId
     ) {
       return true;
     }
     return false;
   };
-
 }

@@ -5,7 +5,7 @@ interface Props {
   edit?: string;
 }
 
-const EditTask: React.FC<Props> = ({ id, edit}) => {
+const EditTask: React.FC<Props> = ({ id, edit }) => {
   return (
     <div>
       <CreateTask id={id} edit={edit}></CreateTask>
