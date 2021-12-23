@@ -42,48 +42,56 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/allEmployees`)
-      .get(checkJwt, checkRole(new Set([Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
-          if (employeeAccounts === null || employeeAccounts.length === 0) {
-            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
-          } else {
-            const employeeAccountsDTOs: Array<any> = [];
-            employeeAccounts?.forEach((employeeAccount) => {
-              const dto = JSON.parse(JSON.stringify(employeeAccount));
-              delete dto.account.password;
-              employeeAccountsDTOs.push(dto);
-            });
-            res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+      .get(
+        checkJwt,
+        checkRole(new Set([Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
+            if (employeeAccounts === null || employeeAccounts.length === 0) {
+              next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+            } else {
+              const employeeAccountsDTOs: Array<any> = [];
+              employeeAccounts?.forEach((employeeAccount) => {
+                const dto = JSON.parse(JSON.stringify(employeeAccount));
+                delete dto.account.password;
+                employeeAccountsDTOs.push(dto);
+              });
+              res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+            }
+          } catch (err) {
+            next(err);
           }
-        } catch (err) {
-          next(err);
         }
-      });
+      );
 
     this.getApp()
       .route(`/accounts/allEmployees/:business`)
-      .get(checkJwt, checkRole(new Set([Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
-            req.params.business
-          );
+      .get(
+        checkJwt,
+        checkRole(new Set([Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
+              req.params.business
+            );
 
-          if (employeeAccounts === null || employeeAccounts.length === 0) {
-            next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
-          } else {
-            const employeeAccountsDTOs: Array<any> = [];
-            employeeAccounts?.forEach((employeeAccount) => {
-              const dto = JSON.parse(JSON.stringify(employeeAccount));
-              delete dto.account.password;
-              employeeAccountsDTOs.push(dto);
-            });
-            res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+            if (employeeAccounts === null || employeeAccounts.length === 0) {
+              next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+            } else {
+              const employeeAccountsDTOs: Array<any> = [];
+              employeeAccounts?.forEach((employeeAccount) => {
+                const dto = JSON.parse(JSON.stringify(employeeAccount));
+                delete dto.account.password;
+                employeeAccountsDTOs.push(dto);
+              });
+              res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+            }
+          } catch (err) {
+            next(err);
           }
-        } catch (err) {
-          next(err);
         }
-      });
+      );
 
     this.getApp()
       .route(`/accounts/employee/:email`)
@@ -139,16 +147,20 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/business`)
-      .post(checkJwt, checkRole(new Set([Roles.ADMIN])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const newBusinessAccount = await this.businessAccountService.createBusinessAccount(req.body);
-          const dto = JSON.parse(JSON.stringify(newBusinessAccount));
-          delete dto.account.password;
-          res.status(StatusCodes.CREATED).send(dto);
-        } catch (err) {
-          next(err);
+      .post(
+        checkJwt,
+        checkRole(new Set([Roles.ADMIN])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const newBusinessAccount = await this.businessAccountService.createBusinessAccount(req.body);
+            const dto = JSON.parse(JSON.stringify(newBusinessAccount));
+            delete dto.account.password;
+            res.status(StatusCodes.CREATED).send(dto);
+          } catch (err) {
+            next(err);
+          }
         }
-      });
+      );
 
     this.getApp()
       .route(`/accounts/business/:email`)

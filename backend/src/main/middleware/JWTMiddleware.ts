@@ -30,9 +30,8 @@ export const checkRole = (
     const userRoles: Role[] = await getProfileRoles(req.headers['access_token'] as string);
 
     for (let i = 0; i < userRoles.length; i++) {
-
       // Admin has access to everything
-      if (userRoles[i].name as string === "ADMIN") {
+      if ((userRoles[i].name as string) === 'ADMIN') {
         next();
         break;
       }

@@ -15,14 +15,18 @@ export default class AssignedRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route('/multipleAssigned')
-      .post(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.EMPLOYEE])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const newAssign = await this.assignedService.createMultipleAssignment(req.body);
-          res.status(StatusCodes.CREATED).send(newAssign);
-        } catch (err) {
-          next(err);
+      .post(
+        checkJwt,
+        checkRole(new Set([Roles.SUPERVISOR, Roles.EMPLOYEE])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const newAssign = await this.assignedService.createMultipleAssignment(req.body);
+            res.status(StatusCodes.CREATED).send(newAssign);
+          } catch (err) {
+            next(err);
+          }
         }
-      });
+      );
 
     this.getApp()
       .route(`/assignedByTaskId/:taskid`)
