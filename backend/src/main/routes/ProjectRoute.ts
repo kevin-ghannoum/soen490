@@ -5,6 +5,8 @@ import { inject, injectable } from 'tsyringe';
 import { ProjectService } from '../services/ProjectService';
 import HttpException from '../exceptions/HttpException';
 import { WorksonService } from '../services/WorksOnService';
+import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
+import { Roles } from '../security/Roles';
 
 @injectable()
 export default class ProjectRoute extends CommonRoutesConfig {
@@ -19,6 +21,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route(`/project`)
+      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newProject = await this.projectService.createProject(req.body);
@@ -38,7 +41,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/project/:id`)
-      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .get(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const project = await this.projectService.getProject(Number(req.params.id));
           const employees = await this.worksOn.getWorksOn(Number(req.params.id));
@@ -48,7 +51,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
           next(err);
         }
       })
-      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .delete(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           if ((await this.projectService.deleteProject(parseInt(req.params.id))) === 1) {
             res.status(StatusCodes.OK).send();
@@ -59,7 +62,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
           next(err);
         }
       })
-      .put(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .put(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           await this.projectService.updateProject(req.body);
           res.status(StatusCodes.OK).send('Updated');

@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { AuthenticationService } from '../services/AuthenticationService';
 import { TokenResponse } from 'auth0';
 import HttpException from '../exceptions/HttpException';
+import { checkJwt } from '../middleware/JWTMiddleware';
 
 @injectable()
 export default class AuthenticationRoute extends CommonRoutesConfig {
@@ -36,7 +37,7 @@ export default class AuthenticationRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route('/auth/logout')
-      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .delete(checkJwt, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           await this.authenticationService.logout(req.query.refresh_token as string);
           res.status(StatusCodes.ACCEPTED).send();

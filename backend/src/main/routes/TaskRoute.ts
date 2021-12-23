@@ -3,6 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { TaskService } from '../services/TaskService';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
+import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
+import { Roles } from '../security/Roles';
 
 @injectable()
 export default class TaskRoute extends CommonRoutesConfig {
@@ -13,6 +15,7 @@ export default class TaskRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route('/task')
+      .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR])))
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newTask = await this.taskService.createTask(req.body);
@@ -32,6 +35,7 @@ export default class TaskRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route('/task/:taskId')
+      .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const task = await this.taskService.getTask(req.params.taskId);

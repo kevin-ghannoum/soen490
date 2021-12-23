@@ -8,9 +8,10 @@ import { ClientAccountService } from '../services/ClientAccountService';
 import { EmployeeAccountService } from '../services/EmployeeAccountService';
 import { AuthenticationService } from '../services/AuthenticationService';
 import { ClientAccount } from '../models/ClientAccount';
-import { checkJwt, getProfileRoles } from '../middleware/JWTMiddleware';
+import { checkJwt, getProfileRoles, checkRole } from '../middleware/JWTMiddleware';
 import jwt_decode from 'jwt-decode';
 import { Role } from 'auth0';
+import { Roles } from '../security/Roles';
 
 @injectable()
 export default class AccountRoute extends CommonRoutesConfig {
@@ -27,6 +28,7 @@ export default class AccountRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route(`/accounts/employee`)
+      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newEmployeeAccount = await this.employeeAccountService.createEmployeeAccount(req.body);
@@ -40,7 +42,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/allEmployees`)
-      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .get(checkJwt, checkRole(new Set([Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
           if (employeeAccounts === null || employeeAccounts.length === 0) {
@@ -61,7 +63,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/allEmployees/:business`)
-      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .get(checkJwt, checkRole(new Set([Roles.BUSINESS])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
             req.params.business
@@ -85,6 +87,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/employee/:email`)
+      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(req.params.email);
@@ -124,6 +127,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/client`)
+      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const regexClientAccout = await this.clientAccountService.getEmployeesByRegex(String(req.query.email));
@@ -135,7 +139,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/business`)
-      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .post(checkJwt, checkRole(new Set([Roles.ADMIN])), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newBusinessAccount = await this.businessAccountService.createBusinessAccount(req.body);
           const dto = JSON.parse(JSON.stringify(newBusinessAccount));
@@ -148,6 +152,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/business/:email`)
+      .all(checkJwt, checkRole(new Set([Roles.ADMIN])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const businessAccount = await this.businessAccountService.getBusinessAccountByEmail(req.params.email);
@@ -188,6 +193,7 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
     this.getApp()
       .route(`/accounts/client/:email`)
+      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(
