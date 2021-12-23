@@ -123,8 +123,6 @@ const LogHours: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [email, formik.setFieldValue]);
 
-  useEffect(() => {});
-
   const updatePaidAmout = async () => {
     const responseEmployee = await getAllRegexEmployeeAccount(formik.values.email);
     const hourlyWage = responseEmployee.data[0].hourlyWage;
