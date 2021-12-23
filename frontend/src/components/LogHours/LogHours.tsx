@@ -33,7 +33,7 @@ const LogHours: React.FunctionComponent = () => {
     paidAmount: '',
     status: PayStatus.NOT_PAID,
   });
-  const [paidAmount, setPaidAmount] = useState<string>('');
+  const [, setPaidAmount] = useState<string>('');
 
   const formik = useFormik({
     initialValues: {
