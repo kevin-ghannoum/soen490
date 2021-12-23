@@ -27,7 +27,7 @@ module.exports = {
       },
       status: {
         allowNull: false,
-        type: Sequelize.ENUM('LEAD', 'SCHEDULED', 'REJECTED', 'TO BE RESCHEDULED', 'PENDING'),
+        type: Sequelize.ENUM('LEAD', 'SCHEDULED', 'CANCELLED', 'TO BE RESCHEDULED', 'PENDING'),
         defaultValue:'PENDING'
       },
     });

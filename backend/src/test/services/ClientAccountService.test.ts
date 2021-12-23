@@ -65,7 +65,7 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
         link: 'instagram.com',
@@ -137,13 +137,13 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
         link: 'instagram.com',
       },
     };
-    
+
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'bob',
       family_name: 'bob',
@@ -201,7 +201,7 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
         link: 'instagram.com',
@@ -235,7 +235,7 @@ describe('ClientAccountService tests', () => {
       },
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
         link: 'instagram.com',
@@ -269,7 +269,7 @@ describe('ClientAccountService tests', () => {
       },
       businessName: 'bob store',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
         link: 'instagram.com',
@@ -338,7 +338,7 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         link: 'instagram.com',
       },
@@ -372,7 +372,7 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
       },

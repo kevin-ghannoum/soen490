@@ -57,7 +57,7 @@ export interface BusinessCreationRequestDTO extends AccountRequestDTO {
 export enum Status {
   LEAD = 'LEAD',
   SCHEDULED = 'SCHEDULED',
-  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
   TO_BE_RESCHEDULED = 'TO BE RESCHEDULED',
   PENDING = 'PENDING',
 }

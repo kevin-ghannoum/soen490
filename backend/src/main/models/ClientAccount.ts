@@ -37,8 +37,8 @@ export class ClientAccount extends Model {
   website!: string;
 
   @Default('PENDING')
-  @Column(DataType.ENUM('LEAD', 'SCHEDULED', 'REJECTED', 'TO BE RESCHEDULED', 'PENDING'))
-  status!: 'LEAD' | 'SCHEDULE' | 'REJECTED' | 'TO BE RESCHEDULED' | 'PENDING';
+  @Column(DataType.ENUM('LEAD', 'SCHEDULED', 'CANCELLED', 'TO BE RESCHEDULED', 'PENDING'))
+  status!: 'LEAD' | 'SCHEDULE' | 'CANCELLED' | 'TO BE RESCHEDULED' | 'PENDING';
 
   @HasMany(() => SocialMediaPage)
   socialMediaPages!: SocialMediaPage[];

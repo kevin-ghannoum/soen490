@@ -32,7 +32,7 @@ const CreateClientAccount: React.FC = () => {
   const statusValue: Array<{ value: string; label: string }> = [
     { value: 'LEAD', label: 'Lead' },
     { value: 'SCHEDULED', label: 'Scheduled' },
-    { value: 'REJECTED', label: 'Rejected' },
+    { value: 'CANCELLED', label: 'Cancelled' },
     { value: 'TO_BE_RESCHEDULED', label: 'To be rescheduled' },
     { value: 'PENDING', label: 'Pending' },
   ];
