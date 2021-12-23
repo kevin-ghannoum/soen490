@@ -257,7 +257,7 @@ const CreateClientAccount: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Company name *"
+                label="Company name"
                 name="businessName"
                 fullWidth
                 onChange={formik.handleChange}
@@ -268,7 +268,7 @@ const CreateClientAccount: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Industry *"
+                label="Industry"
                 name="industry"
                 fullWidth
                 onChange={formik.handleChange}

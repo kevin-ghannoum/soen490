@@ -26,6 +26,19 @@ export const createClientAccount = async (
   if (!clientAccountCreationRequestDTO.socialMediaInfo || !clientAccountCreationRequestDTO.socialMediaInfo.link) {
     delete clientAccountCreationRequestDTO.socialMediaInfo;
   }
+
+  if (!clientAccountCreationRequestDTO.businessName) {
+    delete clientAccountCreationRequestDTO.businessName;
+  }
+
+  if (!clientAccountCreationRequestDTO.industry) {
+    delete clientAccountCreationRequestDTO.industry;
+  }
+
+  if (!clientAccountCreationRequestDTO.website) {
+    delete clientAccountCreationRequestDTO.website;
+  }
+
   return axios.post(`/accounts/client`, clientAccountCreationRequestDTO);
 };
 

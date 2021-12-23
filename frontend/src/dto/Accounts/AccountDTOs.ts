@@ -100,9 +100,9 @@ export interface BusinessAccountUpdateDTO {
 }
 
 export interface ClientAccountCreationRequestDTO extends AccountRequestDTO {
-  businessName: string;
-  industry: string;
-  website: string;
+  businessName?: string;
+  industry?: string;
+  website?: string;
   status: Status;
   socialMediaInfo?: SocialMediaPageCreationDTO;
 }

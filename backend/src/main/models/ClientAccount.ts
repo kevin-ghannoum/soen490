@@ -24,11 +24,11 @@ export class ClientAccount extends Model {
   @Column
   email!: string;
 
-  @AllowNull(false)
+  @AllowNull
   @Column
   businessName!: string;
 
-  @AllowNull(false)
+  @AllowNull
   @Column
   industry!: string;
 

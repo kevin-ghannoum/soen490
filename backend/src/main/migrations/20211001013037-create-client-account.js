@@ -14,11 +14,11 @@ module.exports = {
         }
       },
       businessName:{
-        allowNull:false,
+        allowNull:true,
         type:Sequelize.STRING
       },
       industry:{
-        allowNull:false,
+        allowNull:true,
         type:Sequelize.STRING
       },
       website:{
