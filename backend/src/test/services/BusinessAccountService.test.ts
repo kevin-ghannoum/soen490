@@ -14,6 +14,7 @@ import { SocialMediaPage } from '../../main/models/SocialMediaPage';
 import { BusinessAccountService } from '../../main/services/BusinessAccountService';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import { sequelizeMock } from '../helpers/SequelizeMock';
+import AccountRepository from '../../main/repositories/AccountRepository';
 
 describe('BusinessAccountService tests', () => {
   let businessAccountRepositoryMock: any = null;
@@ -22,12 +23,14 @@ describe('BusinessAccountService tests', () => {
   let socialMediaPageRepositoryMock: any = null;
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
+  let accountRepositoryMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
   });
 
   beforeEach(() => {
+    accountRepositoryMock = mock<AccountRepository>();
     businessAccountRepositoryMock = mock<BusinessAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
     businessRepositoryMock = mock<BusinessRepository>();
@@ -39,6 +42,7 @@ describe('BusinessAccountService tests', () => {
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(BusinessRepository, businessRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
+    container.registerInstance(AccountRepository, accountRepositoryMock);
     container.register<AuthenticationClient>('auth0-authentication-client', {
       useFactory: () => authenticationClientMock,
     });
@@ -79,6 +83,8 @@ describe('BusinessAccountService tests', () => {
         link: 'instagram.com',
       },
     };
+
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
 
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'test',
@@ -146,6 +152,8 @@ describe('BusinessAccountService tests', () => {
       },
     };
 
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
+    
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'test',
       family_name: 'test',

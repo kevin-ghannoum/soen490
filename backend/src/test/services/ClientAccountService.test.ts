@@ -12,6 +12,7 @@ import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRe
 import { ClientAccountService } from '../../main/services/ClientAccountService';
 import { sequelizeMock } from '../helpers/SequelizeMock';
 import { AuthenticationClient, ManagementClient } from 'auth0';
+import AccountRepository from '../../main/repositories/AccountRepository';
 
 describe('ClientAccountService tests', () => {
   let clientAccountRepositoryMock: any = null;
@@ -19,12 +20,14 @@ describe('ClientAccountService tests', () => {
   let socialMediaPageRepositoryMock: any = null;
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
+  let accountRepositoryMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
   });
 
   beforeEach(() => {
+    accountRepositoryMock = mock<AccountRepository>();
     clientAccountRepositoryMock = mock<ClientAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
     socialMediaPageRepositoryMock = mock<SocialMediaPageRepository>();
@@ -33,6 +36,7 @@ describe('ClientAccountService tests', () => {
     container.registerInstance(ClientAccountRepository, clientAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
+    container.registerInstance(AccountRepository, accountRepositoryMock);
     container.register<AuthenticationClient>('auth0-authentication-client', {
       useFactory: () => authenticationClientMock,
     });
@@ -71,7 +75,7 @@ describe('ClientAccountService tests', () => {
         link: 'instagram.com',
       },
     };
-
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'bob',
       family_name: 'bob',
@@ -151,7 +155,7 @@ describe('ClientAccountService tests', () => {
       email_verified: false,
       email: 'client@gmail.com',
     });
-
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
     managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     addressRepositoryMock.create.mockResolvedValue([
@@ -200,74 +204,6 @@ describe('ClientAccountService tests', () => {
       },
       businessName: 'Bob store',
       industry: 'clothing',
-      website: 'bob.com',
-      status: Status['CANCELLED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
-
-    const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
-    await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
-    ).rejects.toThrowError('Request data is missing some values');
-  });
-
-  it('should fail because of missing data in request businessName', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
-      account: {
-        email: 'client@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      industry: 'clothing',
-      website: 'bob.com',
-      status: Status['CANCELLED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
-
-    const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
-    await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
-    ).rejects.toThrowError('Request data is missing some values');
-  });
-
-  it('should fail because of missing data in request industry', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
-      account: {
-        email: 'client@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessName: 'bob store',
       website: 'bob.com',
       status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
@@ -382,5 +318,37 @@ describe('ClientAccountService tests', () => {
     await expect(
       clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
     ).rejects.toThrowError('Request data is missing some values');
+  });
+
+  it('should fail because of username not being unique', async () => {
+    const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
+      account: {
+        email: 'client@gmail.com',
+        firstName: 'bob',
+        lastName: 'bob',
+        phoneNumber: '53434234',
+        username: 'bob',
+        password: 'bob',
+        addressId: 1,
+      },
+      address: {
+        civicNumber: 111,
+        streetName: 'St-Catherine',
+        postalCode: 'H6Y 8U6',
+        cityName: 'MTL',
+        province: 'QC',
+        country: 'Canada',
+      },
+      businessName: 'Bob store',
+      industry: 'clothing',
+      website: 'bob.com',
+      status: Status['CANCELLED' as keyof typeof Status],
+      socialMediaInfo: {
+        name: 'instagram',
+        link: 'instagram.com',
+      },
+    };
+
+    accountRepositoryMock.getByUsername.mockResolvedValue(Account.build(NEW_CLIENT_ACCOUNT_INFO.account));
   });
 });

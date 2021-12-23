@@ -10,23 +10,27 @@ import EmployeeAccountRepository from '../../main/repositories/EmployeeAccountRe
 import { EmployeeAccountService } from '../../main/services/EmployeeAccountService';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import { sequelizeMock } from '../helpers/SequelizeMock';
+import AccountRepository from '../../main/repositories/AccountRepository';
 
 describe('Employee Account test', () => {
   let employeeAccountRepositoryMock: any = null;
   let addressRepositoryMock: any = null;
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
+  let accountRepositoryMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
   });
 
   beforeEach(() => {
+    accountRepositoryMock = mock<AccountRepository>();
     employeeAccountRepositoryMock = mock<EmployeeAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
     authenticationClientMock = mock<AuthenticationClient>();
     managementClientMock = mock<ManagementClient>();
 
+    container.registerInstance(AccountRepository, accountRepositoryMock);
     container.registerInstance(EmployeeAccountRepository, employeeAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.register<AuthenticationClient>('auth0-authentication-client', { useFactory: () => authenticationClientMock });
@@ -63,6 +67,8 @@ describe('Employee Account test', () => {
       supervisorEmail: 'bob@gmail.com',
     };
 
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
+    
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
         id: 2098,

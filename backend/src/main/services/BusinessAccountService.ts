@@ -12,11 +12,13 @@ import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
 import { Account } from '../models/Account';
+import AccountRepository from '../repositories/AccountRepository';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
 export class BusinessAccountService {
   constructor(
+    private accountRepository: AccountRepository,
     private businessAccountRepository: BusinessAccountRepository,
     private addressRepository: AddressRepository,
     private businessService: BusinessService,
@@ -51,11 +53,9 @@ export class BusinessAccountService {
     };
 
     // Username field is unique, so check if it exist first.
-    const checkIfUsernameExist = await Account.findOne({
-      where: {
-        username: businessCreationRequestDTO.account.username,
-      },
-    });
+    const checkIfUsernameExist = await this.accountRepository.getByUsername(
+      businessCreationRequestDTO.account.username
+    );
 
     if (checkIfUsernameExist) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');

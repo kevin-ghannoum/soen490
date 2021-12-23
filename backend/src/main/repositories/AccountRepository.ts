@@ -63,6 +63,25 @@ export default class AccountRepository implements CRUD {
     }
   };
 
+  public getByUsername = async (username: string): Promise<Account | null> => {
+    try {
+      const account = await Account.findOne({
+        where:{
+          username:username
+        }
+      });
+      
+      if(account){
+        log(`Account with email ${account?.email} has been retrieved`);
+      }
+      
+      return Promise.resolve(account);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
   public getAll = async (): Promise<Account[]> => {
     try {
       const accounts = await Account.findAll();

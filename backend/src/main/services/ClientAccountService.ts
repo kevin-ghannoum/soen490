@@ -4,9 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { ClientAccountCreationRequestDTO } from '../dto/Accounts/AccountDTOs';
 import HttpException from '../exceptions/HttpException';
-import { Account } from '../models/Account';
 import { Address } from '../models/Address';
 import { ClientAccount } from '../models/ClientAccount';
+import AccountRepository from '../repositories/AccountRepository';
 import AddressRepository from '../repositories/AddressRepository';
 import ClientAccountRepository from '../repositories/ClientAccountRepository';
 import { Roles } from '../security/Roles';
@@ -17,6 +17,7 @@ const log: debug.IDebugger = debug('app:ClientAccountService');
 @injectable()
 export class ClientAccountService {
   constructor(
+    private accountRepository: AccountRepository,
     private clientAccountRepository: ClientAccountRepository,
     private addressRepository: AddressRepository,
     private socialMediaPageService: SocialMediaPageService,
@@ -52,11 +53,9 @@ export class ClientAccountService {
     };
 
     // Username field is unique, so check if it exist first.
-    const checkIfUsernameExist = await Account.findOne({
-      where: {
-        username: clientAccountCreationRequestDTO.account.username,
-      },
-    });
+    const checkIfUsernameExist = await this.accountRepository.getByUsername(
+      clientAccountCreationRequestDTO.account.username
+    );
 
     if (checkIfUsernameExist) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
