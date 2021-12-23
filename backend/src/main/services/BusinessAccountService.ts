@@ -11,6 +11,7 @@ import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
+import { Account } from '../models/Account';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -48,6 +49,17 @@ export class BusinessAccountService {
       family_name: businessCreationRequestDTO.account.lastName,
       connection: process.env.AUTH0_CONNECTION as string,
     };
+
+    // Username field is unique, so check if it exist first.
+    const checkIfUsernameExist = await Account.findOne({
+      where: {
+        username: businessCreationRequestDTO.account.username,
+      },
+    });
+
+    if (checkIfUsernameExist) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
+    }
 
     // Create business in auth0
     const auth0BusinessAccountData = await this.authenticationClient.database?.signUp(auth0UserData);

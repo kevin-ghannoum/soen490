@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { ClientAccountCreationRequestDTO } from '../dto/Accounts/AccountDTOs';
 import HttpException from '../exceptions/HttpException';
+import { Account } from '../models/Account';
 import { Address } from '../models/Address';
 import { ClientAccount } from '../models/ClientAccount';
 import AddressRepository from '../repositories/AddressRepository';
@@ -49,6 +50,17 @@ export class ClientAccountService {
       family_name: clientAccountCreationRequestDTO.account.lastName,
       connection: process.env.AUTH0_CONNECTION as string,
     };
+
+    // Username field is unique, so check if it exist first.
+    const checkIfUsernameExist = await Account.findOne({
+      where: {
+        username: clientAccountCreationRequestDTO.account.username,
+      },
+    });
+
+    if (checkIfUsernameExist) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
+    }
 
     // Create client in auth0
     const auth0ClientAccountData = await this.authenticationClient.database?.signUp(auth0UserData);
