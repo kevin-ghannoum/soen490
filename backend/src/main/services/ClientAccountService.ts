@@ -79,13 +79,17 @@ export class ClientAccountService {
     return Promise.resolve(clientAccount);
   };
 
-  public getClientAccountByEmail = async (email: string, access_token: string, id_token: string): Promise<ClientAccount | null> => {
+  public getClientAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<ClientAccount | null> => {
     const userRoles: Role[] = await getProfileRoles(access_token);
 
     const isClient: boolean = this.verifyIfRoleClient(userRoles);
 
     if (isClient) {
-      let currentUser = getCurrentUserEmail(id_token)
+      let currentUser = getCurrentUserEmail(id_token);
 
       if (currentUser != email) {
         throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this client account.');
@@ -102,15 +106,19 @@ export class ClientAccountService {
       }
     }
     return false;
-  }
+  };
 
-  public deleteClientAccountByEmail = async (email: string, access_token: string, id_token: string): Promise<number> => {
+  public deleteClientAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<number> => {
     const userRoles: Role[] = await getProfileRoles(access_token);
 
     const isClient: boolean = this.verifyIfRoleClient(userRoles);
 
     if (isClient) {
-      let currentUser = getCurrentUserEmail(id_token)
+      let currentUser = getCurrentUserEmail(id_token);
 
       if (currentUser != email) {
         throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this client account.');

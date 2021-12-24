@@ -78,7 +78,7 @@ export class BusinessAccountService {
   };
 
   public getBusinessAccountByEmail = async (email: string, token: string): Promise<BusinessAccount | null> => {
-    const currentUser = getCurrentUserEmail(token)
+    const currentUser = getCurrentUserEmail(token);
 
     if (currentUser != email) {
       throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this business account.');
@@ -88,7 +88,7 @@ export class BusinessAccountService {
   };
 
   public deleteBusinessAccountByEmail = async (email: string, token: string): Promise<number> => {
-    const currentUser = getCurrentUserEmail(token)
+    const currentUser = getCurrentUserEmail(token);
 
     if (currentUser != email) {
       throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this business account.');
