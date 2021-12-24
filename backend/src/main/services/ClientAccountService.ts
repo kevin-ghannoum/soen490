@@ -89,7 +89,7 @@ export class ClientAccountService {
     const isClient: boolean = this.verifyIfRoleClient(userRoles);
 
     if (isClient) {
-      let currentUser = getCurrentUserEmail(id_token);
+      const currentUser = getCurrentUserEmail(id_token);
 
       if (currentUser != email) {
         throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this client account.');
@@ -118,7 +118,7 @@ export class ClientAccountService {
     const isClient: boolean = this.verifyIfRoleClient(userRoles);
 
     if (isClient) {
-      let currentUser = getCurrentUserEmail(id_token);
+      const currentUser = getCurrentUserEmail(id_token);
 
       if (currentUser != email) {
         throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this client account.');

@@ -95,10 +95,18 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/employee/:email`)
-      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
+      .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(req.params.email);
+          const authorizationToken: string = req.headers['authorization'] as string;
+          const id_token: string = authorizationToken.split(' ')[1];
+          const access_token: string = req.headers['access_token'] as string;
+
+          const employeeAccount = await this.employeeAccountService.getEmployeeAccountByEmail(
+            req.params.email,
+            access_token,
+            id_token
+          );
           if (employeeAccount === null) {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           } else {
@@ -112,7 +120,17 @@ export default class AccountRoute extends CommonRoutesConfig {
       })
       .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          if ((await this.employeeAccountService.deleteEmployeeAccountByEmail(req.params.email)) === 1) {
+          const authorizationToken: string = req.headers['authorization'] as string;
+          const id_token: string = authorizationToken.split(' ')[1];
+          const access_token: string = req.headers['access_token'] as string;
+
+          if (
+            (await this.employeeAccountService.deleteEmployeeAccountByEmail(
+              req.params.email,
+              access_token,
+              id_token
+            )) === 1
+          ) {
             res.status(StatusCodes.OK).send();
           } else {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
