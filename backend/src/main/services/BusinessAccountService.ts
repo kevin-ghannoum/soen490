@@ -11,7 +11,6 @@ import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
-import { Account } from '../models/Account';
 import AccountRepository from '../repositories/AccountRepository';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 

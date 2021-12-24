@@ -9,7 +9,6 @@ import AddressRepository from '../repositories/AddressRepository';
 import EmployeeAccountRepository from '../repositories/EmployeeAccountRepository';
 import { AccountService } from './AccountService';
 import { Roles } from '../security/Roles';
-import { Account } from '../models/Account';
 import AccountRepository from '../repositories/AccountRepository';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
