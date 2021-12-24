@@ -183,7 +183,9 @@ export default class AccountRoute extends CommonRoutesConfig {
       })
       .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          if ((await this.businessAccountService.deleteBusinessAccountByEmail(req.params.email)) === 1) {
+          const authorizationToken: string = req.headers['authorization'] as string
+          const token: string = authorizationToken.split(" ")[1]
+          if ((await this.businessAccountService.deleteBusinessAccountByEmail(req.params.email, token)) === 1) {
             res.status(StatusCodes.OK).send();
           } else {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
@@ -210,8 +212,12 @@ export default class AccountRoute extends CommonRoutesConfig {
       .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.CLIENT, Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
+          const authorizationToken: string = req.headers['authorization'] as string
+          const id_token: string = authorizationToken.split(" ")[1]
+          const access_token: string = req.headers['access_token'] as string
+
           const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(
-            req.params.email
+            req.params.email, access_token, id_token
           );
           if (clientAccount === null) {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
@@ -226,7 +232,11 @@ export default class AccountRoute extends CommonRoutesConfig {
       })
       .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          await this.clientAccountService.deleteClientAccountByEmail(req.params.email);
+          const authorizationToken: string = req.headers['authorization'] as string
+          const id_token: string = authorizationToken.split(" ")[1]
+          const access_token: string = req.headers['access_token'] as string
+
+          await this.clientAccountService.deleteClientAccountByEmail(req.params.email, access_token, id_token);
           res.status(StatusCodes.OK).send();
         } catch (err) {
           next(err);
