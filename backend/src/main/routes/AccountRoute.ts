@@ -44,7 +44,7 @@ export default class AccountRoute extends CommonRoutesConfig {
       .route(`/accounts/allEmployees`)
       .get(
         checkJwt,
-        checkRole(new Set([Roles.BUSINESS])),
+        checkRole(new Set([Roles.ADMIN])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
@@ -164,10 +164,12 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/business/:email`)
-      .all(checkJwt, checkRole(new Set([Roles.ADMIN])))
+      .all(checkJwt, checkRole(new Set([Roles.ADMIN, Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const businessAccount = await this.businessAccountService.getBusinessAccountByEmail(req.params.email);
+          const authorizationToken: string = req.headers['authorization'] as string
+          const token: string = authorizationToken.split(" ")[1]
+          const businessAccount = await this.businessAccountService.getBusinessAccountByEmail(req.params.email, token);
           if (businessAccount === null) {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           } else {
@@ -205,7 +207,7 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
     this.getApp()
       .route(`/accounts/client/:email`)
-      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
+      .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.CLIENT, Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const clientAccount: ClientAccount | null = await this.clientAccountService.getClientAccountByEmail(

@@ -11,6 +11,7 @@ import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
+import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -76,7 +77,13 @@ export class BusinessAccountService {
     return Promise.resolve(businessAccount);
   };
 
-  public getBusinessAccountByEmail = async (email: string): Promise<BusinessAccount | null> => {
+  public getBusinessAccountByEmail = async (email: string, token: string): Promise<BusinessAccount | null> => {
+    let currentUser = getCurrentUserEmail(token)
+
+    if (currentUser != email) {
+      throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this business account.');
+    }
+
     return this.businessAccountRepository.get(email);
   };
 
