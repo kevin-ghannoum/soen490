@@ -47,34 +47,36 @@ describe('ClientAccountService tests', () => {
     container.clearInstances();
   });
 
+  // Mock account info where all the data expected from the form are present
+  const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
+    account: {
+      email: 'client@gmail.com',
+      firstName: 'bob',
+      lastName: 'bob',
+      phoneNumber: '53434234',
+      username: 'bob',
+      password: 'bob',
+      addressId: 1,
+    },
+    address: {
+      civicNumber: 111,
+      streetName: 'St-Catherine',
+      postalCode: 'H6Y 8U6',
+      cityName: 'MTL',
+      province: 'QC',
+      country: 'Canada',
+    },
+    businessName: 'Bob store',
+    industry: 'clothing',
+    website: 'bob.com',
+    status: Status['CANCELLED' as keyof typeof Status],
+    socialMediaInfo: {
+      name: 'instagram',
+      link: 'instagram.com',
+    },
+  };
+
   it('should create a client account', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
-      account: {
-        email: 'client@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessName: 'Bob store',
-      industry: 'clothing',
-      website: 'bob.com',
-      status: Status['CANCELLED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
     accountRepositoryMock.getByUsername.mockResolvedValue(null);
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'bob',
@@ -142,10 +144,6 @@ describe('ClientAccountService tests', () => {
       industry: 'clothing',
       website: 'bob.com',
       status: Status['CANCELLED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
     };
 
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
@@ -321,34 +319,6 @@ describe('ClientAccountService tests', () => {
   });
 
   it('should fail because of username not being unique', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
-      account: {
-        email: 'client@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessName: 'Bob store',
-      industry: 'clothing',
-      website: 'bob.com',
-      status: Status['CANCELLED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
-
     accountRepositoryMock.getByUsername.mockResolvedValue(Account.build(NEW_CLIENT_ACCOUNT_INFO.account));
   });
 });
