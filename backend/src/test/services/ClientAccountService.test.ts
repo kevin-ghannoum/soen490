@@ -183,7 +183,7 @@ describe('ClientAccountService tests', () => {
   });
 
   it('should fail because of missing data in request business name', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_MISSING_BUSINESS_NAME = {
       account: {
         firstName: 'bob',
         lastName: 'bob',
@@ -200,7 +200,6 @@ describe('ClientAccountService tests', () => {
         province: 'QC',
         country: 'Canada',
       },
-      businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
       status: Status['CANCELLED' as keyof typeof Status],
@@ -212,12 +211,14 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_MISSING_BUSINESS_NAME as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
   it('should fail because of missing data in request status', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_MISSING_STATUS = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -246,12 +247,14 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_MISSING_STATUS as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
   it('should fail because of missing data in request social media info name', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_NAME = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -280,7 +283,9 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_NAME as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
