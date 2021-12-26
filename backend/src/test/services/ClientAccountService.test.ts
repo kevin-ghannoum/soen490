@@ -122,7 +122,7 @@ describe('ClientAccountService tests', () => {
   });
 
   it('should create a client account without social media', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
+    const NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA: ClientAccountCreationRequestDTO = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -159,7 +159,7 @@ describe('ClientAccountService tests', () => {
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
         id: 1,
-        ...NEW_CLIENT_ACCOUNT_INFO.address,
+        ...NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.address,
       }),
       true,
     ]);
@@ -167,19 +167,19 @@ describe('ClientAccountService tests', () => {
     clientAccountRepositoryMock.create.mockResolvedValue(
       ClientAccount.build(
         {
-          account: NEW_CLIENT_ACCOUNT_INFO.account,
-          businessName: NEW_CLIENT_ACCOUNT_INFO.businessName,
-          industry: NEW_CLIENT_ACCOUNT_INFO.industry,
-          website: NEW_CLIENT_ACCOUNT_INFO.website,
-          status: NEW_CLIENT_ACCOUNT_INFO.status,
+          account: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.account,
+          businessName: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.businessName,
+          industry: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.industry,
+          website: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.website,
+          status: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.status,
         },
         { include: [Account] }
       )
     );
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
-    const result = await clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO);
-    expect(result.account.email).toBe(NEW_CLIENT_ACCOUNT_INFO.account.email);
+    const result = await clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA);
+    expect(result.account.email).toBe(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.account.email);
   });
 
   it('should fail because of missing data in request business name', async () => {
@@ -290,7 +290,7 @@ describe('ClientAccountService tests', () => {
   });
 
   it('should fail because of missing data in request social media info link', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_LINK = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -319,7 +319,7 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_LINK as ClientAccountCreationRequestDTO)
     ).rejects.toThrowError('Request data is missing some values');
   });
 
