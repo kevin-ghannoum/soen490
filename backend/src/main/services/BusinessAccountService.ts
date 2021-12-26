@@ -12,6 +12,7 @@ import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
 import AccountRepository from '../repositories/AccountRepository';
+import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -87,11 +88,23 @@ export class BusinessAccountService {
     return Promise.resolve(businessAccount);
   };
 
-  public getBusinessAccountByEmail = async (email: string): Promise<BusinessAccount | null> => {
+  public getBusinessAccountByEmail = async (email: string, token: string): Promise<BusinessAccount | null> => {
+    const currentUser = getCurrentUserEmail(token);
+
+    if (currentUser != email) {
+      throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this business account.');
+    }
+
     return this.businessAccountRepository.get(email);
   };
 
-  public deleteBusinessAccountByEmail = async (email: string): Promise<number> => {
+  public deleteBusinessAccountByEmail = async (email: string, token: string): Promise<number> => {
+    const currentUser = getCurrentUserEmail(token);
+
+    if (currentUser != email) {
+      throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this business account.');
+    }
+
     // Get employee data from auth0
     const auth0BusinessAccountData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(
       email

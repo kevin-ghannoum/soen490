@@ -1,4 +1,4 @@
-import { AuthenticationClient, ManagementClient, SignUpUserData } from 'auth0';
+import { AuthenticationClient, ManagementClient, SignUpUserData, Role } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
@@ -12,6 +12,8 @@ import ClientAccountRepository from '../repositories/ClientAccountRepository';
 import { Roles } from '../security/Roles';
 import { AccountService } from './AccountService';
 import { SocialMediaPageService } from './SocialMediaPageService';
+import { getProfileRoles } from '../middleware/JWTMiddleware';
+import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:ClientAccountService');
 
 @injectable()
@@ -88,11 +90,52 @@ export class ClientAccountService {
     return Promise.resolve(clientAccount);
   };
 
-  public getClientAccountByEmail = async (email: string): Promise<ClientAccount | null> => {
+  public getClientAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<ClientAccount | null> => {
+    const userRoles: Role[] = await getProfileRoles(access_token);
+
+    const isClient: boolean = this.verifyIfRoleClient(userRoles);
+
+    if (isClient) {
+      const currentUser = getCurrentUserEmail(id_token);
+
+      if (currentUser != email) {
+        throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this client account.');
+      }
+    }
+
     return this.clientAccountRepository.get(email);
   };
 
-  public deleteClientAccountByEmail = async (email: string): Promise<number> => {
+  private verifyIfRoleClient = (userRoles: Role[]): boolean => {
+    for (let i = 0; i < userRoles.length; i++) {
+      if ((userRoles[i].name as string) === 'CLIENT') {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  public deleteClientAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<number> => {
+    const userRoles: Role[] = await getProfileRoles(access_token);
+
+    const isClient: boolean = this.verifyIfRoleClient(userRoles);
+
+    if (isClient) {
+      const currentUser = getCurrentUserEmail(id_token);
+
+      if (currentUser != email) {
+        throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this client account.');
+      }
+    }
+
     return this.clientAccountRepository.delete(email);
   };
 

@@ -1,4 +1,4 @@
-import { AppMetadata, AuthenticationClient, ManagementClient, SignUpUserData, User, UserMetadata } from 'auth0';
+import { AppMetadata, AuthenticationClient, ManagementClient, SignUpUserData, User, UserMetadata, Role } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
@@ -10,6 +10,8 @@ import EmployeeAccountRepository from '../repositories/EmployeeAccountRepository
 import { AccountService } from './AccountService';
 import { Roles } from '../security/Roles';
 import AccountRepository from '../repositories/AccountRepository';
+import { getProfileRoles } from '../middleware/JWTMiddleware';
+import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
@@ -68,15 +70,56 @@ export class EmployeeAccountService {
     });
   };
 
-  public getEmployeeAccountByEmail = async (email: string): Promise<EmployeeAccount | null> => {
+  public getEmployeeAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<EmployeeAccount | null> => {
+    const userRoles: Role[] = await getProfileRoles(access_token);
+
+    const isEmployee: boolean = this.verifyIfRoleEmployee(userRoles);
+
+    if (isEmployee) {
+      const currentUser = getCurrentUserEmail(id_token);
+
+      if (currentUser != email) {
+        throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this employee account.');
+      }
+    }
+
     return this.employeeAccountRepository.get(email);
+  };
+
+  private verifyIfRoleEmployee = (userRoles: Role[]): boolean => {
+    for (let i = 0; i < userRoles.length; i++) {
+      if ((userRoles[i].name as string) === 'EMPLOYEE') {
+        return true;
+      }
+    }
+    return false;
   };
 
   public getEmployeesByRegex = async (email: string): Promise<EmployeeAccount[] | null> => {
     return this.employeeAccountRepository.getEmployeesByRegex(email);
   };
 
-  public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
+  public deleteEmployeeAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<number> => {
+    const userRoles: Role[] = await getProfileRoles(access_token);
+
+    const isEmployee: boolean = this.verifyIfRoleEmployee(userRoles);
+
+    if (isEmployee) {
+      const currentUser = getCurrentUserEmail(id_token);
+
+      if (currentUser != email) {
+        throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this employee account.');
+      }
+    }
+
     // Get employee data from auth0
     const auth0EmployeeData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
 
