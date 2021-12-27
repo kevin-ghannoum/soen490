@@ -9,6 +9,7 @@ import AddressRepository from '../repositories/AddressRepository';
 import EmployeeAccountRepository from '../repositories/EmployeeAccountRepository';
 import { AccountService } from './AccountService';
 import { Roles } from '../security/Roles';
+import AccountRepository from '../repositories/AccountRepository';
 import { getProfileRoles } from '../middleware/JWTMiddleware';
 import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
@@ -16,6 +17,7 @@ const log: debug.IDebugger = debug('app:EmployeeAccountService');
 @injectable()
 export class EmployeeAccountService {
   constructor(
+    private accountRepository: AccountRepository,
     private employeeAccountRepository: EmployeeAccountRepository,
     private addressRepository: AddressRepository,
     @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
@@ -38,7 +40,14 @@ export class EmployeeAccountService {
       family_name: employeeAccountRequestDTO.accountRequest.account.lastName,
       connection: process.env.AUTH0_CONNECTION as string,
     };
+    // Username field is unique, so check if it exist first.
+    const checkIfUsernameExist = await this.accountRepository.getByUsername(
+      employeeAccountRequestDTO.accountRequest.account.username
+    );
 
+    if (checkIfUsernameExist) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
+    }
     // Create employee in auth0
     const auth0EmployeeData = await this.authenticationClient.database?.signUp(userData);
 

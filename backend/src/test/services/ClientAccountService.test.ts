@@ -12,6 +12,7 @@ import SocialMediaPageRepository from '../../main/repositories/SocialMediaPageRe
 import { ClientAccountService } from '../../main/services/ClientAccountService';
 import { sequelizeMock } from '../helpers/SequelizeMock';
 import { AuthenticationClient, ManagementClient } from 'auth0';
+import AccountRepository from '../../main/repositories/AccountRepository';
 
 describe('ClientAccountService tests', () => {
   let clientAccountRepositoryMock: any = null;
@@ -19,12 +20,14 @@ describe('ClientAccountService tests', () => {
   let socialMediaPageRepositoryMock: any = null;
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
+  let accountRepositoryMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
   });
 
   beforeEach(() => {
+    accountRepositoryMock = mock<AccountRepository>();
     clientAccountRepositoryMock = mock<ClientAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
     socialMediaPageRepositoryMock = mock<SocialMediaPageRepository>();
@@ -33,6 +36,7 @@ describe('ClientAccountService tests', () => {
     container.registerInstance(ClientAccountRepository, clientAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
+    container.registerInstance(AccountRepository, accountRepositoryMock);
     container.register<AuthenticationClient>('auth0-authentication-client', {
       useFactory: () => authenticationClientMock,
     });
@@ -43,35 +47,37 @@ describe('ClientAccountService tests', () => {
     container.clearInstances();
   });
 
-  it('should create a client account', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
-      account: {
-        email: 'client@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessName: 'Bob store',
-      industry: 'clothing',
-      website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
+  // Mock account info where all the data expected from the form are present
+  const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
+    account: {
+      email: 'client@gmail.com',
+      firstName: 'bob',
+      lastName: 'bob',
+      phoneNumber: '53434234',
+      username: 'bob',
+      password: 'bob',
+      addressId: 1,
+    },
+    address: {
+      civicNumber: 111,
+      streetName: 'St-Catherine',
+      postalCode: 'H6Y 8U6',
+      cityName: 'MTL',
+      province: 'QC',
+      country: 'Canada',
+    },
+    businessName: 'Bob store',
+    industry: 'clothing',
+    website: 'bob.com',
+    status: Status['CANCELLED' as keyof typeof Status],
+    socialMediaInfo: {
+      name: 'instagram',
+      link: 'instagram.com',
+    },
+  };
 
+  it('should create a client account', async () => {
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'bob',
       family_name: 'bob',
@@ -116,7 +122,7 @@ describe('ClientAccountService tests', () => {
   });
 
   it('should create a client account without social media', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO: ClientAccountCreationRequestDTO = {
+    const NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA: ClientAccountCreationRequestDTO = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -137,13 +143,9 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
+      status: Status['CANCELLED' as keyof typeof Status],
     };
-    
+
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'bob',
       family_name: 'bob',
@@ -151,13 +153,13 @@ describe('ClientAccountService tests', () => {
       email_verified: false,
       email: 'client@gmail.com',
     });
-
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
     managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
         id: 1,
-        ...NEW_CLIENT_ACCOUNT_INFO.address,
+        ...NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.address,
       }),
       true,
     ]);
@@ -165,59 +167,24 @@ describe('ClientAccountService tests', () => {
     clientAccountRepositoryMock.create.mockResolvedValue(
       ClientAccount.build(
         {
-          account: NEW_CLIENT_ACCOUNT_INFO.account,
-          businessName: NEW_CLIENT_ACCOUNT_INFO.businessName,
-          industry: NEW_CLIENT_ACCOUNT_INFO.industry,
-          website: NEW_CLIENT_ACCOUNT_INFO.website,
-          status: NEW_CLIENT_ACCOUNT_INFO.status,
+          account: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.account,
+          businessName: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.businessName,
+          industry: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.industry,
+          website: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.website,
+          status: NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.status,
         },
         { include: [Account] }
       )
     );
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
-    const result = await clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO);
-    expect(result.account.email).toBe(NEW_CLIENT_ACCOUNT_INFO.account.email);
+    const result = await clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA);
+    expect(result.account.email).toBe(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.account.email);
   });
 
   it('should fail because of missing data in request business name', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_MISSING_BUSINESS_NAME = {
       account: {
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessName: 'Bob store',
-      industry: 'clothing',
-      website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
-
-    const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
-    await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
-    ).rejects.toThrowError('Request data is missing some values');
-  });
-
-  it('should fail because of missing data in request businessName', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
-      account: {
-        email: 'client@gmail.com',
         firstName: 'bob',
         lastName: 'bob',
         phoneNumber: '53434234',
@@ -235,7 +202,7 @@ describe('ClientAccountService tests', () => {
       },
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
         link: 'instagram.com',
@@ -244,46 +211,14 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
-    ).rejects.toThrowError('Request data is missing some values');
-  });
-
-  it('should fail because of missing data in request industry', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
-      account: {
-        email: 'client@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '53434234',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessName: 'bob store',
-      website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
-
-    const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
-    await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_MISSING_BUSINESS_NAME as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
   it('should fail because of missing data in request status', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_MISSING_STATUS = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -312,12 +247,14 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_MISSING_STATUS as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
   it('should fail because of missing data in request social media info name', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_NAME = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -338,7 +275,7 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         link: 'instagram.com',
       },
@@ -346,12 +283,14 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_NAME as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
   it('should fail because of missing data in request social media info link', async () => {
-    const NEW_CLIENT_ACCOUNT_INFO = {
+    const NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_LINK = {
       account: {
         email: 'client@gmail.com',
         firstName: 'bob',
@@ -372,7 +311,7 @@ describe('ClientAccountService tests', () => {
       businessName: 'Bob store',
       industry: 'clothing',
       website: 'bob.com',
-      status: Status['REJECTED' as keyof typeof Status],
+      status: Status['CANCELLED' as keyof typeof Status],
       socialMediaInfo: {
         name: 'instagram',
       },
@@ -380,7 +319,11 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_LINK as ClientAccountCreationRequestDTO)
     ).rejects.toThrowError('Request data is missing some values');
+  });
+
+  it('should fail because of username not being unique', async () => {
+    accountRepositoryMock.getByUsername.mockResolvedValue(Account.build(NEW_CLIENT_ACCOUNT_INFO.account));
   });
 });

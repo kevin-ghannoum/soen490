@@ -6,6 +6,7 @@ import { ClientAccountCreationRequestDTO } from '../dto/Accounts/AccountDTOs';
 import HttpException from '../exceptions/HttpException';
 import { Address } from '../models/Address';
 import { ClientAccount } from '../models/ClientAccount';
+import AccountRepository from '../repositories/AccountRepository';
 import AddressRepository from '../repositories/AddressRepository';
 import ClientAccountRepository from '../repositories/ClientAccountRepository';
 import { Roles } from '../security/Roles';
@@ -18,6 +19,7 @@ const log: debug.IDebugger = debug('app:ClientAccountService');
 @injectable()
 export class ClientAccountService {
   constructor(
+    private accountRepository: AccountRepository,
     private clientAccountRepository: ClientAccountRepository,
     private addressRepository: AddressRepository,
     private socialMediaPageService: SocialMediaPageService,
@@ -51,6 +53,15 @@ export class ClientAccountService {
       family_name: clientAccountCreationRequestDTO.account.lastName,
       connection: process.env.AUTH0_CONNECTION as string,
     };
+
+    // Username field is unique, so check if it exist first.
+    const checkIfUsernameExist = await this.accountRepository.getByUsername(
+      clientAccountCreationRequestDTO.account.username
+    );
+
+    if (checkIfUsernameExist) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
+    }
 
     // Create client in auth0
     const auth0ClientAccountData = await this.authenticationClient.database?.signUp(auth0UserData);
@@ -131,12 +142,7 @@ export class ClientAccountService {
   public static isThereNullClientAccountCreationRequestDTO = (
     clientAccountCreationRequestDTO: ClientAccountCreationRequestDTO
   ): boolean => {
-    if (
-      clientAccountCreationRequestDTO === undefined ||
-      !clientAccountCreationRequestDTO.businessName ||
-      !clientAccountCreationRequestDTO.industry ||
-      !clientAccountCreationRequestDTO.status
-    ) {
+    if (clientAccountCreationRequestDTO === undefined || !clientAccountCreationRequestDTO.status) {
       return true;
     }
 

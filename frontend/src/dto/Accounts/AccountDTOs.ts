@@ -57,16 +57,9 @@ export interface BusinessCreationRequestDTO extends AccountRequestDTO {
 export enum Status {
   LEAD = 'LEAD',
   SCHEDULED = 'SCHEDULED',
-  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
   TO_BE_RESCHEDULED = 'TO BE RESCHEDULED',
   PENDING = 'PENDING',
-}
-
-export interface EmployeeAccountCreationDTO {
-  account: AccountCreationDTO;
-  title: string;
-  hourlyWage: number;
-  supervisorEmail: string;
 }
 
 export interface EmployeeAccountCreationDTO {
@@ -100,9 +93,9 @@ export interface BusinessAccountUpdateDTO {
 }
 
 export interface ClientAccountCreationRequestDTO extends AccountRequestDTO {
-  businessName: string;
-  industry: string;
-  website: string;
+  businessName?: string;
+  industry?: string;
+  website?: string;
   status: Status;
   socialMediaInfo?: SocialMediaPageCreationDTO;
 }
