@@ -1,7 +1,7 @@
 import { AddressCreationDTO } from '../AddressDTOs';
 import { BusinessCreationDTO } from '../BusinessDTO';
 import { SocialMediaPageCreationDTO } from '../SocialMediaPageDTO';
-// test cpd
+
 export interface AccountUpdateDTO {
   email?: string;
   firstName?: string;
