@@ -10,6 +10,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Account } from './Account';
+import { Business } from './Business';
 import { Pay } from './Pay';
 import { Project } from './Project';
 import { WorksOn } from './WorksOn';
@@ -38,6 +39,13 @@ export class EmployeeAccount extends Model {
   @ForeignKey(() => EmployeeAccount)
   @Column
   supervisorEmail!: string;
+
+  @ForeignKey(() => Business)
+  @Column
+  businessId!: number;
+
+  @BelongsTo(() => Business)
+  business!: Business;
 
   @BelongsTo(() => EmployeeAccount, 'supervisorEmail')
   supervisor!: EmployeeAccount;

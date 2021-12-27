@@ -60,13 +60,14 @@ export class EmployeeAccountService {
     // Create address in order to obtain its id for creating an account
     const address = await this.addressRepository.create(employeeAccountRequestDTO.accountRequest.address);
     employeeAccountRequestDTO.accountRequest.account.addressId = address[0].id;
-    const { hourlyWage, supervisorEmail, title } = employeeAccountRequestDTO;
+    const { hourlyWage, supervisorEmail, title, businessId } = employeeAccountRequestDTO;
 
     return this.employeeAccountRepository.create({
       account: employeeAccountRequestDTO.accountRequest.account,
       hourlyWage,
       supervisorEmail,
       title,
+      businessId,
     });
   };
 

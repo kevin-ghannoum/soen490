@@ -1,7 +1,9 @@
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { selectAccount } from '../../features/account/AccountSlice';
+import { useAppSelector } from '../../redux/hooks';
 import { createEmployeeAccount } from '../../services/AccountAPI';
 import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
 import useStyles from './CreateEmployeeStyle';
@@ -22,10 +24,14 @@ interface CreateEmployeeAccountFormData {
   country: string;
   title: string;
   hourlyWage: number | string;
+  businessId: number | string;
+  isAdmin: boolean
 }
 
 const CreateEmployee: React.FC = () => {
   const [created, setCreated] = useState<boolean>(false);
+
+  const account = useAppSelector(selectAccount);
 
   const formik: FormikProps<CreateEmployeeAccountFormData> = useFormik<CreateEmployeeAccountFormData>({
     initialValues: {
@@ -44,6 +50,8 @@ const CreateEmployee: React.FC = () => {
       country: '',
       title: '',
       hourlyWage: '',
+      businessId: '',
+      isAdmin:account.admin ? account.admin: false
     },
     onSubmit: async (values) => {
       const response: AxiosResponse<any> = await createEmployeeAccount({
@@ -68,6 +76,7 @@ const CreateEmployee: React.FC = () => {
         hourlyWage: values.hourlyWage,
         title: values.title,
         supervisorEmail: values.supervisorEmail,
+        businessId: account.businessAcc?.businessId ? Number(account.businessAcc.businessId) : '',
       });
       if (response.status === 201) {
         setCreated(true);
@@ -76,6 +85,9 @@ const CreateEmployee: React.FC = () => {
     validationSchema: createEmployeeSchema,
   });
 
+  useEffect(() => {
+    console.log(formik.values);
+  }, [formik]);
   const classes = useStyles();
   return (
     <Grid
@@ -193,6 +205,21 @@ const CreateEmployee: React.FC = () => {
                 helperText={formik.touched.supervisorEmail && formik.errors.supervisorEmail}
               />
             </Grid>
+            {
+              account.admin ? <Grid>
+              <TextField
+                label="Business Id *"
+                name="businessId"
+                fullWidth
+                onChange={formik.handleChange}
+                value={formik.values.businessId}
+                error={formik.touched.businessId && Boolean(formik.errors.businessId)}
+                helperText={formik.touched.businessId && formik.errors.businessId}
+              />
+            </Grid>:<></>
+            }
+           
+
             <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
               <Typography variant="h6">Address</Typography>
             </Grid>

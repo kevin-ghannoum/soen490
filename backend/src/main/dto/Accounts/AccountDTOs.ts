@@ -40,6 +40,7 @@ export interface EmployeeAccountRequestDTO {
   title: string;
   hourlyWage: number;
   supervisorEmail: string;
+  businessId:number;
 }
 
 export interface ClientAccountCreationDTO {
@@ -68,6 +69,7 @@ export interface EmployeeAccountCreationDTO {
   title: string;
   hourlyWage: number;
   supervisorEmail: string;
+  businessId:number;
 }
 
 export interface EmployeeAccountCreationDTO {
