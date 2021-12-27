@@ -25,7 +25,7 @@ interface CreateEmployeeAccountFormData {
   title: string;
   hourlyWage: number | string;
   businessId: number | string;
-  isAdmin: boolean
+  isAdmin: boolean;
 }
 
 const CreateEmployee: React.FC = () => {
@@ -51,7 +51,7 @@ const CreateEmployee: React.FC = () => {
       title: '',
       hourlyWage: '',
       businessId: '',
-      isAdmin:account.admin ? account.admin: false
+      isAdmin: account.admin ? account.admin : false,
     },
     onSubmit: async (values) => {
       const response: AxiosResponse<any> = await createEmployeeAccount({
@@ -205,20 +205,21 @@ const CreateEmployee: React.FC = () => {
                 helperText={formik.touched.supervisorEmail && formik.errors.supervisorEmail}
               />
             </Grid>
-            {
-              account.admin ? <Grid>
-              <TextField
-                label="Business Id *"
-                name="businessId"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.businessId}
-                error={formik.touched.businessId && Boolean(formik.errors.businessId)}
-                helperText={formik.touched.businessId && formik.errors.businessId}
-              />
-            </Grid>:<></>
-            }
-           
+            {account.admin ? (
+              <Grid>
+                <TextField
+                  label="Business Id *"
+                  name="businessId"
+                  fullWidth
+                  onChange={formik.handleChange}
+                  value={formik.values.businessId}
+                  error={formik.touched.businessId && Boolean(formik.errors.businessId)}
+                  helperText={formik.touched.businessId && formik.errors.businessId}
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
 
             <Grid item xs={12} style={{ paddingBottom: '0px', paddingTop: '24px' }}>
               <Typography variant="h6">Address</Typography>
