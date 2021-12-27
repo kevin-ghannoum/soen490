@@ -11,6 +11,7 @@ import localStorageService from './services/LocalStorageService';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { getAccount, selectAccount } from './features/account/AccountSlice';
 import { loginWithRefreshToken } from './services/AccountAPI';
+import { noTokenReducer } from './features/account/AccountSlice';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -43,6 +44,8 @@ const App = () => {
         .catch(() => {
           localStorageService.clearAllTokens();
         });
+    } else {
+      dispatch(noTokenReducer())
     }
   }, [account.authenticated, account.loading, account.account.role, dispatch]);
   
