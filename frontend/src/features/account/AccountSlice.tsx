@@ -59,8 +59,8 @@ export const AccountSlice = createSlice({
   initialState,
   reducers: {
     noTokenReducer: (state) => {
-      state.loading = false
-    }
+      state.loading = false;
+    },
   },
   extraReducers: (builder: ActionReducerMapBuilder<AccountState>) => {
     builder
