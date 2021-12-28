@@ -1,11 +1,19 @@
 /// <reference types="cypress" />
 
+<<<<<<< HEAD
 import { loginIntercept } from '../helpers/loginIntercept';
 
 describe('EditProject feature e2e test', ()=>{
   beforeEach(() => {
     loginIntercept()
   });
+=======
+import { loginIntercept} from '../helper/loginIntercept';
+describe('test', ()=>{
+  beforeEach(() => {
+  loginIntercept()
+});
+>>>>>>> 7aa1315 (test fix)
 
   afterEach(() => {
     cy.clearLocalStorage();

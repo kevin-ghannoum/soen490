@@ -35,3 +35,4 @@ describe('CreateTask feature e2e test', () => {
     cy.wait('@createAssignedAPI').its('response.statusCode').should('eq', 201);
   });
 });
+
