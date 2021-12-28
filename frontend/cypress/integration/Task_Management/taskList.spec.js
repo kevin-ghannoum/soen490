@@ -2,7 +2,7 @@
 
 import { loginIntercept } from '../../helper/loginIntercept';
 
-describe('test', () => {
+describe('TaskList feature e2e test', () => {
   beforeEach(() => {
     loginIntercept();
   });

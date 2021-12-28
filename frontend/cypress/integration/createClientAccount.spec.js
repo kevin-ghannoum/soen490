@@ -2,7 +2,7 @@
 
 import { loginIntercept} from '../helper/loginIntercept';
 
-describe('CreateBusinessAccount feature e2e test', () => {
+describe('CreateClientAccount feature e2e test', () => {
   const firstName = 'John';
   const lastName = 'Doe';
   const username = 'JohnUsername';

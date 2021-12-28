@@ -2,7 +2,7 @@
 
 import { loginIntercept} from '../helper/loginIntercept';
 
-describe('CreateBusinessAccount feature e2e test', () => {
+describe('LogHour feature e2e test', () => {
     const email = 'employee@gmail.com';
     const startDate = '2021-10-22';
     const endDate = '2021-10-25';
