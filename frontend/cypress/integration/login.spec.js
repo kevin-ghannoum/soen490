@@ -5,7 +5,11 @@ describe('Login feature e2e test', () => {
   const password = 'Password123!';
 
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit("/")
+  });
+
+  afterEach(() => {
+    cy.clearLocalStorage();
   });
 
   afterEach(() => {
