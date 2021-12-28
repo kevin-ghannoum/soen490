@@ -138,7 +138,8 @@ export class EmployeeAccountService {
       !employeeAccountRequestDTO.accountRequest ||
       !employeeAccountRequestDTO.hourlyWage ||
       !employeeAccountRequestDTO.supervisorEmail ||
-      !employeeAccountRequestDTO.title
+      !employeeAccountRequestDTO.title ||
+      !employeeAccountRequestDTO.businessId
     ) {
       return true;
     }
