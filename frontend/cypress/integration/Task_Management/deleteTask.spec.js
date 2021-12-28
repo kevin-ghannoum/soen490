@@ -1,7 +1,13 @@
 /// <reference types="cypress" />
 
+import { loginIntercept} from '../../helper/loginIntercept';
+
 beforeEach(() => {
-  cy.visit('/');
+  loginIntercept()
+});
+
+afterEach(() => {
+  cy.clearLocalStorage();
 });
 
 it('Should view a list of tasks', () => {
@@ -12,6 +18,7 @@ it('Should view a list of tasks', () => {
     },
     { fixture: 'taskList.json', statusCode: 200 }
   );
+
   cy.intercept(
     {
       method: 'GET',
@@ -59,8 +66,9 @@ it('Should view a list of tasks', () => {
     },
     { statusCode: 200 }
   ).as('deleteAssignedAPI');
-  cy.visit('/tasks');
 
+  cy.visit('/tasks');
+  cy.wait(1000);
   cy.get('#View-Task-Datagrid').should('exist');
   cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
 
@@ -72,6 +80,7 @@ it('Should view a list of tasks', () => {
     },
     { fixture: 'taskListDelete.json', statusCode: 200 }
   );
+
   cy.get('#deleteButton').click();
   cy.get('#dialogDelete').click();
 

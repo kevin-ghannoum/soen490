@@ -5,7 +5,11 @@ describe('Login feature e2e test', () => {
   const password = 'Password123!';
 
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit("/")
+  });
+
+  afterEach(() => {
+    cy.clearLocalStorage();
   });
 
   afterEach(() => {
@@ -37,7 +41,9 @@ describe('Login feature e2e test', () => {
     ).as("getAccountReduxAPI");
 
     cy.visit('/login');
+
     cy.get('input[name=email]').type(email);
+
     cy.get('input[name=password]').type(password);
 
     cy.get('form').submit();

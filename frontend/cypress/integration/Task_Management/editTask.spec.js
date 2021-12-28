@@ -1,7 +1,13 @@
 /// <reference types="cypress" />
 
+import { loginIntercept} from '../../helper/loginIntercept';
+
 beforeEach(() => {
-  cy.visit('/');
+  loginIntercept()
+});
+
+afterEach(() => {
+  cy.clearLocalStorage();
 });
 
 it('Should view a list of tasks', () => {
@@ -62,6 +68,7 @@ it('Should view a list of tasks', () => {
   ).as('editAssignedAPI');
 
   cy.visit('/tasks');
+  cy.wait(1000);
   cy.get('#View-Task-Datagrid').should('exist');
   cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
   cy.get('input[name=title]').clear().type("Written a new title");

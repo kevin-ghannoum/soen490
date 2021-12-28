@@ -1,7 +1,13 @@
 /// <reference types="cypress" />
 
+import { loginIntercept} from '../helper/loginIntercept';
+
 beforeEach(() => {
-  cy.visit('/');
+  loginIntercept()
+});
+
+afterEach(() => {
+  cy.clearLocalStorage();
 });
 
 it('Should view a list of project', () => {
@@ -47,6 +53,7 @@ it('Should view a list of project', () => {
   ).as('updateProjectAPI');
 
   cy.visit('/projects');
+  cy.wait(1000);
   cy.get('#View-Project-Grid').should('exist');
   cy.get(`[data-id="11"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
   cy.get('#editButton').click();

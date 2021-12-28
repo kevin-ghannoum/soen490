@@ -1,8 +1,15 @@
 /// <reference types="cypress" />
 
+import { loginIntercept} from '../../helper/loginIntercept';
+
 beforeEach(() => {
-  cy.visit('/');
+  loginIntercept()
 });
+
+afterEach(() => {
+  cy.clearLocalStorage();
+});
+
 it('Should create a new Task', () => {
   cy.intercept(
     {
