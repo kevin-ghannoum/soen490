@@ -1,7 +1,7 @@
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { selectAccount } from '../../features/account/AccountSlice';
 import { useAppSelector } from '../../redux/hooks';
 import { createEmployeeAccount } from '../../services/AccountAPI';
