@@ -17,8 +17,6 @@ const createEmployeeSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   title: Yup.string().required('Required'),
   hourlyWage: Yup.number().nullable().required('Required').typeError('Hourly wage must be a number'),
   businessId: Yup.number().nullable().when('isAdmin', { is: true, then: Yup.number().notRequired() }),
-
-  // .required('Required').when('isAdmin',{is:true}).typeError('Business must be a number')
 });
 
 export default createEmployeeSchema;

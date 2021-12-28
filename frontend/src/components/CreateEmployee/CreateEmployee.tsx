@@ -85,9 +85,6 @@ const CreateEmployee: React.FC = () => {
     validationSchema: createEmployeeSchema,
   });
 
-  useEffect(() => {
-    console.log(formik.values);
-  }, [formik]);
   const classes = useStyles();
   return (
     <Grid
