@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../helper/loginIntercept';
-
-beforeEach(() => {
+describe('test', ()=>{
+  beforeEach(() => {
   loginIntercept()
 });
 
@@ -83,3 +83,5 @@ it('Should view a list of project', () => {
     { fixture: 'updateProject.json', statusCode: 200, times: 1 }
   ).as('getListOfProjectAPI');
 });
+
+})

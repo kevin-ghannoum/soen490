@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helper/loginIntercept';
-
-beforeEach(() => {
+describe('test', ()=>{
+  beforeEach(() => {
   loginIntercept()
 });
 
@@ -87,3 +87,5 @@ it('Should view a list of tasks', () => {
   cy.wait('@deleteTaskAPI').its('response.statusCode').should('eq', 200);
   cy.wait('@deleteAssignedAPI').its('response.statusCode').should('eq', 200);
 });
+
+})

@@ -2,7 +2,8 @@
 
 import { loginIntercept} from '../../helper/loginIntercept';
 
-beforeEach(() => {
+describe("test1", ()=>{
+  beforeEach(() => {
   loginIntercept()
 });
 
@@ -68,7 +69,7 @@ it('Should view a list of tasks', () => {
   ).as('editAssignedAPI');
 
   cy.visit('/tasks');
-  cy.wait(1000);
+  // cy.wait(1000);
   cy.get('#View-Task-Datagrid').should('exist');
   cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
   cy.get('input[name=title]').clear().type("Written a new title");
@@ -81,3 +82,5 @@ it('Should view a list of tasks', () => {
   cy.wait('@editTaskAPI').its('response.statusCode').should('eq', 201);
   cy.wait('@editAssignedAPI').its('response.statusCode').should('eq', 201);
 });
+})
+

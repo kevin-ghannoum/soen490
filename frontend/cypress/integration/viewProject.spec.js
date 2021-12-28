@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../helper/loginIntercept';
-
-beforeEach(() => {
+describe('twst',()=>{
+  beforeEach(() => {
   loginIntercept()
 });
 
@@ -22,4 +22,6 @@ it('Should view a list of project', () => {
   cy.visit('/projects');
   cy.get("#View-Project-Grid").should('exist');
 });
+})
+
   

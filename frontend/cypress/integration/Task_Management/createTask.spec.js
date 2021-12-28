@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helper/loginIntercept';
-
-beforeEach(() => {
+describe('test', ()=>{
+  beforeEach(() => {
   loginIntercept()
 });
 
@@ -61,3 +61,5 @@ it('Should create a new Task', () => {
   cy.wait('@createTaskAPI').its('response.statusCode').should('eq', 201);
   cy.wait('@createAssignedAPI').its('response.statusCode').should('eq', 201);
 });
+
+})
