@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { getAllBusinessProject } from '../../services/ProjectAPI';
 import { Button, Grid, Link } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 interface Sale {
   amount: number;
@@ -42,7 +46,10 @@ interface DataDisplay {
 
 const ViewProject: React.FC = () => {
   const [projectList, setProjectList] = useState<any>([]);
+  const [archivedProject, setArchivedProject] = useState<any>([]);
+  const [nonArchivedProject, setNonArchivedProject] = useState<any>([]);
   const history = useHistory();
+  const [archived, setArchived] = useState<boolean>(false);
 
   const [select, setSelection] = useState<GridSelectionModel>();
   const handleRowSelection = (id: GridSelectionModel) => {
@@ -53,15 +60,31 @@ const ViewProject: React.FC = () => {
     history.push('/project');
   };
 
+  const handleToggle = async () => {
+    setArchived(!archived)
+    console.log(archived)
+
+  }
+
+  useEffect(() => {
+    if(archived === true) {
+      setProjectList(archivedProject)
+    }
+    else{
+      setProjectList(nonArchivedProject)
+    }
+  }, [archived, archivedProject, nonArchivedProject]);
+
   useEffect(() => {
     const fetchData = async () => {
       const projects = await getAllBusinessProject(1);
-      const display: DataDisplay[] = [];
+      const noArchived: DataDisplay[] = [];
+      const archivedProject: DataDisplay[] = [];
       projects.data.forEach((element: Data) => {
         const createdDate = element.createdDate.split('T');
         const followUpDate = element.followUpDate.split('T');
         const deadlineDate = element.deadlineDate.split('T');
-        display.push({
+        const dataDisplay : DataDisplay = {
           id: element.id,
           title: { id: element.id, title: element.title },
           email: element.email,
@@ -75,9 +98,16 @@ const ViewProject: React.FC = () => {
           leadCredit: element.leadCredit,
           leadRanking: element.leadRanking,
           sale: element.sale.amount,
-        });
+        }
+        if(element.status === "ARCHIVED") {
+          archivedProject.unshift(dataDisplay)
+        }
+        else {
+          noArchived.unshift(dataDisplay)
+        }
       });
-      setProjectList(display);
+      setNonArchivedProject(noArchived);
+      setArchivedProject(archivedProject);
     };
     fetchData();
   }, [select]);
@@ -178,13 +208,29 @@ const ViewProject: React.FC = () => {
           <Grid item xs={4}>
             <Button
               variant="contained"
-              style={{ width: '150px', marginBottom: 50, alignItems: 'right' }}
+              style={{ width: '150px', marginBottom: 10, marginRight: 5, alignItems: 'right' }}
               color="primary"
               component="span"
               onClick={clickAddProject}
             >
               Add Project
             </Button>
+          </Grid>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <FormControl component="fieldset">
+              <FormGroup aria-label="position" row>
+                <FormControlLabel
+                  value="archived"
+                  labelPlacement="start"
+                  control={<Switch color="primary" />}
+                  style={{ minWidth: '150px', marginBottom: 10, marginRight: 70, alignItems: 'right' }}
+                  label="View Archived Projects"
+                  onClick={() => handleToggle()}
+                />
+              </FormGroup>
+            </FormControl>
           </Grid>
           <Grid item xs={12} style={{ height: 560, width: '100%' }}>
             {' '}
