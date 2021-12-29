@@ -38,8 +38,8 @@ export class Project extends Model {
   description!: string;
 
   @Default('PENDING')
-  @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED'))
-  status!: 'BOOKED' | 'PENDING' | 'REJECTED' | 'TO BE RESCHEDULED' | 'COMPLETED';
+  @Column(DataType.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED', 'ARCHIVED'))
+  status!: 'BOOKED' | 'PENDING' | 'REJECTED' | 'TO BE RESCHEDULED' | 'COMPLETED' | 'ARCHIVED';
 
   @AllowNull
   @Column

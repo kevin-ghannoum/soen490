@@ -160,6 +160,7 @@ export default class AccountRoute extends CommonRoutesConfig {
           res.status(StatusCodes.OK).send(regexClientAccout);
         } catch (err) {
           next(err);
+          console.log("asd")
         }
       });
 

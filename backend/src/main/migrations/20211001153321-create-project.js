@@ -22,7 +22,8 @@ module.exports = {
           'BOOKED',
           'PENDING',
           'REJECTED',
-          'TO BE RESCHEDULED'
+          'TO BE RESCHEDULED',
+          'ARCHIVED'
         ),
       },
       serviceType: {
