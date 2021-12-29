@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helper/loginIntercept';
+import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getAllEmployeesIntercept, getProjectListIntercept, editedTaskIntercept, editedAssignedByTaskIntercept } from '../../helpers/taskIntercept';
 
 describe("EditTask feature e2e test", ()=>{
   beforeEach(() => {
@@ -10,6 +11,16 @@ describe("EditTask feature e2e test", ()=>{
   afterEach(() => {
     cy.clearLocalStorage();
   });
+
+  const setUpEditTaskIntercept = () => {
+    getTaskListIntercept();
+    getTaskIntercept();
+    getByTaskIdIntercept();
+    getAllEmployeesIntercept();
+    getProjectListIntercept();
+    editedTaskIntercept();
+    editedAssignedByTaskIntercept();
+  }
 
   it('Should edit a task', () => {
     cy.intercept(

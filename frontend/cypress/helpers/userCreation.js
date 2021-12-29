@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 import { accountFixture } from '../fixtures/accountFixture'
 
 export const userPersonalInfo = () => {

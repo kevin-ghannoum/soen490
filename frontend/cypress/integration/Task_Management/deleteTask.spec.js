@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helper/loginIntercept';
+import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getAllEmployeesIntercept, getProjectListIntercept, deletedTaskIntercept, deletedAssignByTaskIdIntercept } from '../../helpers/taskIntercept';
 
 describe('DeleteTask feature e2e test', ()=>{
   beforeEach(() => {
@@ -11,62 +12,18 @@ describe('DeleteTask feature e2e test', ()=>{
     cy.clearLocalStorage();
   });
 
+  const setUpDeleteTaskIntercept = () => {
+    getTaskListIntercept();
+    getTaskIntercept();
+    getByTaskIdIntercept();
+    getAllEmployeesIntercept();
+    getProjectListIntercept();
+    deletedTaskIntercept();
+    deletedAssignByTaskIdIntercept();
+  }
+
   it('Should delete a task', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/task',
-      },
-      { fixture: 'taskList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/task/1',
-      },
-      { fixture: 'getSingleTask.json', statusCode: 200 }
-    ).as('getTaskByIdAPI');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/assignedByTaskId/1',
-      },
-      { fixture: 'assignedCreated.json', statusCode: 200 }
-    ).as('assignedTasksByIdAPI');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/accounts/allEmployees',
-      },
-      { fixture: 'employeeList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/project?businessId=*',
-      },
-      { fixture: 'projectList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'DELETE',
-        url: '/task/1',
-      },
-      { statusCode: 200 }
-    ).as('deleteTaskAPI');
-
-    cy.intercept(
-      {
-        method: 'DELETE',
-        url: '/assignedByTaskId/1',
-      },
-      { statusCode: 200 }
-    ).as('deleteAssignedAPI');
+    setUpDeleteTaskIntercept();
 
     cy.visit('/tasks');
     cy.wait(1000);

@@ -1,8 +1,9 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helper/loginIntercept';
+import { getTaskListIntercept, getAllEmployeesIntercept, getProjectListIntercept, createdTaskIntercept, createdAssignIntercept } from '../../helpers/taskIntercept';
 
-describe('CreateTask feature e2e test', ()=>{
+describe('CreateTask feature e2e test', () => {
   beforeEach(() => {
     loginIntercept()
   });
@@ -11,45 +12,16 @@ describe('CreateTask feature e2e test', ()=>{
     cy.clearLocalStorage();
   });
 
+  const setUpCreateTaskIntercept = () => {
+    getTaskListIntercept();
+    getAllEmployeesIntercept();
+    getProjectListIntercept();
+    createdTaskIntercept();
+    createdAssignIntercept();
+  }
+
   it('Should create a new Task', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/task',
-      },
-      { fixture: 'taskList.json', statusCode: 200 }
-    );
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/accounts/allEmployees',
-      },
-      { fixture: 'employeeList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/project?businessId=*',
-      },
-      { fixture: 'projectList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/task',
-      },
-      { fixture: 'taskCreated.json', statusCode: 201 }
-    ).as('createTaskAPI');
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/multipleAssigned',
-      },
-      { fixture: 'assignedCreated.json', statusCode: 201 }
-    ).as('createAssignedAPI');
+    setUpCreateTaskIntercept();
 
     cy.visit('/tasks/new');
     cy.get('input[name=title]').type("Testing Title");
