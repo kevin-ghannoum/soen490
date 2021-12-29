@@ -23,62 +23,8 @@ describe("EditTask feature e2e test", ()=>{
   }
 
   it('Should edit a task', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/task',
-      },
-      { fixture: 'taskList.json', statusCode: 200 }
-    ).as('getAllTaskAPI');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/task/1',
-      },
-      { fixture: 'getSingleTask.json', statusCode: 200 }
-    ).as('getTaskByIdAPI');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/assignedByTaskId/1',
-      },
-      { fixture: 'assignedCreated.json', statusCode: 200 }
-    ).as('assignedTasksByIdAPI');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/accounts/allEmployees',
-      },
-      { fixture: 'employeeList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/project?businessId=*',
-      },
-      { fixture: 'projectList.json', statusCode: 200 }
-    );
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/task/1',
-      },
-      { fixture: 'taskEdited.json', statusCode: 201 }
-    ).as('editTaskAPI');
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/assignedByTaskId/1',
-      },
-        { fixture: 'assignEdited.json', statusCode: 201 }
-    ).as('editAssignedAPI');
-
+    setUpEditTaskIntercept();
+    
     cy.visit('/tasks');
     cy.wait(1000);
     cy.get('#View-Task-Datagrid').should('exist');
