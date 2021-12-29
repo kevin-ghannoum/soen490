@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
-describe('CreateBusinessAccount feature e2e test', () => {
+import { loginIntercept} from '../helper/loginIntercept';
+
+describe('CreateEmployeeAccount feature e2e test', () => {
   const firstName = 'John';
   const lastName = 'Doe';
   const username = 'JohnUsername';
@@ -18,9 +20,13 @@ describe('CreateBusinessAccount feature e2e test', () => {
   const province = 'QC';
   const postalCode = 'H6T0R5';
   const country = 'Canada';
-
+  
   beforeEach(() => {
-    cy.visit('/');
+    loginIntercept()
+  });
+
+  afterEach(() => {
+    cy.clearLocalStorage();
   });
 
   // Test user story: #26 As an admin, I want to create new account for employee

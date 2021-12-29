@@ -28,7 +28,7 @@ interface AccountState {
 }
 
 const initialState: AccountState = {
-  loading: false,
+  loading: true,
   authenticated: false,
   account: {
     email: '',
@@ -57,7 +57,11 @@ export const logout = createAsyncThunk('logout', async () => {
 export const AccountSlice = createSlice({
   name: 'account',
   initialState,
-  reducers: {},
+  reducers: {
+    noTokenReducer: (state) => {
+      state.loading = false;
+    },
+  },
   extraReducers: (builder: ActionReducerMapBuilder<AccountState>) => {
     builder
       .addCase(getAccount.pending, (state) => {
@@ -70,7 +74,8 @@ export const AccountSlice = createSlice({
           state.businessAcc = action.payload.businessAcc!;
           state.clientAcc = action.payload.clientAcc!;
           state.employeeAcc = action.payload.employeeAcc!;
-          state.admin = action.payload.admin === 'true' ? true : false;
+          state.admin = action.payload.admin === true;
+          state.loading = false;
         }
       })
       .addCase(logout.pending, (state) => {
@@ -84,6 +89,7 @@ export const AccountSlice = createSlice({
         state.employeeAcc = undefined;
         state.admin = false;
         localStorageService.clearAllTokens();
+        state.loading = false;
       })
       .addCase(logout.rejected, (state) => {
         console.log('error while logging out');
@@ -94,3 +100,5 @@ export const AccountSlice = createSlice({
 export const selectAccount = (state: RootState) => state.account;
 
 export default AccountSlice.reducer;
+
+export const { noTokenReducer } = AccountSlice.actions;

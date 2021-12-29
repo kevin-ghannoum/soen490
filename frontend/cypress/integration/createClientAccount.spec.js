@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
-describe('CreateBusinessAccount feature e2e test', () => {
+import { loginIntercept} from '../helper/loginIntercept';
+
+describe('CreateClientAccount feature e2e test', () => {
   const firstName = 'John';
   const lastName = 'Doe';
   const username = 'JohnUsername';
@@ -20,7 +22,11 @@ describe('CreateBusinessAccount feature e2e test', () => {
   const website = 'john.com';
 
   beforeEach(() => {
-    cy.visit('/');
+    loginIntercept()
+  });
+
+  afterEach(() => {
+    cy.clearLocalStorage();
   });
 
   // Test user story: #32 As a business user, I want to create a client account

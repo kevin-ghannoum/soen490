@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { loginIntercept} from '../helper/loginIntercept';
+
 describe('CreateBusinessAccount feature e2e test', () => {
   const firstName = 'John';
   const lastName = 'Doe';
@@ -20,7 +22,11 @@ describe('CreateBusinessAccount feature e2e test', () => {
   const website = 'john.com';
 
   beforeEach(() => {
-    cy.visit('/');
+    loginIntercept()
+  });
+
+  afterEach(() => {
+    cy.clearLocalStorage();
   });
 
   // Test user story: #25 As an admin, I want to create new account for business
