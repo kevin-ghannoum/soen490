@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../../helper/loginIntercept';
+import { loginIntercept} from '../../helpers/loginIntercept';
 import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getAllEmployeesIntercept, getProjectListIntercept, deletedTaskIntercept, deletedAssignByTaskIdIntercept } from '../../helpers/taskIntercept';
 
 describe('DeleteTask feature e2e test', ()=>{

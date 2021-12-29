@@ -21,7 +21,6 @@ export const userAddressInfo = () => {
 }
 
 export const userBusinessInfo = () => {
-    cy.get('input[name=name]').type(accountFixture.businessName);
     cy.get('input[name=industry]').type(accountFixture.industry);
     cy.get('input[name=socialMediaName').type(accountFixture.socialMediaName);
     cy.get('input[name=socialMediaLink').type(accountFixture.socialMediaLink);

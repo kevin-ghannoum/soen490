@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../../helper/loginIntercept';
+import { loginIntercept} from '../../helpers/loginIntercept';
 import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getAllEmployeesIntercept, getProjectListIntercept, editedTaskIntercept, editedAssignedByTaskIntercept } from '../../helpers/taskIntercept';
 
 describe("EditTask feature e2e test", ()=>{
@@ -24,7 +24,7 @@ describe("EditTask feature e2e test", ()=>{
 
   it('Should edit a task', () => {
     setUpEditTaskIntercept();
-    
+
     cy.visit('/tasks');
     cy.wait(1000);
     cy.get('#View-Task-Datagrid').should('exist');

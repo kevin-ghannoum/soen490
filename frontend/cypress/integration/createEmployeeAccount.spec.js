@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helpers/loginIntercept';
+import { loginIntercept } from '../helpers/loginIntercept';
 import { userPersonalInfo, userAddressInfo } from '../helpers/userCreation';
 
 describe('CreateEmployeeAccount feature e2e test', () => {

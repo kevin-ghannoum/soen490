@@ -1,35 +1,19 @@
-const firstName = 'John';
-const lastName = 'Doe';
-const username = 'JohnUsername';
-const password = 'Password123';
-const email = 'johndoe@gmail.com';
-const phone = '5145555555';
-const civicNumber = '111';
-const streetName = 'my street';
-const cityName = 'Montreal';
-const province = 'QC';
-const postalCode = 'H6T0R5';
-const country = 'Canada';
-const businessName = 'John Store';
-const industry = 'Clothing';
-const socialMediaName = 'John Social';
-const socialMediaLink = 'instagram.com/john';
-const website = 'john.com';
-
-exports.firstName = firstName;
-exports.lastName = lastName;
-exports.username = username;
-exports.password = password;
-exports.email = email;
-exports.phone = phone;
-exports.civicNumber = civicNumber;
-exports.streetName = streetName;
-exports.cityName = cityName;
-exports.province = province;
-exports.postalCode = postalCode;
-exports.country = country;
-exports.businessName = businessName;
-exports.industry = industry;
-exports.socialMediaName = socialMediaName;
-exports.socialMediaLink = socialMediaLink;
-exports.website = website;
+export const accountFixture = {
+    firstName: 'John',
+    lastName: 'Doe',
+    username: 'JohnUsername',
+    password: 'Password123',
+    email: 'johndoe@gmail.com',
+    phone: '5145555555',
+    civicNumber: '111',
+    streetName: 'my street',
+    cityName: 'Montreal',
+    province: 'QC',
+    postalCode: 'H6T0R5',
+    country: 'Canada',
+    businessName: 'John Store',
+    industry: 'Clothing',
+    socialMediaName: 'John Social',
+    socialMediaLink: 'instagram.com/john',
+    website: 'john.com'
+}

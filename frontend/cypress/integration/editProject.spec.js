@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helpers/loginIntercept';
+import { loginIntercept } from '../helpers/loginIntercept';
 
 describe('EditProject feature e2e test', ()=>{
   beforeEach(() => {

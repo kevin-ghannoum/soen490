@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../../helper/loginIntercept';
+import { loginIntercept} from '../../helpers/loginIntercept';
 import { getTaskListIntercept, getAllEmployeesIntercept, getProjectListIntercept, createdTaskIntercept, createdAssignIntercept } from '../../helpers/taskIntercept';
 
 describe('CreateTask feature e2e test', () => {

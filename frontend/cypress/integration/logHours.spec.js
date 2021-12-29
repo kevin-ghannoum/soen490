@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helpers/loginIntercept';
+import { loginIntercept } from '../helpers/loginIntercept';
 
 describe('LogHour feature e2e test', () => {
     const email = 'employee@gmail.com';

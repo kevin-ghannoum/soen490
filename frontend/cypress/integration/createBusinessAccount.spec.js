@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helpers/loginIntercept';
+import { loginIntercept } from '../helpers/loginIntercept';
 import { userPersonalInfo, userAddressInfo, userBusinessInfo } from '../helpers/userCreation';
+import { accountFixture } from '../fixtures/accountFixture';
 
 describe('CreateBusinessAccount feature e2e test', () => {
   beforeEach(() => {
@@ -15,6 +16,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
   const getBusinessAccount = () => {
     userPersonalInfo();
     userAddressInfo();
+    cy.get('input[name=name]').type(accountFixture.businessName);
     userBusinessInfo();
   }
 
