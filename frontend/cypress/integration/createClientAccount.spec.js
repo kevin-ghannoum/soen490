@@ -12,6 +12,12 @@ describe('CreateClientAccount feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
+  const getClientAccount = () => {
+    userPersonalInfo();
+    userAddressInfo();
+    userBusinessInfo();
+  }
+
   // Test user story: #32 As a business user, I want to create a client account
   it('Should create a new client account', () => {
     cy.intercept(
@@ -24,9 +30,7 @@ describe('CreateClientAccount feature e2e test', () => {
     
     cy.visit('/clientAccount/new');
 
-    userPersonalInfo();
-    userAddressInfo();
-    userBusinessInfo();
+    getClientAccount();
 
     cy.get('input[name=status]').parent().type('Scheduled{enter}');
 

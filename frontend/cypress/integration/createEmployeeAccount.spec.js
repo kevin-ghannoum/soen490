@@ -16,6 +16,16 @@ describe('CreateEmployeeAccount feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
+  const getEmployeeAccount = () => {
+    userPersonalInfo();
+
+    cy.get('input[name=title]').type(title);
+    cy.get('input[name=hourlyWage]').type(hourlyWage);
+    cy.get('input[name=supervisorEmail]').type(supervisorEmail);
+
+    userAddressInfo();
+  }
+
   // Test user story: #26 As an admin, I want to create new account for employee
   it('Should create a new employee account', () => {
     cy.intercept(
@@ -28,13 +38,7 @@ describe('CreateEmployeeAccount feature e2e test', () => {
 
     cy.visit('/employeeAccount/new');
 
-    userPersonalInfo();
-
-    cy.get('input[name=title]').type(title);
-    cy.get('input[name=hourlyWage]').type(hourlyWage);
-    cy.get('input[name=supervisorEmail]').type(supervisorEmail);
-
-    userAddressInfo();
+    getEmployeeAccount();
 
     cy.get('form').submit();
     cy.wait('@createEmployeeAccountAPI').its('response.statusCode').should('eq', 201);

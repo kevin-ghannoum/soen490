@@ -12,6 +12,12 @@ describe('CreateBusinessAccount feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
+  const getBusinessAccount = () => {
+    userPersonalInfo();
+    userAddressInfo();
+    userBusinessInfo();
+  }
+
   // Test user story: #25 As an admin, I want to create new account for business
   it('Should create a new business account', () => {
     cy.intercept(
@@ -24,9 +30,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
     
     cy.visit('/businessAccount/new');
 
-    userPersonalInfo();
-    userAddressInfo();
-    userBusinessInfo();
+    getBusinessAccount();
 
     cy.get('form').submit();
     cy.wait('@createBusinessAccountAPI').its('response.statusCode').should('eq', 201);
