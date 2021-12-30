@@ -76,7 +76,7 @@ const ViewProject: React.FC = () => {
     const fetchData = async () => {
       const projects = await getAllBusinessProject(1);
       const noArchived: DataDisplay[] = [];
-      const archivedProject: DataDisplay[] = [];
+      const archivedProjectList: DataDisplay[] = [];
       projects.data.forEach((element: Data) => {
         const createdDate = element.createdDate.split('T');
         const followUpDate = element.followUpDate.split('T');
@@ -97,13 +97,13 @@ const ViewProject: React.FC = () => {
           sale: element.sale.amount,
         };
         if (element.status === 'COMPLETED') {
-          archivedProject.unshift(dataDisplay);
+          archivedProjectList.unshift(dataDisplay);
         } else {
           noArchived.unshift(dataDisplay);
         }
       });
       setNonArchivedProject(noArchived);
-      setArchivedProject(archivedProject);
+      setArchivedProject(archivedProjectList);
     };
     fetchData();
   }, [select]);
