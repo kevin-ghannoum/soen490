@@ -62,8 +62,6 @@ const ViewProject: React.FC = () => {
 
   const handleToggle = async () => {
     setArchived(!archived)
-    console.log(archived)
-
   }
 
   useEffect(() => {
@@ -99,7 +97,7 @@ const ViewProject: React.FC = () => {
           leadRanking: element.leadRanking,
           sale: element.sale.amount,
         }
-        if(element.status === "ARCHIVED") {
+        if(element.status === "COMPLETED") {
           archivedProject.unshift(dataDisplay)
         }
         else {

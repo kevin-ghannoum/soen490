@@ -23,7 +23,7 @@ module.exports = {
           'PENDING',
           'REJECTED',
           'TO BE RESCHEDULED',
-          'ARCHIVED'
+          'COMPLETED'
         ),
       },
       serviceType: {
