@@ -1,27 +1,27 @@
 [
-    {
-        "id": 11,
-        "title": "This is the new title",
-        "description": "New description",
-        "status": "REJECTED",
-        "serviceType": "asdasd",
-        "leadSource": "asdasd",
-        "leadCredit": "asdasd",
-        "leadRanking": "asdasda",
-        "createdDate": "2021-10-31T04:09:38.000Z",
-        "deadlineDate": "2021-10-31T00:00:00.000Z",
-        "followUpDate": "2021-10-31T00:00:00.000Z",
-        "modifiedDate": "2021-10-31T20:35:51.000Z",
-        "extraNotes": "New Extra Notes",
-        "email": "a@a.com",
-        "businessId": 1,
-        "sale": {
-            "id": 1,
-            "amount": 3434,
-            "createdDate": "2021-10-29T04:09:38.000Z",
-            "dueDate": "2021-10-31T00:00:00.000Z",
-            "description": "New Sale Description",
-            "projectId": 11
-        }
+  {
+    "id": 11,
+    "title": "This is the new title",
+    "description": "New description",
+    "status": "REJECTED",
+    "serviceType": "asdasd",
+    "leadSource": "asdasd",
+    "leadCredit": "asdasd",
+    "leadRanking": "asdasda",
+    "createdDate": "2021-10-31T04:09:38.000Z",
+    "deadlineDate": "2021-10-31T00:00:00.000Z",
+    "followUpDate": "2021-10-31T00:00:00.000Z",
+    "modifiedDate": "2021-10-31T20:35:51.000Z",
+    "extraNotes": "New Extra Notes",
+    "email": "a@a.com",
+    "businessId": 1,
+    "sale": {
+      "id": 1,
+      "amount": 3434,
+      "createdDate": "2021-10-29T04:09:38.000Z",
+      "dueDate": "2021-10-31T00:00:00.000Z",
+      "description": "New Sale Description",
+      "projectId": 11
     }
+  }
 ]

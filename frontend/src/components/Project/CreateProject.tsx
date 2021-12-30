@@ -362,6 +362,9 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                   <MenuItem id="pending" value={'PENDING'}>
                     Pending
                   </MenuItem>
+                  <MenuItem id="completed" value={'COMPLETED'}>
+                    Completed
+                  </MenuItem>
                 </Select>
               </Grid>
               <Grid item>

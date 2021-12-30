@@ -9,7 +9,7 @@ import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('SocialMediaPageService tests', () => {
   let socialMediaPageRepositoryMock: any = null;
-  
+
   beforeAll(() => {
     sequelizeMock();
   });

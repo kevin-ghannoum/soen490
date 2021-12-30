@@ -2,9 +2,9 @@
 
 import { loginIntercept } from '../helpers/loginIntercept';
 
-describe('EditProject feature e2e test', ()=>{
+describe('EditProject feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {

@@ -47,7 +47,6 @@ const App = () => {
       dispatch(noTokenReducer());
     }
   }, [account.authenticated, account.loading, account.account.role, dispatch]);
-
   axios.interceptors.response.use(
     (response: AxiosResponse<any>) => {
       return response;

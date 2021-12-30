@@ -16,6 +16,10 @@ describe('Login feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
+  afterEach(() => {
+    cy.clearLocalStorage();
+  });
+
   // Test user story: #24 As a user, I want to login
   it('Should login with a business account', () => {
     cy.intercept(
