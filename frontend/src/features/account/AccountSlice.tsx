@@ -28,7 +28,7 @@ interface AccountState {
 }
 
 const initialState: AccountState = {
-  loading: false,
+  loading: true,
   authenticated: false,
   account: {
     email: '',
@@ -57,7 +57,11 @@ export const logout = createAsyncThunk('logout', async () => {
 export const AccountSlice = createSlice({
   name: 'account',
   initialState,
-  reducers: {},
+  reducers: {
+    noTokenReducer: (state) => {
+      state.loading = false;
+    },
+  },
   extraReducers: (builder: ActionReducerMapBuilder<AccountState>) => {
     builder
       .addCase(getAccount.pending, (state) => {
@@ -96,3 +100,5 @@ export const AccountSlice = createSlice({
 export const selectAccount = (state: RootState) => state.account;
 
 export default AccountSlice.reducer;
+
+export const { noTokenReducer } = AccountSlice.actions;

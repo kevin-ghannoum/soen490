@@ -12,6 +12,10 @@ describe('Login feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
+  afterEach(() => {
+    cy.clearLocalStorage();
+  });
+
   // Test user story: #24 As a user, I want to login
   it('Should login with a business account', () => {
     cy.intercept(
@@ -23,7 +27,7 @@ describe('Login feature e2e test', () => {
         fixture: 'loginResponse.json',
         statusCode: 202,
       }
-    ).as("loginAPI");
+    ).as('loginAPI');
 
     cy.intercept(
       {
@@ -34,20 +38,36 @@ describe('Login feature e2e test', () => {
         fixture: 'getAccountRedux.json',
         statusCode: 200,
       }
-    ).as("getAccountReduxAPI");
+    ).as('getAccountReduxAPI');
+
+    cy.intercept(
+      {
+        method: 'POST',
+        url: '/auth/refreshTokens',
+      },
+      {
+        fixture: 'loginResponse.json',
+        statusCode: 202,
+      }
+    ).as('refreshToken');
 
     cy.visit('/login');
+
     cy.get('input[name=email]').type(email);
+
     cy.get('input[name=password]').type(password);
 
     cy.get('form').submit();
 
-    cy.wait('@loginAPI').its('response.statusCode').should('eq', 202)
+    cy.wait('@loginAPI').its('response.statusCode').should('eq', 202);
 
-    cy.wait('@getAccountReduxAPI').its('response.statusCode').should('eq', 200).and(()=>{
-        expect(localStorage.getItem("access_token")).to.eq('xxxxxxxxxxxxxxxxxxxxx')
-        expect(localStorage.getItem("id_token")).to.eq('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-        expect(localStorage.getItem("refresh_token")).to.eq('xxxxxxxxx')
-    })
+    cy.wait('@getAccountReduxAPI')
+      .its('response.statusCode')
+      .should('eq', 200)
+      .and(() => {
+        expect(localStorage.getItem('access_token')).to.eq('xxxxxxxxxxxxxxxxxxxxx');
+        expect(localStorage.getItem('id_token')).to.eq('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        expect(localStorage.getItem('refresh_token')).to.eq('xxxxxxxxx');
+      });
   });
 });
