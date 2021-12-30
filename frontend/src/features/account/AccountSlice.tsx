@@ -65,20 +65,19 @@ export const AccountSlice = createSlice({
       })
       .addCase(getAccount.fulfilled, (state, action) => {
         if (action.payload.account) {
-          state.loading = false;
           state.authenticated = true;
           state.account = action.payload.account;
           state.businessAcc = action.payload.businessAcc!;
           state.clientAcc = action.payload.clientAcc!;
           state.employeeAcc = action.payload.employeeAcc!;
           state.admin = action.payload.admin === 'true' ? true : false;
+          state.loading = false;
         }
       })
       .addCase(logout.pending, (state) => {
         state.loading = true;
       })
       .addCase(logout.fulfilled, (state) => {
-        state.loading = false;
         state.authenticated = false;
         state.account = { email: '', firstName: '', lastName: '', role: '' };
         state.businessAcc = undefined;
@@ -86,6 +85,7 @@ export const AccountSlice = createSlice({
         state.employeeAcc = undefined;
         state.admin = false;
         localStorageService.clearAllTokens();
+        state.loading = false;
       })
       .addCase(logout.rejected, (state) => {
         console.log('error while logging out');
