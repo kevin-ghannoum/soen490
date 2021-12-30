@@ -2,9 +2,9 @@
 
 import { loginIntercept } from '../helpers/loginIntercept';
 
-describe('EditProject feature e2e test', ()=>{
+describe('EditProject feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -83,4 +83,8 @@ describe('EditProject feature e2e test', ()=>{
       { fixture: 'updateProject.json', statusCode: 200, times: 1 }
     ).as('getListOfProjectAPI');
   });
+<<<<<<< HEAD
 })
+=======
+});
+>>>>>>> 52dbf4e (Format with prettier)

@@ -9,7 +9,7 @@ import { AssignedService } from '../../main/services/AssignedService';
 
 describe('AssignedService tests', () => {
   let assignedRepositoryMock: any = null;
-  
+
   beforeAll(() => {
     sequelizeMock();
   });
@@ -26,7 +26,7 @@ describe('AssignedService tests', () => {
   it('should delete all tasks with a task id', async () => {
     const NEW_ASSIGNED: MultipleAssignedCreationDTO = {
       taskId: 1,
-      emails: ['test1@email.com', 'test2@email.com', 'test3@email.com', 'test4@email.com']
+      emails: ['test1@email.com', 'test2@email.com', 'test3@email.com', 'test4@email.com'],
     };
     assignedRepositoryMock.deleteById.mockResolvedValue(4);
     const assignedService = container.resolve(AssignedService);
@@ -38,7 +38,7 @@ describe('AssignedService tests', () => {
   it('should create multiple assigneds from one task id and return the list of assigned', async () => {
     const NEW_ASSIGNED: MultipleAssignedCreationDTO = {
       taskId: 1,
-      emails: ['test1@email.com', 'test2@email.com', 'test3@email.com', 'test4@email.com']
+      emails: ['test1@email.com', 'test2@email.com', 'test3@email.com', 'test4@email.com'],
     };
     assignedRepositoryMock.create
       .mockReturnValueOnce(Assigned.build({ taskId: NEW_ASSIGNED.taskId, email: NEW_ASSIGNED.emails[0] }))
@@ -56,7 +56,7 @@ describe('AssignedService tests', () => {
 
   it('should fail because of missing value in request data (missing taskId)', async () => {
     const NEW_ASSIGNED = {
-      emails: ['test2@email.com', 'test3@email.com', 'test4@email.com']
+      emails: ['test2@email.com', 'test3@email.com', 'test4@email.com'],
     };
     const assignedService = container.resolve(AssignedService);
     await expect(

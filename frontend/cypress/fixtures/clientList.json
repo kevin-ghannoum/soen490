@@ -1,16 +1,16 @@
 [
-    {
-        "email": "a@a.com",
-        "businessName": "asdasd",
-        "industry": "asdasd",
-        "website": "asdas",
-        "status": "LEAD"
-    },
-    {
-        "email": "aa@aa.com",
-        "businessName": "asda",
-        "industry": "dasda",
-        "website": "sdasd",
-        "status": "LEAD"
-    }
+  {
+    "email": "a@a.com",
+    "businessName": "asdasd",
+    "industry": "asdasd",
+    "website": "asdas",
+    "status": "LEAD"
+  },
+  {
+    "email": "aa@aa.com",
+    "businessName": "asda",
+    "industry": "dasda",
+    "website": "sdasd",
+    "status": "LEAD"
+  }
 ]

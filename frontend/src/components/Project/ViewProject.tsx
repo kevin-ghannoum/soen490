@@ -61,15 +61,14 @@ const ViewProject: React.FC = () => {
   };
 
   const handleToggle = async () => {
-    setArchived(!archived)
-  }
+    setArchived(!archived);
+  };
 
   useEffect(() => {
-    if(archived === true) {
-      setProjectList(archivedProject)
-    }
-    else{
-      setProjectList(nonArchivedProject)
+    if (archived === true) {
+      setProjectList(archivedProject);
+    } else {
+      setProjectList(nonArchivedProject);
     }
   }, [archived, archivedProject, nonArchivedProject]);
 
@@ -82,7 +81,7 @@ const ViewProject: React.FC = () => {
         const createdDate = element.createdDate.split('T');
         const followUpDate = element.followUpDate.split('T');
         const deadlineDate = element.deadlineDate.split('T');
-        const dataDisplay : DataDisplay = {
+        const dataDisplay: DataDisplay = {
           id: element.id,
           title: { id: element.id, title: element.title },
           email: element.email,
@@ -96,12 +95,11 @@ const ViewProject: React.FC = () => {
           leadCredit: element.leadCredit,
           leadRanking: element.leadRanking,
           sale: element.sale.amount,
-        }
-        if(element.status === "COMPLETED") {
-          archivedProject.unshift(dataDisplay)
-        }
-        else {
-          noArchived.unshift(dataDisplay)
+        };
+        if (element.status === 'COMPLETED') {
+          archivedProject.unshift(dataDisplay);
+        } else {
+          noArchived.unshift(dataDisplay);
         }
       });
       setNonArchivedProject(noArchived);

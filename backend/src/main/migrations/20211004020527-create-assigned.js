@@ -9,9 +9,9 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model:'task',
-          key:'id'
-        }
+          model: 'task',
+          key: 'id',
+        },
       },
       email: {
         allowNull: false,
@@ -20,13 +20,13 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model:'account',
-          key:'email'
-        }
-      }
+          model: 'account',
+          key: 'email',
+        },
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Assigned');
-  }
+  },
 };

@@ -6,7 +6,7 @@ import { accountFixture } from '../fixtures/accountFixture';
 
 describe('CreateBusinessAccount feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -29,7 +29,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
       },
       { fixture: 'createBusinessAccount.json', statusCode: 201 }
     ).as('createBusinessAccountAPI');
-    
+
     cy.visit('/businessAccount/new');
 
     getBusinessAccount();

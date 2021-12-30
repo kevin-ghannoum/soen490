@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       date: {
         allowNull: false,
@@ -14,23 +14,23 @@ module.exports = {
       },
       message: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       type: {
         allowNull: false,
-        type: Sequelize.ENUM('EVENT', 'SYSTEM', 'REMINDER', 'GENERAL')
+        type: Sequelize.ENUM('EVENT', 'SYSTEM', 'REMINDER', 'GENERAL'),
       },
-      email:{
+      email: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: 'account',
-          key: 'email'
+          key: 'email',
         },
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Notification');
-  }
+  },
 };
