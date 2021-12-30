@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../helpers/loginIntercept';
-import { getProjectFromBusinessIntercept } from '../../helpers/projectIntercept';
 import {
+  getProjectFromBusinessIntercept,
   getClientEmailProjectIntercept,
   getEmployeeEmailProjectIntercept,
   getProjectIntercept,
