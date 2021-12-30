@@ -83,8 +83,4 @@ describe('EditProject feature e2e test', () => {
       { fixture: 'updateProject.json', statusCode: 200, times: 1 }
     ).as('getListOfProjectAPI');
   });
-<<<<<<< HEAD
 })
-=======
-});
->>>>>>> 52dbf4e (Format with prettier)
