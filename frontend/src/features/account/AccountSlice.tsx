@@ -74,7 +74,7 @@ export const AccountSlice = createSlice({
           state.businessAcc = action.payload.businessAcc!;
           state.clientAcc = action.payload.clientAcc!;
           state.employeeAcc = action.payload.employeeAcc!;
-          state.admin = action.payload.admin === 'true' ? true : false;
+          state.admin = action.payload.admin === true;
           state.loading = false;
         }
       })
