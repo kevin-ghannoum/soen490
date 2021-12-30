@@ -65,6 +65,7 @@ describe('Employee Account test', () => {
       hourlyWage: 40,
       title: 'Supervisor',
       supervisorEmail: 'bob@gmail.com',
+      businessId:1
     };
 
     accountRepositoryMock.getByUsername.mockResolvedValue(null);

@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { BusinessAccount } from './BusinessAccount';
 import { EmailTemplate } from './EmailTemplate';
+import { EmployeeAccount } from './EmployeeAccount';
 import { Goal } from './Goal';
 
 @Table({ timestamps: false })
@@ -41,4 +42,7 @@ export class Business extends Model {
 
   @BelongsTo(() => BusinessAccount)
   businessAccount!: BusinessAccount;
+
+  @HasMany(() => EmployeeAccount)
+  employees!: EmployeeAccount[];
 }
