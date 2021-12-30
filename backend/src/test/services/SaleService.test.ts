@@ -10,7 +10,7 @@ import { sequelizeMock } from '../helpers/SequelizeMock';
 describe('SaleService tests', () => {
   let saleRepositoryMock: any = null;
   const date = new Date();
-  
+
   beforeAll(() => {
     sequelizeMock();
   });

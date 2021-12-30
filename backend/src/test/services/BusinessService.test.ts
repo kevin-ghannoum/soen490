@@ -9,7 +9,7 @@ import { sequelizeMock } from '../helpers/SequelizeMock';
 
 describe('BusinessService tests', () => {
   let businessRepositoryMock: any = null;
-  
+
   beforeAll(() => {
     sequelizeMock();
   });

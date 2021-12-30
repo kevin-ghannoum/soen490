@@ -1,10 +1,10 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helper/loginIntercept';
+import { loginIntercept } from '../helper/loginIntercept';
 
-describe('EditProject feature e2e test', ()=>{
+describe('EditProject feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -83,4 +83,4 @@ describe('EditProject feature e2e test', ()=>{
       { fixture: 'updateProject.json', statusCode: 200, times: 1 }
     ).as('getListOfProjectAPI');
   });
-})
+});

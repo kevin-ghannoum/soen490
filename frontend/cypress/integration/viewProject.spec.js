@@ -1,16 +1,16 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helper/loginIntercept';
+import { loginIntercept } from '../helper/loginIntercept';
 
-describe('ViewProject feature e2e test',()=>{
+describe('ViewProject feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
     cy.clearLocalStorage();
   });
-  
+
   it('Should view a list of project', () => {
     cy.intercept(
       {
@@ -21,8 +21,6 @@ describe('ViewProject feature e2e test',()=>{
     ).as('getListOfPorjectAPI');
 
     cy.visit('/projects');
-    cy.get("#View-Project-Grid").should('exist');
+    cy.get('#View-Project-Grid').should('exist');
   });
-})
-
-  
+});

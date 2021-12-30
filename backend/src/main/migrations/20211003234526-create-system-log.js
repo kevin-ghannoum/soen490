@@ -6,23 +6,23 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       date: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       type: {
         allowNull: false,
         type: Sequelize.ENUM('SYSTEM', 'APP', 'OTHER'),
-        defaultValue: 'SYSTEM'
+        defaultValue: 'SYSTEM',
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('SystemLog');
-  }
+  },
 };

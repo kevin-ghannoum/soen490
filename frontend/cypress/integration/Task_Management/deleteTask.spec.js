@@ -1,10 +1,10 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../../helper/loginIntercept';
+import { loginIntercept } from '../../helper/loginIntercept';
 
-describe('DeleteTask feature e2e test', ()=>{
+describe('DeleteTask feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -88,5 +88,4 @@ describe('DeleteTask feature e2e test', ()=>{
     cy.wait('@deleteTaskAPI').its('response.statusCode').should('eq', 200);
     cy.wait('@deleteAssignedAPI').its('response.statusCode').should('eq', 200);
   });
-
-})
+});

@@ -6,35 +6,35 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       location: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       date: {
         allowNull: true,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       type: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdBy: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: 'account',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Event');
-  }
+  },
 };

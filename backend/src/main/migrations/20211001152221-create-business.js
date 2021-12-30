@@ -27,8 +27,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'businessaccount',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
     });
   },

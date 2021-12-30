@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helper/loginIntercept';
+import { loginIntercept } from '../helper/loginIntercept';
 
 describe('CreateEmployeeAccount feature e2e test', () => {
   const firstName = 'John';
@@ -20,9 +20,9 @@ describe('CreateEmployeeAccount feature e2e test', () => {
   const province = 'QC';
   const postalCode = 'H6T0R5';
   const country = 'Canada';
-  
+
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {

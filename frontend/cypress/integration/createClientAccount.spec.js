@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../helper/loginIntercept';
+import { loginIntercept } from '../helper/loginIntercept';
 
 describe('CreateClientAccount feature e2e test', () => {
   const firstName = 'John';
@@ -22,7 +22,7 @@ describe('CreateClientAccount feature e2e test', () => {
   const website = 'john.com';
 
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -38,7 +38,7 @@ describe('CreateClientAccount feature e2e test', () => {
       },
       { fixture: 'createClientAccount.json', statusCode: 201 }
     ).as('createClientAccountAPI');
-    
+
     cy.visit('/clientAccount/new');
 
     cy.get('input[name=firstName]').type(firstName);

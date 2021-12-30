@@ -6,35 +6,35 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       civicNumber: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       streetName: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       postalCode: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      cityName:{
+      cityName: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      province:{
+      province: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      country:{
+      country: {
         allowNull: false,
-        type: Sequelize.STRING
-      }
+        type: Sequelize.STRING,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Address');
-  }
+  },
 };
