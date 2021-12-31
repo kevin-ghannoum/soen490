@@ -47,17 +47,12 @@ export default class AccountRoute extends CommonRoutesConfig {
         checkRole(new Set([Roles.ADMIN])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
-            if (employeeAccounts === null || employeeAccounts.length === 0) {
+            const allEmployeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
+
+            if (allEmployeeAccounts === null || allEmployeeAccounts.length === 0) {
               next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
             } else {
-              const employeeAccountsDTOs: Array<any> = [];
-              employeeAccounts?.forEach((employeeAccount) => {
-                const dto = JSON.parse(JSON.stringify(employeeAccount));
-                delete dto.account.password;
-                employeeAccountsDTOs.push(dto);
-              });
-              res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+              res.status(StatusCodes.OK).send(allEmployeeAccounts);
             }
           } catch (err) {
             next(err);
@@ -72,20 +67,14 @@ export default class AccountRoute extends CommonRoutesConfig {
         checkRole(new Set([Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const employeeAccounts = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
+            const employeeAccountsByBusiness = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
               req.params.business
             );
 
-            if (employeeAccounts === null || employeeAccounts.length === 0) {
+            if (employeeAccountsByBusiness === null || employeeAccountsByBusiness.length === 0) {
               next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
             } else {
-              const employeeAccountsDTOs: Array<any> = [];
-              employeeAccounts?.forEach((employeeAccount) => {
-                const dto = JSON.parse(JSON.stringify(employeeAccount));
-                delete dto.account.password;
-                employeeAccountsDTOs.push(dto);
-              });
-              res.status(StatusCodes.OK).send(employeeAccountsDTOs);
+              res.status(StatusCodes.OK).send(employeeAccountsByBusiness);
             }
           } catch (err) {
             next(err);
