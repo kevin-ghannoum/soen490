@@ -85,8 +85,8 @@ const LogHours: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    const updateAutomaticByEmail = async (email: string) => {
-      formik.setFieldValue('email', email);
+    const updateAutomaticByEmail = async (userEmail: string) => {
+      formik.setFieldValue('email', userEmail);
       formik.setFieldValue('automatic', false);
       formik.setFieldValue('scheduledDay', ScheduledDay.SUNDAY);
       formik.setFieldValue('startDate', '');
@@ -94,9 +94,9 @@ const LogHours: React.FunctionComponent = () => {
       formik.setFieldValue('hoursWorked', '');
       formik.setFieldValue('paidAmount', '');
       formik.setFieldValue('status', PayStatus.NOT_PAID);
-      if (!!email) {
-        const responseInputType = await getInputTypeByEmail(email);
-        const responseLatestPayInfo = await getLatestPayByEmail(email);
+      if (!!userEmail) {
+        const responseInputType = await getInputTypeByEmail(userEmail);
+        const responseLatestPayInfo = await getLatestPayByEmail(userEmail);
         if (!!responseInputType.data) {
           formik.setFieldValue('automatic', responseInputType.data.automatic);
           formik.setFieldValue('scheduledDay', responseInputType.data.scheduledDay || ScheduledDay.SUNDAY);

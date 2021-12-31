@@ -121,7 +121,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
           } else {
             setValidDate(false);
           }
-        } catch (error) {
+        } catch (e) {
           setError(true);
         }
       }
@@ -189,7 +189,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             array.push({ label: element.account.username, email: element.email });
           });
           setAssignee(array);
-        } catch (error) {
+        } catch (e) {
           history.push('/error');
         }
       }
