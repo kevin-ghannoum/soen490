@@ -69,7 +69,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const classes = createProjectStyle();
 
   const formik: FormikProps<CreateProjectFormData> = useFormik<CreateProjectFormData>({
-    onReset: () => { },
+    onReset: () => {},
     initialValues: {
       title: '',
       description: '',
