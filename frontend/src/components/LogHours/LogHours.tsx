@@ -15,7 +15,7 @@ import {
 import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import { getAllEmployeeAccounts } from '../../services/AccountAPI';
+import { getAllEmployeeAccounts, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
 import logHoursSchema from './LogHoursFormValidationSchema';
 import useStyles from './LogHoursStyle';
 import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../services/LogHoursAPI';
@@ -33,6 +33,7 @@ const LogHours: React.FunctionComponent = () => {
     paidAmount: '',
     status: PayStatus.NOT_PAID,
   });
+  const [, setPaidAmount] = useState<string>('');
 
   const formik = useFormik({
     initialValues: {
@@ -122,9 +123,24 @@ const LogHours: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [email, formik.setFieldValue]);
 
+  const updatePaidAmout = async () => {
+    const responseEmployee = await getAllRegexEmployeeAccount(formik.values.email);
+    const hourlyWage = responseEmployee.data[0].hourlyWage;
+    const paidAmount = +formik.values.hoursWorked * hourlyWage;
+    formik.setFieldValue('paidAmount', paidAmount);
+    setPaidAmount(formik.values.paidAmount);
+  };
+
   const classes = useStyles();
   return (
-    <Grid id="LogHours-Grid" container justifyContent="center">
+    <Grid
+      id="LogHours-Grid"
+      container
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: '100vh' }}
+    >
       <Paper elevation={3} className={classes.logHoursPaper}>
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={3} direction="row" className={classes.logHoursFormWrapper}>
@@ -247,6 +263,13 @@ const LogHours: React.FunctionComponent = () => {
                   value={formik.values.paidAmount}
                   error={formik.touched.paidAmount && Boolean(formik.errors.paidAmount)}
                   helperText={formik.touched.paidAmount && formik.errors.paidAmount}
+                  InputProps={{
+                    endAdornment: (
+                      <Button className={classes.updateButton} onClick={updatePaidAmout}>
+                        Update
+                      </Button>
+                    ),
+                  }}
                 />
               </Grid>
             </Grid>

@@ -37,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
       color: mainTheme.palette.primary.main,
     },
   },
+  updateButton: {
+    backgroundColor: '#e8e8e8',
+    height: 25,
+    '&:hover': {
+      backgroundColor: '#cccccc',
+    },
+  },
 }));
 
 export default useStyles;
