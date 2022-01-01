@@ -175,7 +175,6 @@ describe('TaskService tests', () => {
     };
     taskRepositoryMock.update.mockResolvedValue(1);
     const taskService = container.resolve(TaskService);
-    const createResult = await taskService.createTask(NEW_TASK);
     const finalResult = await taskService.updateTask('1', NEWER_TASK);
     expect(finalResult).toBe(1);
   });
