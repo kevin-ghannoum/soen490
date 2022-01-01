@@ -1,28 +1,21 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../helpers/loginIntercept';
+import { getProjectFromBusinessIntercept } from '../helpers/projectIntercept';
 
-describe('ViewProject feature e2e test',()=>{
+describe('ViewProject feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
     cy.clearLocalStorage();
   });
-  
+
   it('Should view a list of project', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/project?businessId=*',
-      },
-      { fixture: 'projectList.json', statusCode: 200 }
-    ).as('getListOfPorjectAPI');
+    getProjectFromBusinessIntercept();
 
     cy.visit('/projects');
-    cy.get("#View-Project-Grid").should('exist');
+    cy.get('#View-Project-Grid').should('exist');
   });
-})
-
-  
+});

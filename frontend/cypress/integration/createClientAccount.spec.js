@@ -6,7 +6,7 @@ import { accountFixture } from '../fixtures/accountFixture';
 
 describe('CreateClientAccount feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -29,7 +29,7 @@ describe('CreateClientAccount feature e2e test', () => {
       },
       { fixture: 'createClientAccount.json', statusCode: 201 }
     ).as('createClientAccountAPI');
-    
+
     cy.visit('/clientAccount/new');
 
     getClientAccount();

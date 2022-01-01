@@ -40,4 +40,3 @@ describe("EditTask feature e2e test", ()=>{
     cy.wait('@editAssignedAPI').its('response.statusCode').should('eq', 201);
   });
 })
-

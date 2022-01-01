@@ -9,7 +9,7 @@ describe('CreateEmployeeAccount feature e2e test', () => {
   const supervisorEmail = 'johndoe@gmail.com';
   
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {

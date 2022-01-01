@@ -33,7 +33,9 @@ describe('Employee Account test', () => {
     container.registerInstance(AccountRepository, accountRepositoryMock);
     container.registerInstance(EmployeeAccountRepository, employeeAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
-    container.register<AuthenticationClient>('auth0-authentication-client', { useFactory: () => authenticationClientMock });
+    container.register<AuthenticationClient>('auth0-authentication-client', {
+      useFactory: () => authenticationClientMock,
+    });
     container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
   });
 
@@ -69,7 +71,7 @@ describe('Employee Account test', () => {
     };
 
     accountRepositoryMock.getByUsername.mockResolvedValue(null);
-    
+
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
         id: 2098,
@@ -95,17 +97,15 @@ describe('Employee Account test', () => {
       )
     );
 
-    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue(
-        {
-          given_name: 'test',
-          family_name: 'test',
-          _id: '61818a29369f4f0069c892c0',
-          email_verified: false,
-          email: 'test@gmail.com'
-        }
-      );
+    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
+      given_name: 'test',
+      family_name: 'test',
+      _id: '61818a29369f4f0069c892c0',
+      email_verified: false,
+      email: 'test@gmail.com',
+    });
 
-      managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve()); 
+    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
 
     const employeeAccountService: EmployeeAccountService = container.resolve(EmployeeAccountService);
     const result = await employeeAccountService.createEmployeeAccount(newEmployeeInfo);

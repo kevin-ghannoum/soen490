@@ -10,8 +10,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'employeeaccount',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
       id: {
         allowNull: false,
@@ -21,12 +21,12 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'project',
-          key: 'id'
+          key: 'id',
         },
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('WorksOn');
-  }
+  },
 };

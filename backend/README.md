@@ -57,7 +57,3 @@ The source code is following the main convention define by [ESLint for Typescrip
 ### Code formatting
 The soource code is using the default formatter setting from [prettier](https://prettier.io/) with a few exception which can be found in [.prettierrc.json](.prettierrc.json)
 
-
-
-
-

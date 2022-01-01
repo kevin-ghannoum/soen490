@@ -10,29 +10,29 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'account',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
-      businessName:{
-        allowNull:true,
-        type:Sequelize.STRING
+      businessName: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
-      industry:{
-        allowNull:true,
-        type:Sequelize.STRING
+      industry: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
-      website:{
-        allowNull:true,
-        type:Sequelize.STRING
+      website: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
       status: {
         allowNull: false,
         type: Sequelize.ENUM('LEAD', 'SCHEDULED', 'CANCELLED', 'TO BE RESCHEDULED', 'PENDING'),
-        defaultValue:'PENDING'
+        defaultValue: 'PENDING',
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('ClientAccount');
-  }
+  },
 };

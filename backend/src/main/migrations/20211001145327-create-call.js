@@ -6,34 +6,34 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       receiverName: {
-        allowNull:false,
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       date: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       phoneNumber: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      email:{
+      email: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: 'account',
-          key: 'email'
+          key: 'email',
         },
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Call');
-  }
+  },
 };

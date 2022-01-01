@@ -10,12 +10,12 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'account',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('AdminAccount');
-  }
+  },
 };

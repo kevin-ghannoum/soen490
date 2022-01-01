@@ -10,20 +10,20 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'account',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
-      title:{
-        allowNull:false,
-        type:Sequelize.STRING
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
-      hourlyWage:{
-        allowNull:false,
-        type:Sequelize.FLOAT
+      hourlyWage: {
+        allowNull: false,
+        type: Sequelize.FLOAT,
       },
-      supervisorEmail:{
-        allowNull:false,
-        type:Sequelize.STRING,
+      supervisorEmail: {
+        allowNull: false,
+        type: Sequelize.STRING,
         references: {
           model: 'account',
           key: 'email'
@@ -41,5 +41,5 @@ module.exports = {
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('EmployeeAccount');
-  }
+  },
 };

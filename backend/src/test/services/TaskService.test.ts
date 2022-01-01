@@ -32,7 +32,7 @@ describe('TaskService tests', () => {
       deadlineDate: date,
       createdDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     taskRepositoryMock.create.mockResolvedValue(
       Task.build({
@@ -42,7 +42,7 @@ describe('TaskService tests', () => {
         deadlineDate: NEW_TASK.deadlineDate,
         createdDate: NEW_TASK.createdDate,
         modifiedDate: NEW_TASK.modifiedDate,
-        projectId: NEW_TASK.projectId
+        projectId: NEW_TASK.projectId,
       })
     );
     const taskService = container.resolve(TaskService);
@@ -63,7 +63,7 @@ describe('TaskService tests', () => {
       deadlineDate: date,
       createdDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     const taskService = container.resolve(TaskService);
     await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
@@ -78,7 +78,7 @@ describe('TaskService tests', () => {
       deadlineDate: date,
       createdDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     const taskService = container.resolve(TaskService);
     await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
@@ -93,7 +93,7 @@ describe('TaskService tests', () => {
       deadlineDate: date,
       createdDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     const taskService = container.resolve(TaskService);
     await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
@@ -108,7 +108,7 @@ describe('TaskService tests', () => {
       status: TaskStatus.NEW,
       createdDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     const taskService = container.resolve(TaskService);
     await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
@@ -123,7 +123,7 @@ describe('TaskService tests', () => {
       status: TaskStatus.NEW,
       deadlineDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     const taskService = container.resolve(TaskService);
     await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
@@ -138,7 +138,7 @@ describe('TaskService tests', () => {
       status: TaskStatus.NEW,
       deadlineDate: date,
       createdDate: date,
-      projectId: 1
+      projectId: 1,
     };
     const taskService = container.resolve(TaskService);
     await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
@@ -154,7 +154,7 @@ describe('TaskService tests', () => {
       deadlineDate: date,
       createdDate: date,
       modifiedDate: date,
-      projectId: 1
+      projectId: 1,
     };
     taskRepositoryMock.create.mockResolvedValue(
       Task.build({
@@ -165,13 +165,13 @@ describe('TaskService tests', () => {
         deadlineDate: NEW_TASK.deadlineDate,
         createdDate: NEW_TASK.createdDate,
         modifiedDate: NEW_TASK.modifiedDate,
-        projectId: NEW_TASK.projectId
+        projectId: NEW_TASK.projectId,
       })
     );
     const NEWER_TASK: TaskUpdateDTO = {
       title: 'NEW title',
       description: 'changed DESCRIPTION',
-      status: TaskStatus.REMOVED
+      status: TaskStatus.REMOVED,
     };
     taskRepositoryMock.update.mockResolvedValue(1);
     const taskService = container.resolve(TaskService);

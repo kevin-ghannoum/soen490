@@ -28,13 +28,24 @@ export default class AccountRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route(`/accounts/employee`)
-      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
-      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .post(
+        checkJwt,
+        checkRole(new Set([Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const newEmployeeAccount = await this.employeeAccountService.createEmployeeAccount(req.body);
+            const dto = JSON.parse(JSON.stringify(newEmployeeAccount));
+            delete dto.account.password;
+            res.status(StatusCodes.CREATED).send(dto);
+          } catch (err) {
+            next(err);
+          }
+        }
+      )
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          const newEmployeeAccount = await this.employeeAccountService.createEmployeeAccount(req.body);
-          const dto = JSON.parse(JSON.stringify(newEmployeeAccount));
-          delete dto.account.password;
-          res.status(StatusCodes.CREATED).send(dto);
+          const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
+          res.status(StatusCodes.OK).send(regexEmployeeAccount);
         } catch (err) {
           next(err);
         }
@@ -130,19 +141,8 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
-      .route(`/accounts/employee`)
-      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
-          res.status(StatusCodes.OK).send(regexEmployeeAccount);
-        } catch (err) {
-          next(err);
-        }
-      });
-
-    this.getApp()
       .route(`/accounts/client`)
-      .all(checkJwt, checkRole(new Set([Roles.BUSINESS])))
+      .all(checkJwt)
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const regexClientAccout = await this.clientAccountService.getEmployeesByRegex(String(req.query.email));

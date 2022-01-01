@@ -18,12 +18,7 @@ module.exports = {
       },
       status: {
         allowNull: false,
-        type: Sequelize.ENUM(
-          'BOOKED',
-          'PENDING',
-          'REJECTED',
-          'TO BE RESCHEDULED'
-        ),
+        type: Sequelize.ENUM('BOOKED', 'PENDING', 'REJECTED', 'TO BE RESCHEDULED', 'COMPLETED'),
       },
       serviceType: {
         allowNull: true,
@@ -68,8 +63,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         references: {
           model: 'account',
-          key: 'email'
-        }
+          key: 'email',
+        },
       },
       businessId: {
         allowNull: false,

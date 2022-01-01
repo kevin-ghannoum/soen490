@@ -319,7 +319,9 @@ describe('ClientAccountService tests', () => {
 
     const clientAccountService: ClientAccountService = container.resolve(ClientAccountService);
     await expect(
-      clientAccountService.createClientAccount(NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_LINK as ClientAccountCreationRequestDTO)
+      clientAccountService.createClientAccount(
+        NEW_CLIENT_ACCOUNT_INFO_WITHOUT_SOCIAL_MEDIA_LINK as ClientAccountCreationRequestDTO
+      )
     ).rejects.toThrowError('Request data is missing some values');
   });
 
