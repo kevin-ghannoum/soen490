@@ -132,7 +132,17 @@ export default class EmployeeAccountRepository implements CRUD {
   public getAll = async (): Promise<EmployeeAccount[]> => {
     try {
       const clientAccounts = await EmployeeAccount.findAll({
-        include: [Account, Pay],
+        include: [
+          {
+            model: Account,
+            attributes: {
+              exclude: ['password'],
+            },
+          },
+          {
+            model: Pay,
+          },
+        ],
       });
 
       log(`retrieved all employee accounts`);
@@ -151,6 +161,17 @@ export default class EmployeeAccountRepository implements CRUD {
         where: {
           supervisorEmail: businessEmail,
         },
+        include: [
+          {
+            model: Account,
+            attributes: {
+              exclude: ['password'],
+            },
+          },
+          {
+            model: Pay,
+          },
+        ],
       });
 
       log(`retrieved all employee accounts`);

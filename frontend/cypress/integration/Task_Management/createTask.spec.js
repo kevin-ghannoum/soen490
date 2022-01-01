@@ -22,7 +22,7 @@ describe('CreateTask feature e2e test', () => {
 
   it('Should create a new Task', () => {
     setUpCreateTaskIntercept();
-
+    
     cy.visit('/tasks/new');
     cy.get('input[name=title]').type('Testing Title');
     cy.get('textarea[name=description]').type('Testing Description');
