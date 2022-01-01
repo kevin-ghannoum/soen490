@@ -1,56 +1,37 @@
 /// <reference types="cypress" />
 
-beforeEach(() => {
-  cy.visit('/');
-});
-it('Should create a new Task', () => {
-  cy.intercept(
-    {
-      method: 'GET',
-      url: '/task',
-    },
-    { fixture: 'taskList.json', statusCode: 200 }
-  );
-  cy.intercept(
-    {
-      method: 'GET',
-      url: '/accounts/allEmployees',
-    },
-    { fixture: 'employeeList.json', statusCode: 200 }
-  );
+import { loginIntercept} from '../../helpers/loginIntercept';
+import { getTaskListIntercept, getAllEmployeesIntercept, getProjectListIntercept, createdTaskIntercept, createdAssignIntercept } from '../../helpers/taskIntercept';
 
-  cy.intercept(
-    {
-      method: 'GET',
-      url: '/project?businessId=*',
-    },
-    { fixture: 'projectList.json', statusCode: 200 }
-  );
+describe('CreateTask feature e2e test', () => {
+  beforeEach(() => {
+    loginIntercept()
+  });
 
-  cy.intercept(
-    {
-      method: 'POST',
-      url: '/task',
-    },
-    { fixture: 'taskCreated.json', statusCode: 201 }
-  ).as('createTaskAPI');
+  afterEach(() => {
+    cy.clearLocalStorage();
+  });
 
-  cy.intercept(
-    {
-      method: 'POST',
-      url: '/multipleAssigned',
-    },
-    { fixture: 'assignedCreated.json', statusCode: 201 }
-  ).as('createAssignedAPI');
+  const setUpCreateTaskIntercept = () => {
+    getTaskListIntercept();
+    getAllEmployeesIntercept();
+    getProjectListIntercept();
+    createdTaskIntercept();
+    createdAssignIntercept();
+  }
 
-  cy.visit('/tasks/new');
-  cy.get('input[name=title]').type("Testing Title");
-  cy.get('textarea[name=description]').type("Testing Description");
-  cy.get('input[name=deadlineDate]').type(new Date().toISOString().split('T')[0]);
-  cy.get('#projectId-select').type("{enter}");
-  cy.get('#mui-component-select-employees').type("{enter}{downarrow}{enter}");
+  it('Should create a new Task', () => {
+    setUpCreateTaskIntercept();
+    
+    cy.visit('/tasks/new');
+    cy.get('input[name=title]').type("Testing Title");
+    cy.get('textarea[name=description]').type("Testing Description");
+    cy.get('input[name=deadlineDate]').type(new Date().toISOString().split('T')[0]);
+    cy.get('#projectId-select').type("{enter}");
+    cy.get('#mui-component-select-employees').type("{enter}{downarrow}{enter}");
 
-  cy.get('form').submit();
-  cy.wait('@createTaskAPI').its('response.statusCode').should('eq', 201);
-  cy.wait('@createAssignedAPI').its('response.statusCode').should('eq', 201);
+    cy.get('form').submit();
+    cy.wait('@createTaskAPI').its('response.statusCode').should('eq', 201);
+    cy.wait('@createAssignedAPI').its('response.statusCode').should('eq', 201);
+  });
 });

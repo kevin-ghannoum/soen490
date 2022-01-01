@@ -1,14 +1,20 @@
 /// <reference types="cypress" />
 
-describe('CreateBusinessAccount feature e2e test', () => {
+import { loginIntercept } from '../helpers/loginIntercept';
+
+describe('LogHour feature e2e test', () => {
     const email = 'employee@gmail.com';
     const startDate = '2021-10-22';
     const endDate = '2021-10-25';
     const hoursWorked = '40';
     const paidAmount = '500';
-  
+
     beforeEach(() => {
-      cy.visit('/');
+      loginIntercept()
+    });
+
+    afterEach(() => {
+      cy.clearLocalStorage();
     });
   
     // Test user story: #31. As a business user, I want to log hours

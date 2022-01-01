@@ -11,11 +11,14 @@ import { AccountService } from './AccountService';
 import { BusinessService } from './BusinessService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
+import AccountRepository from '../repositories/AccountRepository';
+import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
 export class BusinessAccountService {
   constructor(
+    private accountRepository: AccountRepository,
     private businessAccountRepository: BusinessAccountRepository,
     private addressRepository: AddressRepository,
     private businessService: BusinessService,
@@ -49,6 +52,15 @@ export class BusinessAccountService {
       connection: process.env.AUTH0_CONNECTION as string,
     };
 
+    // Username field is unique, so check if it exist first.
+    const checkIfUsernameExist = await this.accountRepository.getByUsername(
+      businessCreationRequestDTO.account.username
+    );
+
+    if (checkIfUsernameExist) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
+    }
+
     // Create business in auth0
     const auth0BusinessAccountData = await this.authenticationClient.database?.signUp(auth0UserData);
 
@@ -76,11 +88,23 @@ export class BusinessAccountService {
     return Promise.resolve(businessAccount);
   };
 
-  public getBusinessAccountByEmail = async (email: string): Promise<BusinessAccount | null> => {
+  public getBusinessAccountByEmail = async (email: string, token: string): Promise<BusinessAccount | null> => {
+    const currentUser = getCurrentUserEmail(token);
+
+    if (currentUser != email) {
+      throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this business account.');
+    }
+
     return this.businessAccountRepository.get(email);
   };
 
-  public deleteBusinessAccountByEmail = async (email: string): Promise<number> => {
+  public deleteBusinessAccountByEmail = async (email: string, token: string): Promise<number> => {
+    const currentUser = getCurrentUserEmail(token);
+
+    if (currentUser != email) {
+      throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this business account.');
+    }
+
     // Get employee data from auth0
     const auth0BusinessAccountData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(
       email

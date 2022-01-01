@@ -7,6 +7,7 @@ import { Account } from '../models/Account';
 import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
 import { BaseError, Op } from 'sequelize';
+import { Business } from '../models/Business';
 
 @injectable()
 export default class EmployeeAccountRepository implements CRUD {
@@ -36,7 +37,20 @@ export default class EmployeeAccountRepository implements CRUD {
   public get = async (email: string): Promise<EmployeeAccount | null> => {
     try {
       const employeeAccount = await EmployeeAccount.findByPk(email, {
-        include: [Account, Pay],
+        include: [
+          {
+            model: Account,
+          },
+          {
+            model: Pay,
+          },
+          {
+            model: Business,
+            attributes: {
+              exclude: ['id'],
+            },
+          },
+        ],
       });
 
       log(`Employee Account with email ${employeeAccount?.email} has been retrieved`);
@@ -118,7 +132,17 @@ export default class EmployeeAccountRepository implements CRUD {
   public getAll = async (): Promise<EmployeeAccount[]> => {
     try {
       const clientAccounts = await EmployeeAccount.findAll({
-        include: [Account, Pay],
+        include: [
+          {
+            model: Account,
+            attributes: {
+              exclude: ['password'],
+            },
+          },
+          {
+            model: Pay,
+          },
+        ],
       });
 
       log(`retrieved all employee accounts`);
@@ -137,6 +161,17 @@ export default class EmployeeAccountRepository implements CRUD {
         where: {
           supervisorEmail: businessEmail,
         },
+        include: [
+          {
+            model: Account,
+            attributes: {
+              exclude: ['password'],
+            },
+          },
+          {
+            model: Pay,
+          },
+        ],
       });
 
       log(`retrieved all employee accounts`);

@@ -10,7 +10,7 @@ import { TaskCreationDTO, TaskStatus, TaskUpdateDTO } from '../../main/dto/TaskD
 describe('TaskService tests', () => {
   let taskRepositoryMock: any = null;
   const date = new Date();
-  
+
   beforeAll(() => {
     sequelizeMock();
   });

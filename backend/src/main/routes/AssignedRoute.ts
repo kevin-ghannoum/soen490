@@ -3,6 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { AssignedService } from '../services/AssignedService';
 import { CommonRoutesConfig } from './CommonRoutesConfig';
+import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
+import { Roles } from '../security/Roles';
 
 @injectable()
 export default class AssignedRoute extends CommonRoutesConfig {
@@ -13,17 +15,22 @@ export default class AssignedRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route('/multipleAssigned')
-      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const newAssign = await this.assignedService.createMultipleAssignment(req.body);
-          res.status(StatusCodes.CREATED).send(newAssign);
-        } catch (err) {
-          next(err);
+      .post(
+        checkJwt,
+        checkRole(new Set([Roles.SUPERVISOR, Roles.EMPLOYEE])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const newAssign = await this.assignedService.createMultipleAssignment(req.body);
+            res.status(StatusCodes.CREATED).send(newAssign);
+          } catch (err) {
+            next(err);
+          }
         }
-      });
+      );
 
     this.getApp()
       .route(`/assignedByTaskId/:taskid`)
+      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.EMPLOYEE])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccount = await this.assignedService.getAssignedsByTaskId(req.params.taskid);

@@ -1,0 +1,10 @@
+{
+    "account":
+    {
+        "email":"admin@admin.com",
+        "firstName":"admin",
+        "lastName":"admin",
+        "role":"ADMIN"
+    },
+    "admin":true
+}

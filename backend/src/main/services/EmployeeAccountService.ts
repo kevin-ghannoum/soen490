@@ -1,4 +1,4 @@
-import { AppMetadata, AuthenticationClient, ManagementClient, SignUpUserData, User, UserMetadata } from 'auth0';
+import { AppMetadata, AuthenticationClient, ManagementClient, SignUpUserData, User, UserMetadata, Role } from 'auth0';
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
@@ -9,11 +9,15 @@ import AddressRepository from '../repositories/AddressRepository';
 import EmployeeAccountRepository from '../repositories/EmployeeAccountRepository';
 import { AccountService } from './AccountService';
 import { Roles } from '../security/Roles';
+import AccountRepository from '../repositories/AccountRepository';
+import { getProfileRoles } from '../middleware/JWTMiddleware';
+import { getCurrentUserEmail } from '../utils/UserUtils';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
 export class EmployeeAccountService {
   constructor(
+    private accountRepository: AccountRepository,
     private employeeAccountRepository: EmployeeAccountRepository,
     private addressRepository: AddressRepository,
     @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
@@ -36,7 +40,14 @@ export class EmployeeAccountService {
       family_name: employeeAccountRequestDTO.accountRequest.account.lastName,
       connection: process.env.AUTH0_CONNECTION as string,
     };
+    // Username field is unique, so check if it exist first.
+    const checkIfUsernameExist = await this.accountRepository.getByUsername(
+      employeeAccountRequestDTO.accountRequest.account.username
+    );
 
+    if (checkIfUsernameExist) {
+      throw new HttpException(StatusCodes.BAD_REQUEST, 'Username provided already exist');
+    }
     // Create employee in auth0
     const auth0EmployeeData = await this.authenticationClient.database?.signUp(userData);
 
@@ -49,25 +60,67 @@ export class EmployeeAccountService {
     // Create address in order to obtain its id for creating an account
     const address = await this.addressRepository.create(employeeAccountRequestDTO.accountRequest.address);
     employeeAccountRequestDTO.accountRequest.account.addressId = address[0].id;
-    const { hourlyWage, supervisorEmail, title } = employeeAccountRequestDTO;
+    const { hourlyWage, supervisorEmail, title, businessId } = employeeAccountRequestDTO;
 
     return this.employeeAccountRepository.create({
       account: employeeAccountRequestDTO.accountRequest.account,
       hourlyWage,
       supervisorEmail,
       title,
+      businessId,
     });
   };
 
-  public getEmployeeAccountByEmail = async (email: string): Promise<EmployeeAccount | null> => {
+  public getEmployeeAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<EmployeeAccount | null> => {
+    const userRoles: Role[] = await getProfileRoles(access_token);
+
+    const isEmployee: boolean = this.verifyIfRoleEmployee(userRoles);
+
+    if (isEmployee) {
+      const currentUser = getCurrentUserEmail(id_token);
+
+      if (currentUser != email) {
+        throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot retrieve this employee account.');
+      }
+    }
+
     return this.employeeAccountRepository.get(email);
+  };
+
+  private verifyIfRoleEmployee = (userRoles: Role[]): boolean => {
+    for (let i = 0; i < userRoles.length; i++) {
+      if ((userRoles[i].name as string) === 'EMPLOYEE') {
+        return true;
+      }
+    }
+    return false;
   };
 
   public getEmployeesByRegex = async (email: string): Promise<EmployeeAccount[] | null> => {
     return this.employeeAccountRepository.getEmployeesByRegex(email);
   };
 
-  public deleteEmployeeAccountByEmail = async (email: string): Promise<number> => {
+  public deleteEmployeeAccountByEmail = async (
+    email: string,
+    access_token: string,
+    id_token: string
+  ): Promise<number> => {
+    const userRoles: Role[] = await getProfileRoles(access_token);
+
+    const isEmployee: boolean = this.verifyIfRoleEmployee(userRoles);
+
+    if (isEmployee) {
+      const currentUser = getCurrentUserEmail(id_token);
+
+      if (currentUser != email) {
+        throw new HttpException(StatusCodes.FORBIDDEN, 'Cannot delete this employee account.');
+      }
+    }
+
     // Get employee data from auth0
     const auth0EmployeeData: User<AppMetadata, UserMetadata>[] = await this.managementClient.getUsersByEmail(email);
 
@@ -85,7 +138,8 @@ export class EmployeeAccountService {
       !employeeAccountRequestDTO.accountRequest ||
       !employeeAccountRequestDTO.hourlyWage ||
       !employeeAccountRequestDTO.supervisorEmail ||
-      !employeeAccountRequestDTO.title
+      !employeeAccountRequestDTO.title ||
+      !employeeAccountRequestDTO.businessId
     ) {
       return true;
     }

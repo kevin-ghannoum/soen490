@@ -28,6 +28,14 @@ module.exports = {
           model: 'account',
           key: 'email'
         }
+      },
+      businessId:{
+        allowNull:false,
+        type: Sequelize.BIGINT,
+        references:{
+          model: 'business',
+          key:'id'
+        }
       }
     });
   },

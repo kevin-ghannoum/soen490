@@ -32,7 +32,7 @@ const CreateClientAccount: React.FC = () => {
   const statusValue: Array<{ value: string; label: string }> = [
     { value: 'LEAD', label: 'Lead' },
     { value: 'SCHEDULED', label: 'Scheduled' },
-    { value: 'REJECTED', label: 'Rejected' },
+    { value: 'CANCELLED', label: 'Cancelled' },
     { value: 'TO_BE_RESCHEDULED', label: 'To be rescheduled' },
     { value: 'PENDING', label: 'Pending' },
   ];
@@ -257,7 +257,7 @@ const CreateClientAccount: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Company name *"
+                label="Company name"
                 name="businessName"
                 fullWidth
                 onChange={formik.handleChange}
@@ -268,7 +268,7 @@ const CreateClientAccount: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Industry *"
+                label="Industry"
                 name="industry"
                 fullWidth
                 onChange={formik.handleChange}

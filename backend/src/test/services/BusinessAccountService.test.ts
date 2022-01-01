@@ -14,6 +14,7 @@ import { SocialMediaPage } from '../../main/models/SocialMediaPage';
 import { BusinessAccountService } from '../../main/services/BusinessAccountService';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import { sequelizeMock } from '../helpers/SequelizeMock';
+import AccountRepository from '../../main/repositories/AccountRepository';
 
 describe('BusinessAccountService tests', () => {
   let businessAccountRepositoryMock: any = null;
@@ -22,12 +23,14 @@ describe('BusinessAccountService tests', () => {
   let socialMediaPageRepositoryMock: any = null;
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
+  let accountRepositoryMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
   });
 
   beforeEach(() => {
+    accountRepositoryMock = mock<AccountRepository>();
     businessAccountRepositoryMock = mock<BusinessAccountRepository>();
     addressRepositoryMock = mock<AddressRepository>();
     businessRepositoryMock = mock<BusinessRepository>();
@@ -39,6 +42,7 @@ describe('BusinessAccountService tests', () => {
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(BusinessRepository, businessRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
+    container.registerInstance(AccountRepository, accountRepositoryMock);
     container.register<AuthenticationClient>('auth0-authentication-client', {
       useFactory: () => authenticationClientMock,
     });
@@ -49,36 +53,34 @@ describe('BusinessAccountService tests', () => {
     container.clearInstances();
   });
 
-  it('should create a business account', async () => {
-    const NEW_BUSINESS_ACCCOUNT_INFO: BusinessCreationRequestDTO = {
-      account: {
-        email: 'business@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '5145555555',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessInfo: {
-        name: 'Bob Store',
-        industry: 'clothing',
-        website: 'simon.com',
-        email: 'business@gmail.com',
-      },
-      socialMediaInfo: {
-        name: 'instagram',
-        link: 'instagram.com',
-      },
-    };
+  const NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA = {
+    account: {
+      email: 'business@gmail.com',
+      firstName: 'bob',
+      lastName: 'bob',
+      phoneNumber: '5145555555',
+      username: 'bob',
+      password: 'bob',
+      addressId: 1,
+    },
+    address: {
+      civicNumber: 111,
+      streetName: 'St-Catherine',
+      postalCode: 'H6Y 8U6',
+      cityName: 'MTL',
+      province: 'QC',
+      country: 'Canada',
+    },
+    businessInfo: {
+      name: 'Bob Store',
+      industry: 'clothing',
+      website: 'simon.com',
+      email: 'business@gmail.com',
+    },
+  };
+
+  const mockAuth0 = () => {
+    accountRepositoryMock.getByUsername.mockResolvedValue(null);
 
     authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
       given_name: 'test',
@@ -89,6 +91,18 @@ describe('BusinessAccountService tests', () => {
     });
 
     managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
+  };
+
+  it('should create a business account', async () => {
+    const NEW_BUSINESS_ACCCOUNT_INFO: BusinessCreationRequestDTO = {
+      ...NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA,
+      socialMediaInfo: {
+        name: 'instagram',
+        link: 'instagram.com',
+      },
+    };
+
+    mockAuth0();
 
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
@@ -120,61 +134,30 @@ describe('BusinessAccountService tests', () => {
   });
 
   it('should create a business account without social media', async () => {
-    const NEW_BUSINESS_ACCCOUNT_INFO: BusinessCreationRequestDTO = {
-      account: {
-        email: 'business@gmail.com',
-        firstName: 'bob',
-        lastName: 'bob',
-        phoneNumber: '5145555555',
-        username: 'bob',
-        password: 'bob',
-        addressId: 1,
-      },
-      address: {
-        civicNumber: 111,
-        streetName: 'St-Catherine',
-        postalCode: 'H6Y 8U6',
-        cityName: 'MTL',
-        province: 'QC',
-        country: 'Canada',
-      },
-      businessInfo: {
-        name: 'Bob Store',
-        industry: 'clothing',
-        website: 'simon.com',
-        email: 'business@gmail.com',
-      },
-    };
-
-    authenticationClientMock.database.signUp = jest.fn().mockResolvedValue({
-      given_name: 'test',
-      family_name: 'test',
-      _id: '61818a29369f4f0069c892c0',
-      email_verified: false,
-      email: 'test@gmail.com',
-    });
-
-    managementClientMock.assignRolestoUser.mockResolvedValue(() => Promise.resolve());
+    mockAuth0();
 
     addressRepositoryMock.create.mockResolvedValue([
       Address.build({
         id: 1,
-        ...NEW_BUSINESS_ACCCOUNT_INFO.address,
+        ...NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.address,
       }),
       true,
     ]);
 
     businessAccountRepositoryMock.create.mockResolvedValue(
-      BusinessAccount.build({ account: NEW_BUSINESS_ACCCOUNT_INFO.account }, { include: [Account] })
+      BusinessAccount.build(
+        { account: NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.account },
+        { include: [Account] }
+      )
     );
 
     businessRepositoryMock.create.mockResolvedValue(
-      Business.build({ id: 4, ...NEW_BUSINESS_ACCCOUNT_INFO.businessInfo })
+      Business.build({ id: 4, ...NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.businessInfo })
     );
 
     const businessAccountService = container.resolve(BusinessAccountService);
-    const result = await businessAccountService.createBusinessAccount(NEW_BUSINESS_ACCCOUNT_INFO);
-    expect(result.account.email).toBe(NEW_BUSINESS_ACCCOUNT_INFO.account.email);
+    const result = await businessAccountService.createBusinessAccount(NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA);
+    expect(result.account.email).toBe(NEW_BUSINESS_ACCCOUNT_INFO_WITHOUT_SOCIAL_MEDIA.account.email);
   });
 
   it('should fail because of missing data in request in account (firstName)', async () => {

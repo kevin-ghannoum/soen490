@@ -1,7 +1,7 @@
 import './App.css';
 import { ThemeProvider } from '@material-ui/core';
 import { mainTheme } from './configs/MuiConfig';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import LandingPage from './components/Shared/LandingPage';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -9,7 +9,7 @@ import React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import localStorageService from './services/LocalStorageService';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
-import { getAccount, selectAccount } from './features/account/AccountSlice';
+import { getAccount, selectAccount, noTokenReducer } from './features/account/AccountSlice';
 import { loginWithRefreshToken } from './services/AccountAPI';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
@@ -43,8 +43,10 @@ const App = () => {
         .catch(() => {
           localStorageService.clearAllTokens();
         });
+    } else {
+      dispatch(noTokenReducer());
     }
-  }, [account.authenticated, dispatch]);
+  }, [account.authenticated, account.loading, account.account.role, dispatch]);
 
   axios.interceptors.response.use(
     (response: AxiosResponse<any>) => {
@@ -84,42 +86,116 @@ const App = () => {
               <Route
                 exact
                 path="/project"
-                render={() => (
-                  <React.Fragment>
-                    <Sidebar />
-                    <CreateProject edit="false" />
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <CreateProject edit="false" />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/project/:id"
-                render={({ match }) => (
-                  <React.Fragment>
-                    <Sidebar />
-                    <EditProject id={match.params.id} />
-                  </React.Fragment>
-                )}
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'EMPLOYEE' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <EditProject id={match.params.id} />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/projects"
-                render={() => (
-                  <React.Fragment>
-                    <Sidebar />
-                    <ViewProject />
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'EMPLOYEE' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <ViewProject />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/employees"
-                render={() => (
-                  <React.Fragment>
-                    <Sidebar />
-                    <LogHours />
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <LogHours />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
@@ -134,76 +210,186 @@ const App = () => {
               <Route
                 exact
                 path="/businessAccount/new"
-                render={() => (
-                  <React.Fragment>
-                    <div style={{ paddingTop: '75px' }}>
-                      <Sidebar />
-                      <CreateBusinessAccount />
-                    </div>
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (account.account.role === 'ADMIN') {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <CreateBusinessAccount />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/clientAccount/new"
-                render={() => (
-                  <React.Fragment>
-                    <div style={{ paddingTop: '75px' }}>
-                      <Sidebar />
-                      <CreateClientAccount />
-                    </div>
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (account.account.role === 'ADMIN' || account.account.role === 'BUSINESS') {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <CreateClientAccount />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/employeeAccount/new"
-                render={() => (
-                  <React.Fragment>
-                    <div style={{ paddingTop: '75px' }}>
-                      <Sidebar />
-                      <CreateEmployee />
-                    </div>
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (account.account.role === 'ADMIN' || account.account.role === 'BUSINESS') {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <CreateEmployee />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/tasks"
-                render={() => (
-                  <React.Fragment>
-                    <div style={{ paddingTop: '75px' }}>
-                      <Sidebar />
-                      <TaskList />
-                    </div>
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'EMPLOYEE' ||
+                        account.account.role === 'SUPERVISOR'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <TaskList />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/tasks/new"
-                render={() => (
-                  <React.Fragment>
-                    <div style={{ paddingTop: '75px' }}>
-                      <Sidebar />
-                      <CreateTask edit="false" />
-                    </div>
-                  </React.Fragment>
-                )}
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'EMPLOYEE' ||
+                        account.account.role === 'SUPERVISOR'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <CreateTask edit="false" />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
               <Route
                 exact
                 path="/tasks/edit/:id"
-                render={({ match }) => (
-                  <React.Fragment>
-                    <div style={{ paddingTop: '75px' }}>
-                      <Sidebar />
-                      <EditTask id={match.params.id} edit="true" />
-                    </div>
-                  </React.Fragment>
-                )}
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'EMPLOYEE' ||
+                        account.account.role === 'SUPERVISOR'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <EditTask id={match.params.id} edit="true" />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
               />
-              <Route exact path="/login" render={() => <Login />} />
+              <Route
+                exact
+                path="/login"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      return <Redirect to="/" />;
+                    } else {
+                      return <Login />;
+                    }
+                  }
+                }}
+              />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
