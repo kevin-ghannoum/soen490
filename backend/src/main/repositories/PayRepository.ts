@@ -1,6 +1,7 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
 import { PayCreationDTO, PayUpdateDTO } from '../dto/LogHours/PayDTOs';
+import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:PayRepository');
@@ -77,6 +78,22 @@ export default class PayRepository implements CRUD {
       const pays = await Pay.findAll();
 
       log(`Retrieved all pays`);
+      return Promise.resolve(pays);
+    } catch (err: any) {
+      return Promise.reject(err);
+    }
+  };
+
+  public getAllByBusiness = async (businessId: number): Promise<Pay[]> => {
+    try {
+      const pays = await Pay.findAll({
+        include: [{
+          model: EmployeeAccount,
+          where: {businessId: businessId}
+        }]
+      });
+
+      log(`Retrieved all pays belonging to business ${businessId}`);
       return Promise.resolve(pays);
     } catch (err: any) {
       return Promise.reject(err);

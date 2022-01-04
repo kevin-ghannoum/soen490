@@ -28,6 +28,21 @@ export default class LogHoursRoute extends CommonRoutesConfig {
         }
       );
 
+      this.getApp()
+        .route(`/logHours`)
+        .get(
+          checkJwt,
+          checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
+          async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            try {
+              const employeeAccount = await this.logHoursService.getAllBusinessPays(Number(req.query.businessId));
+              res.status(StatusCodes.OK).send(employeeAccount);
+            } catch (err) {
+              next(err);
+            }
+          }
+        );
+
     this.getApp()
       .route(`/logHours/pay/:email`)
       .get(
