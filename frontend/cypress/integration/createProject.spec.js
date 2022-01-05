@@ -51,21 +51,28 @@ describe('CreateProject feature e2e test', () => {
     cy.get('#selectClient').type('a@a.com');
     cy.get('#selectClient').type('{downarrow}{enter}');
 
-    cy.get('#selectEmployee').type('b@b.com');
+    cy.get('#selectEmployee').type('employee');
     cy.get('#selectEmployee').type('{downarrow}{enter}');
 
-    cy.get('#selectEmployee').type('c@c.com');
+    cy.get('#selectEmployee').type('Carlos');
     cy.get('#selectEmployee').type('{downarrow}{enter}');
 
     cy.get('input[name=title]').type('My Project Title');
     cy.get('input[name=leadSource]').type('lead Source');
-    cy.get('input[name=leadCredit]').type('lead Credit');
+
     cy.get('input[name=leadRanking]').type('lead Ranking');
+
+    cy.get('#leadCredit').type('Carlos');
+    cy.get('#leadCredit').type('{downarrow}{enter}');
+
     cy.get('#description').type('this is a description');
     cy.get('input[name=serviceType]').type('service');
     cy.get('input[name=saleValue]').type(100);
     cy.get('#saleDescription').type('this is a sale description');
     cy.get('#extraNotes').type('extra notes');
+
+    cy.get('#dateFollow').type('2028-10-12');
+    cy.get('#dateDeadline').type('2030-10-12');
 
     cy.get('form').submit();
     cy.wait('@createProjectAPI').its('response.statusCode').should('eq', 201);

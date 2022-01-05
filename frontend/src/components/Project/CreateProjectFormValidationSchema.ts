@@ -6,7 +6,7 @@ const createProjectFromSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   status: Yup.string().required('Required'),
   serviceType: Yup.string().optional(),
   leadSource: Yup.string().optional(),
-  leadCredit: Yup.string().optional(),
+  leadCredit: Yup.string().nullable().optional(),
   leadRanking: Yup.string().optional(),
   followUpDate: Yup.string().nullable().required('Required').typeError('Enter a date'),
   deadLineDate: Yup.string().nullable().optional(),

@@ -41,7 +41,7 @@ export class ProjectService {
 
     await this.saleService.createSale(projectRequestDTO.sale);
     projectRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email: string = element.label;
+      const email: string = element.email;
       const id: number = project.id;
       await this.worksOnService.createWorksOn({ email, id });
     });
@@ -71,7 +71,7 @@ export class ProjectService {
     this.worksOnService.deleteWorksOn(projectUpdateRequestDTO.project.id);
 
     projectUpdateRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email: string = element.label;
+      const email: string = element.email;
       const id: number = projectUpdateRequestDTO.project.id;
       await this.worksOnService.createWorksOn({ email, id });
     });

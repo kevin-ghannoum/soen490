@@ -50,7 +50,7 @@ describe('ProjectService tests', () => {
         extraNotes: 'notes',
         email: 'test@test.com',
         businessId: 1,
-        assignee: [{ label: 'user@user.com' }, { label: 'test@test.com' }],
+        assignee: [{ email: 'user@user.com' }, { email: 'test@test.com' }],
       },
       sale: {
         amount: 1,
@@ -65,7 +65,7 @@ describe('ProjectService tests', () => {
     saleServiceMock.create.mockResolvedValue(Project.build(PROJECT_INFO.sale));
 
     PROJECT_INFO.project.assignee.forEach((element: AssigneesFormat) => {
-      worksOnServiceMock.create.mockResolvedValue(WorksOn.build({ id: 1, email: element.label }));
+      worksOnServiceMock.create.mockResolvedValue(WorksOn.build({ id: 1, email: element.email }));
     });
 
     const projectService = container.resolve(ProjectService);
@@ -101,7 +101,7 @@ describe('ProjectService tests', () => {
       },
     };
     const projectService = container.resolve(ProjectService);
-    await expect(projectService.createProject(PROJECT_INFO as ProjectRequestDTO)).rejects.toThrowError(
+    await expect(projectService.createProject(PROJECT_INFO as unknown as ProjectRequestDTO)).rejects.toThrowError(
       'Request data is missing some values'
     );
   });
@@ -133,7 +133,7 @@ describe('ProjectService tests', () => {
       },
     };
     const projectService = container.resolve(ProjectService);
-    await expect(projectService.createProject(PROJECT_INFO as ProjectRequestDTO)).rejects.toThrowError(
+    await expect(projectService.createProject(PROJECT_INFO as unknown as ProjectRequestDTO)).rejects.toThrowError(
       'Request data is missing some values'
     );
   });
@@ -165,7 +165,7 @@ describe('ProjectService tests', () => {
       },
     };
     const projectService = container.resolve(ProjectService);
-    await expect(projectService.createProject(PROJECT_INFO as ProjectRequestDTO)).rejects.toThrowError(
+    await expect(projectService.createProject(PROJECT_INFO as unknown as ProjectRequestDTO)).rejects.toThrowError(
       'Request data is missing some values'
     );
   });
@@ -197,7 +197,7 @@ describe('ProjectService tests', () => {
       },
     };
     const projectService = container.resolve(ProjectService);
-    await expect(projectService.createProject(PROJECT_INFO as ProjectRequestDTO)).rejects.toThrowError(
+    await expect(projectService.createProject(PROJECT_INFO as unknown as ProjectRequestDTO)).rejects.toThrowError(
       'Request data is missing some values'
     );
   });
