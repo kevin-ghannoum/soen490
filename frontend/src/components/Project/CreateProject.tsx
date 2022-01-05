@@ -589,9 +589,8 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
               />
               {!validDate && (
                 <Typography style={{ color: 'red' }}>
-                  Deadline date must be after the Follow Up Date and both must be after the project's creation date.
-                  For a new project, Today's date :{' '}
-                  {date.toDateString()}
+                  Deadline date must be after the Follow Up Date and both must be after the project's creation date. For
+                  a new project, Today's date : {date.toDateString()}
                 </Typography>
               )}
             </Grid>
