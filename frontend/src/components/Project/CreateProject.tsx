@@ -25,11 +25,6 @@ interface Props {
   edit: string;
 }
 
-// interface workson {
-//   email: string;
-//   id: number;
-// }
-
 interface CreateProjectFormData {
   title: string;
   description: string;
@@ -259,12 +254,12 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
     reason: AutocompleteInputChangeReason
   ) => {
     const leadCreditResponse = await getAllRegexEmployeeAccount(value);
-    const leadCreditList: any[] = [];
+    const leadList: any[] = [];
     leadCreditResponse.data.forEach((element: any) => {
-      leadCreditList.push(`${element.account.username}`);
+      leadList.push(`${element.account.username}`);
     });
     setLeadCreditList([]);
-    setLeadCreditList(leadCreditList);
+    setLeadCreditList(leadList);
   };
 
   const reset = () => {

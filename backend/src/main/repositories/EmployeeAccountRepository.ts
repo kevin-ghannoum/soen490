@@ -8,8 +8,6 @@ import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
 import { BaseError, Op } from 'sequelize';
 import { Business } from '../models/Business';
-import { Worker } from 'worker_threads';
-import { WorksOn } from '../models/WorksOn';
 import { Project } from '../models/Project';
 
 @injectable()
@@ -141,19 +139,16 @@ export default class EmployeeAccountRepository implements CRUD {
         limit: 5,
         include: [
           {
-            model: Account, where: {
+            model: Account,
+            where: {
               username: {
                 [operatorsAliases.like]: `${username}%`,
               },
             },
-            attributes: [
-              'username',
-              'email'
-            ]
-          }],
-          attributes: [
-            'email'
-          ]
+            attributes: ['username', 'email'],
+          },
+        ],
+        attributes: ['email'],
       });
       return Promise.resolve(data);
     } catch (err: any) {
@@ -169,16 +164,17 @@ export default class EmployeeAccountRepository implements CRUD {
       const data = await EmployeeAccount.findAll({
         include: [
           {
-            model: Project, where: {
-              id : projectId
+            model: Project,
+            where: {
+              id: projectId,
             },
-            attributes: []
+            attributes: [],
           },
           {
             model: Account,
-            attributes: ['username']
-          }
-        ]
+            attributes: ['username'],
+          },
+        ],
       });
       return Promise.resolve(data);
     } catch (err: any) {

@@ -106,7 +106,7 @@ export class EmployeeAccountService {
 
   public getUsernameEmployeeforProject = async (projectId: number): Promise<EmployeeAccount[] | null> => {
     return this.employeeAccountRepository.getUsernameOfEmployeeforProject(projectId);
-  }
+  };
 
   public deleteEmployeeAccountByEmail = async (
     email: string,

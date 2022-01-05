@@ -23,9 +23,10 @@ export default class ProjectRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route(`/project`)
-      .all(checkJwt, 
+      .all(
+        checkJwt
         // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS]))
-        )
+      )
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newProject = await this.projectService.createProject(req.body);
