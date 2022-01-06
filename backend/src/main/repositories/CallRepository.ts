@@ -5,6 +5,8 @@ import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:CallRepository');
 import { Call } from '../models/Call';
 import { Account } from '../models/Account';
+import { Op } from 'sequelize';
+
 
 @injectable()
 export default class CallRepository implements CRUD {
@@ -83,7 +85,7 @@ export default class CallRepository implements CRUD {
       });
 
       if (call) {
-        log(`Call with id ${call?.id} and email ${call?.email} has been retrieved`);
+        log(`Call email ${call?.email} has been retrieved`);
       } else {
         log(`Call with email ${email} not found`);
       }
@@ -137,6 +139,90 @@ export default class CallRepository implements CRUD {
       const calls = await Call.findAll();
 
       log(`Retrieved all calls`);
+      return Promise.resolve(calls);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  public searchCallsByName = async (name: string): Promise<Call[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const calls = await Call.findAll({
+        limit: 20,
+        where: {
+          receiverName: {
+            [operatorsAliases.like]: `%${name}%`,
+          },
+        },
+      });
+      log(`Retrieved all calls with receiver name containing ${name}`);
+      return Promise.resolve(calls);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+  
+  public searchCallsByPhoneNumber = async (number: string): Promise<Call[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const calls = await Call.findAll({
+        limit: 20,
+        where: {
+          phoneNumber: {
+            [operatorsAliases.like]: `%${number}%`,
+          },
+        },
+      });
+      log(`Retrieved all calls with phone number containing ${number}`);
+      return Promise.resolve(calls);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  public searchCallsByEmail = async (email: string): Promise<Call[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const calls = await Call.findAll({
+        limit: 20,
+        where: {
+          email: {
+            [operatorsAliases.like]: `%${email}%`,
+          },
+        },
+      });
+      log(`Retrieved all calls with email containing ${email}`);
+      return Promise.resolve(calls);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  public searchCallsByEmployeeEmail = async (employeeEmail: string): Promise<Call[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const calls = await Call.findAll({
+        limit: 20,
+        where: {
+          employeeEmail: {
+            [operatorsAliases.like]: `%${employeeEmail}%`,
+          },
+        },
+      });
+      log(`Retrieved all calls with email containing ${employeeEmail}`);
       return Promise.resolve(calls);
     } catch (err: any) {
       log(err);
