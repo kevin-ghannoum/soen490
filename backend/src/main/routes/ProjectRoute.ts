@@ -48,7 +48,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
       .route(`/project/:id`)
       .get(
         checkJwt,
-        // checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
+        checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const project = await this.projectService.getProject(Number(req.params.id));
