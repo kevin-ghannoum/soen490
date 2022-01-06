@@ -7,13 +7,15 @@ import HttpException from '../exceptions/HttpException';
 import { WorksonService } from '../services/WorksOnService';
 import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
 import { Roles } from '../security/Roles';
+import { EmployeeAccountService } from '../services/EmployeeAccountService';
 
 @injectable()
 export default class ProjectRoute extends CommonRoutesConfig {
   constructor(
     @inject('express-app') app: express.Application,
     private projectService: ProjectService,
-    private worksOn: WorksonService
+    private worksOn: WorksonService,
+    private employeeAccountService: EmployeeAccountService
   ) {
     super(app, 'ProjectRoute');
   }
@@ -21,7 +23,10 @@ export default class ProjectRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route(`/project`)
-      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
+      .all(
+        checkJwt
+        // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS]))
+      )
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newProject = await this.projectService.createProject(req.body);
@@ -47,7 +52,7 @@ export default class ProjectRoute extends CommonRoutesConfig {
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const project = await this.projectService.getProject(Number(req.params.id));
-            const employees = await this.worksOn.getWorksOn(Number(req.params.id));
+            const employees = await this.employeeAccountService.getUsernameEmployeeforProject(Number(req.params.id));
             const array = [project, employees];
             res.status(StatusCodes.OK).send(array);
           } catch (err) {
