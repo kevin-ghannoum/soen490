@@ -15,7 +15,7 @@ export class CallService {
     log('Created new instance of LogCallService');
   }
 
-  public createCall = async (callCreationDTO: CallCreationDTO): Promise<Call | null> => {
+  public createCall = async (callCreationDTO: CallCreationDTO): Promise<Call> => {
     if (CallService.isThereNullValueCallDTO(callCreationDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
@@ -70,8 +70,8 @@ export class CallService {
       !CallCreationDTO.description ||
       !CallCreationDTO.email ||
       !CallCreationDTO.action ||
-      !CallCreationDTO.followUp ||
-      !CallCreationDTO.neverCallBack ||
+      CallCreationDTO.followUp === undefined ||
+      CallCreationDTO.neverCallBack === undefined ||
       !CallCreationDTO.employeeEmail
     ) {
       return true;
