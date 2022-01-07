@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const createEmployeeSchema: Yup.ObjectSchema<any> = Yup.object().shape({
+const createEmployeeFormValidationSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
@@ -19,4 +19,4 @@ const createEmployeeSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   businessId: Yup.number().nullable().when('isAdmin', { is: true, then: Yup.number().notRequired() }),
 });
 
-export default createEmployeeSchema;
+export default createEmployeeFormValidationSchema;

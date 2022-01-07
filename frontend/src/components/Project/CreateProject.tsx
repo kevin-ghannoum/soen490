@@ -14,8 +14,8 @@ import { FormikProps, useFormik } from 'formik';
 import { AxiosResponse } from 'axios';
 import { getAllClientAccount, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
 import { createProject, getProject, updateProject } from '../../services/ProjectAPI';
-import createProjectFromSchema from './CreateProjectFormValidationSchema';
-import useStyles from './CreateProjectStyle';
+import createProjectFormValidationSchema from './CreateProjectFormValidationSchema';
+import createProjectStyle from './CreateProjectStyle';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 import { SaleCreationDTO } from '../../dto/SaleDTO';
@@ -66,7 +66,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const date = new Date();
   const [validDate, setValidDate] = useState<boolean>(true);
   const history = useHistory();
-  const classes = useStyles();
+  const classes = createProjectStyle();
 
   const formik: FormikProps<CreateProjectFormData> = useFormik<CreateProjectFormData>({
     onReset: () => {},
@@ -121,12 +121,12 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
           } else {
             setValidDate(false);
           }
-        } catch (error) {
+        } catch (e) {
           setError(true);
         }
       }
     },
-    validationSchema: createProjectFromSchema,
+    validationSchema: createProjectFormValidationSchema,
   });
 
   const validateDates = async (values: CreateProjectFormData) => {
@@ -189,7 +189,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             array.push({ label: element.account.username, email: element.email });
           });
           setAssignee(array);
-        } catch (error) {
+        } catch (e) {
           history.push('/error');
         }
       }

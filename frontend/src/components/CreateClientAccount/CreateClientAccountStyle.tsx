@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const createClientAccountStyle = makeStyles((theme) => ({
   createClientPaper: {
     [theme.breakpoints.down('lg')]: {
       width: '60%',
@@ -24,4 +24,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export default createClientAccountStyle;

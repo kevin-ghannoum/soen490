@@ -17,11 +17,11 @@ import {
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormik } from 'formik';
-import _ from './TaskStyle';
+import taskStyle from './TaskStyle';
 import { TaskStatus } from '../../dto/TaskDTOs';
 import { createTask, deleteTaskById, getTaskById, updateTaskById } from '../../services/TaskAPI';
 import { getAllBusinessProject } from '../../services/ProjectAPI';
-import createTaskFromSchema from './CreateTaskFormValidation';
+import createTaskFormValidationSchema from './CreateTaskFormValidationSchema';
 import { getAllEmployeeAccounts } from '../../services/AccountAPI';
 import {
   createAssignment,
@@ -42,7 +42,7 @@ interface Task {
   title: string;
 }
 
-const ManageTask: React.FC<any> = ({ id, edit }) => {
+const CreateTask: React.FC<any> = ({ id, edit }) => {
   const [created, setCreated] = useState<boolean>(false);
   const [projectList, setProjectList] = useState<any>([]);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
@@ -79,7 +79,7 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
       projectId: '',
       employees: [],
     },
-    validationSchema: createTaskFromSchema,
+    validationSchema: createTaskFormValidationSchema,
     onSubmit: async (values) => {
       if (editState && id) {
         const taskResponse: AxiosResponse<any> = await updateTaskById(id, {
@@ -172,7 +172,7 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
     // eslint-disable-next-line
   }, []);
 
-  const classes = _.editTaskStyles();
+  const classes = taskStyle.editTaskStyles();
   return (
     <div>
       <Grid
@@ -379,4 +379,4 @@ const ManageTask: React.FC<any> = ({ id, edit }) => {
   );
 };
 
-export default ManageTask;
+export default CreateTask;

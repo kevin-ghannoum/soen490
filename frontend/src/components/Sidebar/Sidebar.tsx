@@ -16,7 +16,7 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import CreateIcon from '@material-ui/icons/Create';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import useStyles from './SidebarStyle';
+import sidebarStyle from './SidebarStyle';
 import { useAppDispatch } from '../../redux/hooks';
 import { logout } from '../../features/account/AccountSlice';
 
@@ -43,7 +43,7 @@ const Sidebar = (props: { history: any }) => {
     setState({ ...state, [anchor]: open });
   };
 
-  const classes = useStyles();
+  const classes = sidebarStyle();
 
   const itemsList = [
     {
