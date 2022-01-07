@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const loginStyle = makeStyles((theme) => ({
   loginAppBar: {
     width: '100%',
     margin: 'auto',
@@ -62,4 +62,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export default loginStyle;

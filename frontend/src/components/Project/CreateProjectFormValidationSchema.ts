@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const createProjectFromSchema: Yup.ObjectSchema<any> = Yup.object().shape({
+const createProjectFormValidationSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   title: Yup.string().required('Required'),
   description: Yup.string().optional(),
   status: Yup.string().required('Required'),
@@ -17,4 +17,4 @@ const createProjectFromSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   assignees: Yup.array().nullable().optional(),
 });
 
-export default createProjectFromSchema;
+export default createProjectFormValidationSchema;

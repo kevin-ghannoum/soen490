@@ -16,11 +16,12 @@ import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { getAllEmployeeAccounts, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
-import logHoursSchema from './LogHoursFormValidationSchema';
-import useStyles from './LogHoursStyle';
+import logHoursFormValidationSchema from './LogHoursFormValidationSchema';
+import logHoursStyle from './LogHoursStyle';
 import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../services/LogHoursAPI';
 import { ScheduledDay } from '../../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
+
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
@@ -68,7 +69,7 @@ const LogHours: React.FunctionComponent = () => {
         setCreated(true);
       }
     },
-    validationSchema: logHoursSchema,
+    validationSchema: logHoursFormValidationSchema,
   });
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const LogHours: React.FunctionComponent = () => {
     setPaidAmount(formik.values.paidAmount);
   };
 
-  const classes = useStyles();
+  const classes = logHoursStyle();
   return (
     <Grid
       id="LogHours-Grid"

@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const logHoursSchema = Yup.object().shape({
+const logHoursFormValidationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   automatic: Yup.boolean(),
   startDate: Yup.string().when('automatic', {
@@ -15,4 +15,4 @@ const logHoursSchema = Yup.object().shape({
   paidAmount: Yup.string().required('Required'),
 });
 
-export default logHoursSchema;
+export default logHoursFormValidationSchema;

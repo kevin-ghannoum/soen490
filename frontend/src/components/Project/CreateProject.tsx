@@ -14,8 +14,8 @@ import { FormikProps, useFormik } from 'formik';
 import { AxiosResponse } from 'axios';
 import { getAllClientAccount, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
 import { createProject, getProject, updateProject } from '../../services/ProjectAPI';
-import createProjectFromSchema from './CreateProjectFormValidationSchema';
-import useStyles from './CreateProjectStyle';
+import createProjectFormValidationSchema from './CreateProjectFormValidationSchema';
+import createProjectStyle from './CreateProjectStyle';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 import { SaleCreationDTO } from '../../dto/SaleDTO';
@@ -66,10 +66,10 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const date = new Date();
   const [validDate, setValidDate] = useState<boolean>(true);
   const history = useHistory();
-  const classes = useStyles();
+  const classes = createProjectStyle();
 
   const formik: FormikProps<CreateProjectFormData> = useFormik<CreateProjectFormData>({
-    onReset: () => {},
+    onReset: () => { },
     initialValues: {
       title: '',
       description: '',
@@ -126,7 +126,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
         }
       }
     },
-    validationSchema: createProjectFromSchema,
+    validationSchema: createProjectFormValidationSchema,
   });
 
   const validateDates = async (values: CreateProjectFormData) => {

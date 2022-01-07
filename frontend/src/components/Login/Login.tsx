@@ -1,7 +1,7 @@
 import { AppBar, Button, Grid, Paper, TextField, Toolbar, Typography } from '@material-ui/core';
-import useStyles from './LoginStyle';
+import loginStyle from './LoginStyle';
 import { FormikProps, useFormik } from 'formik';
-import loginSchema from './LoginFormValidationSchema';
+import loginFormValidationSchema from './LoginFormValidationSchema';
 import { login } from '../../services/AccountAPI';
 import localStorageService from '../../services/LocalStorageService';
 import { useAppDispatch } from '../../redux/hooks';
@@ -39,12 +39,12 @@ const Login: React.FC = () => {
         }
       }
     },
-    validationSchema: loginSchema,
+    validationSchema: loginFormValidationSchema,
   });
 
   const dispatch = useAppDispatch();
 
-  const classes = useStyles();
+  const classes = loginStyle();
   return (
     <Grid
       container

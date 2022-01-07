@@ -51,9 +51,9 @@ const listTaskStyles = makeStyles((theme) => ({
   },
 }));
 
-const _ = {
+const taskStyle = {
   listTaskStyles,
   editTaskStyles,
 };
 
-export default _;
+export default taskStyle;
