@@ -8,14 +8,14 @@ import { useAppDispatch } from '../../redux/hooks';
 import { getAccount } from '../../features/account/AccountSlice';
 import { useState } from 'react';
 
-interface loginFormData {
+interface LoginFormData {
   email: string;
   password: string;
 }
 
 const Login: React.FC = () => {
   const [error, setError] = useState<string>('');
-  const formik: FormikProps<loginFormData> = useFormik<loginFormData>({
+  const formik: FormikProps<LoginFormData> = useFormik<LoginFormData>({
     initialValues: {
       email: '',
       password: '',
