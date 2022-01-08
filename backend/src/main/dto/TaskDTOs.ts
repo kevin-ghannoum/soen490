@@ -24,4 +24,5 @@ export enum TaskStatus {
   RESOLVED = 'RESOLVED',
   CLOSED = 'CLOSED',
   REMOVED = 'REMOVED',
+  COMPLETE = 'COMPLETE',
 }

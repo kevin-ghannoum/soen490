@@ -4,7 +4,6 @@ import {
   Grid,
   MenuItem,
   Paper,
-  Select,
   TextField,
   Typography,
   DialogTitle,
@@ -30,6 +29,7 @@ import {
   updateAssignedByTaskId,
 } from '../../services/AssignedAPI';
 import { useHistory } from 'react-router';
+import { Autocomplete } from '@material-ui/lab';
 
 interface Task {
   createdDate: string;
@@ -45,7 +45,8 @@ interface Task {
 const CreateTask: React.FC<any> = ({ id, edit }) => {
   const [created, setCreated] = useState<boolean>(false);
   const [projectList, setProjectList] = useState<any>([]);
-  const [employeeList, setEmployeeList] = useState<string[]>([]);
+  const [employeeList, setEmployeeList] = useState<any>([]);
+  const [assignees, setAssignees] = useState<any>([]);
   const [editState] = useState<boolean>(edit);
   const [open, setOpen] = React.useState(false);
 
@@ -68,6 +69,16 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
   };
   const onClickCancel = () => {
     history.push('/tasks');
+  };
+  const onAssigneeChange = async (event: React.ChangeEvent<{}>, values: Object[]) => {
+    values = values.filter(
+      (elem: any, index, self) =>
+        self.findIndex((t: any) => {
+          return t === elem;
+        }) === index
+    );
+    setAssignees(values);
+    formik.setFieldValue('employees', values);
   };
 
   const formik: FormikProps<any> = useFormik<any>({
@@ -131,7 +142,6 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
           const employees = await getAssignedByTaskId(id);
           const taskData: Task = taskToEdit.data;
           let tempEmployees: string[] = [];
-
           employees.data.forEach((element: any) => {
             tempEmployees.push(element.email);
           });
@@ -142,6 +152,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
           formik.setFieldValue('deadlineDate', deadDate.toISOString().split('T')[0]);
           formik.setFieldValue('projectId', taskData.projectId);
           formik.setFieldValue('employees', tempEmployees);
+          setAssignees(tempEmployees);
         } catch (error) {
           history.push('/error');
         }
@@ -155,6 +166,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
         tempProjects.push({
           id: element.id,
           title: element.title,
+          deadlineDate: element.deadlineDate,
         });
       });
       setProjectList(tempProjects);
@@ -227,7 +239,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                 <Grid item xs>
                   <TextField
                     variant="standard"
-                    label="Project Deadline"
+                    label="Task Deadline"
                     name="deadlineDate"
                     type="date"
                     fullWidth
@@ -236,39 +248,32 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                     }}
                     value={formik.values.deadlineDate}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     error={formik.touched.deadlineDate && Boolean(formik.errors.deadlineDate)}
                     helperText={formik.touched.deadlineDate && formik.errors.deadlineDate}
                   />
                 </Grid>
               </Grid>
               <Grid item container spacing={2} direction="column" xs={5}>
-                <Grid item container xs={12} direction="column" alignItems="flex-start">
-                  <Grid item>
-                    <Typography>Assignees: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <FormControl variant="standard" className={classes.formControl}>
-                      <Select
-                        name="employees"
-                        value={formik.values.employees}
-                        onChange={formik.handleChange}
-                        renderValue={(selected) => (
-                          <div className={classes.chips}>
-                            {(selected as string[]).map((value) => (
-                              <Typography variant="subtitle2" className={classes.chip} gutterBottom>
-                                {value}
-                              </Typography>
-                            ))}
-                          </div>
-                        )}
-                        multiple
-                      >
-                        {employeeList.map((employee: any) => {
-                          return <MenuItem value={employee}>{employee}</MenuItem>;
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                <Grid
+                  item
+                  container
+                  xs={12}
+                  direction="column"
+                  alignItems="flex-start"
+                  style={{ display: 'flex', marginTop: 6 }}
+                >
+                  <Typography>Assignees</Typography>
+                  <Autocomplete
+                    multiple
+                    filterSelectedOptions
+                    getOptionLabel={(option) => option}
+                    onChange={onAssigneeChange}
+                    value={assignees}
+                    options={employeeList}
+                    className={classes.assigneeAutoComplete}
+                    renderInput={(params) => <TextField {...params} variant="standard" size="small" />}
+                  />
                 </Grid>
                 <Grid item container xs={12} direction="row" justifyContent="flex-start" alignItems="flex-end">
                   <Grid item xs={2}>
@@ -288,7 +293,16 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                           <em>None</em>
                         </MenuItem>
                         {projectList.map((project: any) => {
-                          return <MenuItem value={project.id}>{project.title}</MenuItem>;
+                          return (
+                            <MenuItem
+                              value={project.id}
+                              onClick={(e) => {
+                                formik.setFieldValue('deadlineDate', project.deadlineDate.split('T')[0]);
+                              }}
+                            >
+                              {project.title}
+                            </MenuItem>
+                          );
                         })}
                       </TextField>
                     </FormControl>
@@ -314,6 +328,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                         <MenuItem value={TaskStatus.RESOLVED}>Resolved</MenuItem>
                         <MenuItem value={TaskStatus.CLOSED}>Closed</MenuItem>
                         <MenuItem value={TaskStatus.REMOVED}>Removed</MenuItem>
+                        <MenuItem value={TaskStatus.COMPLETE}>Complete</MenuItem>
                       </TextField>
                     </FormControl>
                   </Grid>

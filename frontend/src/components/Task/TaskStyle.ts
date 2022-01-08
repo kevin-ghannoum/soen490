@@ -36,6 +36,9 @@ const editTaskStyles = makeStyles((theme) => ({
   noBorder: {
     border: 'none',
   },
+  assigneeAutoComplete: {
+    width: '100%',
+  },
 }));
 
 const listTaskStyles = makeStyles((theme) => ({
