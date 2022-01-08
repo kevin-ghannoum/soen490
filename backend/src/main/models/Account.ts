@@ -52,6 +52,9 @@ export class Account extends Model {
   @HasMany(() => Call)
   calls!: Call[];
 
+  @HasMany(() => Assigned)
+  assigned!: Assigned[];
+
   @BelongsTo(() => Address)
   address!: Address;
 

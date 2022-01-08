@@ -4,6 +4,7 @@ import { AssignedCreationDTO, AssignedUpdateDTO } from '../dto/AssignedDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:AssignedRepository');
 import { Assigned } from '../models/Assigned';
+import { Account } from '../models/Account';
 
 @injectable()
 export default class AssignedRepository implements CRUD {
@@ -144,6 +145,34 @@ export default class AssignedRepository implements CRUD {
     } catch (err: any) {
       log(err);
       return Promise.resolve(err);
+    }
+  };
+
+  public getUserByTaskId = async (taskId: number): Promise<Assigned[] | null> => {
+    try {
+      // Assigned.belongsTo(Account, {targetKey:'email',foreignKey: 'email'});
+      const assigned: any[] = await Account.findAll({
+        include: [
+          {
+            model: Assigned,
+            attributes: ['taskId', 'email'],
+            where: {
+              taskId: taskId,
+            },
+          },
+        ],
+        attributes: ['username', 'email'],
+      });
+
+      if (assigned) {
+        log(`Assignments with taskId ${taskId} have been retrieved`);
+      } else {
+        log(`Assignment with taskId ${taskId} not found`);
+      }
+      return Promise.resolve(assigned);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
     }
   };
 }

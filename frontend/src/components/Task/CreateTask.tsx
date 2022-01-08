@@ -21,7 +21,7 @@ import { TaskStatus } from '../../dto/TaskDTOs';
 import { createTask, deleteTaskById, getTaskById, updateTaskById } from '../../services/TaskAPI';
 import { getAllBusinessProject } from '../../services/ProjectAPI';
 import createTaskFormValidationSchema from './CreateTaskFormValidationSchema';
-import { getAllEmployeeAccounts } from '../../services/AccountAPI';
+import { getAllRegexEmployeeAccount } from '../../services/AccountAPI';
 import {
   createAssignment,
   deleteAssignedByTaskId,
@@ -29,8 +29,7 @@ import {
   updateAssignedByTaskId,
 } from '../../services/AssignedAPI';
 import { useHistory } from 'react-router';
-import { Autocomplete } from '@material-ui/lab';
-
+import { Autocomplete, AutocompleteInputChangeReason } from '@material-ui/lab';
 interface Task {
   createdDate: string;
   deadlineDate: string;
@@ -74,11 +73,15 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
     values = values.filter(
       (elem: any, index, self) =>
         self.findIndex((t: any) => {
-          return t === elem;
+          return t.email === elem.email;
         }) === index
     );
     setAssignees(values);
-    formik.setFieldValue('employees', values);
+    var emails: string[] = [];
+    values.forEach((element: any) => {
+      emails.push(element.email);
+    });
+    formik.setFieldValue('employees', emails);
   };
 
   const formik: FormikProps<any> = useFormik<any>({
@@ -134,25 +137,39 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
     },
   });
 
+  const getEmployees = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
+    const tempEmployees: any[] = [];
+    if (value !== '') {
+      const employees = await getAllRegexEmployeeAccount(value);
+      employees.data.forEach((element: any) => {
+        tempEmployees.push({ label: `${element.account.username}`, email: `${element.account.email}` });
+      });
+    }
+    setEmployeeList(tempEmployees);
+  };
+
   useEffect(() => {
     if (editState && id) {
       const getEditTask = async () => {
         try {
           const taskToEdit = await getTaskById(id);
-          const employees = await getAssignedByTaskId(id);
           const taskData: Task = taskToEdit.data;
-          let tempEmployees: string[] = [];
-          employees.data.forEach((element: any) => {
-            tempEmployees.push(element.email);
-          });
           let deadDate = new Date(Date.parse(taskData.deadlineDate));
           formik.setFieldValue('title', taskData.title);
           formik.setFieldValue('status', taskData.status);
           formik.setFieldValue('description', taskData.description);
           formik.setFieldValue('deadlineDate', deadDate.toISOString().split('T')[0]);
           formik.setFieldValue('projectId', taskData.projectId);
+
+          const employees = await getAssignedByTaskId(id);
+          let tempEmployees: string[] = [];
+          let tempAssignees: any[] = [];
+          employees.data.forEach((element: any) => {
+            tempAssignees.push({ label: `${element.username}`, email: `${element.email}` });
+            tempEmployees.push(element.email);
+          });
           formik.setFieldValue('employees', tempEmployees);
-          setAssignees(tempEmployees);
+          setAssignees(tempAssignees);
         } catch (error) {
           history.push('/error');
         }
@@ -171,15 +188,6 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
       });
       setProjectList(tempProjects);
     };
-    const getEmployees = async () => {
-      const projects = await getAllEmployeeAccounts();
-      const tempEmployees: string[] = [];
-      projects.data.forEach((element: any) => {
-        tempEmployees.push(element.email);
-      });
-      setEmployeeList(tempEmployees);
-    };
-    getEmployees();
     getProjects();
     // eslint-disable-next-line
   }, []);
@@ -268,8 +276,9 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                     multiple
                     filterSelectedOptions
                     id="selectAssignees"
-                    getOptionLabel={(option) => option}
+                    getOptionLabel={(option) => option.label}
                     onChange={onAssigneeChange}
+                    onInputChange={getEmployees}
                     value={assignees}
                     options={employeeList}
                     className={classes.assigneeAutoComplete}
