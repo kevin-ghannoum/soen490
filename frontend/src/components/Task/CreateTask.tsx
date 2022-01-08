@@ -267,6 +267,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                   <Autocomplete
                     multiple
                     filterSelectedOptions
+                    id="selectAssignees"
                     getOptionLabel={(option) => option}
                     onChange={onAssigneeChange}
                     value={assignees}
