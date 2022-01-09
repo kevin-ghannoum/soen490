@@ -22,7 +22,6 @@ import AuthenticationRoute from './routes/AuthenticationRoute';
 import ProjectRoute from './routes/ProjectRoute';
 import CallRoute from './routes/CallRoute';
 
-
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
 

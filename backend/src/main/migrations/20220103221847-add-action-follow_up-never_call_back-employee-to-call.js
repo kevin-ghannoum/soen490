@@ -16,11 +16,11 @@ module.exports = {
       allowNull: false,
     });
 
-    await queryInterface.addColumn("call", "employeeEmail", {
+    await queryInterface.addColumn("call", "callerEmail", {
       type: Sequelize.STRING,
       allowNull: false,
       references: {
-        model: 'employeeaccount',
+        model: 'account',
         key: 'email',
       },
     });
@@ -32,6 +32,6 @@ module.exports = {
     await queryInterface.removeColumn("call", "action");
     await queryInterface.removeColumn("call", "followUp");
     await queryInterface.removeColumn("call", "neverCallBack");
-    await queryInterface.removeColumn("call", "employeeEmail");
+    await queryInterface.removeColumn("call", "callerEmail");
   }
 };
