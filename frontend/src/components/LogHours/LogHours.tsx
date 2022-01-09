@@ -16,11 +16,12 @@ import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { getAllEmployeeAccounts, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
-import logHoursSchema from './LogHoursFormValidationSchema';
-import useStyles from './LogHoursStyle';
+import logHoursFormValidationSchema from './LogHoursFormValidationSchema';
+import logHoursStyle from './LogHoursStyle';
 import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../services/LogHoursAPI';
 import { ScheduledDay } from '../../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
+
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
@@ -68,7 +69,7 @@ const LogHours: React.FunctionComponent = () => {
         setCreated(true);
       }
     },
-    validationSchema: logHoursSchema,
+    validationSchema: logHoursFormValidationSchema,
   });
 
   useEffect(() => {
@@ -84,8 +85,8 @@ const LogHours: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    const updateAutomaticByEmail = async (email: string) => {
-      formik.setFieldValue('email', email);
+    const updateAutomaticByEmail = async (userEmail: string) => {
+      formik.setFieldValue('email', userEmail);
       formik.setFieldValue('automatic', false);
       formik.setFieldValue('scheduledDay', ScheduledDay.SUNDAY);
       formik.setFieldValue('startDate', '');
@@ -93,9 +94,9 @@ const LogHours: React.FunctionComponent = () => {
       formik.setFieldValue('hoursWorked', '');
       formik.setFieldValue('paidAmount', '');
       formik.setFieldValue('status', PayStatus.NOT_PAID);
-      if (!!email) {
-        const responseInputType = await getInputTypeByEmail(email);
-        const responseLatestPayInfo = await getLatestPayByEmail(email);
+      if (!!userEmail) {
+        const responseInputType = await getInputTypeByEmail(userEmail);
+        const responseLatestPayInfo = await getLatestPayByEmail(userEmail);
         if (!!responseInputType.data) {
           formik.setFieldValue('automatic', responseInputType.data.automatic);
           formik.setFieldValue('scheduledDay', responseInputType.data.scheduledDay || ScheduledDay.SUNDAY);
@@ -131,7 +132,7 @@ const LogHours: React.FunctionComponent = () => {
     setPaidAmount(formik.values.paidAmount);
   };
 
-  const classes = useStyles();
+  const classes = logHoursStyle();
   return (
     <Grid
       id="LogHours-Grid"

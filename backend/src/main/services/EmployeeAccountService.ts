@@ -100,8 +100,12 @@ export class EmployeeAccountService {
     return false;
   };
 
-  public getEmployeesByRegex = async (email: string): Promise<EmployeeAccount[] | null> => {
-    return this.employeeAccountRepository.getEmployeesByRegex(email);
+  public getEmployeesByRegex = async (username: string): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getEmployeeRegexUsername(username);
+  };
+
+  public getUsernameEmployeeforProject = async (projectId: number): Promise<EmployeeAccount[] | null> => {
+    return this.employeeAccountRepository.getUsernameOfEmployeeforProject(projectId);
   };
 
   public deleteEmployeeAccountByEmail = async (

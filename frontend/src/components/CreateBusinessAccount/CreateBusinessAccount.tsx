@@ -3,8 +3,8 @@ import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { FormikProps, useFormik } from 'formik';
 import { AxiosResponse } from 'axios';
 import { createBusinessAccount } from '../../services/AccountAPI';
-import createBusinessAccontSchema from './CreateBusinessFormValidationSchema';
-import useStyles from './CreateBusinessAccountStyle';
+import createBusinessFormValidationSchema from './CreateBusinessFormValidationSchema';
+import createBusinessAccountStyle from './CreateBusinessAccountStyle';
 const CreateBusinessAccount: React.FC = () => {
   const [created, setCreated] = useState<boolean>(false);
 
@@ -81,10 +81,10 @@ const CreateBusinessAccount: React.FC = () => {
         setCreated(true);
       }
     },
-    validationSchema: createBusinessAccontSchema,
+    validationSchema: createBusinessFormValidationSchema,
   });
 
-  const classes = useStyles();
+  const classes = createBusinessAccountStyle();
   return (
     <Grid
       container

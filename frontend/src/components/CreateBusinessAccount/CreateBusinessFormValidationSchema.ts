@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const createBusinessAccontSchema: Yup.ObjectSchema<any> = Yup.object().shape({
+const createBusinessFormValidationSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
@@ -20,4 +20,4 @@ const createBusinessAccontSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   socialMediaLink: Yup.string().optional(),
 });
 
-export default createBusinessAccontSchema;
+export default createBusinessFormValidationSchema;

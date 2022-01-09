@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const sidebarStyle = makeStyles(() => ({
   list: {
     width: 'auto',
     color: '#FFFFFF',
@@ -22,4 +22,4 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default useStyles;
+export default sidebarStyle;

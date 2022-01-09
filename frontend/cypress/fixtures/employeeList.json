@@ -1,16 +1,16 @@
 [
   {
-    "email": "b@b.com",
-    "businessName": "asdasd",
-    "industry": "asdasd",
-    "website": "asdas",
-    "status": "LEAD"
+      "email": "carlos@carlos.com",
+      "account": {
+          "username": "carlos",
+          "email": "carlos@carlos.com"
+      }
   },
   {
-    "email": "c@c.com",
-    "businessName": "asda",
-    "industry": "dasda",
-    "website": "sdasd",
-    "status": "LEAD"
+      "email": "employee@employee.com",
+      "account": {
+          "username": "employee",
+          "email": "employee@employee.com"
+      }
   }
 ]

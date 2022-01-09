@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { selectAccount } from '../../features/account/AccountSlice';
 import { useAppSelector } from '../../redux/hooks';
 import { createEmployeeAccount } from '../../services/AccountAPI';
-import createEmployeeSchema from './CreateEmployeeFormValidationSchema';
-import useStyles from './CreateEmployeeStyle';
+import createEmployeeFormValidationSchema from './CreateEmployeeFormValidationSchema';
+import createEmployeeStyle from './CreateEmployeeStyle';
 
 interface CreateEmployeeAccountFormData {
   firstName: string;
@@ -82,10 +82,10 @@ const CreateEmployee: React.FC = () => {
         setCreated(true);
       }
     },
-    validationSchema: createEmployeeSchema,
+    validationSchema: createEmployeeFormValidationSchema,
   });
 
-  const classes = useStyles();
+  const classes = createEmployeeStyle();
   return (
     <Grid
       id="CreateEmployeeAccount-Grid"

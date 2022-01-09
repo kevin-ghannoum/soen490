@@ -14,8 +14,8 @@ import { FormikProps, useFormik } from 'formik';
 import { AxiosResponse } from 'axios';
 import { getAllClientAccount, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
 import { createProject, getProject, updateProject } from '../../services/ProjectAPI';
-import createProjectFromSchema from './CreateProjectFormValidationSchema';
-import useStyles from './CreateProjectStyle';
+import createProjectFormValidationSchema from './CreateProjectFormValidationSchema';
+import createProjectStyle from './CreateProjectStyle';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 import { SaleCreationDTO } from '../../dto/SaleDTO';
@@ -23,11 +23,6 @@ import { SaleCreationDTO } from '../../dto/SaleDTO';
 interface Props {
   id?: string;
   edit: string;
-}
-
-interface workson {
-  email: string;
-  id: number;
 }
 
 interface CreateProjectFormData {
@@ -69,8 +64,9 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const [created, setCreated] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const date = new Date();
+  const [validDate, setValidDate] = useState<boolean>(true);
   const history = useHistory();
-  const classes = useStyles();
+  const classes = createProjectStyle();
 
   const formik: FormikProps<CreateProjectFormData> = useFormik<CreateProjectFormData>({
     onReset: () => {},
@@ -95,47 +91,72 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
         submitEdit();
       } else {
         try {
-          const response: AxiosResponse<any> = await createProject({
-            project: {
-              title: values.title,
-              description: values.description,
-              status: values.status,
-              serviceType: values.serviceType,
-              leadSource: values.leadSource,
-              leadCredit: values.leadCredit,
-              leadRanking: values.leadRanking,
-              deadlineDate: values.deadLineDate,
-              followUpDate: values.followUpDate,
-              extraNotes: values.extraNotes,
-              email: values.email,
-              businessId: 1,
-              assignee: values.assignee,
-            },
-            sale: {
-              amount: values.saleValue,
-              description: values.saleDescription,
-              dueDate: values.deadLineDate,
-            },
-          });
-          if (response.status === 201) {
-            setCreated(true);
-            history.push('/projects');
+          if ((await validateDates(values)) === true) {
+            const response: AxiosResponse<any> = await createProject({
+              project: {
+                title: values.title,
+                description: values.description,
+                status: values.status,
+                serviceType: values.serviceType,
+                leadSource: values.leadSource,
+                leadCredit: values.leadCredit,
+                leadRanking: values.leadRanking,
+                deadlineDate: values.deadLineDate,
+                followUpDate: values.followUpDate,
+                extraNotes: values.extraNotes,
+                email: values.email,
+                businessId: 1,
+                assignee: values.assignee,
+              },
+              sale: {
+                amount: values.saleValue,
+                description: values.saleDescription,
+                dueDate: values.deadLineDate,
+              },
+            });
+            if (response.status === 201) {
+              setCreated(true);
+              history.push('/projects');
+            }
+          } else {
+            setValidDate(false);
           }
-        } catch (error) {
+        } catch (e) {
           setError(true);
         }
       }
     },
-    validationSchema: createProjectFromSchema,
+    validationSchema: createProjectFormValidationSchema,
   });
+
+  const validateDates = async (values: CreateProjectFormData) => {
+    try {
+      if (values.deadLineDate === null || values.deadLineDate === '') {
+        if (values.followUpDate > date.toISOString()) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (values.deadLineDate !== null) {
+        if (values.followUpDate > date.toISOString() && values.deadLineDate > values.followUpDate) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    } catch (e) {
+      setValidDate(false);
+    }
+  };
 
   const Input = styled('input')({
     display: 'none',
   });
-
+  const [leadCreditList, setLeadCreditList] = useState<any>([]);
   const [employeeList, setEmployeeList] = useState<Array<{ label: string }>>([]);
   const [assignee, setAssignee] = useState<any>([]);
   const [clientList, setClientList] = useState<any>([]);
+  const [leadCreditLoading, setLeadCreditLoading] = useState<boolean>(false);
   const [clientLoading, setClientLoading] = useState<boolean>(false);
   const [assigneeLoading, setAssigeeLoading] = useState<boolean>(false);
   const [editState, setEditState] = useState<string>(edit);
@@ -164,11 +185,11 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
           formik.setFieldValue('saleDescription', data.sale.description);
           formik.setFieldValue('saleValue', data.sale.amount);
           let array: Object[] = [];
-          projectToEdit.data[1].forEach((element: workson) => {
-            array.push({ label: element.email });
+          projectToEdit.data[1].forEach((element: any) => {
+            array.push({ label: element.account.username, email: element.email });
           });
           setAssignee(array);
-        } catch (error) {
+        } catch (e) {
           history.push('/error');
         }
       }
@@ -181,6 +202,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
     const getSelectDropDownData = async () => {
       setClientLoading(true);
       setAssigeeLoading(true);
+      setLeadCreditLoading(true);
 
       if (editState === 'false' && id) {
         setDisabled(true);
@@ -220,10 +242,24 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
     const employeeResponse = await getAllRegexEmployeeAccount(value);
     const assignees: any[] = [];
     employeeResponse.data.forEach((element: any) => {
-      assignees.push({ label: `${element.email}` });
+      assignees.push({ label: `${element.account.username}`, email: `${element.account.email}` });
     });
     setEmployeeList([]);
     setEmployeeList(assignees);
+  };
+
+  const getLeadCreditInput = async (
+    event: React.ChangeEvent<{}>,
+    value: string,
+    reason: AutocompleteInputChangeReason
+  ) => {
+    const leadCreditResponse = await getAllRegexEmployeeAccount(value);
+    const leadList: any[] = [];
+    leadCreditResponse.data.forEach((element: any) => {
+      leadList.push(`${element.account.username}`);
+    });
+    setLeadCreditList([]);
+    setLeadCreditList(leadList);
   };
 
   const reset = () => {
@@ -240,33 +276,36 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   };
 
   const submitEdit = async () => {
-    const response: AxiosResponse<any> = await updateProject({
-      project: {
-        title: formik.values.title,
-        description: formik.values.description,
-        status: formik.values.status,
-        serviceType: formik.values.serviceType,
-        leadSource: formik.values.leadSource,
-        leadCredit: formik.values.leadCredit,
-        leadRanking: formik.values.leadRanking,
-        deadlineDate: formik.values.deadLineDate,
-        followUpDate: formik.values.followUpDate,
-        modifiedDate: undefined,
-        extraNotes: formik.values.extraNotes,
-        email: formik.values.email,
-        id: Number(id),
-        assignee: formik.values.assignee,
-      },
-      sale: {
-        amount: formik.values.saleValue,
-        description: formik.values.description,
-        dueDate: formik.values.deadLineDate,
-      },
-    });
-
-    if (response.status === 200) {
-      setCreated(true);
-      history.push('/projects');
+    if ((await validateDates(formik.values)) === true) {
+      const response: AxiosResponse<any> = await updateProject({
+        project: {
+          title: formik.values.title,
+          description: formik.values.description,
+          status: formik.values.status,
+          serviceType: formik.values.serviceType,
+          leadSource: formik.values.leadSource,
+          leadCredit: formik.values.leadCredit,
+          leadRanking: formik.values.leadRanking,
+          deadlineDate: formik.values.deadLineDate,
+          followUpDate: formik.values.followUpDate,
+          modifiedDate: undefined,
+          extraNotes: formik.values.extraNotes,
+          email: formik.values.email,
+          id: Number(id),
+          assignee: formik.values.assignee,
+        },
+        sale: {
+          amount: formik.values.saleValue,
+          description: formik.values.description,
+          dueDate: formik.values.deadLineDate,
+        },
+      });
+      if (response.status === 200) {
+        setCreated(true);
+        history.push('/projects');
+      }
+    } else {
+      setValidDate(false);
     }
   };
 
@@ -396,7 +435,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 disabled={disabled}
               />
             </Grid>
-            <Grid item xs={2} style={{ paddingTop: '20px' }}>
+            <Grid item xs={3} style={{ paddingTop: '20px' }}>
               <TextField
                 label="Lead Source *"
                 InputLabelProps={{ style: { fontSize: 12 } }}
@@ -409,20 +448,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 disabled={disabled}
               />
             </Grid>
-            <Grid item xs={2} style={{ paddingTop: '20px' }}>
-              <TextField
-                label="Lead Credit *"
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                name="leadCredit"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.leadCredit}
-                error={formik.touched.leadCredit && Boolean(formik.errors.leadCredit)}
-                helperText={formik.touched.leadCredit && formik.errors.leadCredit}
-                disabled={disabled}
-              />
-            </Grid>
-            <Grid item xs={2} style={{ paddingTop: '20px' }}>
+            <Grid item xs={3} style={{ paddingTop: '20px' }}>
               <TextField
                 label="Lead Ranking *"
                 InputLabelProps={{ style: { fontSize: 12 } }}
@@ -432,6 +458,33 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 value={formik.values.leadRanking}
                 error={formik.touched.leadRanking && Boolean(formik.errors.leadRanking)}
                 helperText={formik.touched.leadRanking && formik.errors.leadRanking}
+                disabled={disabled}
+              />
+            </Grid>
+            <Grid item xs={6}></Grid>
+            <Grid item xs={6} style={{ display: 'flex' }}>
+              <Typography className={classes.Typo} style={{ marginRight: 3 }}>
+                Lead Credit *
+              </Typography>
+              <Autocomplete
+                loading={leadCreditLoading}
+                id="leadCredit"
+                loadingText="No Options"
+                options={leadCreditList}
+                value={formik.values.leadCredit}
+                onInputChange={getLeadCreditInput}
+                onChange={(event, value) => formik.setFieldValue('leadCredit', value)}
+                getOptionLabel={(option) => option}
+                style={{ marginTop: 6, alignItems: 'center', width: '72%' }}
+                renderInput={(params) => (
+                  <TextField
+                    error={formik.touched.leadCredit && Boolean(formik.errors.leadCredit)}
+                    helperText={formik.touched.leadCredit && formik.errors.leadCredit}
+                    {...params}
+                    variant="standard"
+                    style={{ alignContent: 'center' }}
+                  />
+                )}
                 disabled={disabled}
               />
             </Grid>
@@ -505,7 +558,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                id="date"
+                id="dateFollow"
                 label="Follow Up Date"
                 type="date"
                 name="followUpDate"
@@ -520,7 +573,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 disabled={disabled}
               />
               <TextField
-                id="date"
+                id="dateDeadline"
                 label="Project Deadline"
                 type="date"
                 className={classes.dateFields}
@@ -534,6 +587,12 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 helperText={formik.touched.deadLineDate && formik.errors.deadLineDate}
                 disabled={disabled}
               />
+              {!validDate && (
+                <Typography style={{ color: 'red' }}>
+                  Deadline date must be after the Follow Up Date and both must be after the project's creation date. For
+                  a new project, Today's date : {date.toDateString()}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12} style={{ marginTop: 40 }}>
               {editState === 'true' ? (

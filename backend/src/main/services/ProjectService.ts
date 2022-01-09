@@ -41,7 +41,7 @@ export class ProjectService {
 
     await this.saleService.createSale(projectRequestDTO.sale);
     projectRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email: string = element.label;
+      const email: string = element.email;
       const id: number = project.id;
       await this.worksOnService.createWorksOn({ email, id });
     });
@@ -71,7 +71,7 @@ export class ProjectService {
     this.worksOnService.deleteWorksOn(projectUpdateRequestDTO.project.id);
 
     projectUpdateRequestDTO.project.assignee.forEach(async (element: AssigneesFormat) => {
-      const email: string = element.label;
+      const email: string = element.email;
       const id: number = projectUpdateRequestDTO.project.id;
       await this.worksOnService.createWorksOn({ email, id });
     });
@@ -84,16 +84,16 @@ export class ProjectService {
     return Promise.resolve(updateProject);
   };
 
-  public static isThereNullValueProjectCreationDTO = (ProjectCreationDTO: ProjectCreationDTO): boolean => {
+  public static isThereNullValueProjectCreationDTO = (projectCreationDTO: ProjectCreationDTO): boolean => {
     if (
-      ProjectCreationDTO === undefined ||
-      !ProjectCreationDTO.title ||
-      !ProjectCreationDTO.status ||
-      !ProjectCreationDTO.createdDate ||
-      !ProjectCreationDTO.deadlineDate ||
-      !ProjectCreationDTO.modifiedDate ||
-      !ProjectCreationDTO.email ||
-      !ProjectCreationDTO.businessId
+      projectCreationDTO === undefined ||
+      !projectCreationDTO.title ||
+      !projectCreationDTO.status ||
+      !projectCreationDTO.createdDate ||
+      !projectCreationDTO.deadlineDate ||
+      !projectCreationDTO.modifiedDate ||
+      !projectCreationDTO.email ||
+      !projectCreationDTO.businessId
     ) {
       return true;
     }

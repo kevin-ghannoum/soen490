@@ -8,7 +8,7 @@ import * as expressWinston from 'express-winston';
 import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
-import { failSafeHandler, httpMiddlewareError } from './middleware/ErrorMiddleware';
+import { httpMiddlewareError, failSafeHandler } from './middleware/ErrorMiddleware';
 import { sequelize } from './config/sequelize';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import dotenv from 'dotenv';

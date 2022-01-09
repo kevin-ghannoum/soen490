@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const createProjectStyle = makeStyles((theme) => ({
   createProjectPaper: {
     [theme.breakpoints.down('lg')]: {
       width: '80%',
@@ -56,4 +56,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export default createProjectStyle;

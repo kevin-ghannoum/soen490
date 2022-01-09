@@ -19,7 +19,7 @@ export interface ProjectCreationDTO {
 }
 
 export interface AssigneesFormat {
-  label: string;
+  email: string;
 }
 export interface ProjectUpdateDTO {
   title?: string;
