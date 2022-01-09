@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import CallRepository from '../repositories/CallRepository';
 import AccountRepository from '../repositories/AccountRepository';
 import { Call } from '../models/Call';
-const log: debug.IDebugger = debug('app:userService-example');
+const log: debug.IDebugger = debug('app:callService-example');
 
 @injectable()
 export class CallService {
