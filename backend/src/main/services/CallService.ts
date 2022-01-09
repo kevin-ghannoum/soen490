@@ -60,15 +60,15 @@ export class CallService {
     return this.callRepository.searchByCallerEmail(callerEmail);
   };
 
-  public static isThereNullValueCallDTO = (CallCreationDTO: CallCreationDTO): boolean => {
+  public static isThereNullValueCallDTO = (callCreationDTO: CallCreationDTO): boolean => {
     if (
-      !CallCreationDTO.date ||
-      !CallCreationDTO.description ||
-      !CallCreationDTO.receiverEmail ||
-      !CallCreationDTO.action ||
-      CallCreationDTO.followUp === undefined ||
-      CallCreationDTO.neverCallBack === undefined ||
-      !CallCreationDTO.callerEmail
+      !callCreationDTO.date ||
+      !callCreationDTO.description ||
+      !callCreationDTO.receiverEmail ||
+      !callCreationDTO.action ||
+      callCreationDTO.followUp === undefined ||
+      callCreationDTO.neverCallBack === undefined ||
+      !callCreationDTO.callerEmail
     ) {
       return true;
     }
