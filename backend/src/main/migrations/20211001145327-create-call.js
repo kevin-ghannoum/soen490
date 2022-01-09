@@ -23,7 +23,7 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
       },
-      email: {
+      receiverEmail: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {

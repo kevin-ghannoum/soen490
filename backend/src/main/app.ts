@@ -19,6 +19,7 @@ import TaskRoute from './routes/TaskRoute';
 import LogHoursRoute from './routes/LogHoursRoute';
 import AuthenticationRoute from './routes/AuthenticationRoute';
 import ProjectRoute from './routes/ProjectRoute';
+import CallRoute from './routes/CallRoute';
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -78,6 +79,7 @@ const main = async () => {
   routes.push(container.resolve(AuthenticationRoute));
   routes.push(container.resolve(TaskRoute));
   routes.push(container.resolve(AssignedRoute));
+  routes.push(container.resolve(CallRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);
