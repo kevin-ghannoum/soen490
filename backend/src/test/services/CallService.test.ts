@@ -60,8 +60,6 @@ describe('Call test', () => {
         firstName: 'Full',
         lastName: 'Name',
         phoneNumber: '514-000-0000',
-        username: 'username11',
-        password: 'Soen4901!',
         addressId: 1
       }
     );
