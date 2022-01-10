@@ -150,7 +150,6 @@ export default class AssignedRepository implements CRUD {
 
   public getUserByTaskId = async (taskId: number): Promise<Assigned[] | null> => {
     try {
-      // Assigned.belongsTo(Account, {targetKey:'email',foreignKey: 'email'});
       const assigned: any[] = await Account.findAll({
         include: [
           {
