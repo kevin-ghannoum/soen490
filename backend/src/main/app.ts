@@ -9,7 +9,7 @@ import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
 import { httpMiddlewareError, failSafeHandler } from './middleware/ErrorMiddleware';
-import { sequelize, testing } from './config/sequelize';
+import { sequelize } from './config/sequelize';
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import dotenv from 'dotenv';
 
@@ -22,7 +22,6 @@ import ProjectRoute from './routes/ProjectRoute';
 import CallRoute from './routes/CallRoute';
 
 const main = async () => {
-  testing();
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
 
   const app: express.Application = express();
