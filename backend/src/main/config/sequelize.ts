@@ -15,4 +15,10 @@ export const sequelize = new Sequelize({
     freezeTableName: true,
   },
   logging: process.env.DEBUG ? true : false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
 });
