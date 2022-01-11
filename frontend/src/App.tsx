@@ -46,6 +46,7 @@ const App = () => {
       dispatch(noTokenReducer());
     }
   }, [account.authenticated, account.loading, account.account.role, dispatch]);
+
   axios.interceptors.response.use(
     (response: AxiosResponse<any>) => {
       return response;
@@ -74,6 +75,8 @@ const App = () => {
       }
     }
   );
+
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 
   return (
     <Router>
