@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/main/app.ts",
   "scripts": {
-    "start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
+    "start": "node --unhandled-rejections=strict ./dist/main/app.js",
+    "build": "tsc",
     "dev": "nodemon src/main/app.ts",
     "debug": "set DEBUG=app:* && npm run dev",
     "test": "jest src/test",
