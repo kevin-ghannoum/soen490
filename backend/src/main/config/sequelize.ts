@@ -3,6 +3,10 @@ import { Sequelize } from 'sequelize-typescript';
 import path from 'path';
 
 dotenv.config();
+export const testing = () => {
+  console.log(__dirname)
+}
+
 export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
   dialect: 'postgres',
