@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "https://cirrus-spark-frontend-490.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@cypress/instrument-cra": "^1.4.0",
