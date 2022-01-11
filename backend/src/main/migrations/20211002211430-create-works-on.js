@@ -9,7 +9,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'employeeaccount',
+          model: 'EmployeeAccount',
           key: 'email',
         },
       },
@@ -20,7 +20,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'project',
+          model: 'Project',
           key: 'id',
         },
       },

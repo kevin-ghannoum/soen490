@@ -4,8 +4,8 @@ import path from 'path';
 
 dotenv.config();
 export const sequelize = new Sequelize({
-  database: 'badob_tech',
-  dialect: 'mysql',
+  database: process.env.DB_NAME,
+  dialect: 'postgres',
   host: process.env.DB_HOSTNAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,

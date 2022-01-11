@@ -9,7 +9,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'account',
+          model: 'Account',
           key: 'email',
         },
       },
@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
-          model: 'account',
+          model: 'Account',
           key: 'email'
         }
       },
@@ -33,7 +33,7 @@ module.exports = {
         allowNull:false,
         type: Sequelize.BIGINT,
         references:{
-          model: 'business',
+          model: 'Business',
           key:'id'
         }
       }

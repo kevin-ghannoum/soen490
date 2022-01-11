@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BIGINT,
         references: {
-          model: 'address',
+          model: 'Address',
           key: 'id',
         },
       },
