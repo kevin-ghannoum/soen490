@@ -31,7 +31,7 @@ export const loginIntercept = () => {
         }
       ).as("refreshToken");
     
-      cy.visit('/login');
+      cy.visit('/login', {responseTimeout: 60000});
       const email = "admin@admin.com"
       const password = 'Soen490!'
       cy.get('input[name=email]').type(email);
