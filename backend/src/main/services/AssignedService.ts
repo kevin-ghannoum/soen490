@@ -30,7 +30,7 @@ export class AssignedService {
   };
 
   public getAssignedsByTaskId = async (taskId: string): Promise<Assigned[] | null> => {
-    return this.assignedRepository.getByTaskId(parseInt(taskId, 10));
+    return this.assignedRepository.getUserByTaskId(parseInt(taskId, 10));
   };
 
   public updateAssignments = async (

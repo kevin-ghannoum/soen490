@@ -57,4 +57,7 @@ export class Account extends Model {
 
   @BelongsToMany(() => Task, () => Assigned)
   tasks!: Task[];
+
+  @HasMany(() => Assigned)
+  assigned!: Assigned[];
 }

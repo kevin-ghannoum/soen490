@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helpers/loginIntercept';
-import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getAllEmployeesIntercept, getProjectListIntercept, editedTaskIntercept, editedAssignedByTaskIntercept } from '../../helpers/taskIntercept';
+import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getEmployeesIntercept, getProjectListIntercept, editedTaskIntercept, editedAssignedByTaskIntercept } from '../../helpers/taskIntercept';
 
 describe("EditTask feature e2e test", ()=>{
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe("EditTask feature e2e test", ()=>{
     getTaskListIntercept();
     getTaskIntercept();
     getByTaskIdIntercept();
-    getAllEmployeesIntercept();
+    getEmployeesIntercept();
     getProjectListIntercept();
     editedTaskIntercept();
     editedAssignedByTaskIntercept();
@@ -33,7 +33,8 @@ describe("EditTask feature e2e test", ()=>{
     cy.get('textarea[name=description]').clear().type("Write your first passing test in 60 seconds.There are no servers, drivers, or any other dependencies to install or configure.");
     cy.get('input[name=deadlineDate]').clear().type('2043-12-25');
     cy.get('#status-select').type("{downarrow}{downarrow}{enter}");
-    cy.get('#mui-component-select-employees').type("{enter}");
+    cy.get('#selectAssignees').type('employee');
+    cy.get('#selectAssignees').type('{downarrow}{enter}');
     cy.get('form').submit();
 
     cy.wait('@editTaskAPI').its('response.statusCode').should('eq', 201);
