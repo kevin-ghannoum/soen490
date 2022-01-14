@@ -36,7 +36,7 @@ interface Task {
   description: string;
   id: number;
   modifiedDate: string;
-  projectId: number;
+  projectId?: number;
   status: string;
   title: string;
 }
@@ -101,8 +101,8 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
           description: values.description,
           status: values.status,
           deadlineDate: values.deadlineDate,
-          modifiedDate: new Date().toLocaleDateString(),
-          projectId: values.projectId,
+          modifiedDate: new Date().toJSON().split('T')[0],
+          projectId: values.projectId === '' ? null : values.projectId,
         });
         const assignResponse: AxiosResponse<any> = await updateAssignedByTaskId({
           taskId: id,
@@ -118,9 +118,9 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
           description: values.description,
           status: values.status,
           deadlineDate: values.deadlineDate,
-          createdDate: new Date().toLocaleDateString(),
-          modifiedDate: new Date().toLocaleDateString(),
-          projectId: values.projectId,
+          createdDate: new Date().toJSON().split('T')[0],
+          modifiedDate: new Date().toJSON().split('T')[0],
+          projectId: values.projectId === '' ? null : values.projectId,
         });
         if (taskResponse.status === 201) {
           const taskId: number = taskResponse.data.id;
@@ -299,7 +299,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                         onChange={formik.handleChange}
                         select
                       >
-                        <MenuItem key="" value="" disabled>
+                        <MenuItem key="" value="">
                           <em>None</em>
                         </MenuItem>
                         {projectList.map((project: any) => {
