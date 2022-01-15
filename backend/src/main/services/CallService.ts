@@ -5,12 +5,13 @@ import HttpException from '../exceptions/HttpException';
 import { StatusCodes } from 'http-status-codes';
 import CallRepository from '../repositories/CallRepository';
 import { Call } from '../models/Call';
+import ClientAccountRepository from '../repositories/ClientAccountRepository';
 const log: debug.IDebugger = debug('app:userService-example');
 
 @injectable()
 export class CallService {
   constructor(
-    private callRepository: CallRepository
+    private callRepository: CallRepository, private clientAccountRepository: ClientAccountRepository
   ) {
     log('Created new instance of LogCallService');
   }
@@ -19,6 +20,9 @@ export class CallService {
     if (CallService.isThereNullValueCallDTO(callCreationDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
+    const client = await this.clientAccountRepository.get(callCreationDTO.email)
+    callCreationDTO.phoneNumber = client?.account.phoneNumber
+    callCreationDTO.receiverName = client?.account.firstName
     return this.callRepository.create(callCreationDTO);
   };
 
@@ -64,9 +68,7 @@ export class CallService {
 
   public static isThereNullValueCallDTO = (CallCreationDTO: CallCreationDTO): boolean => {
     if (
-      !CallCreationDTO.receiverName ||
       !CallCreationDTO.date || 
-      !CallCreationDTO.phoneNumber ||
       !CallCreationDTO.description ||
       !CallCreationDTO.email ||
       !CallCreationDTO.action ||

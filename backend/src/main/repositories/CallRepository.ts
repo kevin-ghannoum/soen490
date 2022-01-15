@@ -122,7 +122,7 @@ export default class CallRepository implements CRUD {
     try {
       const call: Call[] = await Call.findAll({
         where: {
-          email: email,
+          employeeEmail: email,
         },
       });
 

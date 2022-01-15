@@ -11,9 +11,9 @@ export interface CallUpdateDTO {
 }
 
 export interface CallCreationDTO {
-  receiverName: string;
+  receiverName?: string;
   date: Date;
-  phoneNumber: string;
+  phoneNumber?: string;
   description: string;
   email: string;
   action: Action;

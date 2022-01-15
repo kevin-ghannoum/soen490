@@ -16,11 +16,11 @@ module.exports = {
       allowNull: false,
     });
 
-    await queryInterface.addColumn("call", "employeeEmail", {
+    await queryInterface.addColumn("call", "Cemail", {
       type: Sequelize.STRING,
       allowNull: false,
       references: {
-        model: 'employeeaccount',
+        model: 'account',
         key: 'email',
       },
     });
