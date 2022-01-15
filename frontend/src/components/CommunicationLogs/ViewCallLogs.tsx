@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useStyles from './ViewCallLogsStyle';
-import { DataGrid, GridApi, GridCellValue, GridColDef, GridRowId, GridSelectionModel } from '@material-ui/data-grid';
+import { DataGrid, GridApi, GridCellValue, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react';
 import { getAllClientAccount } from '../../services/AccountAPI';
 import {
@@ -227,6 +227,7 @@ const ViewCallLogs: React.FC = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line
   }, [select]);
 
   const columns: GridColDef[] = [
