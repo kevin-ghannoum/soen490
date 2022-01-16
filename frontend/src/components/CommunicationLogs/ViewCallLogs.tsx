@@ -69,7 +69,6 @@ const actions = [
 
 const ViewCallLogs: React.FC = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [openEditDialog, setOpenEditDialog] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -90,6 +89,8 @@ const ViewCallLogs: React.FC = () => {
 
   const [openDeleteAlert, setOpenDelteAlert] = React.useState(false);
 
+  const [editState, setEditState] = React.useState(false);
+
   const account = useAppSelector(selectAccount);
 
   const handleClickOpenDialog = () => {
@@ -98,14 +99,6 @@ const ViewCallLogs: React.FC = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-  };
-
-  const handleClickOpenEditDialog = () => {
-    setOpenEditDialog(true);
-  };
-
-  const handleCloseEditDialog = () => {
-    setOpenEditDialog(false);
   };
 
   const handleSelectClient = (value: string | null) => {
@@ -154,6 +147,12 @@ const ViewCallLogs: React.FC = () => {
     setClientList(clients);
   };
 
+  const clearStates = () => {
+    setSelectedClient('');
+    setAddedNote('');
+    setSelectedIndexAction(1);
+  };
+
   const handleSubmitLog = async () => {
     const data: CallCreationDTO = {
       email: selectedClient as string,
@@ -167,6 +166,7 @@ const ViewCallLogs: React.FC = () => {
     try {
       await createCall(data);
       setOpenDialog(false);
+      clearStates();
       fetchData();
     } catch (err: any) {
       //handle error
@@ -185,7 +185,10 @@ const ViewCallLogs: React.FC = () => {
     };
     try {
       await updateCall(selectID as number, data);
-      setOpenEditDialog(false);
+      setOpenDialog(false);
+      // setOpenEditDialog(false);
+      setEditState(false);
+      clearStates();
       fetchData();
     } catch (err: any) {
       //handle error
@@ -285,7 +288,9 @@ const ViewCallLogs: React.FC = () => {
       renderCell: (params) => {
         const onClick = (e: { stopPropagation: () => void }) => {
           e.stopPropagation(); // don't select this row after clicking
-          handleClickOpenEditDialog();
+          setEditState(true);
+          handleClickOpenDialog();
+          // handleClickOpenEditDialog();
 
           const api: GridApi = params.api;
           const thisRow: Record<string, GridCellValue> = {};
@@ -367,7 +372,10 @@ const ViewCallLogs: React.FC = () => {
               Add Log
             </Button>
             <Dialog fullScreen={fullScreen} open={openDialog} onClose={handleCloseDialog}>
-              <Typography className={classes.dialogTitle}>{'New Log'}</Typography>
+              <Typography className={classes.dialogTitle}>
+                {editState === false ? 'New Log' : 'Edit Log'}
+                {/* {'New Log'} */}
+              </Typography>
               <DialogContent className={classes.dialogContentMenus}>
                 <Autocomplete
                   className={classes.selectBox}
@@ -431,79 +439,18 @@ const ViewCallLogs: React.FC = () => {
                 />
               </DialogContent>
               <DialogActions className={classes.dialogActionsButton}>
-                <Button size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
+                {/* <Button size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
                   Add
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Dialog fullScreen={fullScreen} open={openEditDialog} onClose={handleCloseEditDialog}>
-              <Typography className={classes.dialogTitle}>{'Edit Log'}</Typography>
-              <DialogContent className={classes.dialogContentMenus}>
-                <Autocomplete
-                  className={classes.selectBox}
-                  id="selectClient"
-                  loadingText="No Options"
-                  options={clientList}
-                  value={selectedClient}
-                  onInputChange={getClientInput}
-                  onChange={(event, value) => handleSelectClient(value)}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField {...params} variant="standard" style={{ alignContent: 'center' }} />
-                  )}
-                />
-                <List component="nav" aria-label="Action">
-                  <ListItem
-                    button
-                    id="lock-button"
-                    aria-haspopup="listbox"
-                    aria-controls="lock-menu"
-                    aria-label="action"
-                    aria-expanded={openMenuAction ? 'true' : undefined}
-                    onClick={handleClickListItemAction}
-                  >
-                    <ListItemText primary="Action" secondary={actions[selectedIndexAction]} />
-                  </ListItem>
-                </List>
-                <Menu
-                  style={{ width: '100%' }}
-                  id="lock-menu"
-                  anchorEl={anchorElAction}
-                  open={openMenuAction}
-                  onClose={handleMenuCloseAction}
-                  MenuListProps={{
-                    'aria-labelledby': 'lock-button',
-                    role: 'listbox',
-                  }}
-                >
-                  {actions.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      selected={index === selectedIndexAction}
-                      onClick={(event) => handleMenuItemClickAction(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </DialogContent>
-              <DialogContent>
-                <TextField
-                  className={classes.dialogNote}
-                  id="outlined-textarea"
-                  label="Notes"
-                  placeholder="Notes"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  value={addedNote}
-                  onChange={handleAddedNote}
-                />
-              </DialogContent>
-              <DialogActions className={classes.dialogActionsButton}>
-                <Button size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
-                  Edit
-                </Button>
+                </Button> */}
+                {editState === false ? (
+                  <Button size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
+                    Add
+                  </Button>
+                ) : (
+                  <Button size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
+                    Edit
+                  </Button>
+                )}
               </DialogActions>
             </Dialog>
             <Dialog
