@@ -15,17 +15,19 @@ import {
 import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import { getAllEmployeeAccounts, getAllRegexEmployeeAccount } from '../../services/AccountAPI';
+import { getAllEmployeeAccountsByEmail, getAllRegexEmployeeAccount } from '../../../services/AccountAPI';
+import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../../services/LogHoursAPI';
+import { ScheduledDay } from '../../../dto/LogHours/EmployeeHoursInputTypeDTOs';
+import { PayStatus } from '../../../dto/LogHours/PayDTOs';
 import logHoursFormValidationSchema from './LogHoursFormValidationSchema';
 import logHoursStyle from './LogHoursStyle';
-import { createLogHours, getInputTypeByEmail, getLatestPayByEmail } from '../../services/LogHoursAPI';
-import { ScheduledDay } from '../../dto/LogHours/EmployeeHoursInputTypeDTOs';
-import { PayStatus } from '../../dto/LogHours/PayDTOs';
 
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
+  const [emailList, setEmailList] = useState<string[]>([]);
   const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [, setLatestPayInfo] = useState({
     automatic: false,
     startDate: '',
@@ -73,15 +75,18 @@ const LogHours: React.FunctionComponent = () => {
   });
 
   useEffect(() => {
-    const fetchEmployeeEmails = async () => {
-      const responseEmployees = await getAllEmployeeAccounts();
-      const employeeEmails = [];
+    const fetchEmployees = async () => {
+      const responseEmployees = await getAllEmployeeAccountsByEmail('business@business.com');
+      const employees = [];
+      const emails = [];
       for (let employee of responseEmployees.data) {
-        employeeEmails.push(employee.email);
+        employees.push(employee.account.username);
+        emails.push(employee.email);
       }
-      setEmployeeList(employeeEmails);
+      setEmployeeList(employees);
+      setEmailList(emails);
     };
-    fetchEmployeeEmails();
+    fetchEmployees();
   }, []);
 
   useEffect(() => {
@@ -124,6 +129,11 @@ const LogHours: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [email, formik.setFieldValue]);
 
+  useEffect(() => {
+    const email = emailList[employeeList.findIndex((employee) => employee === username)];
+    setEmail(email);
+  }, [username]);
+
   const updatePaidAmout = async () => {
     const responseEmployee = await getAllRegexEmployeeAccount(formik.values.email);
     const hourlyWage = responseEmployee.data[0].hourlyWage;
@@ -153,19 +163,19 @@ const LogHours: React.FunctionComponent = () => {
             <Grid item xs={12}>
               <FormControl className={classes.formControl}>
                 <Autocomplete
-                  value={email}
+                  value={username}
                   options={employeeList}
                   getOptionSelected={(option, value) => {
                     return option.toString === value.toString;
                   }}
                   onChange={(e, value) => {
-                    setEmail(value || '');
+                    setUsername(value || '');
                   }}
                   renderInput={(params) => (
                     <TextField
                       name="email"
                       {...params}
-                      label="Employee email"
+                      label="Employee"
                       error={formik.touched.email && Boolean(formik.errors.email)}
                       helperText={formik.touched.email && formik.errors.email}
                     />

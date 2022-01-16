@@ -10,13 +10,15 @@ import localStorageService from './services/LocalStorageService';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { getAccount, selectAccount, noTokenReducer } from './features/account/AccountSlice';
 import { loginWithRefreshToken } from './services/AccountAPI';
+import ViewEmployee from './components/Employees/ViewEmployee';
+import LogHours from './components/Employees/LogHours/LogHours';
+import EditPay from './components/Employees/LogHours/EditPay';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
 const CreateProject = lazy(() => import('./components/Project/CreateProject'));
 const ViewProject = lazy(() => import('./components/Project/ViewProject'));
 const EditProject = lazy(() => import('./components/Project/EditProject'));
-const LogHours = lazy(() => import('./components/LogHours/LogHours'));
 const PageNotFound = lazy(() => import('./components/Shared/PageNotFound'));
 const CreateBusinessAccount = lazy(() => import('./components/CreateBusinessAccount/CreateBusinessAccount'));
 const TaskList = lazy(() => import('./components/Task/TaskList'));
@@ -183,7 +185,63 @@ const App = () => {
                         return (
                           <React.Fragment>
                             <Sidebar />
+                            <ViewEmployee />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/pay/new"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
                             <LogHours />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/pay/edit/:id"
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <EditPay id={match.params.id} />
                           </React.Fragment>
                         );
                       } else {

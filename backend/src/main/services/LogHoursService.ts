@@ -79,6 +79,10 @@ export class LogHoursService {
     return this.payRepository.getAllByEmail(email);
   };
 
+  public getPayById = async (id: number): Promise<Pay | null> => {
+    return this.payRepository.get(id);
+  };
+
   public getLatestPay = async (email: string): Promise<Pay | null> => {
     return this.payRepository.getLatestByEmail(email);
   };

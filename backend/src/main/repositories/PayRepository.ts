@@ -1,6 +1,7 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
 import { PayCreationDTO, PayUpdateDTO } from '../dto/LogHours/PayDTOs';
+import { Account } from '../models/Account';
 import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
 import { CRUD } from './CRUDInterface';
@@ -28,7 +29,6 @@ export default class PayRepository implements CRUD {
   public get = async (id: number): Promise<Pay | null> => {
     try {
       const pay = await Pay.findByPk(id);
-
       if (pay) {
         log(`Pay id ${pay.id} found`);
       } else {
@@ -87,10 +87,13 @@ export default class PayRepository implements CRUD {
   public getAllByBusiness = async (businessId: number): Promise<Pay[]> => {
     try {
       const pays = await Pay.findAll({
-        include: [{
-          model: EmployeeAccount,
-          where: {businessId: businessId}
-        }]
+        include: [
+          {
+            model: EmployeeAccount,
+            where: { businessId: businessId },
+            include: [Account],
+          },
+        ],
       });
 
       log(`Retrieved all pays belonging to business ${businessId}`);
