@@ -32,7 +32,7 @@ export default class LogHoursRoute extends CommonRoutesConfig {
       .route(`/logHours`)
       .get(
         checkJwt,
-        checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
+        checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const employeeAccount = await this.logHoursService.getAllBusinessPays(Number(req.query.businessId));

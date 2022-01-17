@@ -75,7 +75,7 @@ const EditPay: React.FunctionComponent<Props> = ({ id }) => {
   const classes = useStyles();
   return (
     <Grid
-      id="LogHours-Grid"
+      id="EditPay-Grid"
       container
       direction="column"
       alignItems="center"

@@ -10,7 +10,7 @@ import localStorageService from './services/LocalStorageService';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { getAccount, selectAccount, noTokenReducer } from './features/account/AccountSlice';
 import { loginWithRefreshToken } from './services/AccountAPI';
-import ViewEmployee from './components/Employees/ViewEmployee';
+import ViewPay from './components/Employees/ViewPay';
 import LogHours from './components/Employees/LogHours/LogHours';
 import EditPay from './components/Employees/LogHours/EditPay';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
@@ -185,7 +185,7 @@ const App = () => {
                         return (
                           <React.Fragment>
                             <Sidebar />
-                            <ViewEmployee />
+                            <ViewPay />
                           </React.Fragment>
                         );
                       } else {

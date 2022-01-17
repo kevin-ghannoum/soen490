@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridSelectionModel } from '@material-ui/data-grid
 import { useEffect, useState } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { getAllBusinessPays } from '../../services/LogHoursAPI';
+import { getAllBusinessPays, getAllPays } from '../../services/LogHoursAPI';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
 import EditIcon from '@material-ui/icons/Edit';
 import { useAppSelector } from '../../redux/hooks';
@@ -20,7 +20,7 @@ interface DataDisplay {
   endDate: string;
 }
 
-const ViewProject: React.FC = () => {
+const ViewPay: React.FC = () => {
   const [pays, setPays] = useState<DataDisplay[]>([]);
   const [selectedPays, setSelectedPays] = useState<DataDisplay[]>([]);
   const [totalHours, setTotalHours] = useState<number>(0);
@@ -56,24 +56,28 @@ const ViewProject: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      var responsePays;
       if (account.businessAcc) {
-        const responsePays = await getAllBusinessPays(account.businessAcc?.businessId);
-        const pays: DataDisplay[] = [];
-        for (let element of responsePays.data) {
-          const dataDisplay: DataDisplay = {
-            id: element.id,
-            employee: element.employeeAccount.account.username,
-            hoursWorked: element.hoursWorked,
-            hourlyWage: element.employeeAccount.hourlyWage,
-            paidAmount: element.amount,
-            paidStatus: element.status,
-            startDate: element.periodStart,
-            endDate: element.periodEnd,
-          };
-          pays.unshift(dataDisplay);
-        }
-        setPays(pays);
+        responsePays = await getAllBusinessPays(account.businessAcc?.businessId);
       }
+      else {
+        responsePays = await getAllBusinessPays(1);
+      }
+      const pays: DataDisplay[] = [];
+      for (let element of responsePays.data) {
+        const dataDisplay: DataDisplay = {
+          id: element.id,
+          employee: element.employeeAccount.account.username,
+          hoursWorked: element.hoursWorked,
+          hourlyWage: element.employeeAccount.hourlyWage,
+          paidAmount: element.amount,
+          paidStatus: element.status,
+          startDate: element.periodStart,
+          endDate: element.periodEnd,
+        };
+        pays.unshift(dataDisplay);
+      }
+      setPays(pays);
     };
     fetchData();
   }, []);
@@ -134,7 +138,7 @@ const ViewProject: React.FC = () => {
 
   return (
     <Grid
-      id="View-Project-Grid"
+      id="View-Pay-Grid"
       container
       spacing={0}
       direction="column"
@@ -181,4 +185,4 @@ const ViewProject: React.FC = () => {
   );
 };
 
-export default ViewProject;
+export default ViewPay;
