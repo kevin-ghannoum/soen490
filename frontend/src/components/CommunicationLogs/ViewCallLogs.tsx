@@ -27,6 +27,7 @@ import { CallCreationDTO, CallUpdateDTO } from '../../dto/CallLogs/CallLogDTOs';
 import { useAppSelector } from '../../redux/hooks';
 import { selectAccount } from '../../features/account/AccountSlice';
 import { Edit, Delete } from '@material-ui/icons';
+import { useHistory } from 'react-router';
 
 interface Data {
   id: number;
@@ -34,11 +35,11 @@ interface Data {
   date: string;
   phoneNumber: number;
   description: string;
-  email: string;
+  receiverEmail: string;
   action: string;
   followUp: boolean;
   neverCallBack: boolean;
-  employeeEmail: string;
+  callerEmail: string;
 }
 
 interface TableData {
@@ -47,15 +48,14 @@ interface TableData {
   date: string;
   phoneNumber: number;
   description: string;
-  email: string;
+  receiverEmail: string;
   action: string;
   followUp: boolean;
   neverCallBack: boolean;
-  employeeEmail: string;
+  callerEmail: string;
   time: string;
 }
 
-// Hard coded list which would eventually be pulled from the db
 const actions = [
   'Called',
   'No Answer',
@@ -68,6 +68,8 @@ const actions = [
 ];
 
 const ViewCallLogs: React.FC = () => {
+  const history = useHistory();
+
   const [openDialog, setOpenDialog] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -155,43 +157,43 @@ const ViewCallLogs: React.FC = () => {
 
   const handleSubmitLog = async () => {
     const data: CallCreationDTO = {
-      email: selectedClient as string,
+      receiverEmail: selectedClient as string,
       description: addedNote as string,
       action: actions[selectedIndexAction].toUpperCase(),
       date: new Date().toISOString().split('T')[0],
       followUp: false,
       neverCallBack: false,
-      employeeEmail: account.account.email,
+      callerEmail: account.account.email,
     };
     try {
+      console.log(data);
       await createCall(data);
       setOpenDialog(false);
       clearStates();
       fetchData();
     } catch (err: any) {
-      //handle error
+      history.push('/error');
     }
   };
 
   const handleUpdatedLog = async () => {
     const data: CallUpdateDTO = {
-      email: selectedClient as string,
+      receiverEmail: selectedClient as string,
       description: addedNote as string,
       action: actions[selectedIndexAction].toUpperCase(),
       date: new Date().toISOString().split('T')[0],
       followUp: false,
       neverCallBack: false,
-      employeeEmail: account.account.email,
+      callerEmail: account.account.email,
     };
     try {
       await updateCall(selectID as number, data);
       setOpenDialog(false);
-      // setOpenEditDialog(false);
       setEditState(false);
       clearStates();
       fetchData();
     } catch (err: any) {
-      //handle error
+      history.push('/error');
     }
   };
 
@@ -201,7 +203,7 @@ const ViewCallLogs: React.FC = () => {
       setOpenDelteAlert(false);
       fetchData();
     } catch (err: any) {
-      //handle error
+      history.push('/error');
     }
   };
 
@@ -217,8 +219,8 @@ const ViewCallLogs: React.FC = () => {
         action: element.action.charAt(0) + element.action.substring(1).toLowerCase(),
         date: date[0],
         description: element.description,
-        email: element.email,
-        employeeEmail: element.employeeEmail,
+        receiverEmail: element.receiverEmail,
+        callerEmail: element.callerEmail,
         followUp: element.followUp,
         neverCallBack: element.neverCallBack,
         time: date[1].substring(0, 8),
@@ -252,7 +254,7 @@ const ViewCallLogs: React.FC = () => {
       minWidth: 150,
     },
     {
-      field: 'email',
+      field: 'receiverEmail',
       headerName: 'Client Email',
       flex: 1,
       minWidth: 175,
@@ -302,7 +304,7 @@ const ViewCallLogs: React.FC = () => {
 
           setAddedNote(api.getCellValue(params.id, 'description') as string);
 
-          setSelectedClient(api.getCellValue(params.id, 'email') as string);
+          setSelectedClient(api.getCellValue(params.id, 'receiverEmail') as string);
 
           setSelectedIndexAction(actions.indexOf(api.getCellValue(params.id, 'action') as string));
 
@@ -372,10 +374,7 @@ const ViewCallLogs: React.FC = () => {
               Add Log
             </Button>
             <Dialog fullScreen={fullScreen} open={openDialog} onClose={handleCloseDialog}>
-              <Typography className={classes.dialogTitle}>
-                {editState === false ? 'New Log' : 'Edit Log'}
-                {/* {'New Log'} */}
-              </Typography>
+              <Typography className={classes.dialogTitle}>{editState === false ? 'New Log' : 'Edit Log'}</Typography>
               <DialogContent className={classes.dialogContentMenus}>
                 <Autocomplete
                   className={classes.selectBox}
@@ -439,9 +438,6 @@ const ViewCallLogs: React.FC = () => {
                 />
               </DialogContent>
               <DialogActions className={classes.dialogActionsButton}>
-                {/* <Button size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
-                  Add
-                </Button> */}
                 {editState === false ? (
                   <Button size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
                     Add
