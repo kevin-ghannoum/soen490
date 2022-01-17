@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useStyles from './ViewCallLogsStyle';
+import viewCallLogsStyle from './ViewCallLogsStyle';
 import { DataGrid, GridApi, GridCellValue, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react';
 import { getAllClientAccount } from '../../services/AccountAPI';
@@ -292,7 +292,6 @@ const ViewCallLogs: React.FC = () => {
           e.stopPropagation(); // don't select this row after clicking
           setEditState(true);
           handleClickOpenDialog();
-          // handleClickOpenEditDialog();
 
           const api: GridApi = params.api;
           const thisRow: Record<string, GridCellValue> = {};
@@ -348,7 +347,7 @@ const ViewCallLogs: React.FC = () => {
     },
   ];
 
-  const classes = useStyles();
+  const classes = viewCallLogsStyle();
   return (
     <Grid
       id="View-Logs-Grid"

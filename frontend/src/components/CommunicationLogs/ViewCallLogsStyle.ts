@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const viewCallLogsStyle = makeStyles((theme) => ({
   addLogButton: {
     width: '150px',
     marginBottom: 10,
@@ -44,4 +44,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export default viewCallLogsStyle;
