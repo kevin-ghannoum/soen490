@@ -40,12 +40,10 @@ export class TaskService {
     if (
       taskCreationDTO === undefined ||
       !taskCreationDTO.title ||
-      !taskCreationDTO.description ||
       !taskCreationDTO.status ||
       !taskCreationDTO.deadlineDate ||
       !taskCreationDTO.createdDate ||
-      !taskCreationDTO.modifiedDate ||
-      !taskCreationDTO.projectId
+      !taskCreationDTO.modifiedDate
     ) {
       return true;
     }
