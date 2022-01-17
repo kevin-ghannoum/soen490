@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react';
-import { Button, Grid, Link, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { getAllBusinessPays } from '../../services/LogHoursAPI';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
 import EditIcon from '@material-ui/icons/Edit';
+import { useAppSelector } from '../../redux/hooks';
+import { selectAccount } from '../../features/account/AccountSlice';
 
 interface DataDisplay {
   id: number;
@@ -49,25 +51,29 @@ const ViewProject: React.FC = () => {
     setTotalHours(hoursSum);
     setTotalPay(paySum);
   }, [selectedPays]);
+  
+  const account = useAppSelector(selectAccount);
 
   useEffect(() => {
     const fetchData = async () => {
-      const responsePays = await getAllBusinessPays(1);
-      const pays: DataDisplay[] = [];
-      for (let element of responsePays.data) {
-        const dataDisplay: DataDisplay = {
-          id: element.id,
-          employee: element.employeeAccount.account.username,
-          hoursWorked: element.hoursWorked,
-          hourlyWage: element.employeeAccount.hourlyWage,
-          paidAmount: element.amount,
-          paidStatus: element.status,
-          startDate: element.periodStart,
-          endDate: element.periodEnd,
-        };
-        pays.unshift(dataDisplay);
+      if (account.businessAcc) {
+        const responsePays = await getAllBusinessPays(account.businessAcc?.businessId);
+        const pays: DataDisplay[] = [];
+        for (let element of responsePays.data) {
+          const dataDisplay: DataDisplay = {
+            id: element.id,
+            employee: element.employeeAccount.account.username,
+            hoursWorked: element.hoursWorked,
+            hourlyWage: element.employeeAccount.hourlyWage,
+            paidAmount: element.amount,
+            paidStatus: element.status,
+            startDate: element.periodStart,
+            endDate: element.periodEnd,
+          };
+          pays.unshift(dataDisplay);
+        }
+        setPays(pays);
       }
-      setPays(pays);
     };
     fetchData();
   }, []);

@@ -21,6 +21,8 @@ import { ScheduledDay } from '../../../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { PayStatus } from '../../../dto/LogHours/PayDTOs';
 import logHoursFormValidationSchema from './LogHoursFormValidationSchema';
 import logHoursStyle from './LogHoursStyle';
+import { getAccount, selectAccount } from '../../../features/account/AccountSlice';
+import { useAppSelector } from '../../../redux/hooks';
 
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
@@ -74,9 +76,11 @@ const LogHours: React.FunctionComponent = () => {
     validationSchema: logHoursFormValidationSchema,
   });
 
+  const account = useAppSelector(selectAccount);
+
   useEffect(() => {
     const fetchEmployees = async () => {
-      const responseEmployees = await getAllEmployeeAccountsByEmail('business@business.com');
+      const responseEmployees = await getAllEmployeeAccountsByEmail(account.account.email);
       const employees = [];
       const emails = [];
       for (let employee of responseEmployees.data) {
