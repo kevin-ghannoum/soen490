@@ -3,7 +3,7 @@
 import { loginIntercept } from '../helpers/loginIntercept';
 
 describe('LogHour feature e2e test', () => {
-  const email = 'employee@gmail.com';
+  const employee = 'employee';
   const startDate = '2021-10-22';
   const endDate = '2021-10-25';
   const hoursWorked = '40';
@@ -27,30 +27,30 @@ describe('LogHour feature e2e test', () => {
       { fixture: 'pay.json', statusCode: 201 }
     ).as('logHoursAPI');
 
-    cy.intercept('GET', '/accounts/allEmployees', (req) => {
+    cy.intercept('GET', '/accounts/allEmployees/admin@admin.com', (req) => {
       req.reply({
         statusCode: 200,
         fixture: 'allEmployees.json',
       });
     });
 
-    cy.intercept('GET', '/logHours/inputType/employee@gmail.com', (req) => {
+    cy.intercept('GET', '/logHours/inputType/employee@employee.com', (req) => {
       req.reply({
         statusCode: 200,
         fixture: 'emptyInputType.json',
       });
     });
 
-    cy.intercept('GET', '/logHours/pay/latest/employee@gmail.com', (req) => {
+    cy.intercept('GET', '/logHours/pay/latest/employee@employee.com', (req) => {
       req.reply({
         statusCode: 200,
         fixture: 'emptyLatestPay.json',
       });
     });
 
-    cy.visit('/employees');
+    cy.visit('/pay/new');
 
-    cy.get('input[name=email]').type(email + '{downarrow}{enter}');
+    cy.get('input[name=email]').type(employee + '{downarrow}{enter}');
     cy.get('input[name=startDate]').type(startDate);
     cy.get('input[name=endDate]').type(endDate);
     cy.get('input[name=hoursWorked]').type(hoursWorked);
