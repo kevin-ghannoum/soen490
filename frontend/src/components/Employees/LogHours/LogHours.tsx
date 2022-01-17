@@ -37,9 +37,10 @@ interface Props {
 }
 
 const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
-  const [created, setCreated] = useState<boolean>(false);
-  const [saved, setSaved] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [returnMessage, setReturnMessage] = useState<string>('');
+  const [submitText, setSubmitText] = useState<string>('');
   const [employeeList, setEmployeeList] = useState<string[]>([]);
   const [emailList, setEmailList] = useState<string[]>([]);
   const [currentEmail, setCurrentEmail] = useState<string>('');
@@ -87,7 +88,8 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
         };
         const response = await createLogHours(obj);
         if (response.status === 201) {
-          setCreated(true);
+          setSuccess(true);
+          setReturnMessage('Created succesfully');
         }
       }
     },
@@ -110,6 +112,7 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
     };
     if (!editMode) {
       fetchEmployees();
+      setSubmitText('Add');
     }
   }, [editMode, account.account.email]);
 
@@ -182,6 +185,7 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
     };
     if (editMode) {
       autofill();
+      setSubmitText('Save');
     }
     // eslint-disable-next-line
   }, [formik.setFieldValue]);
@@ -197,7 +201,8 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
         amount: Number(formik.values.paidAmount),
       });
       if (response.status === 200) {
-        setSaved(true);
+        setSuccess(true);
+        setReturnMessage('Saved succesfully');
       }
     } else {
       setError(true);
@@ -376,14 +381,9 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
               </Grid>
             </Grid>
             <Grid container item xs={12} justifyContent="flex-end">
-              {created && (
+              {success && (
                 <Typography variant="h6" color="primary" className={classes.successMessage}>
-                  Created succesfully
-                </Typography>
-              )}
-              {saved && (
-                <Typography variant="h6" color="primary" className={classes.successMessage}>
-                  Saved succesfully
+                  {returnMessage}
                 </Typography>
               )}
               {error && (
