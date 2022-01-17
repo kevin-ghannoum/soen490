@@ -4,20 +4,26 @@ module.exports = {
     password: 'password',
     database: 'badob_tech',
     host: 'localhost',
-    dialect: 'mysql',
+    dialect: 'postgres',
   },
   test: {
     username: 'root',
     password: null,
     database: 'database_test',
     host: 'localhost',
-    dialect: 'mysql',
+    dialect: 'postgres',
   },
   production: {
     username: 'root',
     password: null,
-    database: 'database_production',
+    database: 'database_test',
     host: 'localhost',
-    dialect: 'mysql',
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+          require: true,
+          rejectUnauthorized: false
+      }
+    },
   },
 };
