@@ -57,6 +57,11 @@ const Sidebar = (props: { history: any }) => {
       onClick: () => history.push('/projects'),
     },
     {
+      text: 'Tasks',
+      icon: <AccountTreeIcon className={classes.icon} />,
+      onClick: () => history.push('/tasks'),
+    },
+    {
       text: 'Create Business Account',
       icon: <CreateIcon className={classes.icon} />,
       onClick: () => history.push('/businessAccount/new'),

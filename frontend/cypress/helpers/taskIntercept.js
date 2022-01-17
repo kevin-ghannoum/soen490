@@ -10,14 +10,14 @@ export const getTaskListIntercept = () => {
     ).as('getAllTaskAPI');
 }
 
-export const getAllEmployeesIntercept = () => {
+export const getEmployeesIntercept = () => {
     cy.intercept(
         {
           method: 'GET',
-          url: '/accounts/allEmployees',
+          url: 'employee?email=*',
         },
         { fixture: 'employeeList.json', statusCode: 200 }
-    );
+    ).as('getClientAPI');
 }
 
 export const getProjectListIntercept = () => {
