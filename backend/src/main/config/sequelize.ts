@@ -11,15 +11,18 @@ export const sequelize = new Sequelize({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   storage: ':memory:',
-  models: [path.join(__dirname, '..', 'models', process.env.PRODUCTION as string === "true" ? '*.js' : '*.ts')],
+  models: [path.join(__dirname, '..', 'models', (process.env.PRODUCTION as string) === 'true' ? '*.js' : '*.ts')],
   define: {
     freezeTableName: true,
   },
   logging: process.env.DEBUG ? true : false,
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
-  },
+  dialectOptions:
+    (process.env.PRODUCTION as string) === 'true'
+      ? {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        }
+      : undefined,
 });
