@@ -391,16 +391,9 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
                   Error
                 </Typography>
               )}
-              {!editMode && (
-                <Button color="primary" variant="contained" type="submit">
-                  Add
-                </Button>
-              )}
-              {editMode && (
-                <Button color="primary" variant="contained" type="submit">
-                  Save
-                </Button>
-              )}
+              <Button color="primary" variant="contained" type="submit">
+                {submitText}
+              </Button>
             </Grid>
           </Grid>
         </form>
