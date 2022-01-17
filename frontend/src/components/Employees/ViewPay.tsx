@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridSelectionModel } from '@material-ui/data-grid
 import { useEffect, useState } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { getAllBusinessPays, getAllPays } from '../../services/LogHoursAPI';
+import { getAllBusinessPays } from '../../services/LogHoursAPI';
 import { PayStatus } from '../../dto/LogHours/PayDTOs';
 import EditIcon from '@material-ui/icons/Edit';
 import { useAppSelector } from '../../redux/hooks';
@@ -51,7 +51,7 @@ const ViewPay: React.FC = () => {
     setTotalHours(hoursSum);
     setTotalPay(paySum);
   }, [selectedPays]);
-  
+
   const account = useAppSelector(selectAccount);
 
   useEffect(() => {
@@ -59,8 +59,7 @@ const ViewPay: React.FC = () => {
       var responsePays;
       if (account.businessAcc) {
         responsePays = await getAllBusinessPays(account.businessAcc?.businessId);
-      }
-      else {
+      } else {
         responsePays = await getAllBusinessPays(1);
       }
       const pays: DataDisplay[] = [];
