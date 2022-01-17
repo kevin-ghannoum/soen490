@@ -38,7 +38,7 @@ interface Props {
 
 const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
   const [created, setCreated] = useState<boolean>(false);
-  const [, setSaved] = useState<boolean>(false);
+  const [saved, setSaved] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
   const [emailList, setEmailList] = useState<string[]>([]);
@@ -381,14 +381,26 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
                   Created succesfully
                 </Typography>
               )}
+              {saved && (
+                <Typography variant="h6" color="primary" className={classes.successMessage}>
+                  Saved succesfully
+                </Typography>
+              )}
               {error && (
                 <Typography variant="h6" style={{ color: 'red' }}>
                   Error
                 </Typography>
               )}
-              <Button color="primary" variant="contained" type="submit">
-                Add
-              </Button>
+              {!editMode && (
+                <Button color="primary" variant="contained" type="submit">
+                  Add
+                </Button>
+              )}
+              {editMode && (
+                <Button color="primary" variant="contained" type="submit">
+                  Save
+                </Button>
+              )}
             </Grid>
           </Grid>
         </form>
