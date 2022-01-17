@@ -30,35 +30,43 @@ export const getAllBusinessPaysIntercept = () => {
     ).as('getPayAPI');
   };
   
+  export const createLogHoursIntercept = () => {
+    cy.intercept(
+      {
+        method: 'POST',
+        url: '/logHours',
+      },
+      { fixture: 'pay.json', statusCode: 201 }
+    ).as('logHoursAPI');
+  };
   
-  
-  export const getClientEmailProjectIntercept = () => {
+  export const getAllEmployeesByBusinessIntercept = () => {
     cy.intercept(
       {
         method: 'GET',
-        url: '/accounts/client?email=*',
+        url: '/accounts/allEmployees/admin@admin.com',
       },
-      { fixture: 'clientList.json', statusCode: 200 }
-    ).as('getClientAPI');
+      { fixture: 'allEmployees.json', statusCode: 200 }
+    ).as('getAllBusinessEmployeesAPI');
   };
-  
-  export const updateProjectIntercept = () => {
-    cy.intercept(
-      {
-        method: 'PUT',
-        url: '/project/11',
-      },
-      { fixture: 'projectList.json', statusCode: 200 }
-    ).as('updateProjectAPI');
-  };
-  
-  export const getProjectIntercept = () => {
+
+  export const getInputTypeByEmail = () => {
     cy.intercept(
       {
         method: 'GET',
-        url: '/project/11',
+        url: '/logHours/inputType/employee@employee.com',
       },
-      { fixture: 'getSingleProject.json', statusCode: 200, times: 1 }
-    ).as('getProjectAPI');
+      { fixture: 'emptyInputType.json', statusCode: 200 }
+    ).as('getInputTypeByEmailAPI');
+  };
+
+  export const getLatestPayByEmail = () => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/logHours/pay/latest/employee@employee.com',
+      },
+      { fixture: 'emptyLatestPay.json', statusCode: 200 }
+    ).as('getLatestPayByEmailAPI');
   };
   

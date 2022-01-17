@@ -22,7 +22,7 @@ describe('EditProject feature e2e test', () => {
     getPayByIdIntercept();
 
     cy.visit('/pay/edit/1');
-    cy.get('#EditPay-Grid').should('exist');
+    cy.get('#LogHours-Grid').should('exist');
     
     cy.get('input[name=startDate]').type(startDate);
     cy.get('input[name=endDate]').type(endDate);

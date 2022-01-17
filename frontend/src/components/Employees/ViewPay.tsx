@@ -79,7 +79,7 @@ const ViewPay: React.FC = () => {
       setPaysList(pays);
     };
     fetchData();
-  }, []);
+  }, [account.businessAcc]);
 
   const columns: GridColDef[] = [
     {

@@ -12,7 +12,6 @@ import { getAccount, selectAccount, noTokenReducer } from './features/account/Ac
 import { loginWithRefreshToken } from './services/AccountAPI';
 import ViewPay from './components/Employees/ViewPay';
 import LogHours from './components/Employees/LogHours/LogHours';
-import EditPay from './components/Employees/LogHours/EditPay';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -213,7 +212,7 @@ const App = () => {
                         return (
                           <React.Fragment>
                             <Sidebar />
-                            <LogHours />
+                            <LogHours editMode={false} />
                           </React.Fragment>
                         );
                       } else {
@@ -241,7 +240,7 @@ const App = () => {
                         return (
                           <React.Fragment>
                             <Sidebar />
-                            <EditPay id={match.params.id} />
+                            <LogHours editMode={true} id={match.params.id} />
                           </React.Fragment>
                         );
                       } else {
