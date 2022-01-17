@@ -5,6 +5,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+        unique: true,
         type: Sequelize.BIGINT,
       },
       name: {
@@ -26,7 +27,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'businessaccount',
+          model: 'BusinessAccount',
           key: 'email',
         },
       },
