@@ -10,7 +10,7 @@ export const updatePay = async (id: string, payUpdateDTO: PayUpdateDTO): Promise
   return axios.put(`/logHours/pay/${id}`, payUpdateDTO);
 };
 
-export const getInputTypeByEmail = async (email: String): Promise<AxiosResponse<any>> => {
+export const getInputTypeByEmail = async (email: string): Promise<AxiosResponse<any>> => {
   return axios.get(`/logHours/inputType/${email}`);
 };
 
@@ -18,7 +18,7 @@ export const getLatestPayByEmail = async (email: string): Promise<AxiosResponse<
   return axios.get(`/logHours/pay/latest/${email}`);
 };
 
-export const getPayById = async (id: String): Promise<AxiosResponse<any>> => {
+export const getPayById = async (id: string): Promise<AxiosResponse<any>> => {
   return axios.get(`/logHours/pay/${id}`);
 };
 

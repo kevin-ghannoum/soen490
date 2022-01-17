@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const editPaySchema = Yup.object().shape({
+const EditPayFormValidationSchema = Yup.object().shape({
   startDate: Yup.string().when('automatic', {
     is: false,
     then: Yup.string().required('Required'),
@@ -10,7 +10,8 @@ const editPaySchema = Yup.object().shape({
     then: Yup.string().required('Required'),
   }),
   hoursWorked: Yup.string().required('Required'),
+
   paidAmount: Yup.string().required('Required'),
 });
 
-export default editPaySchema;
+export default EditPayFormValidationSchema;

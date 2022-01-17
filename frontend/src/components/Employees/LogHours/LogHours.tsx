@@ -21,14 +21,19 @@ import { ScheduledDay } from '../../../dto/LogHours/EmployeeHoursInputTypeDTOs';
 import { PayStatus } from '../../../dto/LogHours/PayDTOs';
 import logHoursFormValidationSchema from './LogHoursFormValidationSchema';
 import logHoursStyle from './LogHoursStyle';
-import { getAccount, selectAccount } from '../../../features/account/AccountSlice';
+import { selectAccount } from '../../../features/account/AccountSlice';
 import { useAppSelector } from '../../../redux/hooks';
+
+interface Props {
+  editMode: boolean;
+  id?: string;
+}
 
 const LogHours: React.FunctionComponent = () => {
   const [created, setCreated] = useState<boolean>(false);
   const [employeeList, setEmployeeList] = useState<string[]>([]);
   const [emailList, setEmailList] = useState<string[]>([]);
-  const [email, setEmail] = useState<string>('');
+  const [currentEmail, setCurrentEmail] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [, setLatestPayInfo] = useState({
     automatic: false,
@@ -129,13 +134,13 @@ const LogHours: React.FunctionComponent = () => {
         status: formik.values.status,
       });
     };
-    updateAutomaticByEmail(email);
+    updateAutomaticByEmail(currentEmail);
     // eslint-disable-next-line
-  }, [email, formik.setFieldValue]);
+  }, [currentEmail, formik.setFieldValue]);
 
   useEffect(() => {
     const email = emailList[employeeList.findIndex((employee) => employee === username)];
-    setEmail(email);
+    setCurrentEmail(email);
   }, [username]);
 
   const updatePaidAmout = async () => {

@@ -21,7 +21,7 @@ interface DataDisplay {
 }
 
 const ViewPay: React.FC = () => {
-  const [pays, setPays] = useState<DataDisplay[]>([]);
+  const [paysList, setPaysList] = useState<DataDisplay[]>([]);
   const [selectedPays, setSelectedPays] = useState<DataDisplay[]>([]);
   const [totalHours, setTotalHours] = useState<number>(0);
   const [totalPay, setTotalPay] = useState<number>(0);
@@ -37,7 +37,7 @@ const ViewPay: React.FC = () => {
   };
 
   const updateSelection = (selectionModel: GridSelectionModel) => {
-    const selected = pays.filter((pay) => selectionModel.indexOf(pay.id) > -1);
+    const selected = paysList.filter((pay) => selectionModel.indexOf(pay.id) > -1);
     setSelectedPays(selected);
   };
 
@@ -76,7 +76,7 @@ const ViewPay: React.FC = () => {
         };
         pays.unshift(dataDisplay);
       }
-      setPays(pays);
+      setPaysList(pays);
     };
     fetchData();
   }, []);
@@ -162,7 +162,7 @@ const ViewPay: React.FC = () => {
             {' '}
             <DataGrid
               style={{ maxWidth: '75%', margin: 'auto' }}
-              rows={pays}
+              rows={paysList}
               columns={columns}
               pageSize={8}
               checkboxSelection={true}
