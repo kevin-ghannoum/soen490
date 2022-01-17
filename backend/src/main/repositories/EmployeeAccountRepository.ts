@@ -8,6 +8,7 @@ import { EmployeeAccount } from '../models/EmployeeAccount';
 import { Pay } from '../models/Pay';
 import { BaseError, Op } from 'sequelize';
 import { Business } from '../models/Business';
+import { Project } from '../models/Project';
 
 @injectable()
 export default class EmployeeAccountRepository implements CRUD {
@@ -119,6 +120,61 @@ export default class EmployeeAccountRepository implements CRUD {
             [operatorsAliases.like]: `${email}%`,
           },
         },
+      });
+      return Promise.resolve(data);
+    } catch (err: any) {
+      if (err instanceof BaseError) {
+        return Promise.reject(new Error(`${err.name}, message: ${err.message}`));
+      }
+      return Promise.reject(err);
+    }
+  };
+
+  public getEmployeeRegexUsername = async (username: string): Promise<EmployeeAccount[]> => {
+    try {
+      const operatorsAliases = {
+        like: Op.like,
+      };
+      const data = await EmployeeAccount.findAll({
+        limit: 5,
+        include: [
+          {
+            model: Account,
+            where: {
+              username: {
+                [operatorsAliases.like]: `${username}%`,
+              },
+            },
+            attributes: ['username', 'email'],
+          },
+        ],
+        attributes: ['email'],
+      });
+      return Promise.resolve(data);
+    } catch (err: any) {
+      if (err instanceof BaseError) {
+        return Promise.reject(new Error(`${err.name}, message: ${err.message}`));
+      }
+      return Promise.reject(err);
+    }
+  };
+
+  public getUsernameOfEmployeeforProject = async (projectId: number): Promise<EmployeeAccount[]> => {
+    try {
+      const data = await EmployeeAccount.findAll({
+        include: [
+          {
+            model: Project,
+            where: {
+              id: projectId,
+            },
+            attributes: [],
+          },
+          {
+            model: Account,
+            attributes: ['username'],
+          },
+        ],
       });
       return Promise.resolve(data);
     } catch (err: any) {

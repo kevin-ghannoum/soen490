@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { loginIntercept} from '../../helpers/loginIntercept';
-import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getAllEmployeesIntercept, getProjectListIntercept, deletedTaskIntercept, deletedAssignByTaskIdIntercept } from '../../helpers/taskIntercept';
+import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getProjectListIntercept, deletedTaskIntercept, deletedAssignByTaskIdIntercept, getEmployeesIntercept } from '../../helpers/taskIntercept';
 
 describe('DeleteTask feature e2e test', ()=>{
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('DeleteTask feature e2e test', ()=>{
     getTaskListIntercept();
     getTaskIntercept();
     getByTaskIdIntercept();
-    getAllEmployeesIntercept();
+    getEmployeesIntercept();
     getProjectListIntercept();
     deletedTaskIntercept();
     deletedAssignByTaskIdIntercept();

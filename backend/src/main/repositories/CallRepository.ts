@@ -7,7 +7,6 @@ import { Call } from '../models/Call';
 import { Account } from '../models/Account';
 import { Op } from 'sequelize';
 
-
 @injectable()
 export default class CallRepository implements CRUD {
   constructor() {
@@ -58,17 +57,18 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public get = async (specificCall: { id: number; email: string }): Promise<Call | null> => {
+  public get = async (specificCall: { id: number; callerEmail: string }): Promise<Call | null> => {
+    // Will probably not be used often.
     try {
       const call = await Call.findOne({
         where: {
           id: specificCall.id,
-          email: specificCall.email,
+          callerEmail: specificCall.callerEmail,
         },
         include: [Account],
       });
 
-      log(`Call with id ${call?.id} and email ${call?.email} has been retrieved`);
+      log(`Call with id ${call?.id} and email ${call?.callerEmail} has been retrieved`);
       return Promise.resolve(call);
     } catch (err: any) {
       log(err);
@@ -76,18 +76,18 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public getByEmail = async (email: string): Promise<Call | null> => {
+  public getByCallerEmail = async (callerEmail: string): Promise<Call | null> => {
     try {
       const call = await Call.findOne({
         where: {
-          email: email,
+          callerEmail: callerEmail,
         },
       });
 
       if (call) {
-        log(`Call email ${call?.email} has been retrieved`);
+        log(`Call email ${call?.callerEmail} has been retrieved`);
       } else {
-        log(`Call with email ${email} not found`);
+        log(`Call with email ${callerEmail} not found`);
       }
 
       return Promise.resolve(call);
@@ -106,7 +106,7 @@ export default class CallRepository implements CRUD {
       });
 
       if (call) {
-        log(`Call with id ${call?.id} and email ${call?.email} has been retrieved`);
+        log(`Call with id ${call?.id} has been retrieved`);
       } else {
         log(`Call with email ${id} not found`);
       }
@@ -118,15 +118,15 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public getAllByEmail = async (email: string): Promise<Call[] | null> => {
+  public getAllByCallerEmail = async (callerEmail: string): Promise<Call[] | null> => {
     try {
       const call: Call[] = await Call.findAll({
         where: {
-          employeeEmail: email,
+          callerEmail: callerEmail,
         },
       });
 
-      log(`Calls have been retrieved`);
+      log(`Calls related to caller email ${callerEmail} have been retrieved`);
       return Promise.resolve(call);
     } catch (err: any) {
       log(err);
@@ -137,7 +137,6 @@ export default class CallRepository implements CRUD {
   public getAll = async (): Promise<Call[]> => {
     try {
       const calls = await Call.findAll();
-
       log(`Retrieved all calls`);
       return Promise.resolve(calls);
     } catch (err: any) {
@@ -146,7 +145,7 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public searchCallsByName = async (name: string): Promise<Call[]> => {
+  public searchByReceiverName = async (receiverName: string): Promise<Call[]> => {
     try {
       const operatorsAliases = {
         like: Op.like,
@@ -155,19 +154,20 @@ export default class CallRepository implements CRUD {
         limit: 20,
         where: {
           receiverName: {
-            [operatorsAliases.like]: `%${name}%`,
+            [operatorsAliases.like]: `%${receiverName}%`,
           },
         },
       });
-      log(`Retrieved all calls with receiver name containing ${name}`);
+
+      log(`Retrieved all calls with receiver name containing ${receiverName}`);
       return Promise.resolve(calls);
     } catch (err: any) {
       log(err);
       return Promise.reject(err);
     }
   };
-  
-  public searchCallsByPhoneNumber = async (number: string): Promise<Call[]> => {
+
+  public searchByPhoneNumber = async (number: string): Promise<Call[]> => {
     try {
       const operatorsAliases = {
         like: Op.like,
@@ -188,7 +188,7 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public searchCallsByEmail = async (email: string): Promise<Call[]> => {
+  public searchByReceiverEmail = async (receiverEmail: string): Promise<Call[]> => {
     try {
       const operatorsAliases = {
         like: Op.like,
@@ -196,12 +196,12 @@ export default class CallRepository implements CRUD {
       const calls = await Call.findAll({
         limit: 20,
         where: {
-          email: {
-            [operatorsAliases.like]: `%${email}%`,
+          receiverEmail: {
+            [operatorsAliases.like]: `%${receiverEmail}%`,
           },
         },
       });
-      log(`Retrieved all calls with email containing ${email}`);
+      log(`Retrieved all calls with email containing ${receiverEmail}`);
       return Promise.resolve(calls);
     } catch (err: any) {
       log(err);
@@ -209,7 +209,7 @@ export default class CallRepository implements CRUD {
     }
   };
 
-  public searchCallsByEmployeeEmail = async (employeeEmail: string): Promise<Call[]> => {
+  public searchByCallerEmail = async (callerEmail: string): Promise<Call[]> => {
     try {
       const operatorsAliases = {
         like: Op.like,
@@ -217,12 +217,12 @@ export default class CallRepository implements CRUD {
       const calls = await Call.findAll({
         limit: 20,
         where: {
-          employeeEmail: {
-            [operatorsAliases.like]: `%${employeeEmail}%`,
+          callerEmail: {
+            [operatorsAliases.like]: `%${callerEmail}%`,
           },
         },
       });
-      log(`Retrieved all calls with email containing ${employeeEmail}`);
+      log(`Retrieved all calls with email containing ${callerEmail}`);
       return Promise.resolve(calls);
     } catch (err: any) {
       log(err);

@@ -3,8 +3,9 @@ import { FormikProps, useFormik } from 'formik';
 import { useState } from 'react';
 import { Status } from '../../dto/Accounts/AccountDTOs';
 import { createClientAccount } from '../../services/AccountAPI';
-import useStyles from './CreateClientAccountStyle';
-import createClientAccountSchema from './CreateClientFormValidationSchema';
+import createClientAccountStyle from './CreateClientAccountStyle';
+import createClientFormValidationSchema from './CreateClientFormValidationSchema';
+
 interface CreateClientAccountFormData {
   firstName: string;
   lastName: string;
@@ -95,10 +96,10 @@ const CreateClientAccount: React.FC = () => {
         }
       }
     },
-    validationSchema: createClientAccountSchema,
+    validationSchema: createClientFormValidationSchema,
   });
 
-  const classes = useStyles();
+  const classes = createClientAccountStyle();
 
   return (
     <Grid

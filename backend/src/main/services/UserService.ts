@@ -14,11 +14,11 @@ export class UserService {
   }
 
   public createUser = async (user: UserDTO): Promise<UserDTO> => {
-    return await this.userRepository.create(user);
+    return this.userRepository.create(user);
   };
 
   public getUser = async (userId: string): Promise<string> => {
-    return await this.userRepository.get(userId);
+    return this.userRepository.get(userId);
   };
 
   // implement update and delete

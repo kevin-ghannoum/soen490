@@ -1,6 +1,6 @@
 import { Button, Grid, Link, Paper } from '@material-ui/core';
 import { DataGrid, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
-import _ from './TaskStyle';
+import taskStyle from './TaskStyle';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { getAllTask } from '../../services/TaskAPI';
@@ -76,7 +76,7 @@ const TaskList: React.FC = () => {
     },
   ];
 
-  const classes = _.listTaskStyles();
+  const classes = taskStyle.listTaskStyles();
   useEffect(() => {
     const fetchData = async () => {
       const tasks = await getAllTask();

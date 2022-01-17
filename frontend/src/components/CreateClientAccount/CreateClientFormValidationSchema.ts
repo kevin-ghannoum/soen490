@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const createClientAccountSchema: Yup.ObjectSchema<any> = Yup.object().shape({
+const createClientFormValidationSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
@@ -21,4 +21,4 @@ const createClientAccountSchema: Yup.ObjectSchema<any> = Yup.object().shape({
   status: Yup.string().required('Required'),
 });
 
-export default createClientAccountSchema;
+export default createClientFormValidationSchema;

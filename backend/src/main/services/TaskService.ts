@@ -17,7 +17,7 @@ export class TaskService {
     if (TaskService.isThereNullValueTaskCreationDTO(taskDTO)) {
       throw new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
     }
-    return await this.taskRepository.create(taskDTO);
+    return this.taskRepository.create(taskDTO);
   };
 
   public getTask = async (taskId: string): Promise<Task | null> => {

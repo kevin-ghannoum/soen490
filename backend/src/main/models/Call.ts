@@ -20,8 +20,27 @@ export class Call extends Model {
   @Column
   description!: string;
 
-  @Column(DataType.ENUM('CALLED', 'NO ANSWER', 'LEFT VOICEMAIL', 'EMAIL SENT', 'FOLLOW UP', 'CALL BACK', 'WILL CALL BACK','ESTIMATE BOOKED'))
-  action!: 'CALLED' | 'NO ANSWER' | 'LEFT VOICEMAIL' | 'EMAIL SENT'| 'FOLLOW UP'| 'CALL BACK'| 'WILL CALL BACK'| 'ESTIMATE BOOKED';
+  @Column(
+    DataType.ENUM(
+      'CALLED',
+      'NO ANSWER',
+      'LEFT VOICEMAIL',
+      'EMAIL SENT',
+      'FOLLOW UP',
+      'CALL BACK',
+      'WILL CALL BACK',
+      'ESTIMATE BOOKED'
+    )
+  )
+  action!:
+    | 'CALLED'
+    | 'NO ANSWER'
+    | 'LEFT VOICEMAIL'
+    | 'EMAIL SENT'
+    | 'FOLLOW UP'
+    | 'CALL BACK'
+    | 'WILL CALL BACK'
+    | 'ESTIMATE BOOKED';
 
   @Column
   followUp!: boolean;
@@ -29,13 +48,17 @@ export class Call extends Model {
   @Column
   neverCallBack!: boolean;
 
+  @ForeignKey(() => Account)
   @Column
-  employeeEmail!: string;
+  callerEmail!: string;
+
+  @BelongsTo(() => Account, 'callerEmail')
+  callerAccount!: Account;
 
   @ForeignKey(() => Account)
   @Column
-  email!: string;
+  receiverEmail!: string;
 
-  @BelongsTo(() => Account)
-  account!: Account;
+  @BelongsTo(() => Account, 'receiverEmail')
+  receiverAccount!: Account;
 }

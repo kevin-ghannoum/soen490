@@ -29,8 +29,8 @@ export class Task extends Model {
   description!: string;
 
   @Default('NEW')
-  @Column(DataType.ENUM('NEW', 'ACTIVE', 'RESOLVED', 'CLOSED', 'REMOVED'))
-  status!: 'NEW' | 'ACTIVE' | 'RESOLVED' | 'CLOSED' | 'REMOVED';
+  @Column(DataType.ENUM('NEW', 'ACTIVE', 'RESOLVED', 'CLOSED', 'REMOVED', 'COMPLETE'))
+  status!: 'NEW' | 'ACTIVE' | 'RESOLVED' | 'CLOSED' | 'REMOVED' | 'COMPLETE';
 
   @Column
   deadlineDate!: Date;

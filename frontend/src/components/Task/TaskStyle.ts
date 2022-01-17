@@ -36,6 +36,9 @@ const editTaskStyles = makeStyles((theme) => ({
   noBorder: {
     border: 'none',
   },
+  assigneeAutoComplete: {
+    width: '100%',
+  },
 }));
 
 const listTaskStyles = makeStyles((theme) => ({
@@ -51,9 +54,9 @@ const listTaskStyles = makeStyles((theme) => ({
   },
 }));
 
-const _ = {
+const taskStyle = {
   listTaskStyles,
   editTaskStyles,
 };
 
-export default _;
+export default taskStyle;

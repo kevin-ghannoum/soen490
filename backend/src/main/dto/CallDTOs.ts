@@ -3,11 +3,11 @@ export interface CallUpdateDTO {
   date?: Date;
   phoneNumber?: string;
   description?: string;
-  email?: string;
+  receiverEmail?: string;
   action?: Action;
   followUp?: boolean;
   neverCallBack?: boolean;
-  employeeEmail?: string;
+  callerEmail?: string;
 }
 
 export interface CallCreationDTO {
@@ -15,11 +15,11 @@ export interface CallCreationDTO {
   date: Date;
   phoneNumber?: string;
   description: string;
-  email: string;
+  receiverEmail: string;
   action: Action;
   followUp: boolean;
   neverCallBack: boolean;
-  employeeEmail: string;
+  callerEmail: string;
 }
 
 export enum Action {
@@ -30,5 +30,5 @@ export enum Action {
   FOLLOW_UP = 'FOLLOW UP',
   CALL_BACK = 'CALL BACK',
   WILL_CALL_BACK = 'WILL CALL BACK',
-  ESTIMATE_BOOKED = 'ESTIMATE BOOKED'
+  ESTIMATE_BOOKED = 'ESTIMATE BOOKED',
 }
