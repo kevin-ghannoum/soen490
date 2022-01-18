@@ -166,7 +166,6 @@ const ViewCallLogs: React.FC = () => {
       callerEmail: account.account.email,
     };
     try {
-      console.log(data);
       await createCall(data);
       setOpenDialog(false);
       clearStates();
