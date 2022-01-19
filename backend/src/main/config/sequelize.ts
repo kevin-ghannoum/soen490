@@ -6,7 +6,7 @@ dotenv.config();
 
 export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
-  dialect: 'postgres',
+  dialect: 'mysql',
   host: process.env.DB_HOSTNAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
@@ -19,10 +19,10 @@ export const sequelize = new Sequelize({
   dialectOptions:
     (process.env.PRODUCTION as string) === 'true'
       ? {
-          ssl: {
-            require: true,
-            rejectUnauthorized: false,
-          },
-        }
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      }
       : undefined,
 });
