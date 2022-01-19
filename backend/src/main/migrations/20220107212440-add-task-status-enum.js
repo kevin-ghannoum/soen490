@@ -4,13 +4,17 @@ module.exports = {
     return Promise.all([
       queryInterface.changeColumn('Task', 'status', {
         type: Sequelize.ENUM('NEW', 'ACTIVE', 'RESOLVED', 'CLOSED', 'REMOVED', 'COMPLETE'),
-        defaultValue: 'NEW',
-      }),
+        defaultValue: 'NEW'
+      })
     ]);
-    
   },
 
   down: async (queryInterface, Sequelize) => {
-    return Promise.all([queryInterface.changeColumn('Task', 'status')]);
-  },
+    return Promise.all([
+      queryInterface.changeColumn('Task', 'status', {
+        type: Sequelize.ENUM('NEW', 'ACTIVE', 'RESOLVED', 'CLOSED', 'REMOVED'),
+        defaultValue: 'NEW'
+      })
+    ]);
+  }
 };

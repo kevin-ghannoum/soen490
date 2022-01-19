@@ -36,7 +36,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BIGINT,
         references: {
-          model: 'business',
+          model: 'Business',
           key: 'id',
         },
         onDelete: 'CASCADE',

@@ -16,8 +16,14 @@ module.exports = {
   production: {
     username: 'root',
     password: null,
-    database: 'database_production',
+    database: 'database_test',
     host: 'localhost',
     dialect: 'mysql',
+    dialectOptions: {
+      ssl: {
+          require: true,
+          rejectUnauthorized: false
+      }
+    },
   },
 };
