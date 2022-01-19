@@ -86,21 +86,6 @@ describe('TaskService tests', () => {
     );
   });
 
-  it('should fail because of missing value in request data (missing description)', async () => {
-    const NEW_TASK = {
-      title: 'title',
-      status: TaskStatus.NEW,
-      deadlineDate: date,
-      createdDate: date,
-      modifiedDate: date,
-      projectId: 1,
-    };
-    const taskService = container.resolve(TaskService);
-    await expect(taskService.createTask(NEW_TASK as TaskCreationDTO)).rejects.toThrowError(
-      'Request data is missing some values'
-    );
-  });
-
   it('should fail because of missing value in request data (missing deadlineDate)', async () => {
     const NEW_TASK = {
       title: 'title',

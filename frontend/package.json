@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:8000/",
   "private": true,
   "dependencies": {
     "@cypress/instrument-cra": "^1.4.0",
@@ -20,6 +19,7 @@
     "@types/react-redux": "^7.1.18",
     "axios": "^0.21.3",
     "cypress": "^8.4.1",
+    "express": "^4.17.2",
     "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -30,7 +30,8 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
+    "start-dev": "react-scripts start",
     "start-test": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "react-scripts test",

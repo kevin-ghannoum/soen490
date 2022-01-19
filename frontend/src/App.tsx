@@ -12,6 +12,7 @@ import { getAccount, selectAccount, noTokenReducer } from './features/account/Ac
 import { loginWithRefreshToken } from './services/AccountAPI';
 import ViewPay from './components/Employees/ViewPay';
 import LogHours from './components/Employees/LogHours/LogHours';
+import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -47,6 +48,7 @@ const App = () => {
       dispatch(noTokenReducer());
     }
   }, [account.authenticated, account.loading, account.account.role, dispatch]);
+
   axios.interceptors.response.use(
     (response: AxiosResponse<any>) => {
       return response;
@@ -75,6 +77,8 @@ const App = () => {
       }
     }
   );
+
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
   return (
     <Router>
@@ -328,6 +332,37 @@ const App = () => {
                             <div style={{ paddingTop: '75px' }}>
                               <Sidebar />
                               <CreateEmployee />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/logs"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'BUSINESS' ||
+                        account.account.role === 'EMPLOYEE' ||
+                        account.account.role === 'SUPERVISOR'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <ViewCallLogs />
                             </div>
                           </React.Fragment>
                         );

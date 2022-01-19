@@ -2,30 +2,28 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("call", "action", {
+    await queryInterface.addColumn("Call", "action", {
       type: Sequelize.ENUM("CALLED", "NO ANSWER", "LEFT VOICEMAIL", "EMAIL SENT", "FOLLOW UP", "CALL BACK", "WILL CALL BACK", "ESTIMATE BOOKED"),
       allowNull: false,
     });
 
-    await queryInterface.addColumn("call", "followUp", {
+    await queryInterface.addColumn("Call", "followUp", {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     });
-    await queryInterface.addColumn("call", "neverCallBack", {
+    await queryInterface.addColumn("Call", "neverCallBack", {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     });
 
-    await queryInterface.addColumn("call", "callerEmail", {
+    await queryInterface.addColumn("Call", "callerEmail", {
       type: Sequelize.STRING,
       allowNull: false,
       references: {
-        model: 'account',
+        model: 'Account',
         key: 'email',
       },
     });
-
-
   },
 
   down: async (queryInterface, Sequelize) => {

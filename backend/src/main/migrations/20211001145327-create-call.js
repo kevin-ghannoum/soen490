@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
-          model: 'account',
+          model: 'Account',
           key: 'email',
         },
       },

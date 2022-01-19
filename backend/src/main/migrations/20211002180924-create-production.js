@@ -8,7 +8,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'transaction',
+          model: 'Transaction',
           key: 'id',
         },
       },

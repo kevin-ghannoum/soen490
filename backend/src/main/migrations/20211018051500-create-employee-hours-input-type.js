@@ -9,7 +9,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
-          model: 'employeeAccount',
+          model: 'EmployeeAccount',
           key: 'email',
         },
       },
