@@ -19,10 +19,10 @@ export const sequelize = new Sequelize({
   dialectOptions:
     (process.env.PRODUCTION as string) === 'true'
       ? {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
-      }
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        }
       : undefined,
 });
