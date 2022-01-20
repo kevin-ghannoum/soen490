@@ -10,8 +10,6 @@ import localStorageService from './services/LocalStorageService';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { getAccount, selectAccount, noTokenReducer } from './features/account/AccountSlice';
 import { loginWithRefreshToken } from './services/AccountAPI';
-import ViewPay from './components/Employees/ViewPay';
-import LogHours from './components/Employees/LogHours/LogHours';
 import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
@@ -24,6 +22,8 @@ const CreateBusinessAccount = lazy(() => import('./components/CreateBusinessAcco
 const TaskList = lazy(() => import('./components/Task/TaskList'));
 const CreateTask = lazy(() => import('./components/Task/CreateTask'));
 const EditTask = lazy(() => import('./components/Task/EditTask'));
+const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
+const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
 
 const App = () => {
   const account = useAppSelector(selectAccount);

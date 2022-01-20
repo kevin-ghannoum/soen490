@@ -42,8 +42,8 @@ const ViewPay: React.FC = () => {
   };
 
   useEffect(() => {
-    var hoursSum = 0;
-    var paySum = 0;
+    let hoursSum = 0;
+    let paySum = 0;
     selectedPays.forEach((pay) => {
       hoursSum += pay.hoursWorked;
       paySum += pay.paidAmount;
@@ -56,7 +56,7 @@ const ViewPay: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      var responsePays;
+      let responsePays;
       if (account.businessAcc) {
         responsePays = await getAllBusinessPays(account.businessAcc?.businessId);
       } else {
