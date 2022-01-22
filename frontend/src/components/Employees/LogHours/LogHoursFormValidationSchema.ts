@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 
 const logHoursFormValidationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
-  automatic: Yup.boolean(),
   startDate: Yup.string().when('automatic', {
     is: false,
     then: Yup.string().required('Required'),

@@ -1,9 +1,10 @@
 /// <reference types="cypress" />
 
-import { loginIntercept } from '../helpers/loginIntercept';
+import { loginIntercept } from '../../helpers/loginIntercept';
+import { createLogHoursIntercept, getAllEmployeesByBusinessIntercept,getInputTypeByEmail, getLatestPayByEmail } from '../../helpers/payIntercept';
 
 describe('LogHour feature e2e test', () => {
-  const email = 'employee@gmail.com';
+  const employee = 'employee';
   const startDate = '2021-10-22';
   const endDate = '2021-10-25';
   const hoursWorked = '40';
@@ -19,38 +20,14 @@ describe('LogHour feature e2e test', () => {
 
   // Test user story: #31. As a business user, I want to log hours
   it('Should log hours for one employee', () => {
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/logHours',
-      },
-      { fixture: 'pay.json', statusCode: 201 }
-    ).as('logHoursAPI');
+    createLogHoursIntercept();
+    getAllEmployeesByBusinessIntercept();
+    getInputTypeByEmail();
+    getLatestPayByEmail();
 
-    cy.intercept('GET', '/accounts/allEmployees', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'allEmployees.json',
-      });
-    });
+    cy.visit('/pay/new');
 
-    cy.intercept('GET', '/logHours/inputType/employee@gmail.com', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'emptyInputType.json',
-      });
-    });
-
-    cy.intercept('GET', '/logHours/pay/latest/employee@gmail.com', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'emptyLatestPay.json',
-      });
-    });
-
-    cy.visit('/employees');
-
-    cy.get('input[name=email]').type(email + '{downarrow}{enter}');
+    cy.get('input[name=email]').type(employee + '{downarrow}{enter}');
     cy.get('input[name=startDate]').type(startDate);
     cy.get('input[name=endDate]').type(endDate);
     cy.get('input[name=hoursWorked]').type(hoursWorked);

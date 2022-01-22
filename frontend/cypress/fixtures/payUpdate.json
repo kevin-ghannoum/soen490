@@ -1,0 +1,9 @@
+{
+    "id": 1,
+    "hoursWorked": 40,
+    "status": "NOT_PAID",
+    "periodStart": "2022-01-04",
+    "periodEnd": "2022-01-14",
+    "amount": 444,
+    "email": "employee@employee.com"
+}
