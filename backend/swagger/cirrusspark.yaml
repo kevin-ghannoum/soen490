@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "This is the REST diagram of Ciruss Spark API"
+  description: "This is the REST diagram of Cirrus Spark API"
   version: "1.0.0"
-  title: "Ciruss Spark"
+  title: "Cirrus Spark"
   termsOfService: "http://swagger.io/terms/"
   contact:
     email: "badobtech@gmail.com"
@@ -95,7 +95,7 @@ paths:
         "200":
           description: "OK"
   /accounts/allEmployees:
-    post:
+    get:
       tags:
       - "accounts"
       summary: "Get all employee accounts"
@@ -111,7 +111,7 @@ paths:
         "200":
           description: "OK"
   /accounts/allEmployees/{businessId}:
-    post:
+    get:
       tags:
       - "accounts"
       summary: "Get all employee accounts by business id"
