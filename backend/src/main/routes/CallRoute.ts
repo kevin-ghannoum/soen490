@@ -143,13 +143,13 @@ export default class CallRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/calls/search/employeeEmail`)
+      .route(`/calls/search/callerEmail`)
       .get(
         checkJwt,
         checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const calls = await this.callService.searchCallsByCallerEmail(req.query.employeeEmail as string);
+            const calls = await this.callService.searchCallsByCallerEmail(req.query.callerEmail as string);
             res.status(StatusCodes.OK).send(calls);
           } catch (err) {
             next(err);
