@@ -1121,6 +1121,256 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+  /call:
+    post:
+      tags:
+      - "calls"
+      summary: "Create new call"
+      description: ""
+      operationId: "createCall"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Call body"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /calls:  
+    get:
+      tags:
+      - "calls"
+      summary: "Get calls related to a project"
+      description: ""
+      operationId: "getCalls"
+      produces:
+      - "application/json"
+      responses:
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /calls/{callerEmail}:
+    get:
+      tags:
+      - "calls"
+      summary: "Get all calls associated to a caller email"
+      description: ""
+      operationId: "getCallsByCallerEmail"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "caller email"
+        in: "path"
+        description: "Email of the caller"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /call/{id}:
+    get:
+      tags:
+      - "calls"
+      summary: "Get call by call id"
+      description: ""
+      operationId: "getCallById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "caller id"
+        in: "path"
+        description: "call id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+    delete:
+      tags:
+      - "calls"
+      summary: "Delete call by id"
+      description: ""
+      operationId: "deleteCallById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "call id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Deleted"
+    put:
+      tags:
+      - "calls"
+      summary: "Update call by id"
+      description: ""
+      operationId: "updateCallById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "call id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Updated"
+  /calls/search/{phoneNumber}:
+    get:
+      tags:
+      - "calls"
+      summary: "Get calls by a phone number regex"
+      description: ""
+      operationId: "getCallsByPhoneNumberRegex"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "caller email"
+        in: "query"
+        description: "Regex of the phone number"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid phone number supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /calls/search/{receiverName}:
+    get:
+      tags:
+      - "calls"
+      summary: "Get calls by a receiver name regex"
+      description: ""
+      operationId: "getCallsByReceiverNameRegex"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "receiver name"
+        in: "query"
+        description: "Regex of the name of the receiver"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid name supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /calls/search/{receiverEmail}:
+    get:
+      tags:
+      - "calls"
+      summary: "Get calls by a receiver email regex"
+      description: ""
+      operationId: "getCallsByReceiverEmailRegex"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "receiver email"
+        in: "query"
+        description: "Regex of the email of the receiver"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid receiver email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /calls/search/{employeeEmail}:
+    get:
+      tags:
+      - "calls"
+      summary: "Get calls by a employee (caller) email regex"
+      description: ""
+      operationId: "getCallsByReceiverEmailRegex"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "receiver email"
+        in: "query"
+        description: "Regex of the email of the employee (caller)"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
