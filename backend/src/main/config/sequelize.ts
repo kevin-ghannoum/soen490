@@ -6,7 +6,7 @@ dotenv.config();
 
 export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
-  dialect: 'postgres',
+  dialect: 'mysql',
   host: process.env.DB_HOSTNAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,

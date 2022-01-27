@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { mainTheme } from '../../configs/MuiConfig';
+import { mainTheme } from '../../../configs/MuiConfig';
 
 const logHoursStyle = makeStyles((theme) => ({
   logHoursPaper: {

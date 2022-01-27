@@ -71,8 +71,16 @@ export class LogHoursService {
     return this.payRepository.create(payCreationDTO);
   };
 
+  public getAllBusinessPays = async (businessId: number): Promise<Pay[] | null> => {
+    return this.payRepository.getAllByBusiness(businessId);
+  };
+
   public getPaysByEmail = async (email: string): Promise<Pay[] | null> => {
     return this.payRepository.getAllByEmail(email);
+  };
+
+  public getPayById = async (id: number): Promise<Pay | null> => {
+    return this.payRepository.get(id);
   };
 
   public getLatestPay = async (email: string): Promise<Pay | null> => {

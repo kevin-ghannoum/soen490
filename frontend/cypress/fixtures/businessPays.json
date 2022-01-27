@@ -1,0 +1,80 @@
+[
+    {
+        "id": 1,
+        "issueDate": "2022-01-03T22:43:48.000Z",
+        "hoursWorked": 40,
+        "status": "NOT_PAID",
+        "periodStart": "2022-01-04",
+        "periodEnd": "2022-01-14",
+        "amount": 444,
+        "email": "employee@employee.com",
+        "employeeAccount": {
+            "email": "employee@employee.com",
+            "title": "dev",
+            "hourlyWage": 30,
+            "supervisorEmail": "business@business.com",
+            "businessId": 1,
+            "account": {
+                "email": "employee@employee.com",
+                "firstName": "employee",
+                "lastName": "account",
+                "phoneNumber": "5555555555",
+                "username": "employee",
+                "password": "Soen490!",
+                "addressId": 2
+            }
+        }
+    },
+    {
+        "id": 2,
+        "issueDate": "2022-01-16T00:12:13.000Z",
+        "hoursWorked": 40,
+        "status": "NOT_PAID",
+        "periodStart": "2022-01-28",
+        "periodEnd": "2022-02-04",
+        "amount": 1111,
+        "email": "employee@employee.com",
+        "employeeAccount": {
+            "email": "employee@employee.com",
+            "title": "dev",
+            "hourlyWage": 30,
+            "supervisorEmail": "business@business.com",
+            "businessId": 1,
+            "account": {
+                "email": "employee@employee.com",
+                "firstName": "employee",
+                "lastName": "account",
+                "phoneNumber": "5555555555",
+                "username": "employee",
+                "password": "Soen490!",
+                "addressId": 2
+            }
+        }
+    },
+    {
+        "id": 3,
+        "issueDate": "2022-01-16T23:15:37.000Z",
+        "hoursWorked": 40,
+        "status": "NOT_PAID",
+        "periodStart": "2022-01-28",
+        "periodEnd": "2022-02-04",
+        "amount": 1111,
+        "email": "employee@employee.com",
+        "employeeAccount": {
+            "email": "employee@employee.com",
+            "title": "dev",
+            "hourlyWage": 30,
+            "supervisorEmail": "business@business.com",
+            "businessId": 1,
+            "account": {
+                "email": "employee@employee.com",
+                "firstName": "employee",
+                "lastName": "account",
+                "phoneNumber": "5555555555",
+                "username": "employee",
+                "password": "Soen490!",
+                "addressId": 2
+            }
+        }
+    }
+]

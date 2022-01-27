@@ -17,12 +17,13 @@ const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/
 const CreateProject = lazy(() => import('./components/Project/CreateProject'));
 const ViewProject = lazy(() => import('./components/Project/ViewProject'));
 const EditProject = lazy(() => import('./components/Project/EditProject'));
-const LogHours = lazy(() => import('./components/LogHours/LogHours'));
 const PageNotFound = lazy(() => import('./components/Shared/PageNotFound'));
 const CreateBusinessAccount = lazy(() => import('./components/CreateBusinessAccount/CreateBusinessAccount'));
 const TaskList = lazy(() => import('./components/Task/TaskList'));
 const CreateTask = lazy(() => import('./components/Task/CreateTask'));
 const EditTask = lazy(() => import('./components/Task/EditTask'));
+const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
+const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
 
 const App = () => {
   const account = useAppSelector(selectAccount);
@@ -187,7 +188,63 @@ const App = () => {
                         return (
                           <React.Fragment>
                             <Sidebar />
-                            <LogHours />
+                            <ViewPay />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/pay/new"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <LogHours editMode={false} />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/pay/edit/:id"
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <LogHours editMode={true} id={match.params.id} />
                           </React.Fragment>
                         );
                       } else {

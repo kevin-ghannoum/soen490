@@ -29,14 +29,44 @@ export default class LogHoursRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/logHours/pay/:email`)
+      .route(`/logHours`)
+      .get(
+        checkJwt,
+        checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const employeeAccount = await this.logHoursService.getAllBusinessPays(Number(req.query.businessId));
+            res.status(StatusCodes.OK).send(employeeAccount);
+          } catch (err) {
+            next(err);
+          }
+        }
+      );
+
+    this.getApp()
+      .route(`/logHours/pays/:email`)
       .get(
         checkJwt,
         checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const employeeAccount = await this.logHoursService.getPaysByEmail(req.params.email);
-            res.status(StatusCodes.OK).send(employeeAccount);
+            const pays = await this.logHoursService.getPaysByEmail(req.params.email);
+            res.status(StatusCodes.OK).send(pays);
+          } catch (err) {
+            next(err);
+          }
+        }
+      );
+
+    this.getApp()
+      .route(`/logHours/pay/:id`)
+      .get(
+        checkJwt,
+        checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const pay = await this.logHoursService.getPayById(Number(req.params.id));
+            res.status(StatusCodes.OK).send(pay);
           } catch (err) {
             next(err);
           }
@@ -80,8 +110,8 @@ export default class LogHoursRoute extends CommonRoutesConfig {
         checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const newLogHours = await this.logHoursService.updatePay(Number(req.params.id), req.body);
-            res.status(StatusCodes.CREATED).send(newLogHours);
+            await this.logHoursService.updatePay(Number(req.params.id), req.body);
+            res.status(StatusCodes.OK).send('Updated');
           } catch (err) {
             next(err);
           }
