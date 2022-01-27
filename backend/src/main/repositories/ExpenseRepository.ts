@@ -12,9 +12,9 @@ export default class ExpenseRepository implements CRUD {
     log('Created new instance of ExpenseRepository');
   }
 
-  public create = async (transactionInfo: ExpenseCreationDTO): Promise<Expense> => {
+  public create = async (expenseCreationDTO: ExpenseCreationDTO): Promise<Expense> => {
     try {
-      const createdExpense = Expense.build(transactionInfo, {
+      const createdExpense = Expense.build(expenseCreationDTO, {
         include: [Transaction],
       });
       await createdExpense.save();
@@ -32,12 +32,38 @@ export default class ExpenseRepository implements CRUD {
       const expense = await Expense.findByPk(id, {
         include: [Transaction],
       });
-
       if (expense) {
         log(expense);
         log(`Expense with id ${expense?.id} has been retrieved`);
       } else {
         log(`No expense have been found with id ${id}`);
+      }
+
+      return Promise.resolve(expense);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  public getExpensesByProject = async (projectId: number): Promise<Expense[] | null> => {
+    try {
+      const expense = await Expense.findAll({
+        include: [
+          {
+            model: Transaction,
+            where: {
+              projectId: projectId,
+            },
+          },
+        ],
+      });
+
+      if (expense) {
+        log(expense);
+        // log(`Expense with id ${expense?.projectId} has been retrieved`);
+      } else {
+        log(`No expense have been found with id ${projectId}`);
       }
 
       return Promise.resolve(expense);
@@ -65,17 +91,12 @@ export default class ExpenseRepository implements CRUD {
 
   public update = async (id: number, updatedExpenseValue: ExpenseUpdateDTO): Promise<number> => {
     try {
-      if (updatedExpenseValue.transaction) {
-        Transaction.update(updatedExpenseValue.transaction, {
+      if (updatedExpenseValue) {
+        await Expense.update(updatedExpenseValue, {
           where: { id: id },
         });
       }
-      delete updatedExpenseValue.transaction;
-      await Expense.update(updatedExpenseValue, {
-        where: { id: id },
-      });
-
-      log(`Expense with id ${id} has been updated`);
+      log(`Expense with id ${updatedExpenseValue.id} has been updated`);
 
       return Promise.resolve(1);
     } catch (err: any) {

@@ -1,3 +1,5 @@
+import { InvoiceUpdateDTO } from '../InvoiceDTO';
+
 export interface TransactionCreationDTO {
   amount: number;
   date: Date;
@@ -6,29 +8,60 @@ export interface TransactionCreationDTO {
 }
 
 export interface TransactionUpdateDTO {
-  id?: number;
   amount?: number;
   date?: Date;
   description?: string;
-  projectId?: number;
 }
 
 export interface ExpenseCreationDTO {
-  transaction: TransactionCreationDTO;
+  id: number;
   type: Type;
 }
 
 export interface ExpenseUpdateDTO {
-  transaction?: TransactionUpdateDTO;
+  type?: Type;
+}
+
+export interface ExpenseRequestDTO {
+  transaction: TransactionCreationDTO;
+  expense: ExpenseCreationDTO;
+}
+
+export interface ProductionRequestDTO {
+  transaction: TransactionCreationDTO;
+  production: ProductionCreationDTO;
+  quantity: number;
+}
+
+export interface ExpenseUpdateRequestDTO {
+  id: number;
+  transaction: TransactionUpdateDTO;
+  expense: ExpenseUpdateDTO;
+}
+
+export interface ProductionUpdateRequestDTO {
+  id: number;
+  transaction: TransactionUpdateDTO;
+  invoice: InvoiceUpdateDTO;
+}
+
+export interface ExpenseCreationDTO {
+  id: number;
+  type: Type;
+}
+
+export interface ExpenseUpdateDTO {
+  id?: number;
   type?: Type;
 }
 
 export interface ProductionCreationDTO {
-  transaction: TransactionCreationDTO;
+  id: number;
 }
 
 export interface ProductionUpdateDTO {
   transaction?: TransactionUpdateDTO;
+  quantity: number;
 }
 
 export enum Type {
