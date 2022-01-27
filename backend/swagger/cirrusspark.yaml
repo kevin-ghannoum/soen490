@@ -1158,8 +1158,6 @@ paths:
       produces:
       - "application/json"
       responses:
-        "400":
-          description: "Invalid businessId supplied"
         "404":
           description: "Not found"
         "401":
@@ -1185,7 +1183,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid id supplied"
+          description: "Invalid email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1286,7 +1284,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid id supplied"
+          description: "Invalid phone number supplied"
         "404":
           description: "Not found"
         "401":
@@ -1312,7 +1310,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid id supplied"
+          description: "Invalid name supplied"
         "404":
           description: "Not found"
         "401":
@@ -1338,7 +1336,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid id supplied"
+          description: "Invalid receiver email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1364,7 +1362,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid id supplied"
+          description: "Invalid caller email supplied"
         "404":
           description: "Not found"
         "401":
