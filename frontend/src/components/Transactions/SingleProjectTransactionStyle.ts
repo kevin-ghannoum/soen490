@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const createProjectStyle = makeStyles((theme) => ({
+const singleProjectTransactionStyle = makeStyles((theme) => ({
   SingleProjectFormWrapper: {
     [theme.breakpoints.down('lg')]: {
       width: '60%',
@@ -29,4 +29,4 @@ const createProjectStyle = makeStyles((theme) => ({
   },
 }));
 
-export default createProjectStyle;
+export default singleProjectTransactionStyle;

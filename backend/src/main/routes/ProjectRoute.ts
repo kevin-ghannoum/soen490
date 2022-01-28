@@ -55,8 +55,8 @@ export default class ProjectRoute extends CommonRoutesConfig {
             const project = await this.projectService.getBookedProjectOfBusiness(Number(req.query.businessId));
             const booked: Project[] = [];
             project?.forEach((element: any) => {
-              if(element.status === "BOOKED"){
-                booked.push(element)
+              if (element.status === 'BOOKED') {
+                booked.push(element);
               }
             });
             res.status(StatusCodes.OK).send(booked);

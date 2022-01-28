@@ -20,20 +20,20 @@ export interface TransactionDTO {
   projectId: string;
 }
 
-export interface createTransactionDTO {
+export interface CreateTransactionDTO {
   amount: string | number;
   date: string;
   description: string;
   projectId: string;
 }
 
-export interface createExpenseDTO {
-  transaction: createTransactionDTO;
+export interface CreateExpenseDTO {
+  transaction: CreateTransactionDTO;
   expense: ExpenseDTO;
 }
 
-export interface createProductionDTO {
-  transaction: createTransactionDTO;
+export interface CreateProductionDTO {
+  transaction: CreateTransactionDTO;
   production: ProductionDTO;
   quantity: string | number;
 }

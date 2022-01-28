@@ -59,7 +59,7 @@ export class ProjectService {
   public getProjectofBusiness = async (businessId: number): Promise<Project[] | null> => {
     return this.projectRepository.getAllofBusiness(businessId);
   };
-  
+
   public getBookedProjectOfBusiness = async (businessId: number): Promise<Project[] | null> => {
     return this.projectRepository.getAllofBusiness(businessId);
   };

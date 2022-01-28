@@ -3,8 +3,7 @@ import { CommonRoutesConfig } from './CommonRoutesConfig';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'tsyringe';
 import { TransactionService } from '../services/TransactionService';
-import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
-import { Roles } from '../security/Roles';
+import { checkJwt } from '../middleware/JWTMiddleware';
 import { ExpenseService } from '../services/ExpenseService';
 import { ProductionService } from '../services/ProductionService';
 
@@ -42,18 +41,6 @@ export default class TransactionRoute extends CommonRoutesConfig {
           next(err);
         }
       })
-      .delete(
-        checkJwt,
-        // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-          try {
-            await this.transactionService.deleteTransaction(Number(req.query.transactionId));
-            res.status(StatusCodes.OK).send();
-          } catch (err) {
-            next(err);
-          }
-        }
-      )
       .put(
         checkJwt,
         // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
@@ -91,18 +78,6 @@ export default class TransactionRoute extends CommonRoutesConfig {
           next(err);
         }
       })
-      .delete(
-        checkJwt,
-        // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-          try {
-            await this.transactionService.deleteTransaction(Number(req.query.transactionId));
-            res.status(StatusCodes.OK).send();
-          } catch (err) {
-            next(err);
-          }
-        }
-      )
       .put(
         checkJwt,
         // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])),
@@ -116,7 +91,7 @@ export default class TransactionRoute extends CommonRoutesConfig {
         }
       );
 
-      this.getApp()
+    this.getApp()
       .route(`/transaction/expense`)
       .all(
         checkJwt
@@ -141,6 +116,21 @@ export default class TransactionRoute extends CommonRoutesConfig {
         try {
           const production = await this.productionService.getProduction(Number(req.query.id));
           res.status(StatusCodes.OK).send(production);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/transaction`)
+      .all(
+        checkJwt
+        // checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS]))
+      )
+      .delete(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          await this.transactionService.deleteTransaction(Number(req.query.transactionId));
+          res.status(StatusCodes.OK).send();
         } catch (err) {
           next(err);
         }

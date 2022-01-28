@@ -84,7 +84,6 @@ const BookedProjects: React.FC = () => {
       width: 150,
       editable: false,
       renderCell: (params: any) => {
-        // return <Link href={`/project/${params.value.id}?edit=false`}>{params.value.title}</Link>;
         return <Link href={`/project_transaction/${params.value.id}`}>{params.value.title}</Link>;
       },
     },

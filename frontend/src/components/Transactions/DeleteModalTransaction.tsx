@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { deleteExpense, deleteProduction } from '../../services/TransactionAPI';
+import { deleteTransaction } from '../../services/TransactionAPI';
 
 interface Props {
   id: string;
@@ -12,16 +12,10 @@ interface Props {
 const DeleteModalTransaction: React.FC<Props> = ({ id, transactionType, closeModalExpense, closeModalProduction }) => {
   const history = useHistory();
 
-  const deleteTransaction = async () => {
+  const handleDeleteTransaction = async () => {
     try {
-      if (transactionType === 'expense') {
-        await deleteExpense(Number(id));
-        history.go(0);
-      }
-      if (transactionType === 'production') {
-        await deleteProduction(Number(id));
-        history.go(0);
-      }
+      await deleteTransaction(Number(id));
+      history.go(0);
     } catch (err: any) {
       history.push('/error');
     }
@@ -38,7 +32,7 @@ const DeleteModalTransaction: React.FC<Props> = ({ id, transactionType, closeMod
           variant="contained"
           id="create_productions"
           style={{ margin: 10 }}
-          onClick={deleteTransaction}
+          onClick={handleDeleteTransaction}
         >
           Yes
         </Button>

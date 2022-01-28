@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import createProjectStyle from './SingleProjectTransactionStyle';
+import singleProjectTransactionStyle from './SingleProjectTransactionStyle';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { getProject } from '../../services/ProjectAPI';
@@ -38,7 +38,7 @@ interface Props {
 }
 
 const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
-  const classes = createProjectStyle();
+  const classes = singleProjectTransactionStyle();
   const history = useHistory();
   const [projectInfo, setProjectInfo] = useState<ProjectDisplay>();
   const [expensesList, setExpensesList] = useState<ExpenseDataRetrievalFormatDTO[]>([]);
@@ -76,9 +76,9 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     setIdToDelete('');
   };
 
-  const handleOpenExpenseDeleteDialog = (id: string) => {
+  const handleOpenExpenseDeleteDialog = (expenseIdDelete: string) => {
     setOpenDeleteExpenseDialog(true);
-    setIdToDelete(id);
+    setIdToDelete(expenseIdDelete);
   };
 
   const handleCloseProductionDeleteDialog = () => {
@@ -86,9 +86,9 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     setIdToDelete('');
   };
 
-  const handleOpenProductionDeleteDialog = (id: string) => {
+  const handleOpenProductionDeleteDialog = (productionIdDelete: string) => {
     setOpenDeleteProductionDialog(true);
-    setIdToDelete(id);
+    setIdToDelete(productionIdDelete);
   };
 
   const handleCloseExpenseEditDialog = () => {
@@ -96,9 +96,9 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     setIdToEdit('');
   };
 
-  const handleOpenExpenseEditDialog = (id: string) => {
+  const handleOpenExpenseEditDialog = (expenseIdEdit: string) => {
     setOpenEditExpenseDialog(true);
-    setIdToEdit(id);
+    setIdToEdit(expenseIdEdit);
   };
 
   const handleCloseProductionEditDialog = () => {
@@ -106,9 +106,9 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     setIdToEdit('');
   };
 
-  const handleOpenProductionEditDialog = (id: string) => {
+  const handleOpenProductionEditDialog = (productionIdEdit: string) => {
     setOpenEditProductionDialog(true);
-    setIdToEdit(id);
+    setIdToEdit(productionIdEdit);
   };
 
   const useRowStyles = makeStyles({
@@ -237,11 +237,11 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     const { row } = props;
     const [openExpenses, setOpenExpenses] = useState(false);
     const [openProductions, setOpenProductions] = useState(false);
-    const classes = useRowStyles();
+    const rowClasses = useRowStyles();
 
     return (
       <React.Fragment>
-        <TableRow className={classes.root}>
+        <TableRow className={rowClasses.root}>
           <TableCell>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenExpenses(!openExpenses)}>
               {openExpenses ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -304,7 +304,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
             </Collapse>
           </TableCell>
         </TableRow>
-        <TableRow className={classes.root}>
+        <TableRow className={rowClasses.root}>
           <TableCell>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenProductions(!openProductions)}>
               {openProductions ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}

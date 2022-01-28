@@ -13,9 +13,9 @@ export default class ProductionRepository implements CRUD {
     log('Created new instance of ProductionRepository');
   }
 
-  public create = async (ProductionCreationDTO: ProductionCreationDTO): Promise<Production> => {
+  public create = async (productionCreationDTO: ProductionCreationDTO): Promise<Production> => {
     try {
-      const createdProduction = Production.build(ProductionCreationDTO, {
+      const createdProduction = Production.build(productionCreationDTO, {
         include: [Transaction],
       });
       await createdProduction.save();
@@ -50,7 +50,7 @@ export default class ProductionRepository implements CRUD {
 
   public getProductionByProject = async (projectId: number): Promise<Production[] | null> => {
     try {
-      const expense = await Production.findAll({
+      const production = await Production.findAll({
         include: [
           {
             model: Transaction,
@@ -62,14 +62,14 @@ export default class ProductionRepository implements CRUD {
         ],
       });
 
-      if (expense) {
-        log(expense);
-        // log(`Expense with id ${expense?.projectId} has been retrieved`);
+      if (production) {
+        log(production);
+        log(`Production has been retrieved`);
       } else {
-        log(`No expense have been found with id ${projectId}`);
+        log(`No production have been found with id ${projectId}`);
       }
 
-      return Promise.resolve(expense);
+      return Promise.resolve(production);
     } catch (err: any) {
       log(err);
       return Promise.reject(err);
