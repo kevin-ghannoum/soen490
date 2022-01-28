@@ -2,7 +2,7 @@
 
 import { loginIntercept } from '../../helpers/loginIntercept';
 
-describe('CreateCallLogs feature e2e test', () => {
+describe('editCall feature e2e test', () => {
   beforeEach(() => {
     loginIntercept();
   });
@@ -11,7 +11,7 @@ describe('CreateCallLogs feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
-  it('Should create a new call log', () => {
+  it('Should edit a call log', () => {
     cy.intercept(
       {
         method: 'GET',
@@ -22,11 +22,11 @@ describe('CreateCallLogs feature e2e test', () => {
 
     cy.intercept(
       {
-        method: 'POST',
-        url: '/call',
+        method: 'PUT',
+        url: '/call/*',
       },
-      { fixture: 'callList.json', statusCode: 201 }
-    ).as('createCallLogAPI');
+      { fixture: 'editCallList.json', statusCode: 201 }
+    ).as('editCallLogAPI');
 
     let interceptCount = 0;
 
@@ -36,25 +36,27 @@ describe('CreateCallLogs feature e2e test', () => {
           interceptCount += 1;
           res.send({ fixture: 'callList.json', statusCode: 200 });
         } else {
-          res.send({ fixture: 'createCallList.json', statusCode: 200 });
+          res.send({ fixture: 'editCallList.json', statusCode: 200 });
         }
       });
     });
 
     cy.visit('/logs');
 
-    cy.get('#addLog').click();
+    cy.get('[data-field="edit"] > .MuiButtonBase-root > .MuiButton-label').click();
 
     cy.get('#selectClient').type('a@a.com');
     cy.get('#selectClient').type('{downarrow}{enter}');
 
     cy.get('#lock-button').click();
-    cy.contains('Left Voicemail').click();
+    cy.contains('Email sent').click();
 
-    cy.get('#outlined-textarea').type('This is a test');
+    cy.get('#outlined-textarea').clear();
+    cy.get('#outlined-textarea').type('This is an edit');
 
-    cy.get('#createLog').click();
+    cy.get('#editLog').click();
 
-    cy.wait('@createCallLogAPI').its('response.statusCode').should('eq', 201);
+    cy.wait('@editCallLogAPI').its('response.statusCode').should('eq', 200);
+
   });
 });

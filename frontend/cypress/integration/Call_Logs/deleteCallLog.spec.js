@@ -22,11 +22,11 @@ describe('CreateCallLogs feature e2e test', () => {
 
     cy.intercept(
       {
-        method: 'POST',
-        url: '/call',
+        method: 'DELETE',
+        url: '/call/*',
       },
-      { fixture: 'callList.json', statusCode: 201 }
-    ).as('createCallLogAPI');
+      { fixture: 'callList.json', statusCode: 200 }
+    ).as('deleteCallLogAPI');
 
     let interceptCount = 0;
 
@@ -34,27 +34,19 @@ describe('CreateCallLogs feature e2e test', () => {
       req.reply((res) => {
         if (interceptCount === 0) {
           interceptCount += 1;
-          res.send({ fixture: 'callList.json', statusCode: 200 });
-        } else {
           res.send({ fixture: 'createCallList.json', statusCode: 200 });
+        } else {
+          res.send({ fixture: 'callList.json', statusCode: 200 });
         }
       });
     });
 
     cy.visit('/logs');
 
-    cy.get('#addLog').click();
+    cy.get('.Mui-odd > [data-field="delete"] > .MuiButtonBase-root > .MuiButton-label').click();
 
-    cy.get('#selectClient').type('a@a.com');
-    cy.get('#selectClient').type('{downarrow}{enter}');
+    cy.get('.MuiDialogActions-root > .MuiButton-contained').click();
 
-    cy.get('#lock-button').click();
-    cy.contains('Left Voicemail').click();
-
-    cy.get('#outlined-textarea').type('This is a test');
-
-    cy.get('#createLog').click();
-
-    cy.wait('@createCallLogAPI').its('response.statusCode').should('eq', 201);
+    cy.wait('@deleteCallLogAPI').its('response.statusCode').should('eq', 200);
   });
 });

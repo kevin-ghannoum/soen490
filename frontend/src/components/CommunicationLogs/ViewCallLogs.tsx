@@ -442,7 +442,7 @@ const ViewCallLogs: React.FC = () => {
                     Add
                   </Button>
                 ) : (
-                  <Button size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
+                  <Button id="editLog" size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
                     Edit
                   </Button>
                 )}
