@@ -44,21 +44,6 @@ export default class CallRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/call/id/:id`)
-      .get(
-        checkJwt,
-        checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-          try {
-            const call = await this.callService.getCallById(Number(req.params.id));
-            res.status(StatusCodes.OK).send(call);
-          } catch (err) {
-            next(err);
-          }
-        }
-      );
-
-    this.getApp()
       .route(`/calls/:callerEmail`)
       .get(
         checkJwt,
@@ -75,6 +60,18 @@ export default class CallRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/call/:id`)
+      .get(
+        checkJwt,
+        checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const call = await this.callService.getCallById(Number(req.params.id));
+            res.status(StatusCodes.OK).send(call);
+          } catch (err) {
+            next(err);
+          }
+        }
+      )
       .put(
         checkJwt,
         checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
@@ -101,13 +98,13 @@ export default class CallRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/calls/search/name/:receiverName`)
+      .route(`/calls/search/receiverName`)
       .get(
         checkJwt,
         checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const calls = await this.callService.searchCallsByReceiverName(req.params.receiverName);
+            const calls = await this.callService.searchCallsByReceiverName(req.query.receiverName as string);
             res.status(StatusCodes.OK).send(calls);
           } catch (err) {
             next(err);
@@ -131,7 +128,7 @@ export default class CallRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/calls/search/email`)
+      .route(`/calls/search/receiverEmail`)
       .get(
         checkJwt,
         checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
@@ -146,13 +143,13 @@ export default class CallRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/calls/search/employeeEmail`)
+      .route(`/calls/search/callerEmail`)
       .get(
         checkJwt,
         checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR, Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
-            const calls = await this.callService.searchCallsByCallerEmail(req.body.callerEmail);
+            const calls = await this.callService.searchCallsByCallerEmail(req.query.callerEmail as string);
             res.status(StatusCodes.OK).send(calls);
           } catch (err) {
             next(err);
