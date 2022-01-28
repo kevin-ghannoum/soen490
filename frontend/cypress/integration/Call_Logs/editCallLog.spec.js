@@ -56,7 +56,7 @@ describe('editCall feature e2e test', () => {
 
     cy.get('#editLog').click();
 
-    cy.wait('@editCallLogAPI').its('response.statusCode').should('eq', 200);
+    cy.wait('@editCallLogAPI').its('response.statusCode').should('eq', 201);
 
   });
 });
