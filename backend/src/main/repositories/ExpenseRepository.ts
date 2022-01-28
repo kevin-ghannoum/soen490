@@ -61,7 +61,7 @@ export default class ExpenseRepository implements CRUD {
 
       if (expense) {
         log(expense);
-        // log(`Expense with id ${expense?.projectId} has been retrieved`);
+        log(`Expense has been retrieved`);
       } else {
         log(`No expense have been found with id ${projectId}`);
       }
