@@ -214,9 +214,9 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     return newTrimDate[0];
   };
 
-  const numberWithCommas = (x: string) => {
-    const formattedNumber = parseFloat(x).toFixed(2);
-    return formattedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const numberWithCommas = (price: string) => {
+    let dollarUSLocale = Intl.NumberFormat('en-US');
+    return dollarUSLocale.format(Number(price));
   };
 
   const createData = (
