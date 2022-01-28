@@ -1,8 +1,9 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../../helpers/loginIntercept';
+import { getClientEmailProjectIntercept } from '../../helpers/projectIntercept';
 
-describe('CreateCallLogs feature e2e test', () => {
+describe('DeleteCallLogs feature e2e test', () => {
   beforeEach(() => {
     loginIntercept();
   });
@@ -11,14 +12,8 @@ describe('CreateCallLogs feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
-  it('Should create a new call log', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/accounts/client?email=*',
-      },
-      { fixture: 'clientList.json', statusCode: 200 }
-    ).as('getClientAPI');
+  it('Should delete a new call log', () => {
+    getClientEmailProjectIntercept();
 
     cy.intercept(
       {
@@ -39,9 +34,11 @@ describe('CreateCallLogs feature e2e test', () => {
           res.send({ fixture: 'callList.json', statusCode: 200 });
         }
       });
-    });
+    }).as('getCallLogAPI');
 
     cy.visit('/logs');
+
+    cy.wait('@getCallLogAPI');
 
     cy.get('.Mui-odd > [data-field="delete"] > .MuiButtonBase-root > .MuiButton-label').click();
 

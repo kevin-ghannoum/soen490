@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../../helpers/loginIntercept';
+import { getClientEmailProjectIntercept } from '../../helpers/projectIntercept';
 
 describe('editCall feature e2e test', () => {
   beforeEach(() => {
@@ -12,13 +13,7 @@ describe('editCall feature e2e test', () => {
   });
 
   it('Should edit a call log', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/accounts/client?email=*',
-      },
-      { fixture: 'clientList.json', statusCode: 200 }
-    ).as('getClientAPI');
+    getClientEmailProjectIntercept();
 
     cy.intercept(
       {
@@ -39,9 +34,11 @@ describe('editCall feature e2e test', () => {
           res.send({ fixture: 'editCallList.json', statusCode: 200 });
         }
       });
-    });
+    }).as('getCallLogAPI');
 
     cy.visit('/logs');
+
+    cy.wait('@getCallLogAPI');
 
     cy.get('[data-field="edit"] > .MuiButtonBase-root > .MuiButton-label').click();
 
@@ -57,6 +54,5 @@ describe('editCall feature e2e test', () => {
     cy.get('#editLog').click();
 
     cy.wait('@editCallLogAPI').its('response.statusCode').should('eq', 201);
-
   });
 });

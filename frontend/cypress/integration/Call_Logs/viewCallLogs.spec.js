@@ -17,9 +17,7 @@ describe('ViewCalls feature e2e test', () => {
 
     cy.visit('/logs');
 
-    cy.wait('@getListOfCallAPI');
-
-    cy.wait(4000);
+    cy.wait('@getCallLogAPI');
 
     cy.get('#View-Logs-Grid').should('exist');
   });

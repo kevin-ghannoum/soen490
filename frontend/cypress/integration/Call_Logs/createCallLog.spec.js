@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../../helpers/loginIntercept';
+import { getClientEmailProjectIntercept } from '../../helpers/projectIntercept';
+import { getCallsFromCallerIntercept } from '../../helpers/callIntercept';
 
 describe('CreateCallLogs feature e2e test', () => {
   beforeEach(() => {
@@ -12,13 +14,9 @@ describe('CreateCallLogs feature e2e test', () => {
   });
 
   it('Should create a new call log', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/accounts/client?email=*',
-      },
-      { fixture: 'clientList.json', statusCode: 200 }
-    ).as('getClientAPI');
+    getClientEmailProjectIntercept();
+
+    getCallsFromCallerIntercept();
 
     cy.intercept(
       {
@@ -28,20 +26,9 @@ describe('CreateCallLogs feature e2e test', () => {
       { fixture: 'callList.json', statusCode: 201 }
     ).as('createCallLogAPI');
 
-    let interceptCount = 0;
-
-    cy.intercept('GET', '/calls/*', (req) => {
-      req.reply((res) => {
-        if (interceptCount === 0) {
-          interceptCount += 1;
-          res.send({ fixture: 'callList.json', statusCode: 200 });
-        } else {
-          res.send({ fixture: 'createCallList.json', statusCode: 200 });
-        }
-      });
-    });
-
     cy.visit('/logs');
+
+    cy.wait('@getCallLogAPI');
 
     cy.get('#addLog').click();
 
