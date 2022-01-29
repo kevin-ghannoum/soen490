@@ -28,8 +28,6 @@ describe('CreateCallLogs feature e2e test', () => {
 
     cy.visit('/logs');
 
-    cy.wait('@getCallLogAPI');
-
     cy.get('#addLog').click();
 
     cy.get('#selectClient').type('a@a.com');

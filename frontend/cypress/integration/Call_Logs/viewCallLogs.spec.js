@@ -13,11 +13,9 @@ describe('ViewCalls feature e2e test', () => {
   });
 
   it('Should view a list of calls', () => {
-    getCallsFromCallerIntercept();
+    getCallsFromCallerIntercept('view');
 
     cy.visit('/logs');
-
-    cy.wait('@getCallLogAPI');
 
     cy.get('#View-Logs-Grid').should('exist');
   });

@@ -2,6 +2,7 @@
 
 import { loginIntercept } from '../../helpers/loginIntercept';
 import { getClientEmailProjectIntercept } from '../../helpers/projectIntercept';
+import { getCallsFromCallerIntercept } from '../../helpers/callIntercept';
 
 describe('editCall feature e2e test', () => {
   beforeEach(() => {
@@ -15,6 +16,8 @@ describe('editCall feature e2e test', () => {
   it('Should edit a call log', () => {
     getClientEmailProjectIntercept();
 
+    getCallsFromCallerIntercept('edit');
+
     cy.intercept(
       {
         method: 'PUT',
@@ -23,22 +26,7 @@ describe('editCall feature e2e test', () => {
       { fixture: 'editCallList.json', statusCode: 201 }
     ).as('editCallLogAPI');
 
-    let interceptCount = 0;
-
-    cy.intercept('GET', '/calls/*', (req) => {
-      req.reply((res) => {
-        if (interceptCount === 0) {
-          interceptCount += 1;
-          res.send({ fixture: 'callList.json', statusCode: 200 });
-        } else {
-          res.send({ fixture: 'editCallList.json', statusCode: 200 });
-        }
-      });
-    }).as('getCallLogAPI');
-
     cy.visit('/logs');
-
-    cy.wait('@getCallLogAPI');
 
     cy.get('[data-field="edit"] > .MuiButtonBase-root > .MuiButton-label').click();
 

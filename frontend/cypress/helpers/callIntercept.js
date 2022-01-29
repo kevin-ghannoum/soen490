@@ -1,16 +1,28 @@
 /// <reference types="cypress" />
 
-export const getCallsFromCallerIntercept = () => {
+export const getCallsFromCallerIntercept = (getter) => {
   let interceptCount = 0;
 
-    cy.intercept('GET', '/calls/*', (req) => {
-      req.reply((res) => {
-        if (interceptCount === 0) {
-          interceptCount += 1;
-          res.send({ fixture: 'callList.json', statusCode: 200 });
+  if (getter === 'delete') {
+    interceptCount = 1;
+  }
+
+  cy.intercept('GET', '/calls/*', (req) => {
+    req.reply((res) => {
+      if (interceptCount === 0) {
+        res.send({ fixture: 'callList.json', statusCode: 200 });
+        if (getter === 'edit') {
+          interceptCount = 2;
         } else {
-          res.send({ fixture: 'createCallList.json', statusCode: 200 });
+          interceptCount = 1;
         }
-      });
-    }).as('getCallLogAPI');
+      } else if (interceptCount === 1) {
+        res.send({ fixture: 'createCallList.json', statusCode: 200 });
+        interceptCount = 0;
+      } else {
+        res.send({ fixture: 'editCallList.json', statusCode: 200 });
+        interceptCount = 0;
+      }
+    });
+  }).as('getCallLogAPI');
 };

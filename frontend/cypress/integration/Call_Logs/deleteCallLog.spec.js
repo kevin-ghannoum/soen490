@@ -2,6 +2,7 @@
 
 import { loginIntercept } from '../../helpers/loginIntercept';
 import { getClientEmailProjectIntercept } from '../../helpers/projectIntercept';
+import { getCallsFromCallerIntercept } from '../../helpers/callIntercept';
 
 describe('DeleteCallLogs feature e2e test', () => {
   beforeEach(() => {
@@ -12,8 +13,10 @@ describe('DeleteCallLogs feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
-  it('Should delete a new call log', () => {
+  it('Should delete a call log', () => {
     getClientEmailProjectIntercept();
+
+    getCallsFromCallerIntercept('delete');
 
     cy.intercept(
       {
@@ -23,22 +26,7 @@ describe('DeleteCallLogs feature e2e test', () => {
       { fixture: 'callList.json', statusCode: 200 }
     ).as('deleteCallLogAPI');
 
-    let interceptCount = 0;
-
-    cy.intercept('GET', '/calls/*', (req) => {
-      req.reply((res) => {
-        if (interceptCount === 0) {
-          interceptCount += 1;
-          res.send({ fixture: 'createCallList.json', statusCode: 200 });
-        } else {
-          res.send({ fixture: 'callList.json', statusCode: 200 });
-        }
-      });
-    }).as('getCallLogAPI');
-
     cy.visit('/logs');
-
-    cy.wait('@getCallLogAPI');
 
     cy.get('.Mui-odd > [data-field="delete"] > .MuiButtonBase-root > .MuiButton-label').click();
 
