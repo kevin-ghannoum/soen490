@@ -1176,7 +1176,11 @@ paths:
       produces:
       - "application/json"
       parameters:
+<<<<<<< HEAD
       - name: "callerEmail"
+=======
+      - name: "caller email"
+>>>>>>> 4a0829d10582a1a69ba3dee27379ed3fdbdcbeb9
         in: "path"
         description: "Email of the caller"
         required: true
@@ -1202,7 +1206,11 @@ paths:
       produces:
       - "application/json"
       parameters:
+<<<<<<< HEAD
       - name: "id"
+=======
+      - name: "caller id"
+>>>>>>> 4a0829d10582a1a69ba3dee27379ed3fdbdcbeb9
         in: "path"
         description: "call id"
         required: true
@@ -1267,7 +1275,11 @@ paths:
           description: "Unexpected error"
         "200":
           description: "Updated"
+<<<<<<< HEAD
   /calls/search/phoneNumber:
+=======
+  /calls/search/{phoneNumber}:
+>>>>>>> 4a0829d10582a1a69ba3dee27379ed3fdbdcbeb9
     get:
       tags:
       - "calls"
@@ -1277,7 +1289,11 @@ paths:
       produces:
       - "application/json"
       parameters:
+<<<<<<< HEAD
       - name: "phoneNumber"
+=======
+      - name: "caller email"
+>>>>>>> 4a0829d10582a1a69ba3dee27379ed3fdbdcbeb9
         in: "query"
         description: "Regex of the phone number"
         required: true
