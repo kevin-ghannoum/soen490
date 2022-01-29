@@ -1432,7 +1432,7 @@ paths:
           type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid employee email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1458,7 +1458,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid pay id supplied"
         "404":
           description: "Not found"
         "401":
@@ -1489,7 +1489,7 @@ paths:
           $ref: ""
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid pay id supplied"
         "404":
           description: "Not found"
         "401":
@@ -1515,7 +1515,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid employee email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1541,7 +1541,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid employee email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1572,7 +1572,7 @@ paths:
           $ref: ""
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid employee email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1597,7 +1597,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid employee email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1618,13 +1618,13 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "Created user object"
+        description: "Created task object"
         required: true
         schema:
           $ref: ""
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Bad request"
         "404":
           description: "Not found"
         "401":
@@ -1642,8 +1642,6 @@ paths:
       produces:
       - "application/json"
       responses:
-        "400":
-          description: "Invalid caller email supplied"
         "404":
           description: "Not found"
         "401":
@@ -1669,7 +1667,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid task id supplied"
         "404":
           description: "Not found"
         "401":
@@ -1700,7 +1698,7 @@ paths:
           $ref: ""
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid task id supplied"
         "404":
           description: "Not found"
         "401":
@@ -1725,7 +1723,7 @@ paths:
         type: "string"
       responses:
         "400":
-          description: "Invalid caller email supplied"
+          description: "Invalid task id supplied"
         "404":
           description: "Not found"
         "401":
