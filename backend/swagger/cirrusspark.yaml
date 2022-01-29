@@ -1445,7 +1445,7 @@ paths:
     get:
       tags:
       - "loghours"
-      summary: "Get all pays belonging to {id}"
+      summary: "Get pay with {id}"
       description: ""
       operationId: "get"
       produces:
@@ -1470,7 +1470,7 @@ paths:
     put:
       tags:
       - "loghours"
-      summary: "Update pay belonging to {id}"
+      summary: "Update pay with {id}"
       description: ""
       operationId: "put"
       produces:
@@ -1502,7 +1502,7 @@ paths:
     get:
       tags:
       - "loghours"
-      summary: "Get most recent pays belonging to {email}"
+      summary: "Get most recent pay belonging to {email}"
       description: ""
       operationId: "getLatestPay"
       produces:
@@ -1528,7 +1528,7 @@ paths:
     get:
       tags:
       - "loghours"
-      summary: "Get hours by input type belonging to {email}"
+      summary: "Get hours input type belonging to {email}"
       description: ""
       operationId: "getEmployeeHoursInputType"
       produces:
