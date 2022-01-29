@@ -1176,7 +1176,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "caller email"
+      - name: "callerEmail"
         in: "path"
         description: "Email of the caller"
         required: true
@@ -1202,7 +1202,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "caller id"
+      - name: "id"
         in: "path"
         description: "call id"
         required: true
@@ -1267,7 +1267,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "Updated"
-  /calls/search/{phoneNumber}:
+  /calls/search/phoneNumber:
     get:
       tags:
       - "calls"
@@ -1277,7 +1277,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "caller email"
+      - name: "phoneNumber"
         in: "query"
         description: "Regex of the phone number"
         required: true
@@ -1293,7 +1293,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /calls/search/{receiverName}:
+  /calls/search/receiverName:
     get:
       tags:
       - "calls"
@@ -1303,7 +1303,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "receiver name"
+      - name: "receiverName"
         in: "query"
         description: "Regex of the name of the receiver"
         required: true
@@ -1319,7 +1319,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /calls/search/{receiverEmail}:
+  /calls/search/receiverEmail:
     get:
       tags:
       - "calls"
@@ -1329,7 +1329,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "receiver email"
+      - name: "receiverEmail"
         in: "query"
         description: "Regex of the email of the receiver"
         required: true
@@ -1345,17 +1345,17 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /calls/search/{employeeEmail}:
+  /calls/search/employeeEmail:
     get:
       tags:
       - "calls"
       summary: "Get calls by a employee (caller) email regex"
       description: ""
-      operationId: "getCallsByReceiverEmailRegex"
+      operationId: "getCallsByCallerEmailRegex"
       produces:
       - "application/json"
       parameters:
-      - name: "receiver email"
+      - name: "employeeEmail"
         in: "query"
         description: "Regex of the email of the employee (caller)"
         required: true
