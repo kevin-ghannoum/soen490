@@ -1371,6 +1371,369 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
+  /logHours:
+    post:
+      tags:
+      - "loghours"
+      summary: "Create log hour"
+      description: ""
+      operationId: "createLogHours"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Log hours body"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "201":
+          description: "Created"
+    get:
+      tags:
+        - "loghours"
+      summary: "Gets all logged hours"
+      description: ""
+      operationId: "getAllBusinessPays"
+      produces:
+        - "application/json"
+      responses:
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+  /logHours/pays/{email}:
+    get:
+      tags:
+        - "loghours"
+      summary: "Get all pays belonging to {email}"
+      description: ""
+      operationId: "getAllByEmail"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "email"
+          in: "path"
+          description: "Employee email"
+          required: true
+          type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /logHours/pay/{id}:
+    get:
+      tags:
+      - "loghours"
+      summary: "Get all pays belonging to {id}"
+      description: ""
+      operationId: "get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: "path"
+        description: "Employee id"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+    put:
+      tags:
+      - "loghours"
+      summary: "Update pay belonging to {id}"
+      description: ""
+      operationId: "put"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: "path"
+        description: "pay id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated pay"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+  /logHours/pay/latest/{email}:
+    get:
+      tags:
+      - "loghours"
+      summary: "Get most recent pays belonging to {email}"
+      description: ""
+      operationId: "getLatestPay"
+      produces:
+      - "application/json"
+      parameters:
+      - name: email
+        in: "path"
+        description: "Employee email"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /logHours/inputType/{email}:
+    get:
+      tags:
+      - "loghours"
+      summary: "Get hours by input type belonging to {email}"
+      description: ""
+      operationId: "getEmployeeHoursInputType"
+      produces:
+      - "application/json"
+      parameters:
+      - name: email
+        in: "path"
+        description: "Employee email"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+    put:
+      tags:
+      - "loghours"
+      summary: "Updates hours by input type belonging to {email}"
+      description: ""
+      operationId: "updateEmployeeHoursInputType"
+      produces:
+      - "application/json"
+      parameters:
+      - name: email
+        in: "path"
+        description: "Employee email"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated hours by input type"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+    delete:
+      tags:
+      - "loghours"
+      summary: "Deletes hours by input type belonging to {email}"
+      description: ""
+      operationId: "deleteEmployeeHoursInputType"
+      produces:
+      - "application/json"
+      parameters:
+      - name: email
+        in: "path"
+        description: "Employee email"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "OK"
+  /task:
+    post:
+      tags:
+      - "tasks"
+      summary: "Creates task"
+      description: ""
+      operationId: "createTask"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "201":
+          description: "Created"
+    get:
+      tags:
+      - "tasks"
+      summary: "Gets all tasks"
+      description: ""
+      operationId: "getAllTask"
+      produces:
+      - "application/json"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+  /task/{taskId}:
+    get:
+      tags:
+        - "tasks"
+      summary: "Gets specific task by {id}"
+      description: ""
+      operationId: "getTask"
+      produces:
+        - "application/json"
+      parameters:
+      - name: taskId
+        in: "path"
+        description: "Task Id"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+    post:
+      tags:
+        - "tasks"
+      summary: "Updates specified task by {id}"
+      description: ""
+      operationId: "updateTask"
+      produces:
+        - "application/json"
+      parameters:
+      - name: taskId
+        in: "path"
+        description: "Task Id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated task"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Created"
+    delete:
+      tags:
+        - "tasks"
+      summary: "Deletes specified task by {taskId}"
+      description: ""
+      operationId: "deleteTask"
+      produces:
+        - "application/json"
+      parameters:
+      - name: taskId
+        in: "path"
+        description: "Task Id"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid caller email supplied"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
