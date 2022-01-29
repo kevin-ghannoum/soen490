@@ -5,6 +5,7 @@ import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:ProductionRepository');
 import { Transaction } from '../models/Transaction';
 import { Production } from '../models/Production';
+import { Invoice } from '../models/Invoice';
 
 @injectable()
 export default class ProductionRepository implements CRUD {
@@ -12,15 +13,15 @@ export default class ProductionRepository implements CRUD {
     log('Created new instance of ProductionRepository');
   }
 
-  public create = async (transactionInfo: ProductionCreationDTO): Promise<Production> => {
+  public create = async (productionCreationDTO: ProductionCreationDTO): Promise<Production> => {
     try {
-      const createdProduciton = Production.build(transactionInfo, {
+      const createdProduction = Production.build(productionCreationDTO, {
         include: [Transaction],
       });
-      await createdProduciton.save();
+      await createdProduction.save();
 
-      log(`added new production ${createdProduciton.id}`);
-      return Promise.resolve(createdProduciton);
+      log(`added new production ${createdProduction.id}`);
+      return Promise.resolve(createdProduction);
     } catch (err: any) {
       log(err);
       return Promise.reject(err);
@@ -30,7 +31,7 @@ export default class ProductionRepository implements CRUD {
   public get = async (id: number): Promise<Production | null> => {
     try {
       const production = await Production.findByPk(id, {
-        include: [Transaction],
+        include: [Transaction, { model: Invoice, attributes: ['quantity'] }],
       });
 
       if (production) {
@@ -38,6 +39,34 @@ export default class ProductionRepository implements CRUD {
         log(`Production with id ${production?.id} has been retrieved`);
       } else {
         log(`No production have been found with id ${id}`);
+      }
+
+      return Promise.resolve(production);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  public getProductionByProject = async (projectId: number): Promise<Production[] | null> => {
+    try {
+      const production = await Production.findAll({
+        include: [
+          {
+            model: Transaction,
+            where: {
+              projectId: projectId,
+            },
+          },
+          { model: Invoice, attributes: ['quantity'] },
+        ],
+      });
+
+      if (production) {
+        log(production);
+        log(`Production has been retrieved`);
+      } else {
+        log(`No production have been found with id ${projectId}`);
       }
 
       return Promise.resolve(production);

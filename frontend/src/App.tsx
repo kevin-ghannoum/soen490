@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { getAccount, selectAccount, noTokenReducer } from './features/account/AccountSlice';
 import { loginWithRefreshToken } from './services/AccountAPI';
 import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
+import BookedProjects from './components/Project/BookedProjects';
+import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -453,6 +455,66 @@ const App = () => {
                             <div style={{ paddingTop: '75px' }}>
                               <Sidebar />
                               <EditTask id={match.params.id} edit="true" />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/booked_projects_transactions"
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <BookedProjects />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/project_transaction/:id"
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <SingleProjectTransaction id={match.params.id} />
                             </div>
                           </React.Fragment>
                         );

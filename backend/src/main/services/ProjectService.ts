@@ -60,6 +60,9 @@ export class ProjectService {
     return this.projectRepository.getAllofBusiness(businessId);
   };
 
+  public getBookedProjectOfBusiness = async (businessId: number): Promise<Project[] | null> => {
+    return this.projectRepository.getAllofBusiness(businessId);
+  };
   public updateProject = async (projectUpdateRequestDTO: ProjectUpdateRequestDTO): Promise<number> => {
     const modifiedDate: Date = new Date();
     projectUpdateRequestDTO.project.modifiedDate = modifiedDate;

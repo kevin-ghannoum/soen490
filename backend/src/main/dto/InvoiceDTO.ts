@@ -10,5 +10,4 @@ export interface InvoiceUpdateDTO {
   quantity?: number;
   date?: Date;
   description?: string;
-  productionId?: number;
 }

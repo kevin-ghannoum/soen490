@@ -42,3 +42,21 @@ export interface ProjectUpdateRequestDTO {
   project: ProjectUpdateDTO;
   sale: SaleCreationDTO;
 }
+
+export interface ProjectDisplay {
+  id: number;
+  businessId: string;
+  createdDate: string;
+  deadlineDate: string;
+  description: string;
+  email: string;
+  extraNotes: string;
+  followUpDate: string;
+  leadCredit: string;
+  leadRanking: string;
+  leadSource: string;
+  sale: SaleCreationDTO;
+  serviceType: string;
+  status: string;
+  title: string;
+}

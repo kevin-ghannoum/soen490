@@ -6,7 +6,7 @@ import HttpException from '../exceptions/HttpException';
 import { Business } from '../models/Business';
 import BusinessRepository from '../repositories/BusinessRepository';
 
-const log: debug.IDebugger = debug('app:BusinessAccountService');
+const log: debug.IDebugger = debug('app:BusinessService');
 
 @injectable()
 export class BusinessService {
