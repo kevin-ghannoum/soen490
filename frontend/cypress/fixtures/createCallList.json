@@ -1,0 +1,26 @@
+[
+  {
+    "id": 6,
+    "receiverName": "Bob",
+    "date": "2021-10-29T04:09:38.000Z",
+    "phoneNumber": "5149999999",
+    "description": "Some description",
+    "receiverEmail": "c@c.com",
+    "action": "CALL BACK",
+    "followUp": 0,
+    "neverCallBack": 0,
+    "callerEmail": "admin@admin.com"
+  },
+  {
+    "id": 7,
+    "receiverName": "Client",
+    "date": "2021-06-29T04:09:38.000Z",
+    "phoneNumber": "5142930281",
+    "description": "This is a test",
+    "receiverEmail": "a@a.com",
+    "action": "LEFT VOICEMAIL",
+    "followUp": 0,
+    "neverCallBack": 0,
+    "callerEmail": "admin@admin.com"
+  }
+]

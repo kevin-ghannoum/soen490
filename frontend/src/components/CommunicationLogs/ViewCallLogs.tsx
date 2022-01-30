@@ -366,6 +366,7 @@ const ViewCallLogs: React.FC = () => {
               variant="contained"
               className={classes.addLogButton}
               color="primary"
+              id="addLog"
               component="span"
               onClick={handleClickOpenDialog}
             >
@@ -437,11 +438,11 @@ const ViewCallLogs: React.FC = () => {
               </DialogContent>
               <DialogActions className={classes.dialogActionsButton}>
                 {editState === false ? (
-                  <Button size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
+                  <Button id="createLog" size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
                     Add
                   </Button>
                 ) : (
-                  <Button size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
+                  <Button id="editLog" size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
                     Edit
                   </Button>
                 )}

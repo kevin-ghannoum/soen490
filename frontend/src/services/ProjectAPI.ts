@@ -16,3 +16,7 @@ export const getProject = async (projectId: string): Promise<AxiosResponse<any>>
 export const updateProject = async (projectUpdateRequestDTO: ProjectUpdateRequestDTO): Promise<AxiosPromise<any>> => {
   return axios.put(`/project/${projectUpdateRequestDTO.project.id}`, projectUpdateRequestDTO);
 };
+
+export const getBookedBusinessProject = async (businessId: number): Promise<AxiosPromise<any>> => {
+  return axios.get(`/project/booked`, { params: { businessId: businessId } });
+};

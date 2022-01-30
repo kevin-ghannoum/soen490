@@ -66,6 +66,27 @@ export default class TransactionRepository implements CRUD {
     }
   };
 
+  public getAllTransactionForProject = async (projectId: number): Promise<Transaction[] | null> => {
+    try {
+      const transaction = await Transaction.findAll({
+        where: {
+          projectId: projectId,
+        },
+      });
+
+      log(`Transaction for project ${projectId} has been retrieved`);
+      if (transaction) {
+        log(transaction);
+      } else {
+        log('transaction not found');
+      }
+      return Promise.resolve(transaction);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
   public getAll = async (): Promise<Transaction[]> => {
     try {
       const transactions = await Transaction.findAll();
