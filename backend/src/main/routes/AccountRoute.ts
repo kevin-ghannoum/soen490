@@ -153,6 +153,20 @@ export default class AccountRoute extends CommonRoutesConfig {
       });
 
     this.getApp()
+      .route(`/accounts/employees/project`)
+      .all(checkJwt)
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const employeeAccountByProject = await this.employeeAccountService.getAllEmployeeAccountsByProject(
+            Number(req.query.id)
+          );
+          res.status(StatusCodes.OK).send(employeeAccountByProject);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
       .route(`/accounts/business`)
       .post(
         checkJwt,

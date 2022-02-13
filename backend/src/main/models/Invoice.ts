@@ -1,4 +1,14 @@
-import { Table, Column, Model, PrimaryKey, BelongsTo, ForeignKey, AutoIncrement } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  BelongsTo,
+  ForeignKey,
+  AutoIncrement,
+  DataType,
+  Default,
+} from 'sequelize-typescript';
 import { Production } from './Production';
 
 @Table({ timestamps: false })
@@ -11,8 +21,9 @@ export class Invoice extends Model {
   @Column
   totalAmount!: number;
 
-  @Column
-  quantity!: number;
+  @Default('PROGRESS')
+  @Column(DataType.ENUM('PROGRESS', 'FINAL PAYMENT', 'DEPOSIT'))
+  paymentType!: 'PROGRESS' | 'FINAL PAYMENT' | 'DEPOSIT';
 
   @Column
   date!: Date;

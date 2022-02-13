@@ -61,7 +61,7 @@ export class TransactionService {
       date: transaction.date,
       description: transaction.description,
       productionId: production.id,
-      quantity: productionRequestDTO.quantity,
+      paymentType: productionRequestDTO.paymentType,
     };
 
     await this.invoiceService.createInvoice(invoice);

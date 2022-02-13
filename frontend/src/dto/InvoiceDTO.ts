@@ -1,10 +1,10 @@
 export interface InvoiceDTO {
-  quantity: number;
+  paymentType: string;
 }
 
 export interface InvoiceUpdateDTO {
   totalAmount: number | string;
   description: string;
   date: string;
-  quantity: number | string;
+  paymentType: string;
 }

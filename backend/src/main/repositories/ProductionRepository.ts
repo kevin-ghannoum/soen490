@@ -31,7 +31,7 @@ export default class ProductionRepository implements CRUD {
   public get = async (id: number): Promise<Production | null> => {
     try {
       const production = await Production.findByPk(id, {
-        include: [Transaction, { model: Invoice, attributes: ['quantity'] }],
+        include: [Transaction, { model: Invoice, attributes: ['paymentType'] }],
       });
 
       if (production) {
@@ -58,7 +58,7 @@ export default class ProductionRepository implements CRUD {
               projectId: projectId,
             },
           },
-          { model: Invoice, attributes: ['quantity'] },
+          { model: Invoice, attributes: ['paymentType'] },
         ],
       });
 

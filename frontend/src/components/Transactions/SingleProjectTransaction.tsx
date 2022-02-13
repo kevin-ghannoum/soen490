@@ -22,16 +22,20 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { getProject } from '../../services/ProjectAPI';
 import { getExpensesForProject, getProductionsForProject } from '../../services/TransactionAPI';
-import { ProjectDisplay } from '../../dto/ProjectDTOs';
+import { ProjectDisplay, ProjectEmployeeDisplay } from '../../dto/ProjectDTOs';
 import { ExpenseDataRetrievalFormatDTO, ProductionDataRetrievalFormatDTO } from '../../dto/TransactionDTOs';
 import TodayIcon from '@material-ui/icons/Today';
 import InfoIcon from '@material-ui/icons/Info';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CreateExpense from './CreateExpense';
 import CreateProduction from './CreateProduction';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteModalTransaction from './DeleteModalTransaction';
 import { useHistory } from 'react-router';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 interface Props {
   id: string;
@@ -41,6 +45,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
   const classes = singleProjectTransactionStyle();
   const history = useHistory();
   const [projectInfo, setProjectInfo] = useState<ProjectDisplay>();
+  const [employeesName, setEmployeesName] = useState<ProjectEmployeeDisplay[]>([]);
   const [expensesList, setExpensesList] = useState<ExpenseDataRetrievalFormatDTO[]>([]);
   const [productionsList, setProductionsList] = useState<ProductionDataRetrievalFormatDTO[]>([]);
   const [profit, setProfit] = useState<string>();
@@ -151,6 +156,8 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
           const productions: ProductionDataRetrievalFormatDTO[] = [];
           data.data.forEach((element: ProductionDataRetrievalFormatDTO) => {
             const formattedDate = element.transaction.date.split('T');
+            const formattedPaymentType =
+              element.invoice.paymentType.charAt(0) + element.invoice.paymentType.substring(1).toLowerCase();
             productions.unshift({
               id: element.id,
               transaction: {
@@ -161,7 +168,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                 projectId: element.transaction.projectId,
               },
               invoice: {
-                quantity: element.invoice.quantity,
+                paymentType: formattedPaymentType,
               },
             });
           });
@@ -180,10 +187,12 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
         try {
           const data = await getProject(id);
           const info: ProjectDisplay = data.data[0];
+          const employee = data.data[1];
           info.createdDate = trimDate(info.createdDate);
           info.followUpDate = trimDate(info.followUpDate);
           info.deadlineDate = trimDate(info.deadlineDate);
           setProjectInfo(info);
+          setEmployeesName(employee);
         } catch (e) {
           history.push('/error');
         }
@@ -312,7 +321,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
           </TableCell>
           <TableCell component="th" scope="row">
             <Box component="span" style={{ fontWeight: 'bold' }}>
-              {'View Productions'}
+              {'Money Received'}
             </Box>
           </TableCell>
         </TableRow>
@@ -328,7 +337,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                     <TableRow>
                       <TableCell>Date</TableCell>
                       <TableCell>Description</TableCell>
-                      <TableCell align="center">Quantity</TableCell>
+                      <TableCell align="center">Payment type</TableCell>
                       <TableCell align="center">Amount ($)</TableCell>
                       <TableCell align="center" width={25}>
                         Edit
@@ -345,7 +354,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                           {production.transaction.date}
                         </TableCell>
                         <TableCell>{production.transaction.description}</TableCell>
-                        <TableCell align="center">{production.invoice.quantity}</TableCell>
+                        <TableCell align="center">{production.invoice.paymentType}</TableCell>
                         <TableCell align="center">{numberWithCommas(production.transaction.amount)}</TableCell>
                         <TableCell align="center" width={25}>
                           <EditIcon
@@ -371,6 +380,16 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
     );
   };
 
+  const renderEmployeeRow = (props: ListChildComponentProps) => {
+    const { index, style } = props;
+
+    return (
+      <ListItem button style={style} key={index}>
+        <ListItemText primary={employeesName[index].account.username} />
+      </ListItem>
+    );
+  };
+
   return (
     <Grid
       container
@@ -383,12 +402,12 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
       <Paper elevation={3} className={classes.SingleProjectFormWrapper}>
         <Grid item container spacing={3} direction="row" xs={12} className={classes.SingleProjectFormWrapper}>
           <Grid item xs={12} style={{ marginTop: 20 }}>
-            <Typography variant="h4" style={{ fontWeight: 600, marginBottom: 20 }}>
+            <Typography variant="h4" style={{ fontWeight: 600, marginBottom: 5 }}>
               Project Details
             </Typography>
           </Grid>
-          <Grid xs={12} style={{ display: 'flex' }}>
-            <Grid xs={6}>
+          <Grid xs={12} style={{ display: 'flex', paddingTop: 25 }}>
+            <Grid xs={4}>
               <Box style={{ display: 'flex', justifyContent: 'center' }}>
                 <Typography variant="h5" className={classes.infoTag}>
                   Information
@@ -403,9 +422,9 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
               </Typography>
               <Typography variant="subtitle1">
                 <Box component="span" className={classes.infoTag}>
-                  Description:{' '}
+                  Client:{' '}
                 </Box>
-                {projectInfo?.description}
+                {projectInfo?.email}
               </Typography>
               <Typography variant="subtitle1">
                 <Box component="span" className={classes.infoTag}>
@@ -414,7 +433,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                 ${projectInfo?.sale.amount}
               </Typography>
             </Grid>
-            <Grid xs={6}>
+            <Grid xs={4}>
               <Box style={{ display: 'flex', justifyContent: 'center' }}>
                 <Typography variant="h5" className={classes.infoTag}>
                   Important dates
@@ -440,6 +459,25 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                 {projectInfo?.deadlineDate}
               </Typography>
             </Grid>
+            <Grid xs={4}>
+              <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                <Typography variant="h5" className={classes.infoTag}>
+                  Employees
+                </Typography>
+                <AccountCircleIcon style={{ marginTop: 5, marginLeft: 5 }}></AccountCircleIcon>
+              </Box>
+              <Box>
+                <FixedSizeList
+                  height={75}
+                  width={300}
+                  itemSize={46}
+                  itemCount={employeesName.length}
+                  style={{ marginTop: 5 }}
+                >
+                  {renderEmployeeRow}
+                </FixedSizeList>
+              </Box>
+            </Grid>
           </Grid>
           <Grid xs={12}>
             <TableContainer component={Paper} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
@@ -459,7 +497,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
             </TableContainer>
           </Grid>
           <Grid xs={12} className={classes.profitDisplay}>
-            Net Profit: ${profit}
+            Gross Profit: ${profit}
           </Grid>
           <Grid xs={12}>
             <Dialog open={openDeleteExpenseDialog} onClose={handleCloseExpenseDeleteDialog} style={{ margin: 'auto' }}>

@@ -34,7 +34,7 @@ export class InvoiceService {
       !invoiceCreationDTO.date ||
       !invoiceCreationDTO.description ||
       !invoiceCreationDTO.productionId ||
-      !invoiceCreationDTO.quantity ||
+      !invoiceCreationDTO.paymentType ||
       !invoiceCreationDTO.totalAmount
     ) {
       return true;

@@ -60,3 +60,16 @@ export interface ProjectDisplay {
   status: string;
   title: string;
 }
+
+export interface ProjectEmployeeDisplay {
+  email: string;
+  title: string;
+  hourlyWage: number;
+  supervisorEmail: string;
+  businessId: number;
+  account: UsernameDisplay;
+}
+
+interface UsernameDisplay {
+  username: string;
+}

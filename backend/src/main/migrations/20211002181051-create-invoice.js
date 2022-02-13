@@ -27,9 +27,9 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
-      quantity: {
+      paymentType: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.ENUM('PROGRESS', 'FINAL PAYMENT', 'DEPOSIT'),
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },

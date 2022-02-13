@@ -35,7 +35,7 @@ export interface CreateExpenseDTO {
 export interface CreateProductionDTO {
   transaction: CreateTransactionDTO;
   production: ProductionDTO;
-  quantity: string | number;
+  paymentType: string;
 }
 
 export interface ExpenseDTO {
