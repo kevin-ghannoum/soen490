@@ -1,4 +1,4 @@
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { createProduction, getProduction, updateProduction } from '../../services/TransactionAPI';
 import { FormikProps, useFormik } from 'formik';
@@ -18,7 +18,7 @@ interface CreateProductionData {
   description: string;
   date: string;
   amount: number | string;
-  quantity: number | string;
+  paymentType: string;
 }
 
 const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) => {
@@ -31,7 +31,7 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
       description: '',
       date: '',
       amount: '',
-      quantity: '',
+      paymentType: '',
     },
     onSubmit: async (values) => {
       try {
@@ -47,7 +47,7 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
               production: {
                 id: '0',
               },
-              quantity: values.quantity,
+              paymentType: values.paymentType,
             });
             history.go(0);
           } else {
@@ -67,7 +67,7 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
                 totalAmount: values.amount,
                 description: values.description,
                 date: values.date,
-                quantity: values.quantity,
+                paymentType: values.paymentType,
               },
             });
             history.go(0);
@@ -95,7 +95,7 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
         formik.setFieldValue('description', productionInfo.transaction.description);
         formik.setFieldValue('date', formattedDate);
         formik.setFieldValue('amount', productionInfo.transaction.amount);
-        formik.setFieldValue('quantity', productionInfo.invoice.quantity);
+        formik.setFieldValue('paymentType', productionInfo.invoice.paymentType);
       }
     };
     fetchProduction();
@@ -149,7 +149,7 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
           value={formik.values.description}
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
-          style={{ marginBottom: 20 }}
+          style={{ marginBottom: 20, width: '100%' }}
         ></TextField>
         <TextField
           fullWidth
@@ -175,15 +175,31 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
           error={formik.touched.amount && Boolean(formik.errors.amount)}
           helperText={formik.touched.amount && formik.errors.amount}
         />
-        <TextField
-          label="Quantity"
-          name="quantity"
-          fullWidth
-          onChange={formik.handleChange}
-          value={formik.values.quantity}
-          error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-          helperText={formik.touched.quantity && formik.errors.quantity}
-        />
+        <Box style={{ display: 'flex', width: 'max' }}>
+          <InputLabel id="type-label" style={{ marginTop: 20 }}>
+            Payment Type
+          </InputLabel>
+          <Select
+            label="Payment Type"
+            labelId="type-label"
+            id="selectType"
+            name="paymentType"
+            style={{ width: 160, marginLeft: 10, marginTop: 12 }}
+            onChange={formik.handleChange}
+            value={formik.values.paymentType}
+            error={formik.touched.paymentType && Boolean(formik.errors.paymentType)}
+          >
+            <MenuItem id="progress" value={'PROGRESS'}>
+              Progress
+            </MenuItem>
+            <MenuItem id="final_payment" value={'FINAL PAYMENT'}>
+              Final Payment
+            </MenuItem>
+            <MenuItem id="deposit" value={'DEPOSIT'}>
+              Deposit
+            </MenuItem>
+          </Select>
+        </Box>
         {operation === 'edit' ? (
           <Button color="primary" variant="contained" id="save_Production" type="submit" style={{ marginTop: 20 }}>
             Save

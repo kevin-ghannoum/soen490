@@ -1,6 +1,7 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
 import { WorksOnCreationDTO } from '../dto/WorksOnDTO';
+import { EmployeeAccount } from '../models/EmployeeAccount';
 const log: debug.IDebugger = debug('app:WorksOnRepository');
 import { WorksOn } from '../models/WorksOn';
 import { RelationCRUD } from './CRUDInterface';
@@ -44,6 +45,7 @@ export default class WorksOnRepository implements RelationCRUD {
         where: {
           id: id,
         },
+        include: [{ model: EmployeeAccount }],
       });
 
       log(worksOn);

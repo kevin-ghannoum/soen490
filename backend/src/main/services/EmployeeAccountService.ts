@@ -12,6 +12,8 @@ import { Roles } from '../security/Roles';
 import AccountRepository from '../repositories/AccountRepository';
 import { getProfileRoles } from '../middleware/JWTMiddleware';
 import { getCurrentUserEmail } from '../utils/UserUtils';
+import WorksOnRepository from '../repositories/WorksOnRepository';
+import { WorksOn } from '../models/WorksOn';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
@@ -20,6 +22,7 @@ export class EmployeeAccountService {
     private accountRepository: AccountRepository,
     private employeeAccountRepository: EmployeeAccountRepository,
     private addressRepository: AddressRepository,
+    private worksOnRepository: WorksOnRepository,
     @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
     @inject('auth0-management-client') private managementClient: ManagementClient
   ) {
@@ -157,6 +160,10 @@ export class EmployeeAccountService {
 
   public getAllEmployeeAccountsByBusiness = async (businessEmail: string): Promise<EmployeeAccount[] | null> => {
     return this.employeeAccountRepository.getAllByBusiness(businessEmail);
+  };
+
+  public getAllEmployeeAccountsByProject = async (projectId: number): Promise<WorksOn[] | null> => {
+    return this.worksOnRepository.get(projectId);
   };
 
   public getRedux = async (email: string): Promise<EmployeeAccount | null> => {
