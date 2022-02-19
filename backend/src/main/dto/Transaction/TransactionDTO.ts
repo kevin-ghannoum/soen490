@@ -30,7 +30,11 @@ export interface ExpenseRequestDTO {
 export interface ProductionRequestDTO {
   transaction: TransactionCreationDTO;
   production: ProductionCreationDTO;
+<<<<<<< HEAD
   paymentType: PaymentType;
+=======
+  paymentType: paymentType;
+>>>>>>> 5107550a9ee76f747ff2f46bc2f2766cca495a32
 }
 
 export interface ExpenseUpdateRequestDTO {
@@ -61,7 +65,11 @@ export interface ProductionCreationDTO {
 
 export interface ProductionUpdateDTO {
   transaction?: TransactionUpdateDTO;
+<<<<<<< HEAD
   paymentType: PaymentType;
+=======
+  paymentType: paymentType;
+>>>>>>> 5107550a9ee76f747ff2f46bc2f2766cca495a32
 }
 
 export enum Type {
