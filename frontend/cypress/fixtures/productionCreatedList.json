@@ -1,0 +1,54 @@
+[
+    {
+        "id": 15,
+        "transaction": {
+            "id": 15,
+            "amount": 5345,
+            "date": "2022-04-02T00:00:00.000Z",
+            "description": "dasd",
+            "projectId": 11
+        },
+        "invoice": {
+            "paymentType": "DEPOSIT"
+        }
+    },
+    {
+        "id": 19,
+        "transaction": {
+            "id": 19,
+            "amount": 2345,
+            "date": "2022-04-07T00:00:00.000Z",
+            "description": "asd",
+            "projectId": 11
+        },
+        "invoice": {
+            "paymentType": "PROGRESS"
+        }
+    },
+    {
+        "id": 20,
+        "transaction": {
+            "id": 20,
+            "amount": 45,
+            "date": "2022-03-12T00:00:00.000Z",
+            "description": "sd",
+            "projectId": 11
+        },
+        "invoice": {
+            "paymentType": "FINAL PAYMENT"
+        }
+    },
+    {
+        "id": 21,
+        "transaction": {
+            "id": 21,
+            "amount": 23,
+            "date": "2028-10-12",
+            "description": "this is a description",
+            "projectId": 11
+        },
+        "invoice": {
+            "paymentType": "PROGRESS"
+        }
+    }
+]

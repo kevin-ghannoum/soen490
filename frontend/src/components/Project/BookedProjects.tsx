@@ -158,7 +158,7 @@ const BookedProjects: React.FC = () => {
 
   return (
     <Grid
-      id="View-Project-Grid"
+      id="View-Booked-Project-Grid"
       container
       spacing={0}
       direction="column"

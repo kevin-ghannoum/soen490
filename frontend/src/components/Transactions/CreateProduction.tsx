@@ -167,6 +167,7 @@ const CreateProduction: React.FC<Props> = ({ id, operation, productionEditId }) 
         />
         {!validDate && <Typography style={{ color: 'red' }}>Date must be after the project creation date</Typography>}
         <TextField
+        id="totalAmount"
           label="Amount"
           name="amount"
           fullWidth

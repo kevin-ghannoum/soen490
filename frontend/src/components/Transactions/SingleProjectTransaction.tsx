@@ -256,7 +256,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
               {openExpenses ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell id="aa9" component="th" scope="row">
             <Box component="span" style={{ fontWeight: 'bold' }}>
               {'View Expenses'}
             </Box>
@@ -392,6 +392,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
 
   return (
     <Grid
+      id="Single-Project-Transaction"
       container
       spacing={0}
       direction="column"

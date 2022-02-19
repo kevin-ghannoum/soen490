@@ -1,4 +1,4 @@
-import { InvoiceUpdateDTO, paymentType } from '../InvoiceDTO';
+import { InvoiceUpdateDTO, PaymentType } from '../InvoiceDTO';
 
 export interface TransactionCreationDTO {
   amount: number;
@@ -30,7 +30,7 @@ export interface ExpenseRequestDTO {
 export interface ProductionRequestDTO {
   transaction: TransactionCreationDTO;
   production: ProductionCreationDTO;
-  paymentType: paymentType;
+  paymentType: PaymentType;
 }
 
 export interface ExpenseUpdateRequestDTO {
@@ -61,7 +61,7 @@ export interface ProductionCreationDTO {
 
 export interface ProductionUpdateDTO {
   transaction?: TransactionUpdateDTO;
-  paymentType: paymentType;
+  paymentType: PaymentType;
 }
 
 export enum Type {

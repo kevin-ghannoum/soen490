@@ -13,6 +13,7 @@ describe('ViewProject feature e2e test', () => {
   });
 
   it('Should view a list of project', () => {
+    cy.wait(500);
     getProjectFromBusinessIntercept();
 
     cy.visit('/projects');

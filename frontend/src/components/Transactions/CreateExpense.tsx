@@ -167,6 +167,7 @@ const CreateExpense: React.FC<Props> = ({ id, operation, expenseEditId }) => {
           </Typography>
         )}
         <TextField
+          id="totalAmount"
           label="Amount"
           name="amount"
           fullWidth
