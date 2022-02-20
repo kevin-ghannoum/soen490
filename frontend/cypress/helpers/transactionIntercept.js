@@ -18,6 +18,26 @@ export const getProductions = () => {
   ).as('getProductionsAPI');
 };
 
+export const getUpdatedExpenses = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/transactions/expenses?projectId=11',
+    },
+    { fixture: 'expenseCreatedList.json', statusCode: 200, times: 1 }
+  ).as('getCreatedExpensesAPI');
+};
+
+export const getUpdatedProductions = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/transactions/productions?projectId=11',
+    },
+    { fixture: 'productionCreatedList.json', statusCode: 200, times: 1 }
+  ).as('getCreatedProductionsAPI');
+};
+
 export const createExpense = () => {
   cy.intercept(
     {
@@ -96,4 +116,10 @@ export const deleteProduction = () => {
     },
     { fixture: 'productionToDelete.json', statusCode: 200, times: 1 }
   ).as('productionToDeleteAPI');
+};
+
+export const createData = () => {
+  cy.get('#description').type('this is a description');
+  cy.get('#totalAmount').type('23');
+  cy.get('form').submit();
 };

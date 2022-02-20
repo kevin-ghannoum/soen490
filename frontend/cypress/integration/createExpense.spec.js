@@ -2,7 +2,7 @@
 
 import { loginIntercept } from '../helpers/loginIntercept';
 import { getProjectIntercept } from '../helpers/projectIntercept';
-import { getExpenses, getProductions } from '../helpers/transactionIntercept';
+import { getExpenses, getProductions, createData, getUpdatedExpenses } from '../helpers/transactionIntercept';
 
 describe('CreateExpense feature e2e test', () => {
   beforeEach(() => {
@@ -29,20 +29,12 @@ describe('CreateExpense feature e2e test', () => {
 
     cy.visit('/project_transaction/11');
     cy.get('#create_expenses').click();
-    cy.get('#description').type('this is a description');
     cy.get('#expenseDate').type('2028-10-12');
-    cy.get('#totalAmount').type('23');
     cy.get('#selectType').parent().click();
     cy.get('#wages').click();
-    cy.get('form').submit();
-    cy.wait('@createExpenseAPI').its('response.statusCode').should('eq', 201);
+    createData();
 
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/transactions/expenses?projectId=11',
-      },
-      { fixture: 'expenseCreatedList.json', statusCode: 200, times: 1 }
-    ).as('getCreatedExpensesAPI');
+    cy.wait('@createExpenseAPI').its('response.statusCode').should('eq', 201);
+    getUpdatedExpenses();
   });
 });
