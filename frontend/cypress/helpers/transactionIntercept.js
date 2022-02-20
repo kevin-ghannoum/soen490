@@ -38,6 +38,26 @@ export const getUpdatedProductions = () => {
   ).as('getCreatedProductionsAPI');
 };
 
+export const getProductionsAfterEdit = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/transactions/productions?projectId=11',
+    },
+    { fixture: 'productionListUpdate.json', statusCode: 200, times: 1 }
+  ).as('getUpdateProductionList');
+};
+
+export const getExpensesAfterEdit = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/transactions/expenses?projectId=11',
+    },
+    { fixture: 'expenseListUpdate.json', statusCode: 200, times: 1 }
+  ).as('getUpdateExpensList');
+};
+
 export const createExpense = () => {
   cy.intercept(
     {

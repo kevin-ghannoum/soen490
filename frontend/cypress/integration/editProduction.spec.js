@@ -2,7 +2,7 @@
 
 import { loginIntercept } from '../helpers/loginIntercept';
 import { getProjectIntercept } from '../helpers/projectIntercept';
-import { getExpenses, getProductions, getProduction, updateProduction } from '../helpers/transactionIntercept';
+import { getExpenses, getProductions, getProduction, updateProduction, getProductionsAfterEdit } from '../helpers/transactionIntercept';
 
 describe('Edit Expense feature e2e test', () => {
   beforeEach(() => {
@@ -31,12 +31,7 @@ describe('Edit Expense feature e2e test', () => {
     cy.get('#description').type('new description');
     cy.get('form').submit();
 
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/transactions/productions?projectId=11',
-      },
-      { fixture: 'productionListUpdate.json', statusCode: 200, times: 1 }
-    ).as('getUpdateProductionList');
+    getProductionsAfterEdit();
+
   });
 });
