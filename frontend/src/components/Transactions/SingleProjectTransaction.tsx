@@ -244,8 +244,8 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
 
   const Row = (props: { row: ReturnType<typeof createData> }) => {
     const { row } = props;
-    const [openExpenses, setOpenExpenses] = useState(false);
-    const [openProductions, setOpenProductions] = useState(false);
+    const [openExpenses, setOpenExpenses] = useState(true);
+    const [openProductions, setOpenProductions] = useState(true);
     const rowClasses = useRowStyles();
 
     return (
@@ -256,7 +256,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
               {openExpenses ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell id="aa9" component="th" scope="row">
+          <TableCell component="th" scope="row">
             <Box component="span" style={{ fontWeight: 'bold' }}>
               {'View Expenses'}
             </Box>
@@ -264,7 +264,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={openExpenses} timeout="auto" unmountOnExit>
+            <Collapse in={openExpenses} timeout="auto">
               <Box margin={1}>
                 <Typography variant="h6" gutterBottom component="div">
                   History
@@ -294,16 +294,14 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                         <TableCell align="center">{expense.type}</TableCell>
                         <TableCell align="center">{numberWithCommas(expense.transaction.amount)}</TableCell>
                         <TableCell align="center" width={25}>
-                          <EditIcon
-                            style={{ width: 20, height: 20, marginTop: 5 }}
-                            onClick={() => handleOpenExpenseEditDialog(expense.transaction.id)}
-                          ></EditIcon>
+                          <Button onClick={() => handleOpenExpenseEditDialog(expense.transaction.id)}>
+                            <EditIcon id="ExpenseEditIcon" style={{ width: 20, height: 20, marginTop: 5 }}></EditIcon>
+                          </Button>
                         </TableCell>
                         <TableCell align="center" width={25}>
-                          <DeleteIcon
-                            style={{ width: 20, height: 20, marginTop: 5 }}
-                            onClick={() => handleOpenExpenseDeleteDialog(expense.transaction.id)}
-                          ></DeleteIcon>
+                          <Button onClick={() => handleOpenExpenseDeleteDialog(expense.transaction.id)}>
+                            <DeleteIcon style={{ width: 20, height: 20, marginTop: 5 }}></DeleteIcon>
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -327,7 +325,7 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={openProductions} timeout="auto" unmountOnExit>
+            <Collapse in={openProductions} timeout="auto">
               <Box margin={1}>
                 <Typography variant="h6" gutterBottom component="div">
                   History
@@ -357,16 +355,17 @@ const SingleProjectTransaction: React.FC<Props> = ({ id }) => {
                         <TableCell align="center">{production.invoice.paymentType}</TableCell>
                         <TableCell align="center">{numberWithCommas(production.transaction.amount)}</TableCell>
                         <TableCell align="center" width={25}>
-                          <EditIcon
-                            style={{ width: 20, height: 20, marginTop: 5 }}
-                            onClick={() => handleOpenProductionEditDialog(production.transaction.id)}
-                          ></EditIcon>
+                          <Button onClick={() => handleOpenProductionEditDialog(production.transaction.id)}>
+                            <EditIcon
+                              id="productionEditIcon"
+                              style={{ width: 20, height: 20, marginTop: 5 }}
+                            ></EditIcon>
+                          </Button>
                         </TableCell>
                         <TableCell align="center" width={25}>
-                          <DeleteIcon
-                            style={{ width: 20, height: 20, marginTop: 5 }}
-                            onClick={() => handleOpenProductionDeleteDialog(production.transaction.id)}
-                          ></DeleteIcon>
+                          <Button onClick={() => handleOpenProductionDeleteDialog(production.transaction.id)}>
+                            <DeleteIcon style={{ width: 20, height: 20, marginTop: 5 }}></DeleteIcon>
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}

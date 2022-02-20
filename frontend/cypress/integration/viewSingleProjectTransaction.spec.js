@@ -21,6 +21,5 @@ describe('SingleProjectTransaction feature e2e test', () => {
 
     cy.visit('/project_transaction/11');
     cy.get('#Single-Project-Transaction').should('exist');
-
   });
 });

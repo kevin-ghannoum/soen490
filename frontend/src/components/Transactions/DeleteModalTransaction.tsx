@@ -30,7 +30,7 @@ const DeleteModalTransaction: React.FC<Props> = ({ id, transactionType, closeMod
         <Button
           color="primary"
           variant="contained"
-          id="create_productions"
+          id="deleteYes"
           style={{ margin: 10 }}
           onClick={handleDeleteTransaction}
         >
@@ -40,7 +40,7 @@ const DeleteModalTransaction: React.FC<Props> = ({ id, transactionType, closeMod
           <Button
             color="primary"
             variant="contained"
-            id="create_productions"
+            id="deleteNoExpense"
             onClick={closeModalExpense}
             style={{ margin: 10 }}
           >
@@ -50,7 +50,7 @@ const DeleteModalTransaction: React.FC<Props> = ({ id, transactionType, closeMod
           <Button
             color="primary"
             variant="contained"
-            id="create_productions"
+            id="deleteNoProduction"
             onClick={closeModalProduction}
             style={{ margin: 10 }}
           >

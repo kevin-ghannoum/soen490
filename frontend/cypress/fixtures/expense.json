@@ -1,0 +1,11 @@
+{
+  "id": 17,
+  "type": "WAGES",
+  "transaction": {
+    "id": 17,
+    "amount": 123,
+    "date": "2022-03-12T00:00:00.000Z",
+    "description": "asd",
+    "projectId": 1
+  }
+}

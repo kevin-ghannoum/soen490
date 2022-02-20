@@ -2,7 +2,7 @@
 
 import { loginIntercept } from '../helpers/loginIntercept';
 import { getProjectIntercept } from '../helpers/projectIntercept';
-import { getExpenses, getProductions } from '../helpers/transactionIntercept';
+import { getExpenses, getProductions, createProduction } from '../helpers/transactionIntercept';
 
 describe('CreateExpense feature e2e test', () => {
   beforeEach(() => {
@@ -18,14 +18,7 @@ describe('CreateExpense feature e2e test', () => {
     getProjectIntercept();
     getExpenses();
     getProductions();
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/transactions/productions',
-      },
-      { fixture: 'productionCreate.json', statusCode: 201, times: 1 }
-    ).as('createProductionAPI');
+    createProduction();
 
     cy.visit('/project_transaction/11');
     cy.get('#create_productions').click();
@@ -38,11 +31,11 @@ describe('CreateExpense feature e2e test', () => {
     cy.wait('@createProductionAPI').its('response.statusCode').should('eq', 201);
 
     cy.intercept(
-        {
-          method: 'GET',
-          url: '/transactions/productions?projectId=11',
-        },
-        { fixture: 'productionCreatedList.json', statusCode: 200, times: 1 }
-      ).as('getCreatedProductionsAPI');
+      {
+        method: 'GET',
+        url: '/transactions/productions?projectId=11',
+      },
+      { fixture: 'productionCreatedList.json', statusCode: 200, times: 1 }
+    ).as('getCreatedProductionsAPI');
   });
 });

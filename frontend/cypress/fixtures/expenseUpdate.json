@@ -1,0 +1,11 @@
+{
+  "id": 17,
+  "transaction": {
+    "amount": 3500,
+    "description": "new description",
+    "date": "2022-02-12"
+  },
+  "expense": {
+    "type": "OTHER"
+  }
+}
