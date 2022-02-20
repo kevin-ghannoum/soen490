@@ -94,6 +94,6 @@ export const deleteProduction = () => {
       method: 'DELETE',
       url: '/transaction?transactionId=18',
     },
-    { fixture: 'expenseToDelete.json', statusCode: 200, times: 1 }
-  ).as('expenseToDeleteAPI');
+    { fixture: 'productionToDelete.json', statusCode: 200, times: 1 }
+  ).as('productionToDeleteAPI');
 };
