@@ -1,0 +1,35 @@
+[
+    {
+        "id": 17,
+        "type": "WAGES",
+        "transaction": {
+            "id": 17,
+            "amount": 123,
+            "date": "2022-03-12T00:00:00.000Z",
+            "description": "asd",
+            "projectId": 11
+        }
+    },
+    {
+        "id": 18,
+        "type": "TOOLS",
+        "transaction": {
+            "id": 18,
+            "amount": 123,
+            "date": "2022-03-12T00:00:00.000Z",
+            "description": "asd",
+            "projectId": 11
+        }
+    },
+    {
+        "id": 19,
+        "type": "WAGES",
+        "transaction": {
+            "id": 17,
+            "amount": 23,
+            "date": "2028-10-12",
+            "description": "this is a description",
+            "projectId": 11
+        }
+    }
+]

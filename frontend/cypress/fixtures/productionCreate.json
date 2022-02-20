@@ -1,0 +1,12 @@
+{
+    "transaction": {
+        "amount" : 70,
+        "description": "bye",
+        "date": "2024-04-04",
+        "projectId": 11
+    },
+    "production": {
+        "id": "0"
+        },
+    "paymentType": "PROGRESS"
+}

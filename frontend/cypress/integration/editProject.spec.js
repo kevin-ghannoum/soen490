@@ -26,7 +26,7 @@ describe('EditProject feature e2e test', () => {
     updateProjectIntercept();
 
     cy.visit('/projects');
-    cy.wait(1000);
+    cy.wait(3000);
     cy.get('#View-Project-Grid').should('exist');
     cy.get(`[data-id="11"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
     cy.get('#editButton').click();

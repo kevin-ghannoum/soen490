@@ -1,0 +1,11 @@
+{
+    "transaction": {
+        "amount" : 23,
+        "description": "this is a description",
+        "date": "2028-10-12",
+        "projectId": 11
+    },
+    "expense": {
+        "type": "WAGES"
+        }
+}

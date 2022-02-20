@@ -1,0 +1,13 @@
+{
+  "id": 20,
+  "transaction": {
+    "id": 20,
+    "amount": 45,
+    "date": "2022-03-12T00:00:00.000Z",
+    "description": "new description",
+    "projectId": 11
+  },
+  "invoice": {
+    "paymentType": "FINAL PAYMENT"
+  }
+}

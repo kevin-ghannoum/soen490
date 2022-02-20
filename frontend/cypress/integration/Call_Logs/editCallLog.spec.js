@@ -26,6 +26,7 @@ describe('editCall feature e2e test', () => {
       { fixture: 'editCallList.json', statusCode: 201 }
     ).as('editCallLogAPI');
 
+    cy.wait(3000);
     cy.visit('/logs');
 
     cy.get('[data-field="edit"] > .MuiButtonBase-root > .MuiButton-label').click();

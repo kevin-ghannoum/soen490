@@ -10,6 +10,16 @@ export const getProjectFromBusinessIntercept = () => {
   ).as('getListOfProjectAPI');
 };
 
+export const getBookedProjectFromBusinessIntercept = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/project/booked?businessId=*',
+    },
+    { fixture: 'bookedProjectList.json', statusCode: 200 }
+  ).as('getListOfBookedProjectAPI');
+};
+
 export const getEmployeeEmailProjectIntercept = () => {
   cy.intercept(
     {

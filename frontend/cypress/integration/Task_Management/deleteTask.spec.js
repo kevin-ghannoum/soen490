@@ -1,11 +1,19 @@
 /// <reference types="cypress" />
 
-import { loginIntercept} from '../../helpers/loginIntercept';
-import { getTaskListIntercept, getTaskIntercept, getByTaskIdIntercept, getProjectListIntercept, deletedTaskIntercept, deletedAssignByTaskIdIntercept, getEmployeesIntercept } from '../../helpers/taskIntercept';
+import { loginIntercept } from '../../helpers/loginIntercept';
+import {
+  getTaskListIntercept,
+  getTaskIntercept,
+  getByTaskIdIntercept,
+  getProjectListIntercept,
+  deletedTaskIntercept,
+  deletedAssignByTaskIdIntercept,
+  getEmployeesIntercept,
+} from '../../helpers/taskIntercept';
 
-describe('DeleteTask feature e2e test', ()=>{
+describe('DeleteTask feature e2e test', () => {
   beforeEach(() => {
-    loginIntercept()
+    loginIntercept();
   });
 
   afterEach(() => {
@@ -20,7 +28,7 @@ describe('DeleteTask feature e2e test', ()=>{
     getProjectListIntercept();
     deletedTaskIntercept();
     deletedAssignByTaskIdIntercept();
-  }
+  };
 
   it('Should delete a task', () => {
     setUpDeleteTaskIntercept();
@@ -28,6 +36,7 @@ describe('DeleteTask feature e2e test', ()=>{
     cy.visit('/tasks');
     cy.wait(1000);
     cy.get('#View-Task-Datagrid').should('exist');
+    cy.wait(1000);
     cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
 
     //overloaded intercept after delete (intercepts are called from bottom up)
@@ -45,5 +54,4 @@ describe('DeleteTask feature e2e test', ()=>{
     cy.wait('@deleteTaskAPI').its('response.statusCode').should('eq', 200);
     cy.wait('@deleteAssignedAPI').its('response.statusCode').should('eq', 200);
   });
-
-})
+});

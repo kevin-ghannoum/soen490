@@ -44,6 +44,7 @@ describe('CreateProject feature e2e test', () => {
       { fixture: 'projectCreated.json', statusCode: 200 }
     ).as('getListOfProjectAPI');
 
+    cy.wait(3000);
     cy.visit('/project');
     cy.get('#selectStatus').parent().click();
     cy.get('#booked').click();
