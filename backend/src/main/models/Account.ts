@@ -8,6 +8,7 @@ import {
   BelongsTo,
   ForeignKey,
   Unique,
+  HasOne,
 } from 'sequelize-typescript';
 import { Event } from './Event';
 import { Invited } from './Invited';
@@ -51,6 +52,9 @@ export class Account extends Model {
 
   @HasMany(() => Call)
   calls!: Call[];
+
+  @HasOne(() => Event, 'createdBy')
+  event!: Event;
 
   @BelongsTo(() => Address)
   address!: Address;

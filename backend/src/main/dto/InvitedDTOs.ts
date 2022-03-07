@@ -1,9 +1,11 @@
-export interface InvitedUpdateDTO {
-  email?: string;
-  id?: number;
-}
-
-export interface InvitedCreationDTO {
+export interface InvitedDTO {
+  status: Status;
   email: string;
   id: number;
+}
+
+export enum Status {
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+  PENDING = 'PENDING',
 }
