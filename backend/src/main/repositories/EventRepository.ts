@@ -20,7 +20,7 @@ export default class EventRepository implements CRUD {
       await createdEvent.save();
 
       eventInfo.invitee.forEach(async (invitee) => {
-        var invitedInfo: InvitedDTO = {
+        const invitedInfo: InvitedDTO = {
           status: Status.PENDING,
           email: invitee,
           id: createdEvent.id,
