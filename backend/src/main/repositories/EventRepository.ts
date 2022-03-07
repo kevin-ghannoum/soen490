@@ -1,9 +1,11 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
 import { EventCreationDTO, EventUpdateDTO } from '../dto/EventDTOs';
+import { InvitedDTO, Status } from '../dto/InvitedDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:EventRepository');
 import { Event } from '../models/Event';
+import { Invited } from '../models/Invited';
 import { Account } from '../models/Account';
 
 @injectable()
@@ -16,6 +18,17 @@ export default class EventRepository implements CRUD {
     try {
       const createdEvent = Event.build(eventInfo);
       await createdEvent.save();
+
+      eventInfo.invitee.forEach(async (invitee) => {
+        var invitedInfo: InvitedDTO = {
+          status: Status.PENDING,
+          email: invitee,
+          id: createdEvent.id,
+        };
+
+        const createdInvited = Invited.build(invitedInfo);
+        await createdInvited.save();
+      });
 
       log(`Added new event ${createdEvent.id}`);
       return Promise.resolve(createdEvent);
@@ -49,6 +62,15 @@ export default class EventRepository implements CRUD {
         },
       });
 
+      updatedValue.invitee?.forEach(async (invitee) => {
+        await Invited.update(invitee, {
+          where: {
+            id: invitee.id,
+            email: invitee.email,
+          },
+        });
+      });
+
       log(`Event with id ${id} has been updated`);
       return Promise.resolve(1);
     } catch (err: any) {
@@ -58,7 +80,20 @@ export default class EventRepository implements CRUD {
 
   public get = async (id: number): Promise<Event | null> => {
     try {
-      const event = await Event.findByPk(id, { include: [Account] });
+      const event = await Event.findByPk(id, {
+        include: [
+          {
+            model: Account,
+            attributes: ['firstName', 'lastName'],
+            as: 'createdByAccount',
+          },
+          {
+            model: Account,
+            attributes: ['firstName', 'lastName'],
+            as: 'accounts',
+          },
+        ],
+      });
 
       if (event) {
         log(`Event with id ${event?.id} has been retrieved`);
@@ -78,6 +113,53 @@ export default class EventRepository implements CRUD {
       const events = await Event.findAll({ include: [Account] });
 
       log(`Retrieved all events`);
+      return Promise.resolve(events);
+    } catch (err: any) {
+      log(err);
+      return Promise.reject(err);
+    }
+  };
+
+  public getMyEventsAndInvited = async (email: string): Promise<Event[]> => {
+    try {
+      const myEvents = await Event.findAll({
+        where: {
+          createdBy: email,
+        },
+        include: [
+          {
+            model: Account,
+            attributes: ['firstName', 'lastName'],
+            as: 'createdByAccount',
+          },
+          {
+            model: Account,
+            attributes: ['firstName', 'lastName'],
+            as: 'accounts',
+          },
+        ],
+      });
+
+      const invitedEvents = await Event.findAll({
+        include: [
+          {
+            model: Account,
+            attributes: ['firstName', 'lastName'],
+            as: 'createdByAccount',
+          },
+          {
+            model: Account,
+            where: {
+              email: email,
+            },
+            attributes: ['firstName', 'lastName'],
+            as: 'accounts',
+          },
+        ],
+      });
+
+      const events = myEvents.concat(invitedEvents);
+
       return Promise.resolve(events);
     } catch (err: any) {
       log(err);

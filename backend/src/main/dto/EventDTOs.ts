@@ -1,15 +1,21 @@
-export interface EventUpdateDTO {
-  location?: string;
-  description?: string;
-  date?: Date;
-  type?: string;
-  createdBy?: string;
-}
+import { InvitedDTO } from './InvitedDTOs';
 
 export interface EventCreationDTO {
-  location: string;
-  description: string;
-  date: Date;
-  type: string;
+  title: string;
+  start: Date;
+  end: Date;
+  location?: string;
+  description?: string;
+  invitee: string[];
+  createdBy: string;
+}
+
+export interface EventUpdateDTO {
+  title: string;
+  start: Date;
+  end: Date;
+  location?: string;
+  description?: string;
+  invitee: InvitedDTO[];
   createdBy: string;
 }

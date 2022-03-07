@@ -2,6 +2,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Invited', {
+      status: {
+        allowNull: false,
+        type: Sequelize.ENUM('ACCEPTED', 'REJECTED', 'PENDING'),
+      },
       email: {
         allowNull: false,
         primaryKey: true,

@@ -1,4 +1,14 @@
-import { Table, Column, Model, PrimaryKey, BelongsToMany, AutoIncrement, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  BelongsToMany,
+  AutoIncrement,
+  ForeignKey,
+  AllowNull,
+  BelongsTo,
+} from 'sequelize-typescript';
 import { Account } from './Account';
 import { Invited } from './Invited';
 
@@ -9,17 +19,28 @@ export class Event extends Model {
   @Column
   id!: number;
 
+  @AllowNull(false)
+  @Column
+  title!: string;
+
+  @AllowNull
   @Column
   location!: string;
 
+  @AllowNull
   @Column
   description!: string;
 
+  @AllowNull(false)
   @Column
-  date!: Date;
+  start!: string;
 
+  @AllowNull(false)
   @Column
-  type!: string;
+  end!: string;
+
+  @BelongsTo(() => Account, 'createdBy')
+  createdByAccount!: Account;
 
   @Column
   @ForeignKey(() => Account)
