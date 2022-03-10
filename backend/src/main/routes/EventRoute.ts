@@ -82,14 +82,14 @@ export default class EventRoute extends CommonRoutesConfig {
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const email: string = req.query.email as string;
-          const accepted: boolean = (req.query.accepted as string) === "true"
+          const accepted: boolean = (req.query.accepted as string) === 'true';
 
           await this.eventService.updateInvitedStatus(Number(req.params.id), email, accepted);
           res.status(StatusCodes.OK).send();
         } catch (err) {
           next(err);
         }
-      })
+      });
 
     return this.getApp();
   }

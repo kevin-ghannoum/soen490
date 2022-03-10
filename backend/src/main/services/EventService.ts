@@ -7,13 +7,17 @@ import { StatusCodes } from 'http-status-codes';
 import EventRepository from '../repositories/EventRepository';
 import InvitedRepository from '../repositories/InvitedRepository';
 import { Event } from '../models/Event';
-import { EmailService } from './EmailService'
+import { EmailService } from './EmailService';
 
 const log: debug.IDebugger = debug('app:EventService');
 
 @injectable()
 export class EventService {
-  constructor(private eventRepository: EventRepository, private invitedRepository: InvitedRepository, private emailService: EmailService) {
+  constructor(
+    private eventRepository: EventRepository,
+    private invitedRepository: InvitedRepository,
+    private emailService: EmailService
+  ) {
     log('Created new instance of EventService');
   }
 
@@ -29,17 +33,24 @@ export class EventService {
     const newEvent = await this.eventRepository.create(eventCreationDTO);
 
     eventCreationDTO.invitee.forEach(async (invitee) => {
-      await this.emailService.sendEmail(invitee, "Meeting Invitation",
+      await this.emailService.sendEmail(
+        invitee,
+        'Meeting Invitation',
         `You are invited to join the following meeting: <br><br>
         Created By: ${eventCreationDTO.createdBy} <br>
         Title: ${eventCreationDTO.title} <br>
-        ${eventCreationDTO.description ? (`Description: ${eventCreationDTO.description} <br>`) : (``)}
-        ${eventCreationDTO.location ? (`Location: ${eventCreationDTO.location} <br>`) : (``)}
-        Start date: ${(new Date(eventCreationDTO.start)).toLocaleString()} <br>
-        End date: ${(new Date(eventCreationDTO.end)).toLocaleString()} <br><br>
-        <p>Click <a href="${process.env.FRONTEND_DOMAIN}event/invitation/status?id=${newEvent.id}&accepted=true&email=${invitee}">here</a> to accept the meeting invitation</p>
-        <p>Click <a href="${process.env.FRONTEND_DOMAIN}event/invitation/status?id=${newEvent.id}&accepted=false&email=${invitee}">here</a> to accept the meeting invitation</p>`);
-    })
+        ${eventCreationDTO.description ? `Description: ${eventCreationDTO.description} <br>` : ``}
+        ${eventCreationDTO.location ? `Location: ${eventCreationDTO.location} <br>` : ``}
+        Start date: ${new Date(eventCreationDTO.start).toLocaleString()} <br>
+        End date: ${new Date(eventCreationDTO.end).toLocaleString()} <br><br>
+        <p>Click <a href="${process.env.FRONTEND_DOMAIN}event/invitation/status?id=${
+          newEvent.id
+        }&accepted=true&email=${invitee}">here</a> to accept the meeting invitation</p>
+        <p>Click <a href="${process.env.FRONTEND_DOMAIN}event/invitation/status?id=${
+          newEvent.id
+        }&accepted=false&email=${invitee}">here</a> to accept the meeting invitation</p>`
+      );
+    });
 
     return newEvent;
   };
@@ -68,15 +79,18 @@ export class EventService {
     const updatedEvent = await this.eventRepository.update(id, eventUpdateDTO);
 
     eventUpdateDTO.invitee.forEach(async (invitee) => {
-      await this.emailService.sendEmail(invitee.email, "Meeting Updated",
+      await this.emailService.sendEmail(
+        invitee.email,
+        'Meeting Updated',
         `A meeting you were invited to has been modified: <br><br>
         Created By: ${eventUpdateDTO.createdBy} <br>
         Title: ${eventUpdateDTO.title} <br>
-        ${eventUpdateDTO.description ? (`Description: ${eventUpdateDTO.description} <br>`) : (``)}
-        ${eventUpdateDTO.location ? (`Location: ${eventUpdateDTO.location} <br>`) : (``)}
-        Start date: ${(new Date(eventUpdateDTO.start)).toLocaleString()} <br>
-        End date: ${(new Date(eventUpdateDTO.end)).toLocaleString()}`);
-    })
+        ${eventUpdateDTO.description ? `Description: ${eventUpdateDTO.description} <br>` : ``}
+        ${eventUpdateDTO.location ? `Location: ${eventUpdateDTO.location} <br>` : ``}
+        Start date: ${new Date(eventUpdateDTO.start).toLocaleString()} <br>
+        End date: ${new Date(eventUpdateDTO.end).toLocaleString()}`
+      );
+    });
 
     return updatedEvent;
   };
@@ -87,32 +101,34 @@ export class EventService {
     const updatedValue: InvitedDTO = {
       id: id,
       email: email,
-      status: status
-    }
+      status: status,
+    };
 
-    return this.invitedRepository.update({ id: id, email: email }, updatedValue)
-  }
+    return this.invitedRepository.update({ id: id, email: email }, updatedValue);
+  };
 
   public getEventById = async (id: number): Promise<Event | null> => {
     return this.eventRepository.get(id);
   };
 
   public deleteEvent = async (id: number): Promise<number> => {
-
     const eventInfo = await this.getEventById(id);
 
     const deletedEvent = await this.eventRepository.delete(id);
 
     eventInfo?.accounts.forEach(async (invitee) => {
-      await this.emailService.sendEmail(invitee.getDataValue("Invited").dataValues.email, "Meeting Cancelled",
+      await this.emailService.sendEmail(
+        invitee.getDataValue('Invited').dataValues.email,
+        'Meeting Cancelled',
         `A meeting you were invited to has been cancelled: <br><br>
         Created By: ${eventInfo.createdBy} <br>
         Title: ${eventInfo.title} <br>
-        ${eventInfo.description ? (`Description: ${eventInfo.description} <br>`) : (``)}
-        ${eventInfo.location ? (`Location: ${eventInfo.location} <br>`) : (``)}
-        Start date: ${(new Date(eventInfo.start)).toLocaleString()} <br>
-        End date: ${(new Date(eventInfo.end)).toLocaleString()}`);
-    })
+        ${eventInfo.description ? `Description: ${eventInfo.description} <br>` : ``}
+        ${eventInfo.location ? `Location: ${eventInfo.location} <br>` : ``}
+        Start date: ${new Date(eventInfo.start).toLocaleString()} <br>
+        End date: ${new Date(eventInfo.end).toLocaleString()}`
+      );
+    });
 
     return deletedEvent;
   };
