@@ -12,6 +12,7 @@ export class EmailService {
       service: 'Gmail',
       pool: true,
       maxMessages: Infinity,
+      secure: true,
       auth: {
         user: process.env.COMPANY_EMAIL,
         pass: process.env.COMPANY_PASSWORD,
