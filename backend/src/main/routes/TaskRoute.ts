@@ -15,7 +15,7 @@ export default class TaskRoute extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.getApp()
       .route('/task')
-      .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR])))
+      // .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.SUPERVISOR])))
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const newTask = await this.taskService.createTask(req.body);
