@@ -8,6 +8,10 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.BIGINT,
       },
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       location: {
         allowNull: true,
         type: Sequelize.STRING,
@@ -16,13 +20,13 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      date: {
-        allowNull: true,
+      start: {
+        allowNull: false,
         type: Sequelize.DATE,
       },
-      type: {
-        allowNull: true,
-        type: Sequelize.STRING,
+      end: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       createdBy: {
         allowNull: false,

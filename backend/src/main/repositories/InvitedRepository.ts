@@ -1,6 +1,6 @@
 import debug from 'debug';
 import { injectable } from 'tsyringe';
-import { InvitedCreationDTO, InvitedUpdateDTO } from '../dto/InvitedDTOs';
+import { InvitedDTO } from '../dto/InvitedDTOs';
 import { CRUD } from './CRUDInterface';
 const log: debug.IDebugger = debug('app:InvitedRepository');
 import { Invited } from '../models/Invited';
@@ -11,7 +11,7 @@ export default class InvitedRepository implements CRUD {
     log('Created new instance of InvitedRepository');
   }
 
-  public create = async (invitedInfo: InvitedCreationDTO): Promise<Invited> => {
+  public create = async (invitedInfo: InvitedDTO): Promise<Invited> => {
     try {
       const createdInvited = Invited.build(invitedInfo);
       await createdInvited.save();
@@ -41,7 +41,7 @@ export default class InvitedRepository implements CRUD {
     }
   };
 
-  public update = async (invite: { id: number; email: string }, updatedValue: InvitedUpdateDTO): Promise<number> => {
+  public update = async (invite: { id: number; email: string }, updatedValue: InvitedDTO): Promise<number> => {
     try {
       await Invited.update(updatedValue, {
         where: {
