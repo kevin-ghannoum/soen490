@@ -16,6 +16,31 @@ describe('Event test', () => {
     let eventRepositoryMock: any = null;
     let invitedRepositoryMock: any = null;
     let emailServiceMock: any = null;
+    let startDate: Date = new Date();
+    let endDate: Date = new Date();
+    let EVENT_INFO: EventCreationDTO = {
+        title: "event title",
+        start: startDate,
+        end: endDate,
+        invitee: ["email1@email1.com", "email2@email2.com"],
+        createdBy: "email3@email.com"
+    };
+
+    let UPDATE_EVENT_INFO: EventUpdateDTO = {
+        title: "event title",
+        start: startDate,
+        end: endDate,
+        invitee: [{
+            id: 1,
+            email: "email1@email1.com",
+            status: Status.PENDING
+        }, {
+            id: 1,
+            email: "email2@email2.com",
+            status: Status.PENDING
+        }],
+        createdBy: "email3@email.com"
+    };
 
     beforeAll(() => {
         sequelizeMock();
@@ -28,18 +53,12 @@ describe('Event test', () => {
         container.registerInstance(EventRepository, eventRepositoryMock);
         container.registerInstance(InvitedRepository, invitedRepositoryMock);
         container.registerInstance(EmailService, emailServiceMock);
-    });
 
-    afterEach(() => {
-        container.clearInstances();
-    });
-
-    it('should create an event', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
+        startDate = new Date();
+        endDate = new Date();
         endDate.setDate(startDate.getDate() + 1);
 
-        const EVENT_INFO: EventCreationDTO = {
+        EVENT_INFO = {
             title: "event title",
             start: startDate,
             end: endDate,
@@ -47,6 +66,28 @@ describe('Event test', () => {
             createdBy: "email3@email.com"
         };
 
+        UPDATE_EVENT_INFO = {
+            title: "event title",
+            start: startDate,
+            end: endDate,
+            invitee: [{
+                id: 1,
+                email: "email1@email1.com",
+                status: Status.PENDING
+            }, {
+                id: 1,
+                email: "email2@email2.com",
+                status: Status.PENDING
+            }],
+            createdBy: "email3@email.com"
+        };
+    });
+
+    afterEach(() => {
+        container.clearInstances();
+    });
+
+    it('should create an event', async () => {
         eventRepositoryMock.create.mockResolvedValue(
             Event.build(EVENT_INFO)
         );
@@ -62,272 +103,130 @@ describe('Event test', () => {
     });
 
     it('should not create an event if data missing', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
-        endDate.setDate(startDate.getDate() + 1);
+        const eventCreationExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
+        let eventCreationErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
-        let errorThrow;
+        EVENT_INFO.invitee = []
 
-        const EVENT_INFO: EventCreationDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: [],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.create.mockResolvedValue(
-            Event.build(EVENT_INFO)
-        );
-
-        const eventService: EventService = container.resolve(EventService);
+        const eventCreationMissionDataService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.createEvent(EVENT_INFO);
+            await eventCreationMissionDataService.createEvent(EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            eventCreationErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError);
+        expect(eventCreationErrorThrow).toEqual(eventCreationExpectedThrowError);
     });
 
     it('should not create an event if end date smaller than start date', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
-        endDate.setDate(startDate.getDate() - 1);
+        const eventCreationDateSmallerExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid')
+        let eventCreationDateSmallerErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid')
-        let errorThrow;
+        EVENT_INFO.end.setDate(EVENT_INFO.start.getDate() - 1);
 
-        const EVENT_INFO: EventCreationDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: ["email1@email1.com", "email2@email2.com"],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.create.mockResolvedValue(
-            Event.build(EVENT_INFO)
-        );
-
-        const eventService: EventService = container.resolve(EventService);
+        const eventCreationDateSmallerService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.createEvent(EVENT_INFO);
+            await eventCreationDateSmallerService.createEvent(EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            eventCreationDateSmallerErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError);
+        expect(eventCreationDateSmallerErrorThrow).toEqual(eventCreationDateSmallerExpectedThrowError);
     });
 
     it('should not create an event if end date is equal to start date', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = startDate;
+        const eventCreationDateEqualExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid')
+        let eventCreationDateEqualErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid')
-        let errorThrow;
+        EVENT_INFO.end = EVENT_INFO.start;
 
-        const EVENT_INFO: EventCreationDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: ["email1@email1.com", "email2@email2.com"],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.create.mockResolvedValue(
-            Event.build(EVENT_INFO)
-        );
-
-        const eventService: EventService = container.resolve(EventService);
+        const eventCreationDateEqualService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.createEvent(EVENT_INFO);
+            await eventCreationDateEqualService.createEvent(EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            eventCreationDateEqualErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError);
+        expect(eventCreationDateEqualErrorThrow).toEqual(eventCreationDateEqualExpectedThrowError);
     });
 
     it('should update an event', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
-        endDate.setDate(startDate.getDate() + 1);
-
-        const EVENT_INFO: EventUpdateDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: [{
-                id: 1,
-                email: "email1@email1.com",
-                status: Status.PENDING
-            }, {
-                id: 1,
-                email: "email2@email2.com",
-                status: Status.PENDING
-            }],
-            createdBy: "email3@email.com"
-        };
-
         eventRepositoryMock.update.mockResolvedValue(1);
 
         emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
 
         const eventService: EventService = container.resolve(EventService);
-        const result: number = await eventService.updateEvent(1, "email3@email.com", EVENT_INFO);
+        const result: number = await eventService.updateEvent(1, "email3@email.com", UPDATE_EVENT_INFO);
         expect(result).toBe(1)
     });
 
     it('should not update an event if the current user is not the creator of the event', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
-        endDate.setDate(startDate.getDate() + 1);
+        const updateEventNotCurrentUserExpectedThrowError: HttpException = new HttpException(StatusCodes.FORBIDDEN, 'Cannot update an event that does not belong to you');
+        let updateEventNotCurrentUserErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.FORBIDDEN, 'Cannot update an event that does not belong to you');
-        let errorThrow;
-
-        const EVENT_INFO: EventUpdateDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: [{
-                id: 1,
-                email: "email1@email1.com",
-                status: Status.PENDING
-            }, {
-                id: 1,
-                email: "email2@email2.com",
-                status: Status.PENDING
-            }],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.update.mockResolvedValue(1);
-
-        emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
-
-        const eventService: EventService = container.resolve(EventService);
+        const updateEventNotCurrentUserEventService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.updateEvent(1, "email1@email1.com", EVENT_INFO);
+            await updateEventNotCurrentUserEventService.updateEvent(1, "email1@email1.com", UPDATE_EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            updateEventNotCurrentUserErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError)
+        expect(updateEventNotCurrentUserErrorThrow).toEqual(updateEventNotCurrentUserExpectedThrowError)
     });
 
     it('should not update an event if data is missing', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
-        endDate.setDate(startDate.getDate() + 1);
+        const updateEventDateMissingExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
+        let updateEventDateMissingErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Request data is missing some values');
-        let errorThrow;
+        UPDATE_EVENT_INFO.invitee = []
 
-        const EVENT_INFO: EventUpdateDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: [],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.update.mockResolvedValue(1);
-
-        emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
-
-        const eventService: EventService = container.resolve(EventService);
+        const updateEventDateMissingEventService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.updateEvent(1, "email3@email.com", EVENT_INFO);
+            await updateEventDateMissingEventService.updateEvent(1, "email3@email.com", UPDATE_EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            updateEventDateMissingErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError)
+        expect(updateEventDateMissingErrorThrow).toEqual(updateEventDateMissingExpectedThrowError)
     });
 
     it('should not update an event if end date is smaller than start date', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = new Date();
-        endDate.setDate(startDate.getDate() - 1);
+        const updateEventDateSmallerExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid');
+        let updateEventDateSmallerErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid');
-        let errorThrow;
+        UPDATE_EVENT_INFO.end.setDate(UPDATE_EVENT_INFO.start.getDate() - 1)
 
-        const EVENT_INFO: EventUpdateDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: [{
-                id: 1,
-                email: "email1@email1.com",
-                status: Status.PENDING
-            }, {
-                id: 1,
-                email: "email2@email2.com",
-                status: Status.PENDING
-            }],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.update.mockResolvedValue(1);
-
-        emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
-
-        const eventService: EventService = container.resolve(EventService);
+        const updateEventDateSmallerEventService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.updateEvent(1, "email3@email.com", EVENT_INFO);
+            await updateEventDateSmallerEventService.updateEvent(1, "email3@email.com", UPDATE_EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            updateEventDateSmallerErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError)
+        expect(updateEventDateSmallerErrorThrow).toEqual(updateEventDateSmallerExpectedThrowError)
     });
 
     it('should not update an event if end date is equal to start date', async () => {
-        const startDate: Date = new Date();
-        const endDate: Date = startDate;
+        const updateEventDateEqualExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid');
+        let updateEventDateEqualErrorThrow;
 
-        const expectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid');
-        let errorThrow;
+        UPDATE_EVENT_INFO.end = UPDATE_EVENT_INFO.start
 
-        const EVENT_INFO: EventUpdateDTO = {
-            title: "event title",
-            start: startDate,
-            end: endDate,
-            invitee: [{
-                id: 1,
-                email: "email1@email1.com",
-                status: Status.PENDING
-            }, {
-                id: 1,
-                email: "email2@email2.com",
-                status: Status.PENDING
-            }],
-            createdBy: "email3@email.com"
-        };
-
-        eventRepositoryMock.update.mockResolvedValue(1);
-
-        emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
-
-        const eventService: EventService = container.resolve(EventService);
+        const updateEventDateEqualEventService: EventService = container.resolve(EventService);
 
         try {
-            await eventService.updateEvent(1, "email3@email.com", EVENT_INFO);
+            await updateEventDateEqualEventService.updateEvent(1, "email3@email.com", UPDATE_EVENT_INFO);
         } catch (e) {
-            errorThrow = e;
+            updateEventDateEqualErrorThrow = e;
         }
 
-        expect(errorThrow).toEqual(expectedThrowError)
+        expect(updateEventDateEqualErrorThrow).toEqual(updateEventDateEqualExpectedThrowError)
     });
 
     it('should update invited status', async () => {
