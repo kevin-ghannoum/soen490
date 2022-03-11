@@ -22,6 +22,8 @@ tags:
   description: "API for managing projects"
 - name: "tasks"
   description: "API for managing tasks"
+- name: "events"
+  description: "API for managing events"
 - name: "auth"
   description: "API for authorization"
 schemes:
@@ -45,7 +47,7 @@ paths:
         description: "Employee body"
         required: true
         schema:
-          $ref: "#/definitions/Pet"
+          $ref: ""
       responses:
         "400":
           description: "Bad request"
@@ -628,7 +630,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "caller email"
+      - name: "callerEmail"
         in: "path"
         description: "Email of the caller"
         required: true
@@ -644,7 +646,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /call/{id}:
+  /call/{callerId}:
     get:
       tags:
       - "calls"
@@ -654,7 +656,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "caller id"
+      - name: "callerId"
         in: "path"
         description: "call id"
         required: true
@@ -678,7 +680,7 @@ paths:
       description: ""
       operationId: "deleteCallById"
       parameters:
-      - name: "id"
+      - name: "callerId"
         in: "path"
         description: "call id"
         required: true
@@ -702,7 +704,7 @@ paths:
       description: ""
       operationId: "updateCallById"
       parameters:
-      - name: "id"
+      - name: "callerId"
         in: "path"
         description: "call id"
         required: true
@@ -719,7 +721,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "Updated"
-  /calls/search/{phoneNumber}:
+  /calls/search/phoneNumber:
     get:
       tags:
       - "calls"
@@ -729,7 +731,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "caller email"
+      - name: "phoneNumber"
         in: "query"
         description: "Regex of the phone number"
         required: true
@@ -745,7 +747,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /calls/search/{receiverName}:
+  /calls/search/receiverName:
     get:
       tags:
       - "calls"
@@ -755,7 +757,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "receiver name"
+      - name: "receiverName"
         in: "query"
         description: "Regex of the name of the receiver"
         required: true
@@ -771,7 +773,7 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /calls/search/{receiverEmail}:
+  /calls/search/receiverEmail:
     get:
       tags:
       - "calls"
@@ -781,7 +783,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "receiver email"
+      - name: "receiverEmail"
         in: "query"
         description: "Regex of the email of the receiver"
         required: true
@@ -797,17 +799,17 @@ paths:
           description: "Unexpected error"
         "200":
           description: "OK"
-  /calls/search/{employeeEmail}:
+  /calls/search/employeeEmail:
     get:
       tags:
       - "calls"
       summary: "Get calls by a employee (caller) email regex"
       description: ""
-      operationId: "getCallsByReceiverEmailRegex"
+      operationId: "getCallsByEmployeeEmailRegex"
       produces:
       - "application/json"
       parameters:
-      - name: "receiver email"
+      - name: "employeeEmail"
         in: "query"
         description: "Regex of the email of the employee (caller)"
         required: true
@@ -903,7 +905,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: id
+      - name: "id"
         in: "path"
         description: "Employee id"
         required: true
@@ -928,7 +930,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: id
+      - name: "id"
         in: "path"
         description: "pay id"
         required: true
@@ -960,7 +962,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: email
+      - name: "email"
         in: "path"
         description: "Employee email"
         required: true
@@ -986,7 +988,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: email
+      - name: "email"
         in: "path"
         description: "Employee email"
         required: true
@@ -1011,7 +1013,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: email
+      - name: "email"
         in: "path"
         description: "Employee email"
         required: true
@@ -1042,7 +1044,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: email
+      - name: "email"
         in: "path"
         description: "Employee email"
         required: true
@@ -1112,7 +1114,7 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: taskId
+      - name: "taskId"
         in: "path"
         description: "Task Id"
         required: true
@@ -1137,7 +1139,7 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: taskId
+      - name: "taskId"
         in: "path"
         description: "Task Id"
         required: true
@@ -1168,7 +1170,7 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: taskId
+      - name: "taskId"
         in: "path"
         description: "Task Id"
         required: true
@@ -1184,6 +1186,154 @@ paths:
           description: "Unexpected error"
         "200":
           description: "Ok"
+  /event:
+    get:
+      tags:
+        - "events"
+      summary: "Gets all events of the current user"
+      description: "Gets all events of the current user. This includes the events that the user is invited to and the event that the user created."
+      operationId: "getEvents"
+      produces:
+      - "application/json"
+      responses:
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+    post:
+      tags:
+        - "events"
+      summary: "Create a new event"
+      description: "Current user can create a new event."
+      operationId: "createEvent"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created event object"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "400":
+          description: "Request data is missing some values"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Created"
+  /event/{eventId}:
+    get:
+      tags:
+        - "events"
+      summary: "Gets a specific event"
+      description: "Gets a specific event."
+      operationId: "getEvent"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "Event Id"
+        required: true
+        type: "string"
+      responses:
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+    put:
+      tags:
+       - "events"
+      summary: "Update a specific event"
+      description: "Update a specific event"
+      operationId: "updateEvent"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "Event Id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Update event object"
+        required: true
+        schema:
+          $ref: ""
+      responses:
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+    delete:
+      tags:
+        - "events"
+      summary: "Delete a specific event"
+      description: "Delete a specific event."
+      operationId: "deleteEvent"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "Event Id"
+        required: true
+        type: "string"
+      responses:
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Ok"
+  /event/{eventId}/accept:
+    post:
+      tags:
+        - "events"
+      summary: "Accept or Reject an event invitation"
+      description: "Accept or Reject an event invitation."
+      operationId: "acceptEvent"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "Event Id"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "query"
+        description: "Email of the user accepting or rejecting the invitation."
+        required: true
+        type: "string"
+      - name: "accepted"
+        in: "query"
+        description: "Whether the user accepted or rejected the invitation."
+        required: true
+        type: "boolean"
+      responses:
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Unexpected error"
+        "200":
+          description: "Created"
 securityDefinitions:
   api_key:
     type: "apiKey"
