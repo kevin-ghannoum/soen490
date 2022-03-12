@@ -31,8 +31,8 @@ export default class CallRoute extends CommonRoutesConfig {
     this.getApp()
       .route(`/calls`)
       .get(
-        // checkJwt,
-        // checkRole(new Set([Roles.ADMIN])),
+        checkJwt,
+        checkRole(new Set([Roles.ADMIN])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const calls = await this.callService.getCalls();

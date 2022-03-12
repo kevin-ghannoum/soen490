@@ -54,8 +54,8 @@ export default class AccountRoute extends CommonRoutesConfig {
     this.getApp()
       .route(`/accounts/allEmployees`)
       .get(
-        // checkJwt,
-        // checkRole(new Set([Roles.ADMIN])),
+        checkJwt,
+        checkRole(new Set([Roles.ADMIN])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const allEmployeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
@@ -74,8 +74,8 @@ export default class AccountRoute extends CommonRoutesConfig {
     this.getApp()
       .route(`/accounts/allEmployees/:business`)
       .get(
-        // checkJwt,
-        // checkRole(new Set([Roles.BUSINESS])),
+        checkJwt,
+        checkRole(new Set([Roles.BUSINESS])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const employeeAccountsByBusiness = await this.employeeAccountService.getAllEmployeeAccountsByBusiness(
