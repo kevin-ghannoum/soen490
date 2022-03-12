@@ -255,7 +255,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 options={employeeList}
                 getOptionLabel={(option) => option.label}
                 filterSelectedOptions
-                renderInput={(params) => <TextField {...params} variant="standard" size="small" label="Assignees" />}
+                renderInput={(params) => <TextField {...params} variant="standard" size="small" label="Assignees*" />}
                 disabled={disabled}
               />
             </Grid>
