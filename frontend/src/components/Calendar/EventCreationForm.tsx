@@ -72,7 +72,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
       });
       formik.values.invitee = temp;
       try {
-        const response = await createEvents(formik.values);
+        await createEvents(formik.values);
         handleClose();
       } catch (err) {
         setErrorMsg('Unexpected server error');
