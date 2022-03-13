@@ -13,6 +13,7 @@ import { loginWithRefreshToken } from './services/AccountAPI';
 import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 import BookedProjects from './components/Project/BookedProjects';
 import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
+import MyCalendar from './components/Calendar/MyCalendar';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -536,6 +537,21 @@ const App = () => {
                   } else {
                     if (account.authenticated) {
                       return <Redirect to="/" />;
+                    } else {
+                      return <Login />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/calendar"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      return <MyCalendar />;
                     } else {
                       return <Login />;
                     }
