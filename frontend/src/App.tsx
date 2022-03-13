@@ -14,6 +14,7 @@ import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 import BookedProjects from './components/Project/BookedProjects';
 import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
 import MyCalendar from './components/Calendar/MyCalendar';
+import RootPage from './components/Root/Root';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -558,7 +559,25 @@ const App = () => {
                   }
                 }}
               />
-              <Route exact path="/" render={() => <div>root</div>} />
+              <Route exact path="/"  render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <RootPage />
+                            </div>
+                          </React.Fragment>
+                        );
+                      }
+                     else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
           </Suspense>
