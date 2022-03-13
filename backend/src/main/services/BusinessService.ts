@@ -1,20 +1,16 @@
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 import { BusinessCreationDTO, BusinessUpdateDTO } from '../dto/BusinessDTO';
 import HttpException from '../exceptions/HttpException';
 import { Business } from '../models/Business';
 import BusinessRepository from '../repositories/BusinessRepository';
-import { AuthenticationClient } from 'auth0';
-
 
 const log: debug.IDebugger = debug('app:BusinessService');
 
 @injectable()
 export class BusinessService {
   constructor(
-    @inject('auth0-authentication-client')
-    private authenticationClient: AuthenticationClient,
     private businessRepository: BusinessRepository
   ) {
     log('Created instance of BusinessService');
