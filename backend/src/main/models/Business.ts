@@ -12,6 +12,7 @@ import {
 import { BusinessAccount } from './BusinessAccount';
 import { EmailTemplate } from './EmailTemplate';
 import { EmployeeAccount } from './EmployeeAccount';
+import { SocialMediaPage } from './SocialMediaPage';
 import { Goal } from './Goal';
 
 @Table({ timestamps: false })
@@ -33,6 +34,9 @@ export class Business extends Model {
 
   @ForeignKey(() => BusinessAccount)
   email!: string;
+
+  @HasMany(() => SocialMediaPage)
+  socialMediaPages!: SocialMediaPage[];
 
   @HasMany(() => EmailTemplate)
   emailTemplate!: EmailTemplate[];

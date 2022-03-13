@@ -1,7 +1,7 @@
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'tsyringe';
-import { BusinessCreationDTO } from '../dto/BusinessDTO';
+import { BusinessCreationDTO, BusinessUpdateDTO } from '../dto/BusinessDTO';
 import HttpException from '../exceptions/HttpException';
 import { Business } from '../models/Business';
 import BusinessRepository from '../repositories/BusinessRepository';
@@ -23,6 +23,14 @@ export class BusinessService {
 
   public getBusiness = async (id: number): Promise<Business | null> => {
     return this.businessRepository.get(id);
+  };
+
+  public getBusinesses = async (): Promise<Business[]> => {
+    return this.businessRepository.getAll();
+  };
+
+  public updateBusiness = async (id: number, businessUpdateDTO: BusinessUpdateDTO): Promise<number> => {
+    return this.businessRepository.update(id, businessUpdateDTO);
   };
 
   public deleteBusiness = async (id: number): Promise<number> => {
