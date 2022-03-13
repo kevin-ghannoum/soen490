@@ -31,7 +31,7 @@ export class BusinessService {
     return this.businessRepository.getAll();
   };
 
-  public updateBusiness = async (id: number, businessUpdateDTO:BusinessUpdateDTO): Promise<Number> => {
+  public updateBusiness = async (id: number, businessUpdateDTO:BusinessUpdateDTO): Promise<number> => {
     return this.businessRepository.update(id, businessUpdateDTO);
   };
 
