@@ -1,16 +1,22 @@
 import debug from 'debug';
 import { StatusCodes } from 'http-status-codes';
-import { injectable } from 'tsyringe';
-import { BusinessCreationDTO } from '../dto/BusinessDTO';
+import { inject, injectable } from 'tsyringe';
+import { BusinessCreationDTO, BusinessUpdateDTO } from '../dto/BusinessDTO';
 import HttpException from '../exceptions/HttpException';
 import { Business } from '../models/Business';
 import BusinessRepository from '../repositories/BusinessRepository';
+import { AuthenticationClient } from 'auth0';
+
 
 const log: debug.IDebugger = debug('app:BusinessService');
 
 @injectable()
 export class BusinessService {
-  constructor(private businessRepository: BusinessRepository) {
+  constructor(
+    @inject('auth0-authentication-client')
+    private authenticationClient: AuthenticationClient,
+    private businessRepository: BusinessRepository
+  ) {
     log('Created instance of BusinessService');
   }
 
@@ -23,6 +29,14 @@ export class BusinessService {
 
   public getBusiness = async (id: number): Promise<Business | null> => {
     return this.businessRepository.get(id);
+  };
+
+  public getBusinesses = async (): Promise<Business[]> => {
+    return this.businessRepository.getAll();
+  };
+
+  public updateBusiness = async (id: number, businessUpdateDTO:BusinessUpdateDTO): Promise<Number> => {
+    return this.businessRepository.update(id, businessUpdateDTO);
   };
 
   public deleteBusiness = async (id: number): Promise<number> => {

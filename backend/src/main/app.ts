@@ -22,6 +22,7 @@ import ProjectRoute from './routes/ProjectRoute';
 import CallRoute from './routes/CallRoute';
 import TransactionRoute from './routes/TransactionRoute';
 import EventRoute from './routes/EventRoute';
+import BusinessRoute from './routes/BusinessRoute';
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -84,6 +85,7 @@ const main = async () => {
   routes.push(container.resolve(CallRoute));
   routes.push(container.resolve(TransactionRoute));
   routes.push(container.resolve(EventRoute));
+  routes.push(container.resolve(BusinessRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);
