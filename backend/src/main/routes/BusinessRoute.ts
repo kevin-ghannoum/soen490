@@ -36,14 +36,23 @@ export default class BusinessRoute extends CommonRoutesConfig {
 
     this.getApp()
     .route(`/business/:id`)
+    .get(
+      checkJwt,
+      checkRole(new Set([Roles.ADMIN])),
+      async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const business = await this.businessService.getBusiness(Number(req.params.id));
+          res.status(StatusCodes.OK).send(business);
+        } catch (err) {
+          next(err);
+        }
+      }
+    )
     .put(
       checkJwt,
       checkRole(new Set([Roles.ADMIN])),
       async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          if(req.body.account?.password) {      
-            await this.authenticationService.updatePassword(process.env.AUTH0_CONNECTION as string, req.body.account.email);
-          }
           await this.businessService.updateBusiness(Number(req.params.id), req.body);
           res.status(StatusCodes.OK).send();
         } catch (err) {
@@ -65,6 +74,21 @@ export default class BusinessRoute extends CommonRoutesConfig {
     );
 
     this.getApp()
+    .route(`/business/password`)
+    .put(
+      checkJwt,
+      checkRole(new Set([Roles.ADMIN])),
+      async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          await this.authenticationService.updatePassword(process.env.AUTH0_CONNECTION as string, req.body.account.email);
+          res.status(StatusCodes.OK).send();
+        } catch (err) {
+          next(err);
+        }
+      }
+    )
+
+    this.getApp()
       .route(`/businesses`)
       .get(
         checkJwt,
@@ -78,7 +102,6 @@ export default class BusinessRoute extends CommonRoutesConfig {
           }
         }
       );
-
 
     return this.getApp();
   }

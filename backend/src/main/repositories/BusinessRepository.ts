@@ -73,7 +73,21 @@ export default class BusinessRepository implements CRUD {
 
   public get = async (id: number): Promise<Business | null> => {
     try {
-      const business = await Business.findByPk(id);
+      const business = await Business.findByPk(id, {
+        include: [
+          {
+            model: BusinessAccount,
+            include: [
+              {
+                model: Account,
+                attributes: ['firstName', 'lastName', 'phoneNumber', 'username', 'password'],
+                include: [{ model: Address }]
+              }
+            ]
+          },
+          { model: SocialMediaPage },
+        ],
+    });
 
       if (business) {
         log(business);
