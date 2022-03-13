@@ -67,8 +67,8 @@ export default class BusinessRoute extends CommonRoutesConfig {
     this.getApp()
       .route(`/businesses`)
       .get(
-        // checkJwt,
-        // checkRole(new Set([Roles.ADMIN])),
+        checkJwt,
+        checkRole(new Set([Roles.ADMIN])),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const businesses = await this.businessService.getBusinesses();
