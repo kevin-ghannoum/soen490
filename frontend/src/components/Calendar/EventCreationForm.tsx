@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import createEventFormValidationSchema from './CreateEventFormValidationSchema';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { getAllRegexEmployeeAccount } from '../../services/AccountAPI';
-import { createEvents } from '../../services/CalendarAPI';
+import { createEvents } from '../../services/EventAPI';
 export interface CreateEventData {
   title: string;
   start: string;
@@ -185,7 +185,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
               <div style={{ float: 'left' }}>
                 <TextField
                   id="date"
-                  label="Date"
+                  label="Date*"
                   type="date"
                   InputLabelProps={{
                     shrink: true,
@@ -196,7 +196,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 />
                 <TextField
                   id="start-time"
-                  label="Start"
+                  label="Start*"
                   type="time"
                   InputLabelProps={{
                     shrink: true,
@@ -207,7 +207,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 />
                 <TextField
                   id="end-time"
-                  label="End"
+                  label="End*"
                   type="time"
                   InputLabelProps={{
                     shrink: true,

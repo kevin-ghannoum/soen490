@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, SlotInfo, View } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { getEvents } from '../../services/CalendarAPI';
+import { getEvents } from '../../services/EventAPI';
 import EventCreationForm from './EventCreationForm';
 export interface Event {
   id: number;
