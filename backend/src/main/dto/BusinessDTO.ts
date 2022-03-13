@@ -11,7 +11,7 @@ export interface BusinessUpdateDTO {
     name?: string;
     industry?: string;
     website?: string;
-  },
+  };
 
   // Account related to the Business
   account?: {
@@ -21,7 +21,7 @@ export interface BusinessUpdateDTO {
     username?: string;
     password?: string;
     phoneNumber?: string;
-  },
+  };
 
   // Address related to the Business
   address?: {
@@ -32,17 +32,17 @@ export interface BusinessUpdateDTO {
     cityName?: string;
     province?: string;
     country?: string;
-  },
+  };
 
   // Social Media Page related to the Business
   socialMediaPage?: {
     link: string;
     name: string;
-  },
+  };
   newSocialMediaPage?: {
     link?: string;
     name?: string;
     businessId?: number;
     email?: string;
-  }
+  };
 }

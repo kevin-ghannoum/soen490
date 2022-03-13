@@ -14,7 +14,7 @@ export default class BusinessRepository implements CRUD {
   constructor() {
     log('Created new instance of BusinessRepository');
   }
-  
+
   public create = async (businessInfo: BusinessCreationDTO): Promise<Business> => {
     try {
       const createdBusiness = Business.build(businessInfo);
@@ -44,24 +44,25 @@ export default class BusinessRepository implements CRUD {
 
   public update = async (id: number, updatedValue: BusinessUpdateDTO): Promise<number> => {
     try {
-
       if (updatedValue.business) {
         await Business.update(updatedValue.business, { where: { id: id } });
-        log(`Business ${id} has been updated`); 
+        log(`Business ${id} has been updated`);
       }
 
-      if(updatedValue.account) {
+      if (updatedValue.account) {
         await Account.update(updatedValue.account, { where: { email: updatedValue.account.email } });
         log(`Account ${updatedValue.account.email} has been updated`);
       }
 
-      if(updatedValue.address) {
+      if (updatedValue.address) {
         await Address.update(updatedValue.address, { where: { id: updatedValue.address.id } });
         log(`Address ${updatedValue.address.id} has been updated`);
       }
 
-      if(updatedValue.socialMediaPage && updatedValue.newSocialMediaPage) {
-        await SocialMediaPage.update(updatedValue.newSocialMediaPage, { where: { link: updatedValue.socialMediaPage.link, name: updatedValue.socialMediaPage.name } });
+      if (updatedValue.socialMediaPage && updatedValue.newSocialMediaPage) {
+        await SocialMediaPage.update(updatedValue.newSocialMediaPage, {
+          where: { link: updatedValue.socialMediaPage.link, name: updatedValue.socialMediaPage.name },
+        });
         log(`SocialMediaPage ${updatedValue.socialMediaPage.name} has been updated`);
       }
 
@@ -81,13 +82,13 @@ export default class BusinessRepository implements CRUD {
               {
                 model: Account,
                 attributes: ['firstName', 'lastName', 'phoneNumber', 'username', 'password'],
-                include: [{ model: Address }]
-              }
-            ]
+                include: [{ model: Address }],
+              },
+            ],
           },
           { model: SocialMediaPage },
         ],
-    });
+      });
 
       if (business) {
         log(business);
@@ -106,19 +107,19 @@ export default class BusinessRepository implements CRUD {
   public getAll = async (): Promise<Business[]> => {
     try {
       const businesses = await Business.findAll({
-          include: [
-            {
-              model: BusinessAccount,
-              include: [
-                {
-                  model: Account,
-                  attributes: ['firstName', 'lastName', 'phoneNumber', 'username', 'password'],
-                  include: [{ model: Address }]
-                }
-              ]
-            },
-            { model: SocialMediaPage },
-          ],
+        include: [
+          {
+            model: BusinessAccount,
+            include: [
+              {
+                model: Account,
+                attributes: ['firstName', 'lastName', 'phoneNumber', 'username', 'password'],
+                include: [{ model: Address }],
+              },
+            ],
+          },
+          { model: SocialMediaPage },
+        ],
       });
 
       log(businesses);

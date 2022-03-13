@@ -56,8 +56,8 @@ export class AuthenticationService {
   public updatePassword = async (connection: string, email: string): Promise<void> => {
     const auth0ChangePasswordData = {
       connection,
-      email
-    }
+      email,
+    };
     return this.authenticationClient.requestChangePasswordEmail(auth0ChangePasswordData);
   };
 

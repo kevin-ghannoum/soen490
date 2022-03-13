@@ -10,9 +10,7 @@ const log: debug.IDebugger = debug('app:BusinessService');
 
 @injectable()
 export class BusinessService {
-  constructor(
-    private businessRepository: BusinessRepository
-  ) {
+  constructor(private businessRepository: BusinessRepository) {
     log('Created instance of BusinessService');
   }
 
@@ -31,7 +29,7 @@ export class BusinessService {
     return this.businessRepository.getAll();
   };
 
-  public updateBusiness = async (id: number, businessUpdateDTO:BusinessUpdateDTO): Promise<number> => {
+  public updateBusiness = async (id: number, businessUpdateDTO: BusinessUpdateDTO): Promise<number> => {
     return this.businessRepository.update(id, businessUpdateDTO);
   };
 
