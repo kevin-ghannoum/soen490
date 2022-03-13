@@ -26,6 +26,7 @@ const CreateTask = lazy(() => import('./components/Task/CreateTask'));
 const EditTask = lazy(() => import('./components/Task/EditTask'));
 const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
 const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
+const ViewBusiness = lazy(() => import('./components/Business/ViewBusiness'));
 
 const App = () => {
   const account = useAppSelector(selectAccount);
@@ -515,6 +516,34 @@ const App = () => {
                             <div style={{ paddingTop: '75px' }}>
                               <Sidebar />
                               <SingleProjectTransaction id={match.params.id} />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/business"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <ViewBusiness />
                             </div>
                           </React.Fragment>
                         );
