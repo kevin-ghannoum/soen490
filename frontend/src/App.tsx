@@ -32,6 +32,7 @@ const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
 const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
 const ViewBusiness = lazy(() => import('./components/Business/ViewBusiness'));
 
+
 const App = () => {
   const account = useAppSelector(selectAccount);
   const dispatch = useAppDispatch();
@@ -672,7 +673,25 @@ const App = () => {
                   }
                 }}
               />
-              <Route exact path="/" render={() => <div>root</div>} />
+              <Route exact path="/"  render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <RootPage />
+                            </div>
+                          </React.Fragment>
+                        );
+                      }
+                     else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
           </Suspense>
