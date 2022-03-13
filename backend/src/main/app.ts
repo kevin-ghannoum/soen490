@@ -5,7 +5,6 @@ import { CommonRoutesConfig } from './routes/CommonRoutesConfig';
 import debug from 'debug';
 import cors from 'cors';
 import * as expressWinston from 'express-winston';
-import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
 import { httpMiddlewareError, failSafeHandler } from './middleware/ErrorMiddleware';
@@ -23,6 +22,7 @@ import CallRoute from './routes/CallRoute';
 import TransactionRoute from './routes/TransactionRoute';
 import EventRoute from './routes/EventRoute';
 import NotificationRoute from './routes/NotificationRoute';
+import BusinessRoute from './routes/BusinessRoute';
 
 const main = async () => {
   sequelize.authenticate().then(() => console.log('Authenticated on Sequelize'));
@@ -75,7 +75,6 @@ const main = async () => {
   });
 
   // Instanciating the routes here:
-  routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
   routes.push(container.resolve(LogHoursRoute));
   routes.push(container.resolve(ProjectRoute));
@@ -86,6 +85,7 @@ const main = async () => {
   routes.push(container.resolve(TransactionRoute));
   routes.push(container.resolve(EventRoute));
   routes.push(container.resolve(NotificationRoute));
+  routes.push(container.resolve(BusinessRoute));
 
   // Registering express error handling middleware
   app.use(httpMiddlewareError);
