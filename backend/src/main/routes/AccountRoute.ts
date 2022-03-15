@@ -42,14 +42,18 @@ export default class AccountRoute extends CommonRoutesConfig {
           }
         }
       )
-      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
-          res.status(StatusCodes.OK).send(regexEmployeeAccount);
-        } catch (err) {
-          next(err);
+      .get(
+        checkJwt,
+        checkRole(new Set([Roles.BUSINESS, Roles.EMPLOYEE])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const regexEmployeeAccount = await this.employeeAccountService.getEmployeesByRegex(String(req.query.email));
+            res.status(StatusCodes.OK).send(regexEmployeeAccount);
+          } catch (err) {
+            next(err);
+          }
         }
-      });
+      );
 
     this.getApp()
       .route(`/accounts/allEmployees`)
@@ -142,7 +146,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/client`)
-      .all(checkJwt)
+      .all(checkJwt, checkRole(new Set([Roles.BUSINESS, Roles.EMPLOYEE, Roles.CLIENT])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const regexClientAccout = await this.clientAccountService.getEmployeesByRegex(String(req.query.email));
@@ -154,7 +158,7 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/employees/project`)
-      .all(checkJwt)
+      .all(checkJwt, checkRole(new Set([Roles.BUSINESS, Roles.EMPLOYEE])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const employeeAccountByProject = await this.employeeAccountService.getAllEmployeeAccountsByProject(
@@ -218,16 +222,20 @@ export default class AccountRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/accounts/client`)
-      .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-          const clientAccount: ClientAccount = await this.clientAccountService.createClientAccount(req.body);
-          const dto = JSON.parse(JSON.stringify(clientAccount));
-          delete dto.account.password;
-          res.status(StatusCodes.CREATED).send(dto);
-        } catch (err) {
-          next(err);
+      .post(
+        checkJwt,
+        checkRole(new Set([Roles.BUSINESS])),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+          try {
+            const clientAccount: ClientAccount = await this.clientAccountService.createClientAccount(req.body);
+            const dto = JSON.parse(JSON.stringify(clientAccount));
+            delete dto.account.password;
+            res.status(StatusCodes.CREATED).send(dto);
+          } catch (err) {
+            next(err);
+          }
         }
-      });
+      );
     this.getApp()
       .route(`/accounts/client/:email`)
       .all(checkJwt, checkRole(new Set([Roles.EMPLOYEE, Roles.CLIENT, Roles.BUSINESS])))
