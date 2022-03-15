@@ -1,8 +1,7 @@
 import * as React from 'react';
 import ViewBusinessStyle from './ViewBusinessStyle';
-import { DataGrid, GridApi, GridCellValue, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
+import { DataGrid, GridApi, GridCellValue, GridColDef } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react';
-import { getAllClientAccount } from '../../services/AccountAPI';
 import {
   Button,
   Dialog,
@@ -11,31 +10,35 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Menu,
-  MenuItem,
-  TextField,
-  Typography,
-  useMediaQuery,
-  useTheme,
 } from '@material-ui/core';
-import { createCall, getCalls, updateCall, deleteCall } from '../../services/CallAPI';
-import { Autocomplete } from '@material-ui/lab';
-import { CallCreationDTO, CallUpdateDTO } from '../../dto/CallLogs/CallLogDTOs';
-import { useAppSelector } from '../../redux/hooks';
-import { selectAccount } from '../../features/account/AccountSlice';
+import { getAllBusinesses, deleteBusiness } from '../../services/BusinessAPI';
 import { Edit, Delete } from '@material-ui/icons';
 import { useHistory } from 'react-router';
 
 interface Data {
   id: number;
-  receiverName: string;
-  date: string;
-  phoneNumber: number;
-  description: string;
-  receiverEmail: string;
+  name: string;
+  industry: string;
+  website: number;
+  email: string;
+  businessAccount: {
+    email: string;
+    account: {
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      username: string;
+      address: {
+        id: number;
+        civicNumber: number;
+        streetName: string;
+        postalCode: string;
+        cityName: string;
+        province: string;
+        country: string;
+      }
+    };
+  };
   action: string;
   followUp: boolean;
   neverCallBack: boolean;
@@ -49,85 +52,26 @@ interface TableData {
   email: string;
   businessName: string;
   industry: string;
-  phoneNumber: number;
-  address: string;
+  phoneNumber: string;
+  address: string
 }
-
-const actions = [
-  'Called',
-  'No Answer',
-  'Left Voicemail',
-  'Email sent',
-  'Follow up',
-  'Call Back',
-  'Will call back',
-  'Estimate booked',
-];
 
 const ViewBusiness: React.FC = () => {
   const history = useHistory();
 
-  const [openDialog, setOpenDialog] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [selectedClient, setSelectedClient] = React.useState<string | null>('');
-  const [addedNote, setAddedNote] = React.useState<string | null>('');
-
-  const [anchorElAction, setAnchorElAction] = React.useState<null | HTMLElement>(null);
-  const [selectedIndexAction, setSelectedIndexAction] = React.useState(1);
-  const openMenuAction = Boolean(anchorElAction);
-
-  const [select, setSelection] = useState<GridSelectionModel>();
-
   const [selectID, setSelectionID] = useState<number>();
-
-  const [clientList, setClientList] = useState<any>([]);
 
   const [callsDisplayed, setCallsDisplayed] = useState<any>([]);
 
   const [openDeleteAlert, setOpenDeleteAlert] = React.useState(false);
 
-  const [editState, setEditState] = React.useState(false);
-
-  const account = useAppSelector(selectAccount);
-  
   const handleClickAddBusiness = () => {
     history.push(`/businessAccount/new`);
   };
-
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleSelectClient = (value: string | null) => {
-    setSelectedClient(value);
-  };
-
-  const handleAddedNote = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddedNote(event?.target.value);
-  };
-
-  const handleClickListItemAction = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElAction(event.currentTarget);
-  };
-
-  const handleMenuItemClickAction = (event: React.MouseEvent<HTMLElement>, index: number) => {
-    setSelectedIndexAction(index);
-    setAnchorElAction(null);
-  };
-
-  const handleMenuCloseAction = () => {
-    setAnchorElAction(null);
-  };
-
-  const handleRowSelection = (id: GridSelectionModel) => {
-    setSelection(id);
-  };
+  
+  const handleEditClick = (id: number) => {
+    history.push(`/business/edit/${id}`);
+  }
 
   const handleIDSelection = (id: number) => {
     setSelectionID(id);
@@ -141,85 +85,34 @@ const ViewBusiness: React.FC = () => {
     setOpenDeleteAlert(false);
   };
 
-  const getClientInput = async (event: React.ChangeEvent<{}>, value: string) => {
-    const clientResponse = await getAllClientAccount(value);
-    const clients: any[] = [];
-    clientResponse.data.forEach((element: any) => {
-      clients.push(`${element.email}`);
-    });
-    setClientList(clients);
-  };
-
-  const clearStates = () => {
-    setSelectedClient('');
-    setAddedNote('');
-    setSelectedIndexAction(1);
-  };
-
-  const handleSubmitLog = async () => {
-    const data: CallCreationDTO = {
-      receiverEmail: selectedClient as string,
-      description: addedNote as string,
-      action: actions[selectedIndexAction].toUpperCase(),
-      date: new Date().toISOString().split('T')[0],
-      followUp: false,
-      neverCallBack: false,
-      callerEmail: account.account.email,
-    };
+  const handleDeleteBusiness = async () => {
     try {
-      await createCall(data);
-      setOpenDialog(false);
-      clearStates();
-      fetchData();
-    } catch (err: any) {
-      history.push('/error');
-    }
-  };
-
-  const handleUpdatedLog = async () => {
-    const data: CallUpdateDTO = {
-      receiverEmail: selectedClient as string,
-      description: addedNote as string,
-      action: actions[selectedIndexAction].toUpperCase(),
-      date: new Date().toISOString().split('T')[0],
-      followUp: false,
-      neverCallBack: false,
-      callerEmail: account.account.email,
-    };
-    try {
-      await updateCall(selectID as number, data);
-      setOpenDialog(false);
-      setEditState(false);
-      clearStates();
-      fetchData();
-    } catch (err: any) {
-      history.push('/error');
-    }
-  };
-
-  const handleDeleteLog = async () => {
-    try {
-      await deleteCall(selectID as number);
-      setOpenDeleteAlert(false);
-      fetchData();
+      if (selectID) {
+        await deleteBusiness(selectID);
+        setOpenDeleteAlert(false);
+        fetchData();
+      }
+      else {
+        throw Error
+      }
     } catch (err: any) {
       history.push('/error');
     }
   };
 
   const fetchData = async () => {
-    const calls = await getCalls(account.account.email);
+    const calls = await getAllBusinesses();
     const display: TableData[] = [];
     calls.data.forEach((element: Data) => {
       const dataDisplay: TableData = {
         id: element.id,
-        name: 'fds',
-        username: element.receiverName,
-        email: element.receiverEmail,
-        businessName: element.callerEmail,
-        industry: element.description,
-        phoneNumber: element.phoneNumber,
-        address: element.callerEmail,
+        name: element.name,
+        username: element.businessAccount.account.username,
+        email: element.email,
+        businessName: element.name,
+        industry: element.industry,
+        phoneNumber: element.businessAccount.account.phoneNumber,
+        address: element.businessAccount.account.address.civicNumber + " " + element.businessAccount.account.address.streetName,
       };
       display.push(dataDisplay);
     });
@@ -229,7 +122,7 @@ const ViewBusiness: React.FC = () => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, [select]);
+  }, []);
 
   const columns: GridColDef[] = [
     {
@@ -253,7 +146,7 @@ const ViewBusiness: React.FC = () => {
       field: 'email',
       headerName: 'Email address',
       flex: 1,
-      minWidth: 175,
+      minWidth: 300,
     },
     {
       field: 'businessName',
@@ -283,34 +176,8 @@ const ViewBusiness: React.FC = () => {
       field: 'edit',
       headerName: ' ',
       sortable: false,
-      renderCell: (params) => {
-        const onClick = (e: { stopPropagation: () => void }) => {
-          e.stopPropagation(); // don't select this row after clicking
-          setEditState(true);
-          handleClickOpenDialog();
-
-          const api: GridApi = params.api;
-          const thisRow: Record<string, GridCellValue> = {};
-
-          api
-            .getAllColumns()
-            .filter((c) => c.field !== '__check__' && !!c)
-            .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
-
-          setAddedNote(api.getCellValue(params.id, 'description') as string);
-
-          setSelectedClient(api.getCellValue(params.id, 'receiverEmail') as string);
-
-          setSelectedIndexAction(actions.indexOf(api.getCellValue(params.id, 'action') as string));
-
-          return handleIDSelection(api.getCellValue(params.id, 'id') as number);
-        };
-
-        return (
-          <Button onClick={onClick}>
-            <Edit />
-          </Button>
-        );
+      renderCell: (params: any) => {
+        return <Edit onClick={() => handleEditClick(params.id)}></Edit>;
       },
     },
     {
@@ -346,112 +213,35 @@ const ViewBusiness: React.FC = () => {
   const classes = ViewBusinessStyle();
   return (
     <Grid
-      id="View-Logs-Grid"
+      id="View-Business-Grid"
       container
       spacing={0}
       direction="column"
       justifyContent="center"
       alignContent="center"
-      style={{ paddingTop: '75px' }}
+      style={{ minHeight: '100vh', paddingTop: '75px' }}
     >
       <div style={{ height: 650, width: '100%' }}>
-        <Grid item container spacing={3} direction="row" xs={12}>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={4}>
+        <Grid item direction="row" xs={12}>
+          <Grid container style={{ width: '75%', margin: 'auto' }}>
             <Button
               variant="contained"
-              className={classes.addLogButton}
+              className={classes.addBusinessButton}
+              style={{ width: '150px', marginLeft: 'auto' }}
               color="primary"
-              id="addLog"
+              id="addBusinessButton"
               component="span"
               onClick={handleClickAddBusiness}
             >
               Add Business
             </Button>
-            <Dialog fullScreen={fullScreen} open={openDialog} onClose={handleCloseDialog}>
-              <Typography className={classes.dialogTitle}>{editState === false ? 'New Log' : 'Edit Log'}</Typography>
-              <DialogContent className={classes.dialogContentMenus}>
-                <Autocomplete
-                  className={classes.selectBox}
-                  id="selectClient"
-                  loadingText="No Options"
-                  options={clientList}
-                  value={selectedClient}
-                  onInputChange={getClientInput}
-                  onChange={(event, value) => handleSelectClient(value)}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField {...params} variant="standard" style={{ alignContent: 'center' }} />
-                  )}
-                />
-                <List component="nav" aria-label="Action">
-                  <ListItem
-                    button
-                    id="lock-button"
-                    aria-haspopup="listbox"
-                    aria-controls="lock-menu"
-                    aria-label="action"
-                    aria-expanded={openMenuAction ? 'true' : undefined}
-                    onClick={handleClickListItemAction}
-                  >
-                    <ListItemText primary="Action" secondary={actions[selectedIndexAction]} />
-                  </ListItem>
-                </List>
-                <Menu
-                  style={{ width: '100%' }}
-                  id="lock-menu"
-                  anchorEl={anchorElAction}
-                  open={openMenuAction}
-                  onClose={handleMenuCloseAction}
-                  MenuListProps={{
-                    'aria-labelledby': 'lock-button',
-                    role: 'listbox',
-                  }}
-                >
-                  {actions.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      selected={index === selectedIndexAction}
-                      onClick={(event) => handleMenuItemClickAction(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </DialogContent>
-              <DialogContent>
-                <TextField
-                  className={classes.dialogNote}
-                  id="outlined-textarea"
-                  label="Notes"
-                  placeholder="Notes"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  value={addedNote}
-                  onChange={handleAddedNote}
-                />
-              </DialogContent>
-              <DialogActions className={classes.dialogActionsButton}>
-                {editState === false ? (
-                  <Button id="createLog" size="small" variant="contained" color="primary" onClick={handleSubmitLog}>
-                    Add
-                  </Button>
-                ) : (
-                  <Button id="editLog" size="small" variant="contained" color="primary" onClick={handleUpdatedLog}>
-                    Edit
-                  </Button>
-                )}
-              </DialogActions>
-            </Dialog>
             <Dialog
               open={openDeleteAlert}
               onClose={handleCloseDelete}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
-              <DialogTitle id="alert-dialog-title">{'Permanently delete business??'}</DialogTitle>
+              <DialogTitle id="alert-dialog-title">{'Permanently delete business?'}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                   By clicking on "Agree", you will be permanently deleting this business. If you wish to go back to the
@@ -460,23 +250,19 @@ const ViewBusiness: React.FC = () => {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleCloseDelete}>Disagree</Button>
-                <Button size="small" variant="contained" color="primary" onClick={handleDeleteLog} autoFocus>
+                <Button size="small" variant="contained" color="primary" onClick={handleDeleteBusiness} autoFocus>
                   Agree
                 </Button>
               </DialogActions>
             </Dialog>
           </Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={12} style={{ height: 560, width: '100%' }}>
+          <Grid item xs={12} style={{ height: 560, width: '100%', marginBottom: 10, marginTop: 20 }}>
             {' '}
             <DataGrid
               style={{ maxWidth: '75%', margin: 'auto' }}
               rows={callsDisplayed}
               columns={columns}
               pageSize={10}
-              onSelectionModelChange={handleRowSelection}
             />
           </Grid>
         </Grid>

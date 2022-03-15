@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { FormikProps, useFormik } from 'formik';
 import { AxiosResponse } from 'axios';
 import { createBusinessAccount } from '../../services/AccountAPI';
 import createBusinessFormValidationSchema from './CreateBusinessFormValidationSchema';
 import createBusinessAccountStyle from './CreateBusinessAccountStyle';
-const CreateBusinessAccount: React.FC = () => {
+import { getBusiness, updateBusiness, updateBusinessPassword } from '../../services/BusinessAPI';
+
+interface Props {
+  editMode?: boolean;
+  id?: string;
+}
+
+const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
   const [created, setCreated] = useState<boolean>(false);
+  const [submitText, setSubmitText] = useState<string>('');
+  const [returnMessage, setReturnMessage] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+  const [addressId, setAddressId] = useState<number>();
+  const [socialMediaLink, setSocialMediaLink] = useState<string>('');
+  const [socialMediaName, setSocialMediaName] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
 
   interface CreateBusinessAccountFormData {
     firstName: string;
@@ -49,6 +63,9 @@ const CreateBusinessAccount: React.FC = () => {
       socialMediaName: '',
     },
     onSubmit: async (values) => {
+      if (editMode) {
+        submitEdit();
+      } else {
       const response: AxiosResponse<any> = await createBusinessAccount({
         account: {
           email: values.email,
@@ -79,10 +96,108 @@ const CreateBusinessAccount: React.FC = () => {
       });
       if (response.status === 201) {
         setCreated(true);
+        setReturnMessage("Created successfully!")
       }
+    }
     },
     validationSchema: createBusinessFormValidationSchema,
   });
+
+  const submitEdit = async () => {
+      if (id && addressId) {
+      const response: AxiosResponse<any> = await updateBusiness(id, {
+        business: {
+          name: formik.values.name,
+          industry: formik.values.industry,
+          website: formik.values.website
+        },
+        account: {
+          email: formik.values.email,
+          firstName: formik.values.firstName,
+          lastName: formik.values.lastName,
+          username: formik.values.username,
+          phoneNumber: formik.values.phone,
+        },
+        address: {
+          id: addressId,
+          civicNumber: formik.values.civicNumber as number,
+          streetName: formik.values.streetName,
+          postalCode: formik.values.postalCode,
+          cityName: formik.values.cityName,
+          province: formik.values.province,
+          country: formik.values.country,
+        },
+        socialMediaPage: {
+          link: socialMediaLink,
+          name: socialMediaName,
+        },
+        newSocialMediaPage: {
+          link: formik.values.socialMediaLink,
+          name: formik.values.socialMediaName,
+          businessId: +id,
+          email: formik.values.email
+        },
+      });
+      if (response.status === 200) {
+        setCreated(true);
+        setReturnMessage('Saved succesfully!');
+      }
+    } else {
+      setError(true);
+    }
+  };
+
+  useEffect(() => {
+    const autofill = async () => {
+      if (id) {
+        const responseBusiness = await getBusiness(id);
+        formik.setFieldValue('firstName', responseBusiness.data.businessAccount.account.firstName);
+        formik.setFieldValue('lastName', responseBusiness.data.businessAccount.account.lastName);
+        formik.setFieldValue('email', responseBusiness.data.businessAccount.email);
+        formik.setFieldValue('username', responseBusiness.data.businessAccount.account.username);
+        formik.setFieldValue('password', responseBusiness.data.businessAccount.account.password);
+        formik.setFieldValue('phone', responseBusiness.data.businessAccount.account.phoneNumber);
+        formik.setFieldValue('civicNumber', responseBusiness.data.businessAccount.account.address.civicNumber);
+        formik.setFieldValue('streetName', responseBusiness.data.businessAccount.account.address.streetName);
+        formik.setFieldValue('postalCode', responseBusiness.data.businessAccount.account.address.postalCode);
+        formik.setFieldValue('cityName', responseBusiness.data.businessAccount.account.address.cityName);
+        formik.setFieldValue('province', responseBusiness.data.businessAccount.account.address.province);
+        formik.setFieldValue('country', responseBusiness.data.businessAccount.account.address.country);
+        formik.setFieldValue('name', responseBusiness.data.name);
+        formik.setFieldValue('industry', responseBusiness.data.industry);
+        formik.setFieldValue('website', responseBusiness.data.website);
+        formik.setFieldValue('socialMediaLink', responseBusiness.data.socialMediaPages[0]?.link);
+        formik.setFieldValue('socialMediaName', responseBusiness.data.socialMediaPages[0]?.name);
+        setAddressId(responseBusiness.data.businessAccount.account.address.id);
+        setSocialMediaLink(responseBusiness.data.socialMediaPages[0]?.link);
+        setSocialMediaName(responseBusiness.data.socialMediaPages[0]?.name);
+      } else {
+        setError(true);
+      }
+    };
+    if (editMode) {
+      autofill();
+      setSubmitText('Save');
+      setTitle('Edit Business');
+    }
+    else {
+      setSubmitText('Add');
+      setTitle('New Business Account')
+    }
+    // eslint-disable-next-line
+  }, [formik.setFieldValue]);
+
+  const handleChangePasswordClick = async () => {
+    const response: AxiosResponse<any> = await updateBusinessPassword({
+      account: {
+        email: formik.values.email
+      },
+    });
+    if (response.status === 200) {
+      setCreated(true);
+      setReturnMessage('Link to password change sent!');
+    }
+  };
 
   const classes = createBusinessAccountStyle();
   return (
@@ -99,7 +214,7 @@ const CreateBusinessAccount: React.FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <Grid item container spacing={3} direction="row" xs={12} className={classes.createEmployeeFormWrapper}>
             <Grid item xs={12}>
-              <Typography variant="h5">New Business Account</Typography>
+              <Typography variant="h5">{title}</Typography>
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -134,6 +249,7 @@ const CreateBusinessAccount: React.FC = () => {
                 helperText={formik.touched.username && formik.errors.username}
               />
             </Grid>
+            {!editMode && (
             <Grid item xs={6}>
               <TextField
                 label="Password *"
@@ -142,10 +258,18 @@ const CreateBusinessAccount: React.FC = () => {
                 fullWidth
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
+                error={formik.touched.password && Boolean(formik.errors.password) && !editMode}
+                helperText={formik.touched.password && formik.errors.password && !editMode}
               />
             </Grid>
+            )}
+            {editMode && (
+            <Grid item xs={6}>
+              <Button color="primary" variant="contained" onClick={handleChangePasswordClick}>
+                Change password
+              </Button>
+            </Grid>
+            )}
             <Grid item xs={12}>
               <TextField
                 label="Email *"
@@ -298,11 +422,16 @@ const CreateBusinessAccount: React.FC = () => {
             <Grid item xs={12}>
               {created && (
                 <Typography variant="h6" color="primary">
-                  Created succesfully
+                  {returnMessage}
+                </Typography>
+              )}
+              {error && (
+                <Typography variant="h6" style={{ color: 'red' }}>
+                  Error
                 </Typography>
               )}
               <Button color="primary" variant="contained" type="submit">
-                Add
+                {submitText}
               </Button>
             </Grid>
           </Grid>

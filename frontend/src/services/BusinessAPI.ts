@@ -1,18 +1,22 @@
 import axios, { AxiosResponse } from 'axios';
-import { BusinessCreationDTO } from '../dto/BusinessDTOs';
+import { BusinessCreationDTO, BusinessUpdateDTO } from '../dto/BusinessDTOs';
 
-export const createCall = async (callCreationDTO: BusinessCreationDTO): Promise<AxiosResponse<any>> => {
-  return axios.post(`/call`, callCreationDTO);
+export const updateBusiness = async (id: string, businessUpdateDTO: BusinessUpdateDTO): Promise<AxiosResponse<any>> => {
+  return axios.put(`/business/${id}`, businessUpdateDTO);
 };
 
-export const updateCall = async (id: number, callUpdateDTO: BusinessCreationDTO): Promise<AxiosResponse<any>> => {
-  return axios.put(`/call/${id}`, callUpdateDTO);
+export const getAllBusinesses = async (): Promise<AxiosResponse<any>> => {
+  return axios.get(`/businesses`);
 };
 
-export const getCalls = async (email: string): Promise<AxiosResponse<any>> => {
-  return axios.get(`/calls/${email}`);
+export const getBusiness = async (id: string): Promise<AxiosResponse<any>> => {
+  return axios.get(`/business/${id}`);
 };
 
-export const deleteCall = async (id: number): Promise<AxiosResponse<any>> => {
-  return axios.delete(`/call/${id}`);
+export const deleteBusiness = async (id: number): Promise<AxiosResponse<any>> => {
+  return axios.delete(`/business/${id}`);
+};
+
+export const updateBusinessPassword = async (businessUpdateDTO: BusinessUpdateDTO): Promise<AxiosResponse<any>> => {
+  return axios.delete(`/business/password`);
 };
