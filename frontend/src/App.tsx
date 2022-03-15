@@ -541,9 +541,37 @@ const App = () => {
                       ) {
                         return (
                           <React.Fragment>
-                            <div style={{ paddingTop: '75px' }}>
+                            <div >
                               <Sidebar />
                               <ViewBusiness />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/business/edit/:id"
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <CreateBusinessAccount editMode={true} id={match.params.id} />
                             </div>
                           </React.Fragment>
                         );
