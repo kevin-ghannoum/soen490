@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { BusinessCreationDTO, BusinessUpdateDTO } from '../dto/BusinessDTOs';
+import { BusinessUpdateDTO } from '../dto/BusinessDTOs';
 
 export const updateBusiness = async (id: string, businessUpdateDTO: BusinessUpdateDTO): Promise<AxiosResponse<any>> => {
   return axios.put(`/business/${id}`, businessUpdateDTO);
