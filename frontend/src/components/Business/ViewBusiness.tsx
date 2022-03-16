@@ -249,8 +249,10 @@ const ViewBusiness: React.FC = () => {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCloseDelete}>Disagree</Button>
-                <Button size="small" variant="contained" color="primary" onClick={handleDeleteBusiness} autoFocus>
+                <Button id="deleteNo" onClick={handleCloseDelete} >
+                  Disagree
+                </Button>
+                <Button id="deleteYes" size="small" variant="contained" color="primary" onClick={handleDeleteBusiness} autoFocus>
                   Agree
                 </Button>
               </DialogActions>

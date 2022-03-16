@@ -96,7 +96,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
       });
       if (response.status === 201) {
         setCreated(true);
-        setReturnMessage("Created successfully!")
+        setReturnMessage("Created successfully")
       }
     }
     },
@@ -166,11 +166,13 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
         formik.setFieldValue('name', responseBusiness.data.name);
         formik.setFieldValue('industry', responseBusiness.data.industry);
         formik.setFieldValue('website', responseBusiness.data.website);
-        formik.setFieldValue('socialMediaLink', responseBusiness.data.socialMediaPages[0]?.link);
-        formik.setFieldValue('socialMediaName', responseBusiness.data.socialMediaPages[0]?.name);
+        if (responseBusiness.data.socialMediaPages) {
+          formik.setFieldValue('socialMediaLink', responseBusiness.data.socialMediaPages[0].link);
+          formik.setFieldValue('socialMediaName', responseBusiness.data.socialMediaPages[0].name);
+          setSocialMediaLink(responseBusiness.data.socialMediaPages[0].link);
+          setSocialMediaName(responseBusiness.data.socialMediaPages[0].name);
+        }
         setAddressId(responseBusiness.data.businessAccount.account.address.id);
-        setSocialMediaLink(responseBusiness.data.socialMediaPages[0]?.link);
-        setSocialMediaName(responseBusiness.data.socialMediaPages[0]?.name);
       } else {
         setError(true);
       }
