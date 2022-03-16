@@ -66,50 +66,50 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
       if (editMode) {
         submitEdit();
       } else {
-      const response: AxiosResponse<any> = await createBusinessAccount({
-        account: {
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
-          phoneNumber: values.phone,
-          username: values.username,
-          password: values.password,
-        },
-        address: {
-          civicNumber: values.civicNumber,
-          streetName: values.streetName,
-          postalCode: values.postalCode,
-          cityName: values.cityName,
-          province: values.province,
-          country: values.country,
-        },
-        businessInfo: {
-          name: values.name,
-          industry: values.industry,
-          website: values.website,
-          email: values.email,
-        },
-        socialMediaInfo: {
-          name: values.socialMediaName,
-          link: values.socialMediaLink,
-        },
-      });
-      if (response.status === 201) {
-        setCreated(true);
-        setReturnMessage("Created successfully")
+        const response: AxiosResponse<any> = await createBusinessAccount({
+          account: {
+            email: values.email,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phone,
+            username: values.username,
+            password: values.password,
+          },
+          address: {
+            civicNumber: values.civicNumber,
+            streetName: values.streetName,
+            postalCode: values.postalCode,
+            cityName: values.cityName,
+            province: values.province,
+            country: values.country,
+          },
+          businessInfo: {
+            name: values.name,
+            industry: values.industry,
+            website: values.website,
+            email: values.email,
+          },
+          socialMediaInfo: {
+            name: values.socialMediaName,
+            link: values.socialMediaLink,
+          },
+        });
+        if (response.status === 201) {
+          setCreated(true);
+          setReturnMessage('Created successfully');
+        }
       }
-    }
     },
     validationSchema: createBusinessFormValidationSchema,
   });
 
   const submitEdit = async () => {
-      if (id && addressId) {
+    if (id && addressId) {
       const response: AxiosResponse<any> = await updateBusiness(id, {
         business: {
           name: formik.values.name,
           industry: formik.values.industry,
-          website: formik.values.website
+          website: formik.values.website,
         },
         account: {
           email: formik.values.email,
@@ -135,7 +135,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
           link: formik.values.socialMediaLink,
           name: formik.values.socialMediaName,
           businessId: +id,
-          email: formik.values.email
+          email: formik.values.email,
         },
       });
       if (response.status === 200) {
@@ -181,10 +181,9 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
       autofill();
       setSubmitText('Save');
       setTitle('Edit Business');
-    }
-    else {
+    } else {
       setSubmitText('Add');
-      setTitle('New Business Account')
+      setTitle('New Business Account');
     }
     // eslint-disable-next-line
   }, [formik.setFieldValue]);
@@ -192,7 +191,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
   const handleChangePasswordClick = async () => {
     const response: AxiosResponse<any> = await updateBusinessPassword({
       account: {
-        email: formik.values.email
+        email: formik.values.email,
       },
     });
     if (response.status === 200) {
@@ -252,25 +251,25 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
               />
             </Grid>
             {!editMode && (
-            <Grid item xs={6}>
-              <TextField
-                label="Password *"
-                name="password"
-                type="password"
-                fullWidth
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                error={formik.touched.password && Boolean(formik.errors.password) && !editMode}
-                helperText={formik.touched.password && formik.errors.password && !editMode}
-              />
-            </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Password *"
+                  name="password"
+                  type="password"
+                  fullWidth
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                  error={formik.touched.password && Boolean(formik.errors.password) && !editMode}
+                  helperText={formik.touched.password && formik.errors.password && !editMode}
+                />
+              </Grid>
             )}
             {editMode && (
-            <Grid item xs={6}>
-              <Button color="primary" variant="contained" onClick={handleChangePasswordClick}>
-                Change password
-              </Button>
-            </Grid>
+              <Grid item xs={6}>
+                <Button color="primary" variant="contained" onClick={handleChangePasswordClick}>
+                  Change password
+                </Button>
+              </Grid>
             )}
             <Grid item xs={12}>
               <TextField
