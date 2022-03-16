@@ -7,7 +7,9 @@ import { AuthenticationClient, ManagementClient, Role } from 'auth0';
 import { Roles } from '../security/Roles';
 import HttpException from '../exceptions/HttpException';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import jwt_decode from 'jwt-decode';
 dotenv.config();
+
 // Authorization middleware. When used, the
 // Access Token must exist and be verified against
 // the Auth0 JSON Web Key Set
@@ -27,16 +29,17 @@ export const checkRole = (
   accessRole: Set<Roles>
 ): ((req: express.Request, res: express.Response, next: express.NextFunction) => void) => {
   return async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
-    const userRoles: Role[] = await getProfileRoles(req.headers['access_token'] as string);
+    const jwtToken: any = jwt_decode(req.headers['authorization'] as string);
+    const userRoles: string[] = jwtToken[process.env.AUTH0_NAMESPACE + '/roles'];
 
     for (let i = 0; i < userRoles.length; i++) {
       // Admin has access to everything
-      if ((userRoles[i].name as string) === 'ADMIN') {
+      if (userRoles[i] === 'ADMIN') {
         next();
         break;
       }
 
-      if (accessRole.has((<any>Roles)[userRoles[i].name as string])) {
+      if (accessRole.has((<any>Roles)[userRoles[i]])) {
         next();
         break;
       }
