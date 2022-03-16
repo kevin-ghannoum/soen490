@@ -537,12 +537,10 @@ const App = () => {
                     return <></>;
                   } else {
                     if (account.authenticated) {
-                      if (
-                        account.account.role === 'ADMIN'
-                      ) {
+                      if (account.account.role === 'ADMIN') {
                         return (
                           <React.Fragment>
-                            <div >
+                            <div>
                               <Sidebar />
                               <ViewBusiness />
                             </div>
@@ -565,9 +563,7 @@ const App = () => {
                     return <></>;
                   } else {
                     if (account.authenticated) {
-                      if (
-                        account.account.role === 'ADMIN'
-                      ) {
+                      if (account.account.role === 'ADMIN') {
                         return (
                           <React.Fragment>
                             <div style={{ paddingTop: '75px' }}>

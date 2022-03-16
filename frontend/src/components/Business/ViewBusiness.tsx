@@ -2,15 +2,7 @@ import * as React from 'react';
 import ViewBusinessStyle from './ViewBusinessStyle';
 import { DataGrid, GridApi, GridCellValue, GridColDef } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-} from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
 import { getAllBusinesses, deleteBusiness } from '../../services/BusinessAPI';
 import { Edit, Delete } from '@material-ui/icons';
 import { useHistory } from 'react-router';
@@ -36,7 +28,7 @@ interface Data {
         cityName: string;
         province: string;
         country: string;
-      }
+      };
     };
   };
   action: string;
@@ -53,7 +45,7 @@ interface TableData {
   businessName: string;
   industry: string;
   phoneNumber: string;
-  address: string
+  address: string;
 }
 
 const ViewBusiness: React.FC = () => {
@@ -68,10 +60,10 @@ const ViewBusiness: React.FC = () => {
   const handleClickAddBusiness = () => {
     history.push(`/businessAccount/new`);
   };
-  
+
   const handleEditClick = (id: number) => {
     history.push(`/business/edit/${id}`);
-  }
+  };
 
   const handleIDSelection = (id: number) => {
     setSelectionID(id);
@@ -91,9 +83,8 @@ const ViewBusiness: React.FC = () => {
         await deleteBusiness(selectID);
         setOpenDeleteAlert(false);
         fetchData();
-      }
-      else {
-        throw Error
+      } else {
+        throw Error;
       }
     } catch (err: any) {
       history.push('/error');
@@ -112,7 +103,10 @@ const ViewBusiness: React.FC = () => {
         businessName: element.name,
         industry: element.industry,
         phoneNumber: element.businessAccount.account.phoneNumber,
-        address: element.businessAccount.account.address.civicNumber + " " + element.businessAccount.account.address.streetName,
+        address:
+          element.businessAccount.account.address.civicNumber +
+          ' ' +
+          element.businessAccount.account.address.streetName,
       };
       display.push(dataDisplay);
     });
@@ -249,10 +243,17 @@ const ViewBusiness: React.FC = () => {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button id="deleteNo" onClick={handleCloseDelete} >
+                <Button id="deleteNo" onClick={handleCloseDelete}>
                   Disagree
                 </Button>
-                <Button id="deleteYes" size="small" variant="contained" color="primary" onClick={handleDeleteBusiness} autoFocus>
+                <Button
+                  id="deleteYes"
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDeleteBusiness}
+                  autoFocus
+                >
                   Agree
                 </Button>
               </DialogActions>
