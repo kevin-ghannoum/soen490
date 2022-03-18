@@ -16,7 +16,7 @@ describe('DeleteBusinessAccount feature e2e test', () => {
   it('Should delete a business', () => {
     cy.wait(500);
     getAllBusinessesIntercept();
-    deletebusinessIntercept();
+    deleteBusinessIntercept();
 
     cy.visit('/business');
 
