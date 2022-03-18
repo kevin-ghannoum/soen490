@@ -30,7 +30,7 @@ export const getAllBusinessesIntercept = () => {
     ).as('getBusinessAPI');
   };
   
-  export const deletebusinessIntercept = () => {
+  export const deleteBusinessIntercept = () => {
     cy.intercept(
       {
         method: 'DELETE',
