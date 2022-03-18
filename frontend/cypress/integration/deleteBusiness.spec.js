@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../helpers/loginIntercept';
-import { deletebusinessIntercept, getAllBusinessesIntercept } from '../helpers/businessIntercept';
+import { deleteBusinessIntercept, getAllBusinessesIntercept } from '../helpers/businessIntercept';
 
 describe('DeleteBusinessAccount feature e2e test', () => {
   beforeEach(() => {
