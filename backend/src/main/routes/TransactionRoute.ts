@@ -7,11 +7,15 @@ import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
 import { Roles } from '../security/Roles';
 import { ExpenseService } from '../services/ExpenseService';
 import { ProductionService } from '../services/ProductionService';
+import { ProjectService } from '../services/ProjectService';
+import { Project } from '../models/Project';
+import e from 'cors';
 
 @injectable()
 export default class TransactionRoute extends CommonRoutesConfig {
   constructor(
     @inject('express-app') app: express.Application,
+    private projectService: ProjectService,
     private transactionService: TransactionService,
     private expenseService: ExpenseService,
     private productionService: ProductionService
@@ -117,6 +121,72 @@ export default class TransactionRoute extends CommonRoutesConfig {
           next(err);
         }
       });
+
+    this.getApp()
+      .route(`/business_transaction/productions`)
+      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          let data: {projectId: number, value: number, name: string}[] = []
+          const projectIds: {projectId: number, name: string}[] = [];
+          const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(req.query.businessId));
+          projectOfBusiness?.forEach((project: Project) => {
+            projectIds.push({projectId: project.id, name: project.title})
+          });
+          for (const project of projectIds) {
+            let productionForProject = 0
+            const productionsOfProject = await this.productionService.getAllProductionsForProject(Number(project.projectId))
+            productionsOfProject?.forEach((element: any) => {
+              const prodValue = element.dataValues.transaction.dataValues.amount
+              productionForProject = productionForProject + prodValue;
+            })
+            data.push({projectId: project.projectId, value : productionForProject, name: project.name})
+          }
+          res.status(StatusCodes.OK).send(data);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+      this.getApp()
+      .route(`/business_transaction/expenses/wages`)
+      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          let data: {projectId: number, wagesValue: number, toolsValue: number, othersValue: number, name: string}[] = []
+          const projectIds: {projectId: number, name: string}[] = [];
+          const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(req.query.businessId));
+          projectOfBusiness?.forEach((project: Project) => {
+            projectIds.push({projectId: project.id, name: project.title})
+          });
+          for(const project of projectIds){
+            let wagesExpensesForProject = 0
+            let toolsExpensesForProject = 0
+            let othersExpensesForProject = 0
+            const expensesOfProject = await this.expenseService.getAllExpensesForProjects(Number(project.projectId));
+            console.log(project.projectId)
+            expensesOfProject?.forEach((element: any) => {
+              const expenseValue = element.dataValues.transaction.dataValues.amount
+              console.log(element.dataValues.type)
+              if(element.dataValues.type === "WAGES") {
+                wagesExpensesForProject = wagesExpensesForProject + expenseValue;
+              }
+              else if(element.dataValues.type === "TOOLS") {
+                toolsExpensesForProject = toolsExpensesForProject + expenseValue;
+              }
+              else if(element.dataValues.type === "OTHER") {
+                othersExpensesForProject = othersExpensesForProject + expenseValue;
+              }
+            })
+            data.push({projectId: project.projectId, wagesValue : wagesExpensesForProject, toolsValue : toolsExpensesForProject, othersValue : othersExpensesForProject, name: project.name})
+          }
+          res.status(StatusCodes.OK).send(data);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+
 
     return this.getApp();
   }

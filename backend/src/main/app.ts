@@ -5,7 +5,6 @@ import { CommonRoutesConfig } from './routes/CommonRoutesConfig';
 import debug from 'debug';
 import cors from 'cors';
 import * as expressWinston from 'express-winston';
-import UserRoute from './routes/UserRoute';
 import AccountRoute from './routes/AccountRoute';
 import { container } from 'tsyringe';
 import { httpMiddlewareError, failSafeHandler } from './middleware/ErrorMiddleware';
@@ -75,7 +74,6 @@ const main = async () => {
   });
 
   // Instanciating the routes here:
-  routes.push(container.resolve(UserRoute));
   routes.push(container.resolve(AccountRoute));
   routes.push(container.resolve(LogHoursRoute));
   routes.push(container.resolve(ProjectRoute));
