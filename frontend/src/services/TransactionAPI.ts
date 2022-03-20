@@ -22,6 +22,14 @@ export const getProduction = async (id: string): Promise<AxiosResponse<any>> => 
   return axios.get(`/transaction/production`, { params: { id: id } });
 };
 
+export const getBusinessTransactionProductions = async (id: string): Promise<AxiosResponse<any>> => {
+  return axios.get(`/business_transaction/productions`, { params: { id: id } });
+};
+
+export const getBusinessTransactionExpenses = async (id: string): Promise<AxiosResponse<any>> => {
+  return axios.get(`/business_transaction/expenses`, { params: { id: id } });
+};
+
 export const createExpense = async (createExpenseDTO: CreateExpenseDTO): Promise<AxiosResponse<any>> => {
   return axios.post(`/transactions/expenses`, createExpenseDTO);
 };
