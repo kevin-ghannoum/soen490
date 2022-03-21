@@ -136,7 +136,7 @@ const Financials: React.FC<Props> = ({ id }) => {
         loadExpenses();
         loadProductions();
         loadPieChartData();
-    }, [id]);
+    }, [id, wagesTotal, toolsTotal, otherTotal]);
 
     useEffect(() => {
         const getProjectInfo = async () => {
@@ -164,12 +164,12 @@ const Financials: React.FC<Props> = ({ id }) => {
             const profits: Profit[] = [];
             var totalProfitValue = 0;
             for (let i = 0; i < productionsList.length; i++) {
-                totalProfitValue += parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue);
                 profits.unshift({
                     id: productionsList[i].projectId,
-                    value: "" + totalProfitValue,
+                    value: "" + (parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue)),
                     name: productionsList[i].name,
                 });
+                totalProfitValue += parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue);
             }
             setProfitList(profits);
             setProfitTotal(totalProfitValue);
