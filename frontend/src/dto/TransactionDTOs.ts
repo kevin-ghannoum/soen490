@@ -47,15 +47,15 @@ export interface ProductionDTO {
 }
 
 export interface AllBusinessExpensesDTO {
-  id: string;
-  wages: string;
-  tools: string;
-  others: string;
+  projectId: string;
+  wagesValue: string;
+  toolsValue: string;
+  othersValue: string;
   name: string;
 }
 
 export interface AllBusinessProductionsDTO {
-  id: string;
+  projectId: string;
   value: string;
   name: string;
 }

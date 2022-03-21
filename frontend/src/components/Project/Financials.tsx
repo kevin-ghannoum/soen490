@@ -49,6 +49,13 @@ const Financials: React.FC<Props> = ({ id }) => {
     const [profitList, setProfitList] = useState<Profit[]>([]);
     const [pieChartData, setPieChartData] = useState<PieChartData[]>([]);
 
+    const [saleValueTotal, setSaleValueTotal] = useState<number>(0);
+    const [productionTotal, setProductionTotal] = useState<number>(0);
+    const [wagesTotal, setWagesTotal] = useState<number>(0);
+    const [toolsTotal, setToolsTotal] = useState<number>(0);
+    const [otherTotal, setOthersTotal] = useState<number>(0);
+    const [profitTotal, setProfitTotal] = useState<number>(0);
+
     const useRowStyles = makeStyles({
         root: {
             '& > *': {
@@ -61,29 +68,30 @@ const Financials: React.FC<Props> = ({ id }) => {
         const loadExpenses = async () => {
             if (id) {
                 try {
-                    const data = await getBusinessTransactionExpenses(id);
+                    const data = await getBusinessTransactionExpenses(1);
                     const expenses: AllBusinessExpensesDTO[] = [];
                     data.data.forEach((element: AllBusinessExpensesDTO) => {
-                        expenses.unshift({
-                            id: element.id,
-                            wages: element.wages,
-                            tools: element.tools,
-                            others: element.others,
+                        expenses.push({
+                            projectId: element.projectId,
+                            wagesValue: element.wagesValue,
+                            toolsValue: element.toolsValue,
+                            othersValue: element.othersValue,
                             name: element.name,
                         });
                     });
                     setExpensesList(expenses);
+                    console.log(expenses)
                 } catch (e) { }
             }
         };
         const loadProductions = async () => {
             if (id) {
                 try {
-                    const data = await getBusinessTransactionProductions(id);
+                    const data = await getBusinessTransactionProductions(1);
                     const productions: AllBusinessProductionsDTO[] = [];
                     data.data.forEach((element: AllBusinessProductionsDTO) => {
-                        productions.unshift({
-                            id: element.id,
+                        productions.push({
+                            projectId: element.projectId,
                             value: element.value,
                             name: element.name,
                         });
@@ -91,6 +99,7 @@ const Financials: React.FC<Props> = ({ id }) => {
                     setProductionsList(productions);
                 } catch (e) { }
             }
+            console.log(productionsList)
         };
         const loadPieChartData = async () => {
             const data = [
@@ -112,8 +121,9 @@ const Financials: React.FC<Props> = ({ id }) => {
             if (id) {
                 try {
                     const data = await getAllBusinessProject(1);
-                    const info: ProjectDisplay[] = data.data[0];
+                    const info: ProjectDisplay[] = data.data;
                     setProjectInfo(info);
+                    console.log(info)
                 } catch (e) {
                     history.push('/error');
                 }
@@ -127,8 +137,8 @@ const Financials: React.FC<Props> = ({ id }) => {
             const profits: Profit[] = [];
             for (let i = 0; i < productionsList.length; i++) {
                 profits.unshift({
-                    id: productionsList[i].id,
-                    value: "" + (parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wages) - parseFloat(expensesList[i].tools) - parseFloat(expensesList[i].others)),
+                    id: productionsList[i].projectId,
+                    value: "" + (parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue)),
                     name: productionsList[i].name,
                 });
             }
@@ -150,7 +160,7 @@ const Financials: React.FC<Props> = ({ id }) => {
         profitList: Profit[]
     ) => {
         return {
-            name,
+            name,   
             projectInfo,
             expenseList,
             productionList,
@@ -231,7 +241,7 @@ const Financials: React.FC<Props> = ({ id }) => {
                                     </TableHead>
                                     <TableBody>
                                         {row.productionList.map((production) => (
-                                            <TableRow key={production.id}>
+                                            <TableRow key={production.projectId}>
                                                 <TableCell component="th" scope="row">
                                                     {production.name}
                                                 </TableCell>
@@ -282,11 +292,11 @@ const Financials: React.FC<Props> = ({ id }) => {
                                     </TableHead>
                                     <TableBody>
                                         {row.expenseList.map((expense) => (
-                                            <TableRow key={expense.id}>
+                                            <TableRow key={expense.projectId}>
                                                 <TableCell component="th" scope="row">
                                                     {expense.name}
                                                 </TableCell>
-                                                <TableCell align="center">{numberWithCommas(expense.wages)}</TableCell>
+                                                <TableCell align="center">{numberWithCommas(expense.wagesValue)}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -320,11 +330,11 @@ const Financials: React.FC<Props> = ({ id }) => {
                                     </TableHead>
                                     <TableBody>
                                         {row.expenseList.map((expense) => (
-                                            <TableRow key={expense.id}>
+                                            <TableRow key={expense.projectId}>
                                                 <TableCell component="th" scope="row">
                                                     {expense.name}
                                                 </TableCell>
-                                                <TableCell align="center">{numberWithCommas(expense.tools)}</TableCell>
+                                                <TableCell align="center">{numberWithCommas(expense.toolsValue)}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -358,11 +368,11 @@ const Financials: React.FC<Props> = ({ id }) => {
                                     </TableHead>
                                     <TableBody>
                                         {row.expenseList.map((expense) => (
-                                            <TableRow key={expense.id}>
+                                            <TableRow key={expense.projectId}>
                                                 <TableCell component="th" scope="row">
                                                     {expense.name}
                                                 </TableCell>
-                                                <TableCell align="center">{numberWithCommas(expense.others)}</TableCell>
+                                                <TableCell align="center">{numberWithCommas(expense.othersValue)}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -477,6 +487,7 @@ const Financials: React.FC<Props> = ({ id }) => {
                     </Grid>
                     <Grid xs={4}>
                         <PieChart
+                            style={{marginTop: 50}}
                             animate
                             data={pieChartData}
                             radius={PieChart.defaultProps.radius - 7}
