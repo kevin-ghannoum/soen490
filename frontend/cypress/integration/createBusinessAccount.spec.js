@@ -36,7 +36,7 @@ describe('CreateBusinessAccount feature e2e test', () => {
 
     cy.get('form').submit();
     cy.wait('@createBusinessAccountAPI').its('response.statusCode').should('eq', 201);
-    cy.contains('Created succesfully');
+    cy.contains('Created successfully');
   });
 
   it('should render', () => {
