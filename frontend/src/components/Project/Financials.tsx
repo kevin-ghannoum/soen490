@@ -9,6 +9,7 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    TableFooter,
     TableHead,
     TableRow,
     Typography,
@@ -70,6 +71,9 @@ const Financials: React.FC<Props> = ({ id }) => {
                 try {
                     const data = await getBusinessTransactionExpenses(1);
                     const expenses: AllBusinessExpensesDTO[] = [];
+                    var totalWagesValue = 0;
+                    var totalToolsValue = 0;
+                    var totalOthersValue = 0;
                     data.data.forEach((element: AllBusinessExpensesDTO) => {
                         expenses.push({
                             projectId: element.projectId,
@@ -78,8 +82,14 @@ const Financials: React.FC<Props> = ({ id }) => {
                             othersValue: element.othersValue,
                             name: element.name,
                         });
+                        totalWagesValue += parseFloat(element.wagesValue);
+                        totalToolsValue += parseFloat(element.toolsValue);
+                        totalOthersValue += parseFloat(element.othersValue);
                     });
                     setExpensesList(expenses);
+                    setWagesTotal(totalWagesValue);
+                    setToolsTotal(totalToolsValue);
+                    setOthersTotal(totalOthersValue);
                     console.log(expenses)
                 } catch (e) { }
             }
@@ -89,25 +99,37 @@ const Financials: React.FC<Props> = ({ id }) => {
                 try {
                     const data = await getBusinessTransactionProductions(1);
                     const productions: AllBusinessProductionsDTO[] = [];
+                    var totalValue = 0;
                     data.data.forEach((element: AllBusinessProductionsDTO) => {
                         productions.push({
                             projectId: element.projectId,
                             value: element.value,
                             name: element.name,
                         });
+                        totalValue += parseFloat(element.value);
                     });
                     setProductionsList(productions);
+                    setProductionTotal(totalValue);
                 } catch (e) { }
             }
             console.log(productionsList)
         };
         const loadPieChartData = async () => {
-            const data = [
-                { title: 'Wages', value: 1000, color: '#017EFA' },
-                { title: 'Tools', value: 750, color: '#51CBFF' },
-                { title: 'Other', value: 250, color: '#86E0FF' },
-            ];
-
+            var data = [];
+            if (wagesTotal + toolsTotal + otherTotal == 0) {
+                data = [
+                    { title: 'Wages', value: 1, color: '#017EFA' },
+                    { title: 'Tools', value: 1, color: '#51CBFF' },
+                    { title: 'Other', value: 1, color: '#86E0FF' },
+                ];
+            }
+            else {
+                data = [
+                    { title: 'Wages', value: wagesTotal, color: '#017EFA' },
+                    { title: 'Tools', value: toolsTotal, color: '#51CBFF' },
+                    { title: 'Other', value: otherTotal, color: '#86E0FF' },
+                ];
+            }
             setPieChartData(data);
         };
 
@@ -122,7 +144,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                 try {
                     const data = await getAllBusinessProject(1);
                     const info: ProjectDisplay[] = data.data;
+                    var totalSaleAmount = 0;
+                    info.forEach((element: ProjectDisplay) => {
+                        totalSaleAmount += parseFloat("" + element.sale.amount);
+                    });
                     setProjectInfo(info);
+                    setSaleValueTotal(totalSaleAmount);
                     console.log(info)
                 } catch (e) {
                     history.push('/error');
@@ -135,14 +162,17 @@ const Financials: React.FC<Props> = ({ id }) => {
     useEffect(() => {
         const loadProfit = async () => {
             const profits: Profit[] = [];
+            var totalProfitValue = 0;
             for (let i = 0; i < productionsList.length; i++) {
+                totalProfitValue += parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue);
                 profits.unshift({
                     id: productionsList[i].projectId,
-                    value: "" + (parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue)),
+                    value: "" + totalProfitValue,
                     name: productionsList[i].name,
                 });
             }
             setProfitList(profits);
+            setProfitTotal(totalProfitValue);
         };
         loadProfit();
     }, [productionsList, expensesList]);
@@ -160,7 +190,7 @@ const Financials: React.FC<Props> = ({ id }) => {
         profitList: Profit[]
     ) => {
         return {
-            name,   
+            name,
             projectInfo,
             expenseList,
             productionList,
@@ -211,6 +241,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                                             </TableRow>
                                         ))}
                                     </TableBody>
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell component="th" scope="row"></TableCell>
+                                            <TableCell align="center">{numberWithCommas("" + saleValueTotal)}</TableCell>
+                                        </TableRow>
+                                    </TableFooter>
                                 </Table>
                             </Box>
                         </Collapse>
@@ -249,6 +285,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                                             </TableRow>
                                         ))}
                                     </TableBody>
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell component="th" scope="row"></TableCell>
+                                            <TableCell align="center">{numberWithCommas("" + productionTotal)}</TableCell>
+                                        </TableRow>
+                                    </TableFooter>
                                 </Table>
                             </Box>
                         </Collapse>
@@ -300,6 +342,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                                             </TableRow>
                                         ))}
                                     </TableBody>
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell component="th" scope="row"></TableCell>
+                                            <TableCell align="center">{numberWithCommas("" + wagesTotal)}</TableCell>
+                                        </TableRow>
+                                    </TableFooter>
                                 </Table>
                             </Box>
                         </Collapse>
@@ -338,6 +386,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                                             </TableRow>
                                         ))}
                                     </TableBody>
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell component="th" scope="row"></TableCell>
+                                            <TableCell align="center">{numberWithCommas("" + toolsTotal)}</TableCell>
+                                        </TableRow>
+                                    </TableFooter>
                                 </Table>
                             </Box>
                         </Collapse>
@@ -376,6 +430,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                                             </TableRow>
                                         ))}
                                     </TableBody>
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell component="th" scope="row"></TableCell>
+                                            <TableCell align="center">{numberWithCommas("" + otherTotal)}</TableCell>
+                                        </TableRow>
+                                    </TableFooter>
                                 </Table>
                             </Box>
                         </Collapse>
@@ -425,6 +485,12 @@ const Financials: React.FC<Props> = ({ id }) => {
                                             </TableRow>
                                         ))}
                                     </TableBody>
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell component="th" scope="row"></TableCell>
+                                            <TableCell align="center">{numberWithCommas("" + profitTotal)}</TableCell>
+                                        </TableRow>
+                                    </TableFooter>
                                 </Table>
                             </Box>
                         </Collapse>
@@ -487,11 +553,10 @@ const Financials: React.FC<Props> = ({ id }) => {
                     </Grid>
                     <Grid xs={4}>
                         <PieChart
-                            style={{marginTop: 50}}
+                            style={{ marginTop: 50 }}
                             animate
                             data={pieChartData}
                             radius={PieChart.defaultProps.radius - 7}
-                            //label={({ dataEntry }) => dataEntry.title + ": " + dataEntry.value + '$ (' + Math.round(dataEntry.percentage) + '%)'}
                             label={({ dataEntry }) => dataEntry.title + " (" + Math.round(dataEntry.percentage) + '%)'}
                             lineWidth={30}
                             labelPosition={50}
