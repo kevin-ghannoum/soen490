@@ -17,8 +17,8 @@ import CreateIcon from '@material-ui/icons/Create';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import sidebarStyle from './SidebarStyle';
-import { useAppDispatch } from '../../redux/hooks';
-import { logout } from '../../features/account/AccountSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { logout, selectAccount } from '../../features/account/AccountSlice';
 
 type Anchor = 'left';
 
@@ -30,6 +30,8 @@ const Sidebar = (props: { history: any }) => {
   });
 
   const dispatch = useAppDispatch();
+
+  const account = useAppSelector(selectAccount);
 
   const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -122,6 +124,12 @@ const Sidebar = (props: { history: any }) => {
                 <MenuIcon className={classes.menuicon} />
               </IconButton>
             </Box>
+            {account.clientAcc?.businessName != null || account.businessAcc?.businessName != null ? (
+              <Box sx={{ color: 'black' }}>{account.clientAcc?.businessName || account.businessAcc?.businessName}</Box>
+            ) : (
+              <Box sx={{ color: 'black' }}></Box>
+            )}
+            <Box sx={{ position: 'absolute', right: 130, color: 'black' }}>Hello, {account.account.firstName}!</Box>
             <Box sx={{ position: 'absolute', right: 0, paddingRight: '20px' }}>
               <Button size="medium" variant="contained" color="primary" onClick={logoutButton}>
                 Log out
