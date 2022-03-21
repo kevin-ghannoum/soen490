@@ -14,6 +14,7 @@ import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 import BookedProjects from './components/Project/BookedProjects';
 import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
 import MyCalendar from './components/Calendar/MyCalendar';
+import Financials from './components/Project/Financials';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -89,6 +90,34 @@ const App = () => {
         <div className="App">
           <Suspense fallback={<LandingPage />}>
             <Switch>
+              <Route
+                exact
+                path="/financials"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (
+                        account.account.role === 'ADMIN' ||
+                        account.account.role === 'SUPERVISOR' ||
+                        account.account.role === 'BUSINESS'
+                      ) {
+                        return (
+                          <React.Fragment>
+                            <Sidebar />
+                            <Financials id="1" />
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              ></Route>
               <Route
                 exact
                 path="/project"
