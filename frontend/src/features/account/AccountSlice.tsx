@@ -14,6 +14,7 @@ interface AccountState {
   };
   businessAcc?: {
     businessId: number;
+    businessName: string;
   };
   clientAcc?: {
     website: string;
