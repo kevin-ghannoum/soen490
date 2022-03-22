@@ -44,10 +44,10 @@ interface PieChartData {
 const Financials: React.FC<Props> = ({ id }) => {
     const classes = financialsStyle();
     const history = useHistory();
-    const [projectInfo, setProjectInfo] = useState<ProjectDisplay[]>([]);
+    const [projectsInfo, setProjectsInfo] = useState<ProjectDisplay[]>([]);
     const [expensesList, setExpensesList] = useState<AllBusinessExpensesDTO[]>([]);
     const [productionsList, setProductionsList] = useState<AllBusinessProductionsDTO[]>([]);
-    const [profitList, setProfitList] = useState<Profit[]>([]);
+    const [profitsList, setProfitsList] = useState<Profit[]>([]);
     const [pieChartData, setPieChartData] = useState<PieChartData[]>([]);
 
     const [saleValueTotal, setSaleValueTotal] = useState<number>(0);
@@ -148,7 +148,7 @@ const Financials: React.FC<Props> = ({ id }) => {
                     info.forEach((element: ProjectDisplay) => {
                         totalSaleAmount += parseFloat("" + element.sale.amount);
                     });
-                    setProjectInfo(info);
+                    setProjectsInfo(info);
                     setSaleValueTotal(totalSaleAmount);
                     console.log(info)
                 } catch (e) {
@@ -171,7 +171,7 @@ const Financials: React.FC<Props> = ({ id }) => {
                 });
                 totalProfitValue += parseFloat(productionsList[i].value) - parseFloat(expensesList[i].wagesValue) - parseFloat(expensesList[i].toolsValue) - parseFloat(expensesList[i].othersValue);
             }
-            setProfitList(profits);
+            setProfitsList(profits);
             setProfitTotal(totalProfitValue);
         };
         loadProfit();
@@ -198,7 +198,7 @@ const Financials: React.FC<Props> = ({ id }) => {
         };
     };
 
-    const rows = [createData('Data', projectInfo, expensesList, productionsList, profitList)];
+    const rows = [createData('Data', projectsInfo, expensesList, productionsList, profitsList)];
 
     const RevenuesRow = (props: { row: ReturnType<typeof createData> }) => {
         const { row } = props;

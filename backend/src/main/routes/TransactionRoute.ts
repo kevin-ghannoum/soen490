@@ -126,7 +126,7 @@ export default class TransactionRoute extends CommonRoutesConfig {
       .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          let data: { projectId: number, value: number, name: string }[] = []
+          const data: { projectId: number, value: number, name: string }[] = []
           const projectIds: { projectId: number, name: string }[] = [];
           const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(req.query.businessId));
           projectOfBusiness?.forEach((project: Project) => {
@@ -152,7 +152,7 @@ export default class TransactionRoute extends CommonRoutesConfig {
       .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
       .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-          let data: { projectId: number, wagesValue: number, toolsValue: number, othersValue: number, name: string }[] = []
+          const data: { projectId: number, wagesValue: number, toolsValue: number, othersValue: number, name: string }[] = []
           const projectIds: { projectId: number, name: string }[] = [];
           const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(req.query.businessId));
           projectOfBusiness?.forEach((project: Project) => {
