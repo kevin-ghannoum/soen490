@@ -116,7 +116,7 @@ const Financials: React.FC<Props> = ({ id }) => {
     };
     const loadPieChartData = async () => {
       var data = [];
-      if (wagesTotal + toolsTotal + otherTotal == 0) {
+      if (wagesTotal === 0 && toolsTotal === 0 && otherTotal === 0) {
         data = [
           { title: 'Wages', value: 1, color: '#017EFA' },
           { title: 'Tools', value: 1, color: '#51CBFF' },
