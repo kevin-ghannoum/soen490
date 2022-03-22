@@ -135,7 +135,7 @@ const Financials: React.FC<Props> = ({ id }) => {
     loadExpenses();
     loadProductions();
     loadPieChartData();
-  }, [id, wagesTotal, toolsTotal, otherTotal]);
+  }, [id, productionsList, wagesTotal, toolsTotal, otherTotal]);
 
   useEffect(() => {
     const getProjectInfo = async () => {
