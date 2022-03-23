@@ -63,46 +63,46 @@ const Financials: React.FC = () => {
 
   useEffect(() => {
     const loadExpenses = async () => {
-        try {
-          const data = await getBusinessTransactionExpenses(1);
-          const expenses: AllBusinessExpensesDTO[] = [];
-          var totalWagesValue = 0;
-          var totalToolsValue = 0;
-          var totalOthersValue = 0;
-          data.data.forEach((element: AllBusinessExpensesDTO) => {
-            expenses.push({
-              projectId: element.projectId,
-              wagesValue: element.wagesValue,
-              toolsValue: element.toolsValue,
-              othersValue: element.othersValue,
-              name: element.name,
-            });
-            totalWagesValue += parseFloat(element.wagesValue);
-            totalToolsValue += parseFloat(element.toolsValue);
-            totalOthersValue += parseFloat(element.othersValue);
+      try {
+        const data = await getBusinessTransactionExpenses(1);
+        const expenses: AllBusinessExpensesDTO[] = [];
+        var totalWagesValue = 0;
+        var totalToolsValue = 0;
+        var totalOthersValue = 0;
+        data.data.forEach((element: AllBusinessExpensesDTO) => {
+          expenses.push({
+            projectId: element.projectId,
+            wagesValue: element.wagesValue,
+            toolsValue: element.toolsValue,
+            othersValue: element.othersValue,
+            name: element.name,
           });
-          setExpensesList(expenses);
-          setWagesTotal(totalWagesValue);
-          setToolsTotal(totalToolsValue);
-          setOthersTotal(totalOthersValue);
-        } catch (e) {}
+          totalWagesValue += parseFloat(element.wagesValue);
+          totalToolsValue += parseFloat(element.toolsValue);
+          totalOthersValue += parseFloat(element.othersValue);
+        });
+        setExpensesList(expenses);
+        setWagesTotal(totalWagesValue);
+        setToolsTotal(totalToolsValue);
+        setOthersTotal(totalOthersValue);
+      } catch (e) {}
     };
     const loadProductions = async () => {
-        try {
-          const data = await getBusinessTransactionProductions(1);
-          const productions: AllBusinessProductionsDTO[] = [];
-          var totalValue = 0;
-          data.data.forEach((element: AllBusinessProductionsDTO) => {
-            productions.push({
-              projectId: element.projectId,
-              value: element.value,
-              name: element.name,
-            });
-            totalValue += parseFloat(element.value);
+      try {
+        const data = await getBusinessTransactionProductions(1);
+        const productions: AllBusinessProductionsDTO[] = [];
+        var totalValue = 0;
+        data.data.forEach((element: AllBusinessProductionsDTO) => {
+          productions.push({
+            projectId: element.projectId,
+            value: element.value,
+            name: element.name,
           });
-          setProductionsList(productions);
-          setProductionTotal(totalValue);
-        } catch (e) {}
+          totalValue += parseFloat(element.value);
+        });
+        setProductionsList(productions);
+        setProductionTotal(totalValue);
+      } catch (e) {}
     };
     const loadPieChartData = async () => {
       var data = [];
@@ -129,19 +129,19 @@ const Financials: React.FC = () => {
 
   useEffect(() => {
     const getProjectInfo = async () => {
-        try {
-          const data = await getAllBusinessProject(1);
-          const info: ProjectDisplay[] = data.data;
-          var totalSaleAmount = 0;
-          info.forEach((element: ProjectDisplay) => {
-            totalSaleAmount += parseFloat('' + element.sale.amount);
-          });
-          setProjectsInfo(info);
-          setSaleValueTotal(totalSaleAmount);
-          console.log(info);
-        } catch (e) {
-          history.push('/error');
-        }
+      try {
+        const data = await getAllBusinessProject(1);
+        const info: ProjectDisplay[] = data.data;
+        var totalSaleAmount = 0;
+        info.forEach((element: ProjectDisplay) => {
+          totalSaleAmount += parseFloat('' + element.sale.amount);
+        });
+        setProjectsInfo(info);
+        setSaleValueTotal(totalSaleAmount);
+        console.log(info);
+      } catch (e) {
+        history.push('/error');
+      }
     };
     getProjectInfo();
   }, [history]);
