@@ -10,7 +10,6 @@ const FAQStyle = makeStyles((theme) => ({
     [theme.breakpoints.down('lg')]: {
       width: '60%',
       marginTop: '20px',
-
     },
     [theme.breakpoints.down('sm')]: {
       width: '90%',
@@ -31,7 +30,7 @@ const FAQStyle = makeStyles((theme) => ({
     fontWeight: 600,
   },
   answerBox: {
-    padding: "10px 15px"
+    padding: '10px 15px',
   },
 }));
 
