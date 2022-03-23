@@ -8,7 +8,6 @@ import { Roles } from '../security/Roles';
 import { ExpenseService } from '../services/ExpenseService';
 import { ProductionService } from '../services/ProductionService';
 import { ProjectService } from '../services/ProjectService';
-import { Project } from '../models/Project';
 
 @injectable()
 export default class TransactionRoute extends CommonRoutesConfig {
