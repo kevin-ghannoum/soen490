@@ -23,11 +23,11 @@ export const getProduction = async (id: string): Promise<AxiosResponse<any>> => 
 };
 
 export const getBusinessTransactionProductions = async (businessId: number): Promise<AxiosResponse<any>> => {
-  return axios.get(`/business_transaction/productions`, { params: { businessId: businessId } });
+  return axios.get(`/businessTransaction/productions`, { params: { businessId: businessId } });
 };
 
 export const getBusinessTransactionExpenses = async (businessId: number): Promise<AxiosResponse<any>> => {
-  return axios.get(`/business_transaction/expenses`, { params: { businessId: businessId } });
+  return axios.get(`/businessTransaction/expenses`, { params: { businessId: businessId } });
 };
 
 export const createExpense = async (createExpenseDTO: CreateExpenseDTO): Promise<AxiosResponse<any>> => {

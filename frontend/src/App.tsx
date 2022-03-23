@@ -106,7 +106,7 @@ const App = () => {
                         return (
                           <React.Fragment>
                             <Sidebar />
-                            <Financials id="1" />
+                            <Financials />
                           </React.Fragment>
                         );
                       } else {

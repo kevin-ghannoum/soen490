@@ -64,6 +64,20 @@ export interface ProductionUpdateDTO {
   paymentType: PaymentType;
 }
 
+export interface BusinessProductionsPerProjectDTO {
+  projectId: number;
+  value: number;
+  name: string;
+}
+
+export interface BusinessExpensesPerProjectDTO {
+  projectId: number;
+  wagesValue: number;
+  toolsValue: number;
+  othersValue: number;
+  name: string;
+}
+
 export enum Type {
   TOOLS = 'TOOLS',
   OTHER = 'OTHER',
