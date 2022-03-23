@@ -3,6 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'tsyringe';
 import { InvoiceCreationDTO } from '../dto/InvoiceDTO';
 import {
+  BusinessExpensesPerProjectDTO,
+  BusinessProductionsPerProjectDTO,
   ExpenseRequestDTO,
   ExpenseUpdateRequestDTO,
   ProductionRequestDTO,
@@ -11,17 +13,20 @@ import {
   TransactionUpdateDTO,
 } from '../dto/Transaction/TransactionDTO';
 import HttpException from '../exceptions/HttpException';
+import { Project } from '../models/Project';
 import { Transaction } from '../models/Transaction';
 import TransactionRepository from '../repositories/TransactionRepository';
 import { ExpenseService } from './ExpenseService';
 import { InvoiceService } from './InvoiceService';
 import { ProductionService } from './ProductionService';
+import { ProjectService } from './ProjectService';
 
 const log: debug.IDebugger = debug('app:TransactionService');
 
 @injectable()
 export class TransactionService {
   constructor(
+    private projectService: ProjectService,
     private transactionRepository: TransactionRepository,
     private expenseService: ExpenseService,
     private productionService: ProductionService,
@@ -66,6 +71,61 @@ export class TransactionService {
 
     await this.invoiceService.createInvoice(invoice);
     return Promise.resolve(transaction);
+  };
+
+  public getAllProductionsForBusinessPerProject = async (
+    businessId: number
+  ): Promise<BusinessProductionsPerProjectDTO[]> => {
+    const data: BusinessProductionsPerProjectDTO[] = [];
+    const projectIds: { projectId: number; name: string }[] = [];
+    const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(businessId));
+    projectOfBusiness?.forEach((project: Project) => {
+      projectIds.push({ projectId: project.id, name: project.title });
+    });
+    for (const project of projectIds) {
+      let productionForProject = 0;
+      const productionsOfProject = await this.productionService.getAllProductionsForProject(Number(project.projectId));
+      productionsOfProject?.forEach((element: any) => {
+        const prodValue = element.dataValues.transaction.dataValues.amount;
+        productionForProject = productionForProject + prodValue;
+      });
+      data.push({ projectId: project.projectId, value: productionForProject, name: project.name });
+    }
+    return Promise.resolve(data);
+  };
+
+  public getAllExpensesForBusinessPerProject = async (businessId: number): Promise<BusinessExpensesPerProjectDTO[]> => {
+    const data: BusinessExpensesPerProjectDTO[] = [];
+    const projectIds: { projectId: number; name: string }[] = [];
+    const projectOfBusiness = await this.projectService.getProjectofBusiness(Number(businessId));
+    projectOfBusiness?.forEach((project: Project) => {
+      projectIds.push({ projectId: project.id, name: project.title });
+    });
+    for (const project of projectIds) {
+      let wagesExpensesForProject = 0;
+      let toolsExpensesForProject = 0;
+      let othersExpensesForProject = 0;
+      const expensesOfProject = await this.expenseService.getAllExpensesForProjects(Number(project.projectId));
+      expensesOfProject?.forEach((element: any) => {
+        const expenseValue = element.dataValues.transaction.dataValues.amount;
+        console.log(element.dataValues.type);
+        if (element.dataValues.type === 'WAGES') {
+          wagesExpensesForProject = wagesExpensesForProject + expenseValue;
+        } else if (element.dataValues.type === 'TOOLS') {
+          toolsExpensesForProject = toolsExpensesForProject + expenseValue;
+        } else if (element.dataValues.type === 'OTHER') {
+          othersExpensesForProject = othersExpensesForProject + expenseValue;
+        }
+      });
+      data.push({
+        projectId: project.projectId,
+        wagesValue: wagesExpensesForProject,
+        toolsValue: toolsExpensesForProject,
+        othersValue: othersExpensesForProject,
+        name: project.name,
+      });
+    }
+    return Promise.resolve(data);
   };
 
   public updateTransactionExpense = async (expenseUpdateRequestDTO: ExpenseUpdateRequestDTO): Promise<number> => {

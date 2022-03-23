@@ -25,10 +25,6 @@ import { AllBusinessExpensesDTO, AllBusinessProductionsDTO } from '../../dto/Tra
 import { useHistory } from 'react-router';
 import { PieChart } from 'react-minimal-pie-chart';
 
-interface Props {
-  id: string;
-}
-
 interface Profit {
   id: string;
   name: string;
@@ -41,7 +37,7 @@ interface PieChartData {
   color: string;
 }
 
-const Financials: React.FC<Props> = ({ id }) => {
+const Financials: React.FC = () => {
   const classes = financialsStyle();
   const history = useHistory();
   const [projectsInfo, setProjectsInfo] = useState<ProjectDisplay[]>([]);
@@ -67,7 +63,6 @@ const Financials: React.FC<Props> = ({ id }) => {
 
   useEffect(() => {
     const loadExpenses = async () => {
-      if (id) {
         try {
           const data = await getBusinessTransactionExpenses(1);
           const expenses: AllBusinessExpensesDTO[] = [];
@@ -90,12 +85,9 @@ const Financials: React.FC<Props> = ({ id }) => {
           setWagesTotal(totalWagesValue);
           setToolsTotal(totalToolsValue);
           setOthersTotal(totalOthersValue);
-          console.log(expenses);
         } catch (e) {}
-      }
     };
     const loadProductions = async () => {
-      if (id) {
         try {
           const data = await getBusinessTransactionProductions(1);
           const productions: AllBusinessProductionsDTO[] = [];
@@ -111,8 +103,6 @@ const Financials: React.FC<Props> = ({ id }) => {
           setProductionsList(productions);
           setProductionTotal(totalValue);
         } catch (e) {}
-      }
-      console.log(productionsList);
     };
     const loadPieChartData = async () => {
       var data = [];
@@ -135,11 +125,10 @@ const Financials: React.FC<Props> = ({ id }) => {
     loadExpenses();
     loadProductions();
     loadPieChartData();
-  }, [id, productionsList, wagesTotal, toolsTotal, otherTotal]);
+  }, [productionsList, wagesTotal, toolsTotal, otherTotal]);
 
   useEffect(() => {
     const getProjectInfo = async () => {
-      if (id) {
         try {
           const data = await getAllBusinessProject(1);
           const info: ProjectDisplay[] = data.data;
@@ -153,10 +142,9 @@ const Financials: React.FC<Props> = ({ id }) => {
         } catch (e) {
           history.push('/error');
         }
-      }
     };
     getProjectInfo();
-  }, [id, history]);
+  }, [history]);
 
   useEffect(() => {
     const loadProfit = async () => {
