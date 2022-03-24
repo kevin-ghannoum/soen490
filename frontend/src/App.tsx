@@ -15,6 +15,7 @@ import BookedProjects from './components/Project/BookedProjects';
 import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
 import MyCalendar from './components/Calendar/MyCalendar';
 import EventConfirmation from './components/Calendar/EventConfirmation';
+import FAQ from './components/FAQ/FAQ';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -28,6 +29,7 @@ const CreateTask = lazy(() => import('./components/Task/CreateTask'));
 const EditTask = lazy(() => import('./components/Task/EditTask'));
 const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
 const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
+const ViewBusiness = lazy(() => import('./components/Business/ViewBusiness'));
 
 const App = () => {
   const account = useAppSelector(selectAccount);
@@ -531,6 +533,58 @@ const App = () => {
               />
               <Route
                 exact
+                path="/business"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (account.account.role === 'ADMIN') {
+                        return (
+                          <React.Fragment>
+                            <div>
+                              <Sidebar />
+                              <ViewBusiness />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/business/edit/:id"
+                render={({ match }) => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      if (account.account.role === 'ADMIN') {
+                        return (
+                          <React.Fragment>
+                            <div style={{ paddingTop: '75px' }}>
+                              <Sidebar />
+                              <CreateBusinessAccount editMode={true} id={match.params.id} />
+                            </div>
+                          </React.Fragment>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
+                    } else {
+                      return <Redirect to="/login" />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
                 path="/login"
                 render={() => {
                   if (account.loading) {
@@ -567,6 +621,28 @@ const App = () => {
                 }}
               />
               <Route exact path="/event/invitation/status" render={() => <EventConfirmation />} />
+              <Route
+                exact
+                path="/faq"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      return (
+                        <React.Fragment>
+                          <div>
+                            <Sidebar />
+                            <FAQ />
+                          </div>
+                        </React.Fragment>
+                      );
+                    } else {
+                      return <Login />;
+                    }
+                  }
+                }}
+              />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>
