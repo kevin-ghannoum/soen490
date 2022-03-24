@@ -14,6 +14,7 @@ import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 import BookedProjects from './components/Project/BookedProjects';
 import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
 import MyCalendar from './components/Calendar/MyCalendar';
+import FAQ from './components/FAQ/FAQ';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -605,6 +606,28 @@ const App = () => {
                   } else {
                     if (account.authenticated) {
                       return <MyCalendar />;
+                    } else {
+                      return <Login />;
+                    }
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/faq"
+                render={() => {
+                  if (account.loading) {
+                    return <></>;
+                  } else {
+                    if (account.authenticated) {
+                      return (
+                        <React.Fragment>
+                          <div>
+                            <Sidebar />
+                            <FAQ />
+                          </div>
+                        </React.Fragment>
+                      );
                     } else {
                       return <Login />;
                     }
