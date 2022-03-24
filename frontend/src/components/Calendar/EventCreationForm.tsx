@@ -231,7 +231,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
         <form onSubmit={formik.handleSubmit}>
           <Grid container style={{ padding: '25px' }}>
             <Grid item xs={12}>
-              <Typography variant="h4" color="primary">
+              <Typography variant="h4" color="primary" style={{ marginBottom: '10px' }}>
                 {!update ? 'Create meeting' : 'Update Meeting'}
               </Typography>
             </Grid>
@@ -240,6 +240,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 label="Title*"
                 name="title"
                 fullWidth
+                style={{ marginTop: '15x' }}
                 onChange={formik.handleChange}
                 value={formik.values.title}
                 error={formik.touched.title && Boolean(formik.errors.title)}
@@ -288,6 +289,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 label="Location"
                 name="location"
                 fullWidth
+                style={{ marginTop: '3px' }}
                 onChange={formik.handleChange}
                 value={formik.values.location}
                 error={formik.touched.location && Boolean(formik.errors.location)}
@@ -299,13 +301,14 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 fullWidth
                 label="Description"
                 name="description"
+                style={{ marginTop: '10px' }}
                 onChange={formik.handleChange}
                 value={formik.values.description}
                 error={formik.touched.description && Boolean(formik.errors.description)}
                 helperText={formik.touched.description && formik.errors.description}
               />
             </Grid>
-            <Grid item xs={12} style={{ marginTop: 5 }}>
+            <Grid item xs={12} style={{ marginTop: 10 }}>
               <Autocomplete
                 loading={assigneeLoading}
                 onInputChange={getEmployeeInput}
