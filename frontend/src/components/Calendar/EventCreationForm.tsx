@@ -1,11 +1,22 @@
-import { Button, Dialog, Grid, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { FormikProps, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import createEventFormValidationSchema from './CreateEventFormValidationSchema';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { getAllRegexEmployeeAccount } from '../../services/AccountAPI';
-import { createEvents } from '../../services/EventAPI';
+import { createEvents, deleteEvent, updateEvents } from '../../services/EventAPI';
 export interface CreateEventData {
+  id?: number;
   title: string;
   start: string;
   end: string;
@@ -14,10 +25,22 @@ export interface CreateEventData {
   invitee: Array<string>;
 }
 
+export interface EventUpdateDTO {
+  id?: number;
+  title: string;
+  start: string;
+  end: string;
+  location?: string;
+  description?: string;
+  invitee: Array<string>;
+  createdBy: string;
+}
+
 export interface SimpleDialogProps {
   open: boolean;
   selectedValue: any;
   onClose: () => void;
+  update: boolean;
 }
 
 const EventCreationForm = (props: SimpleDialogProps) => {
@@ -27,23 +50,13 @@ const EventCreationForm = (props: SimpleDialogProps) => {
   const [employeeList, setEmployeeList] = useState<Array<{ label: string }>>([]);
   const [disabled] = useState<boolean>(false);
   const [assignee, setAssignee] = useState<any>([]);
-  // Comment for future implementation of update
-  // const [clientList, setClientList] = useState<any>([]);
   const [assigneeLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
-
-  const { onClose, selectedValue, open } = props;
+  const [openDeleteAlert, setOpenDelteAlert] = useState(false);
+  const { onClose, selectedValue, open, update } = props;
   const handleClose = () => {
     onClose();
   };
-
-  useEffect(() => {
-    if (selectedValue) {
-      setSelectDate(convertDateToString(selectedValue.start));
-      setSelectStartTime(convertDateToTime(selectedValue.start));
-      setSelectEndTime(convertDateToTime(selectedValue.end));
-    }
-  }, [selectedValue]);
 
   const formik: FormikProps<CreateEventData> = useFormik<CreateEventData>({
     initialValues: {
@@ -62,17 +75,30 @@ const EventCreationForm = (props: SimpleDialogProps) => {
       if (formik.values.invitee.length === 0) {
         setErrorMsg('Please fill all the required section');
       }
-
       formik.values.start = `${selectedDate}T${selectedStartTime}`;
       formik.values.end = `${selectedDate}T${selectedEndTime}`;
-      const temp: Array<string> = [];
-      formik.values.invitee.forEach((invitee) => {
-        const inviteeEmail = invitee as unknown as any;
-        temp.push(inviteeEmail.email);
-      });
-      formik.values.invitee = temp;
       try {
-        await createEvents(formik.values);
+        if (update) {
+          const temp: Array<any> = [];
+          selectedValue.accounts.forEach((account: any) => {
+            temp.push(account.Invited);
+          });
+          assignee.forEach((account: any) => {
+            temp.push({ status: 'PENDING', email: account.email, id: selectedValue.id });
+          });
+          formik.values.invitee = temp;
+          formik.values.id = selectedValue.id;
+          const dataToSubmit = { ...formik.values, createdBy: selectedValue.createdBy };
+          await updateEvents(dataToSubmit as unknown as EventUpdateDTO);
+        } else {
+          const temp: Array<string> = [];
+          formik.values.invitee.forEach((invitee) => {
+            const inviteeEmail = invitee as unknown as any;
+            temp.push(inviteeEmail.email);
+          });
+          formik.values.invitee = temp;
+          await createEvents(formik.values);
+        }
         handleClose();
       } catch (err) {
         setErrorMsg('Unexpected server error');
@@ -80,6 +106,39 @@ const EventCreationForm = (props: SimpleDialogProps) => {
     },
     validationSchema: createEventFormValidationSchema,
   });
+
+  useEffect(() => {
+    if (selectedValue) {
+      setSelectDate(convertDateToString(selectedValue.start));
+      setSelectStartTime(convertDateToTime(selectedValue.start));
+      setSelectEndTime(convertDateToTime(selectedValue.end));
+      setAssignee([]);
+      formik.values.title = '';
+      formik.values.location = '';
+      formik.values.invitee = [];
+      formik.values.description = '';
+      if (selectedValue.title) {
+        formik.values.title = selectedValue.title;
+      }
+      if (selectedValue.location) {
+        formik.values.location = selectedValue.location;
+      }
+      if (selectedValue.description) {
+        formik.values.description = selectedValue.description;
+      }
+      if (selectedValue.accounts) {
+        const temp: Array<any> = [];
+        selectedValue.accounts.forEach((account: any) => {
+          temp.push({
+            email: account.Invited.email,
+            label: `${account.firstName} ${account.lastName} (${account.Invited.status})`,
+          });
+        });
+        setAssignee(temp);
+      }
+    }
+    // eslint-disable-next-line
+  }, [selectedValue]);
 
   const handleDatePicker = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSelectDate(event.target.value);
@@ -93,16 +152,14 @@ const EventCreationForm = (props: SimpleDialogProps) => {
     }
   };
 
-  // Comment for future implementation for update
-  // const getClientInput = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
-  //   const clientResponse = await getAllClientAccount(value);
-  //   const clients: any[] = [];
-  //   clientResponse.data.forEach((element: any) => {
-  //     clients.push(`${element.email}`);
-  //   });
-  //   setClientList([]);
-  //   setClientList(clients);
-  // };
+  const handleDeleteEvent = async () => {
+    try {
+      await deleteEvent(selectedValue.id);
+      handleClose();
+    } catch (error) {
+      setErrorMsg('Unexpected error when deleting');
+    }
+  };
 
   const getEmployeeInput = async (
     event: React.ChangeEvent<{}>,
@@ -160,6 +217,14 @@ const EventCreationForm = (props: SimpleDialogProps) => {
     return `${hour}:${minute}`;
   };
 
+  const handleClickOpenDelete = () => {
+    setOpenDelteAlert(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelteAlert(false);
+  };
+
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullWidth>
       {selectedValue ? (
@@ -167,7 +232,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
           <Grid container style={{ padding: '25px' }}>
             <Grid item xs={12}>
               <Typography variant="h4" color="primary">
-                Create meeting
+                {!update ? 'Create meeting' : 'Update Meeting'}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -190,7 +255,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  defaultValue={convertDateToString(selectedValue.start)}
+                  value={convertDateToString(selectedValue.start)}
                   onChange={handleDatePicker}
                   style={{ margin: '10px', marginLeft: '0px' }}
                 />
@@ -201,7 +266,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  defaultValue={convertDateToTime(selectedValue.start)}
+                  value={selectedStartTime}
                   style={{ margin: '10px' }}
                   onChange={(e) => handleTimePicker(e)}
                 />
@@ -212,7 +277,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  defaultValue={convertDateToTime(selectedValue.end)}
+                  value={selectedEndTime}
                   style={{ margin: '10px' }}
                   onChange={(e) => handleTimePicker(e)}
                 />
@@ -264,15 +329,55 @@ const EventCreationForm = (props: SimpleDialogProps) => {
                 <Typography style={{ color: 'red', marginTop: '10px' }}>{errorMsg}</Typography>
               </Grid>
             )}
+
+            <Dialog
+              open={openDeleteAlert}
+              onClose={handleCloseDelete}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">Delete this event?</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  By clicking "Agree", you will be permanently deleting this event.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDelete}>Disagree</Button>
+                <Button size="small" variant="contained" color="primary" onClick={handleDeleteEvent} autoFocus>
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
             <Grid xs={12}>
-              <Button
-                style={{ margin: '15px', marginLeft: '0px', float: 'left' }}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                Create
-              </Button>
+              {!update ? (
+                <Button
+                  style={{ margin: '15px', marginLeft: '0px', float: 'left' }}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                >
+                  Create
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    style={{ margin: '15px', marginLeft: '0px', float: 'left' }}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    style={{ margin: '15px', marginLeft: '0px', float: 'left', background: 'red', color: 'white' }}
+                    variant="contained"
+                    onClick={handleClickOpenDelete}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
             </Grid>
           </Grid>
         </form>

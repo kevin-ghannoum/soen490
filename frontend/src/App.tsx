@@ -14,6 +14,7 @@ import ViewCallLogs from './components/CommunicationLogs/ViewCallLogs';
 import BookedProjects from './components/Project/BookedProjects';
 import SingleProjectTransaction from './components/Transactions/SingleProjectTransaction';
 import MyCalendar from './components/Calendar/MyCalendar';
+import EventConfirmation from './components/Calendar/EventConfirmation';
 const CreateEmployee = lazy(() => import('./components/CreateEmployee/CreateEmployee'));
 const Login = lazy(() => import('./components/Login/Login'));
 const CreateClientAccount = lazy(() => import('./components/CreateClientAccount/CreateClientAccount'));
@@ -551,13 +552,21 @@ const App = () => {
                     return <></>;
                   } else {
                     if (account.authenticated) {
-                      return <MyCalendar />;
+                      return (
+                        <>
+                          <Sidebar />
+                          <div style={{ marginTop: '75px' }}>
+                            <MyCalendar />
+                          </div>
+                        </>
+                      );
                     } else {
                       return <Login />;
                     }
                   }
                 }}
               />
+              <Route exact path="/event/invitation/status" render={() => <EventConfirmation />} />
               <Route exact path="/" render={() => <div>root</div>} />
               <Route path="*" render={() => <PageNotFound />} />
             </Switch>

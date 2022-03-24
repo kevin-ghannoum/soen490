@@ -27,17 +27,19 @@ interface EventDTO {
 }
 const MyCalendar: React.FC = () => {
   const [events, setEvents] = useState<Array<Event>>([]);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<any>();
+  const [update, setUpdate] = useState<boolean>(false);
   useEffect(() => {
     getEventsData();
   }, []);
   const getEventsData = async () => {
     try {
       const data = (await (await getEvents()).data) as unknown as Array<any>;
-      console.log(data);
       const temp: Array<Event> = [];
       data.forEach((event: EventDTO) => {
+        event.start = event.start.slice(0, -1);
+        event.end = event.end.slice(0, -1);
         temp.push({
           id: event.id,
           title: event.title,
@@ -52,10 +54,12 @@ const MyCalendar: React.FC = () => {
       setEvents(temp);
     } catch (err) {}
   };
+
   const localizer = momentLocalizer(moment);
   const allViews: View[] = ['agenda', 'day', 'week', 'month'];
 
   const handleSelectEvent = (event: Event) => {
+    setUpdate(true);
     setOpen(true);
     setSelectedValue(event);
   };
@@ -66,8 +70,19 @@ const MyCalendar: React.FC = () => {
   };
 
   const handleSelectSlot = (event: SlotInfo) => {
+    setUpdate(false);
     setOpen(true);
     setSelectedValue({ start: event.start, end: event.end });
+  };
+
+  const eventStyleGetter = () => {
+    const style = {
+      backgroundColor: '#2BB1E4',
+      border: '1px solid #037CAA',
+    };
+    return {
+      style: style,
+    };
   };
 
   return (
@@ -82,11 +97,12 @@ const MyCalendar: React.FC = () => {
             endAccessor="end"
             views={allViews}
             defaultView="week"
-            style={{ height: '100vh' }}
+            style={{ height: '92.5vh' }}
             onSelectEvent={(event) => handleSelectEvent(event)}
             onSelectSlot={(event) => handleSelectSlot(event)}
+            eventPropGetter={eventStyleGetter}
           />
-          <EventCreationForm open={open} onClose={handleClose} selectedValue={selectedValue} />
+          <EventCreationForm open={open} onClose={handleClose} selectedValue={selectedValue} update={update} />
         </>
       ) : (
         <></>
