@@ -227,7 +227,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullWidth>
-      {selectedValue ? (
+      {selectedValue && (
         <form onSubmit={formik.handleSubmit}>
           <Grid container style={{ padding: '25px' }}>
             <Grid item xs={12}>
@@ -381,8 +381,6 @@ const EventCreationForm = (props: SimpleDialogProps) => {
             </Grid>
           </Grid>
         </form>
-      ) : (
-        <></>
       )}
     </Dialog>
   );
