@@ -19,7 +19,7 @@ import { withRouter } from 'react-router-dom';
 import sidebarStyle from './SidebarStyle';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout, selectAccount } from '../../features/account/AccountSlice';
-
+import EventIcon from '@material-ui/icons/Event';
 type Anchor = 'left';
 
 const Sidebar = (props: { history: any }) => {
@@ -87,6 +87,11 @@ const Sidebar = (props: { history: any }) => {
       text: 'Create Employee Account',
       icon: <CreateIcon className={classes.icon} />,
       onClick: () => history.push('/employeeAccount/new'),
+    },
+    {
+      text: 'My Calendar',
+      icon: <EventIcon className={classes.icon} />,
+      onClick: () => history.push('/calendar'),
     },
   ];
 
