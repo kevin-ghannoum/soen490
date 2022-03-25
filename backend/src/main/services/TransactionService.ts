@@ -108,7 +108,6 @@ export class TransactionService {
       const expensesOfProject = await this.expenseService.getAllExpensesForProjects(Number(project.projectId));
       expensesOfProject?.forEach((element: any) => {
         const expenseValue = element.dataValues.transaction.dataValues.amount;
-        console.log(element.dataValues.type);
         if (element.dataValues.type === 'WAGES') {
           wagesExpensesForProject = wagesExpensesForProject + expenseValue;
         } else if (element.dataValues.type === 'TOOLS') {

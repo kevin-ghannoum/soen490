@@ -138,7 +138,6 @@ const Financials: React.FC = () => {
         });
         setProjectsInfo(info);
         setSaleValueTotal(totalSaleAmount);
-        console.log(info);
       } catch (e) {
         history.push('/error');
       }
