@@ -78,7 +78,6 @@ export default class EventRoute extends CommonRoutesConfig {
 
     this.getApp()
       .route(`/event/:id/accept`)
-      .all(checkJwt)
       .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const email: string = req.query.email as string;

@@ -9,7 +9,7 @@
     "dev": "nodemon src/main/app.ts",
     "debug": "set DEBUG=app:* && npm run dev",
     "test": "jest src/test",
-    "testCoverage": "jest src/test --coverage",
+    "testCoverage": "jest src/test --coverage --coveragePathIgnorePatterns \"src/main/repositories/\" --coveragePathIgnorePatterns \"src/main/middleware/\" --coveragePathIgnorePatterns \"src/main/utils/\" --coveragePathIgnorePatterns \"src/main/services/EmailService.ts\"",
     "lint": "eslint . --ext .ts",
     "prettier-check": "npx prettier --check \"src/main/**/*.ts\"",
     "prettier-write": "npx prettier --write \"src/main/**/*.ts"

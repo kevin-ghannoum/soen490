@@ -48,7 +48,7 @@ export class EventService {
         }&accepted=true&email=${invitee}">here</a> to accept the meeting invitation</p>
         <p>Click <a href="${process.env.FRONTEND_DOMAIN}event/invitation/status?id=${
           newEvent.id
-        }&accepted=false&email=${invitee}">here</a> to accept the meeting invitation</p>`
+        }&accepted=false&email=${invitee}">here</a> to reject the meeting invitation</p>`
       );
     });
 

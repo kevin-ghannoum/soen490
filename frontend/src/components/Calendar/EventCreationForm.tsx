@@ -80,9 +80,6 @@ const EventCreationForm = (props: SimpleDialogProps) => {
       try {
         if (update) {
           const temp: Array<any> = [];
-          selectedValue.accounts.forEach((account: any) => {
-            temp.push(account.Invited);
-          });
           assignee.forEach((account: any) => {
             temp.push({ status: 'PENDING', email: account.email, id: selectedValue.id });
           });
