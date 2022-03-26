@@ -35,7 +35,6 @@ export default class AccountRoute extends CommonRoutesConfig {
           try {
             const newEmployeeAccount = await this.employeeAccountService.createEmployeeAccount(req.body);
             const dto = JSON.parse(JSON.stringify(newEmployeeAccount));
-            delete dto.account.password;
             res.status(StatusCodes.CREATED).send(dto);
           } catch (err) {
             next(err);
@@ -115,7 +114,6 @@ export default class AccountRoute extends CommonRoutesConfig {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           } else {
             const dto = JSON.parse(JSON.stringify(employeeAccount));
-            delete dto.account.password;
             res.status(StatusCodes.OK).send(dto);
           }
         } catch (err) {
@@ -179,7 +177,6 @@ export default class AccountRoute extends CommonRoutesConfig {
           try {
             const newBusinessAccount = await this.businessAccountService.createBusinessAccount(req.body);
             const dto = JSON.parse(JSON.stringify(newBusinessAccount));
-            delete dto.account.password;
             res.status(StatusCodes.CREATED).send(dto);
           } catch (err) {
             next(err);
@@ -199,7 +196,6 @@ export default class AccountRoute extends CommonRoutesConfig {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           } else {
             const dto = JSON.parse(JSON.stringify(businessAccount));
-            delete dto.account.password;
             res.status(StatusCodes.OK).send(dto);
           }
         } catch (err) {
@@ -229,7 +225,6 @@ export default class AccountRoute extends CommonRoutesConfig {
           try {
             const clientAccount: ClientAccount = await this.clientAccountService.createClientAccount(req.body);
             const dto = JSON.parse(JSON.stringify(clientAccount));
-            delete dto.account.password;
             res.status(StatusCodes.CREATED).send(dto);
           } catch (err) {
             next(err);
@@ -254,7 +249,6 @@ export default class AccountRoute extends CommonRoutesConfig {
             next(new HttpException(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
           } else {
             const dto = JSON.parse(JSON.stringify(clientAccount));
-            delete dto.account.password;
             res.status(StatusCodes.OK).send(dto);
           }
         } catch (err) {
