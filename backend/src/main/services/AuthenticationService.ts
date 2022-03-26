@@ -53,6 +53,14 @@ export class AuthenticationService {
     return this.authenticationClient.refreshToken(auth0RefreshTokenData);
   };
 
+  public updatePassword = async (connection: string, email: string): Promise<void> => {
+    const auth0ChangePasswordData = {
+      connection,
+      email,
+    };
+    return this.authenticationClient.requestChangePasswordEmail(auth0ChangePasswordData);
+  };
+
   public getReduxAccountByRole = async (role: string, email: string): Promise<any> => {
     let response = {};
 

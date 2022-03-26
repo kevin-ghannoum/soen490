@@ -1,0 +1,97 @@
+[
+    {
+        "id": 1,
+        "name": "Business455",
+        "industry": "Business",
+        "website": "",
+        "email": "business@business.com",
+        "businessAccount": {
+            "email": "business@business.com",
+            "account": {
+                "firstName": "Business455",
+                "lastName": "Business",
+                "phoneNumber": "5147859632",
+                "username": "business",
+                "password": "Soen490!",
+                "address": {
+                    "id": 2,
+                    "civicNumber": 2567,
+                    "streetName": "rue des clematites",
+                    "postalCode": "H7Y 0A7",
+                    "cityName": "Laval",
+                    "province": "Quebec",
+                    "country": "Canada"
+                }
+            }
+        },
+        "socialMediaPages": [
+            {
+                "name": "fdsaf",
+                "link": "1321",
+                "email": "business@business.com",
+                "businessId": 1
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "oij",
+        "industry": "oij",
+        "website": "oij",
+        "email": "fdsafdas@hotmail.com",
+        "businessAccount": {
+            "email": "fdsafdas@hotmail.com",
+            "account": {
+                "firstName": "david",
+                "lastName": "thai",
+                "phoneNumber": "43214132",
+                "username": "fdsaf",
+                "password": "Soen490!",
+                "address": {
+                    "id": 13,
+                    "civicNumber": 432,
+                    "streetName": "ijo",
+                    "postalCode": "oij",
+                    "cityName": "oi",
+                    "province": "oij",
+                    "country": "oij"
+                }
+            }
+        },
+        "socialMediaPages": [
+            {
+                "name": "oij",
+                "link": "oij",
+                "email": "fdsafdas@hotmail.com",
+                "businessId": 4
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "oij",
+        "industry": "oij",
+        "website": "oij",
+        "email": "business32131231@business.com",
+        "businessAccount": {
+            "email": "business32131231@business.com",
+            "account": {
+                "firstName": "davidffds",
+                "lastName": "thaifds",
+                "phoneNumber": "43214132",
+                "username": "fadsfdfsafdsafdsa",
+                "password": "Soen490!",
+                "address": {
+                    "id": 13,
+                    "civicNumber": 432,
+                    "streetName": "ijo",
+                    "postalCode": "oij",
+                    "cityName": "oi",
+                    "province": "oij",
+                    "country": "oij"
+                }
+            }
+        },
+        "socialMediaPages": []
+    }
+]

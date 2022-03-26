@@ -63,12 +63,7 @@ export default class EventRepository implements CRUD {
       });
 
       updatedValue.invitee?.forEach(async (invitee) => {
-        await Invited.update(invitee, {
-          where: {
-            id: invitee.id,
-            email: invitee.email,
-          },
-        });
+        await Invited.upsert(invitee, {});
       });
 
       log(`Event with id ${id} has been updated`);
