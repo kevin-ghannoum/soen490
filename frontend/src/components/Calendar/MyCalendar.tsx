@@ -87,26 +87,20 @@ const MyCalendar: React.FC = () => {
 
   return (
     <div>
-      {events.length !== 0 ? (
-        <>
-          <Calendar
-            selectable
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            views={allViews}
-            defaultView="week"
-            style={{ height: '92.5vh' }}
-            onSelectEvent={(event) => handleSelectEvent(event)}
-            onSelectSlot={(event) => handleSelectSlot(event)}
-            eventPropGetter={eventStyleGetter}
-          />
-          <EventCreationForm open={open} onClose={handleClose} selectedValue={selectedValue} update={update} />
-        </>
-      ) : (
-        <></>
-      )}
+      <Calendar
+        selectable
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        views={allViews}
+        defaultView="week"
+        style={{ height: '92.5vh' }}
+        onSelectEvent={(event) => handleSelectEvent(event)}
+        onSelectSlot={(event) => handleSelectSlot(event)}
+        eventPropGetter={eventStyleGetter}
+      />
+      <EventCreationForm open={open} onClose={handleClose} selectedValue={selectedValue} update={update} />)
     </div>
   );
 };
