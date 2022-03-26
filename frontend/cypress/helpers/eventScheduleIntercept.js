@@ -22,7 +22,7 @@ export const getSingleEventsDataIntercept = () => {
 
 export const getSingleEventsDataAfterDeleteIntercept = () => {
   cy.fixture('singleEvent.json').then((event) => {
-    event = [];
+    event.pop();
     cy.intercept('GET', '/event', event).as('getDeletedEventAPI');
   });
 };
