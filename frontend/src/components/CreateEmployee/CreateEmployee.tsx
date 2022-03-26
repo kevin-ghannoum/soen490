@@ -76,7 +76,7 @@ const CreateEmployee: React.FC = () => {
         hourlyWage: values.hourlyWage,
         title: values.title,
         supervisorEmail: values.supervisorEmail,
-        businessId: account.businessAcc?.businessId ? Number(account.businessAcc.businessId) : '',
+        businessId: account.businessAcc?.businessId ? Number(account.businessAcc.businessId) : values.businessId,
       });
       if (response.status === 201) {
         setCreated(true);
