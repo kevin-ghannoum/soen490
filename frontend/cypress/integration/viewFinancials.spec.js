@@ -4,7 +4,7 @@ import { loginIntercept } from '../helpers/loginIntercept';
 import { getProjectFromBusinessIntercept } from '../helpers/projectIntercept';
 import { getExpensesForBusiness, getProductionsForBusiness } from '../helpers/transactionIntercept';
 
-describe('ViewProject feature e2e test', () => {
+describe('ViewFinancials feature e2e test', () => {
   beforeEach(() => {
     loginIntercept();
   });
@@ -13,7 +13,7 @@ describe('ViewProject feature e2e test', () => {
     cy.clearLocalStorage();
   });
 
-  it('Should view a list of project', () => {
+  it('Should view financials for business', () => {
     cy.wait(500);
     getProjectFromBusinessIntercept();
     getExpensesForBusiness();
