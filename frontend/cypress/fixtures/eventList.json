@@ -1,0 +1,319 @@
+[
+  {
+    "id": 1,
+    "title": "Event1",
+    "location": "Location1",
+    "description": "Description1",
+    "start": "2023-01-01T05:00:00.000Z",
+    "end": "2023-01-01T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 2,
+    "title": "Event2",
+    "location": "Location2",
+    "description": "Description2",
+    "start": "2023-01-02T05:00:00.000Z",
+    "end": "2023-01-02T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 3,
+    "title": "Event3",
+    "location": "Location3",
+    "description": "Description3",
+    "start": "2023-01-03T05:00:00.000Z",
+    "end": "2023-01-03T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 4,
+    "title": "Event4",
+    "location": "Location4",
+    "description": "Description4",
+    "start": "2023-01-04T05:00:00.000Z",
+    "end": "2023-01-04T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 5,
+    "title": "Event5",
+    "location": "Location5",
+    "description": "Description5",
+    "start": "2023-01-05T05:00:00.000Z",
+    "end": "2023-01-05T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 6,
+    "title": "Event6",
+    "location": "Location6",
+    "description": "Description6",
+    "start": "2023-01-06T05:00:00.000Z",
+    "end": "2023-01-06T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 7,
+    "title": "Event7",
+    "location": "Location7",
+    "description": "Description7",
+    "start": "2023-01-07T05:00:00.000Z",
+    "end": "2023-01-07T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 8,
+    "title": "Event8",
+    "location": "Location8",
+    "description": "Description8",
+    "start": "2023-01-08T05:00:00.000Z",
+    "end": "2023-01-08T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 9,
+    "title": "Event9",
+    "location": "Location9",
+    "description": "Description9",
+    "start": "2023-01-09T05:00:00.000Z",
+    "end": "2023-01-09T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 10,
+    "title": "Event10",
+    "location": "Location10",
+    "description": "Description10",
+    "start": "2023-01-10T05:00:00.000Z",
+    "end": "2023-01-10T07:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": []
+  },
+  {
+    "id": 11,
+    "title": "Test event 2",
+    "location": "Zoom",
+    "description": "description",
+    "start": "2022-03-18T03:30:00.000Z",
+    "end": "2022-03-18T11:30:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee10",
+        "lastName": "Employee10",
+        "Invited": { "status": "PENDING", "email": "employee10@employee10.com", "id": 11 }
+      },
+      {
+        "firstName": "Employee2",
+        "lastName": "Employee2",
+        "Invited": { "status": "PENDING", "email": "employee2@employee2.com", "id": 11 }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Test event 3 updated",
+    "location": "updated",
+    "description": "asdasdasd",
+    "start": "2022-03-17T00:30:00.000Z",
+    "end": "2022-03-17T08:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee10",
+        "lastName": "Employee10",
+        "Invited": { "status": "PENDING", "email": "employee10@employee10.com", "id": 12 }
+      },
+      {
+        "firstName": "Employee3",
+        "lastName": "Employee3",
+        "Invited": { "status": "PENDING", "email": "employee3@employee3.com", "id": 12 }
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "asdasdasd",
+    "location": "asdasd",
+    "description": "asdasda",
+    "start": "2022-03-17T13:30:00.000Z",
+    "end": "2022-03-17T16:30:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee",
+        "lastName": "Employee",
+        "Invited": { "status": "REJECTED", "email": "employee@employee.com", "id": 13 }
+      },
+      {
+        "firstName": "Employee3",
+        "lastName": "Employee3",
+        "Invited": { "status": "PENDING", "email": "employee3@employee3.com", "id": 13 }
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "New events",
+    "location": "adsasd",
+    "description": "12321",
+    "start": "2022-03-18T13:30:00.000Z",
+    "end": "2022-03-18T20:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee",
+        "lastName": "Employee",
+        "Invited": { "status": "PENDING", "email": "employee@employee.com", "id": 14 }
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "sadasd updated 3",
+    "location": "sadads",
+    "description": "description",
+    "start": "2022-03-18T05:00:00.000Z",
+    "end": "2022-03-18T11:59:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee3",
+        "lastName": "Employee3",
+        "Invited": { "status": "PENDING", "email": "employee3@employee3.com", "id": 15 }
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "sadasd",
+    "location": "asdasd",
+    "description": "asdasdas",
+    "start": "2022-03-19T13:30:00.000Z",
+    "end": "2022-03-19T18:30:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee10",
+        "lastName": "Employee10",
+        "Invited": { "status": "PENDING", "email": "employee10@employee10.com", "id": 16 }
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "bob",
+    "location": "asdad",
+    "description": "asdasda",
+    "start": "2022-03-19T18:00:00.000Z",
+    "end": "2022-03-19T22:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee2",
+        "lastName": "Employee2",
+        "Invited": { "status": "PENDING", "email": "employee2@employee2.com", "id": 17 }
+      },
+      {
+        "firstName": "Employee4",
+        "lastName": "Employee4",
+        "Invited": { "status": "PENDING", "email": "employee4@employee4.com", "id": 17 }
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "sadasd",
+    "location": "adasd",
+    "description": "empl",
+    "start": "2022-03-17T15:30:00.000Z",
+    "end": "2022-03-17T22:30:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee2",
+        "lastName": "Employee2",
+        "Invited": { "status": "PENDING", "email": "employee2@employee2.com", "id": 18 }
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "title": "4 to 5",
+    "location": "sadasd",
+    "description": "sadasda",
+    "start": "2022-03-17T04:00:00.000Z",
+    "end": "2022-03-17T05:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee10",
+        "lastName": "Employee10",
+        "Invited": { "status": "PENDING", "email": "employee10@employee10.com", "id": 19 }
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "asdasdasd",
+    "location": "asdasd",
+    "description": "asdasda",
+    "start": "2022-03-17T13:30:00.000Z",
+    "end": "2022-03-17T16:30:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee",
+        "lastName": "Employee",
+        "Invited": { "status": "REJECTED", "email": "employee@employee.com", "id": 13 }
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "New events",
+    "location": "adsasd",
+    "description": "12321",
+    "start": "2022-03-18T13:30:00.000Z",
+    "end": "2022-03-18T20:00:00.000Z",
+    "createdBy": "employee@employee.com",
+    "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+    "accounts": [
+      {
+        "firstName": "Employee",
+        "lastName": "Employee",
+        "Invited": { "status": "PENDING", "email": "employee@employee.com", "id": 14 }
+      }
+    ]
+  }
+]
