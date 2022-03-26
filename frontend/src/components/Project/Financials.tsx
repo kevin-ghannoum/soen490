@@ -24,6 +24,8 @@ import { ProjectDisplay } from '../../dto/ProjectDTOs';
 import { AllBusinessExpensesDTO, AllBusinessProductionsDTO } from '../../dto/TransactionDTOs';
 import { useHistory } from 'react-router';
 import { PieChart } from 'react-minimal-pie-chart';
+import { selectAccount } from '../../features/account/AccountSlice';
+import { useAppSelector } from '../../redux/hooks';
 
 interface Profit {
   id: string;
@@ -53,6 +55,8 @@ const Financials: React.FC = () => {
   const [otherTotal, setOthersTotal] = useState<number>(0);
   const [profitTotal, setProfitTotal] = useState<number>(0);
 
+  const account = useAppSelector(selectAccount);
+
   const useRowStyles = makeStyles({
     root: {
       '& > *': {
@@ -64,7 +68,12 @@ const Financials: React.FC = () => {
   useEffect(() => {
     const loadExpenses = async () => {
       try {
-        const data = await getBusinessTransactionExpenses(1);
+        let data;
+        if (account.businessAcc) {
+          data = await getBusinessTransactionExpenses(account.businessAcc?.businessId);
+        } else {
+          data = await getBusinessTransactionExpenses(1);
+        }
         const expenses: AllBusinessExpensesDTO[] = [];
         var totalWagesValue = 0;
         var totalToolsValue = 0;
@@ -89,7 +98,12 @@ const Financials: React.FC = () => {
     };
     const loadProductions = async () => {
       try {
-        const data = await getBusinessTransactionProductions(1);
+        let data;
+        if (account.businessAcc) {
+          data = await getBusinessTransactionProductions(account.businessAcc?.businessId);
+        } else {
+          data = await getBusinessTransactionProductions(1);
+        }
         const productions: AllBusinessProductionsDTO[] = [];
         var totalValue = 0;
         data.data.forEach((element: AllBusinessProductionsDTO) => {
@@ -125,12 +139,18 @@ const Financials: React.FC = () => {
     loadExpenses();
     loadProductions();
     loadPieChartData();
+    // eslint-disable-next-line
   }, [wagesTotal, toolsTotal, otherTotal]);
 
   useEffect(() => {
     const getProjectInfo = async () => {
       try {
-        const data = await getAllBusinessProject(1);
+        let data;
+        if (account.businessAcc) {
+          data = await getAllBusinessProject(account.businessAcc?.businessId);
+        } else {
+          data = await getAllBusinessProject(1);
+        }
         const info: ProjectDisplay[] = data.data;
         var totalSaleAmount = 0;
         info.forEach((element: ProjectDisplay) => {
@@ -143,6 +163,7 @@ const Financials: React.FC = () => {
       }
     };
     getProjectInfo();
+    // eslint-disable-next-line
   }, [history]);
 
   useEffect(() => {

@@ -30,6 +30,8 @@ import {
 } from '../../services/AssignedAPI';
 import { useHistory } from 'react-router';
 import { Autocomplete, AutocompleteInputChangeReason } from '@material-ui/lab';
+import { selectAccount } from '../../features/account/AccountSlice';
+import { useAppSelector } from '../../redux/hooks';
 interface Task {
   createdDate: string;
   deadlineDate: string;
@@ -48,6 +50,8 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
   const [assignees, setAssignees] = useState<any>([]);
   const [editState] = useState<boolean>(edit);
   const [open, setOpen] = React.useState(false);
+
+  const account = useAppSelector(selectAccount);
 
   const history = useHistory();
 
@@ -177,7 +181,12 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
       getEditTask();
     }
     const getProjects = async () => {
-      const projects = await getAllBusinessProject(1);
+      let projects;
+      if (account.businessAcc) {
+        projects = await getAllBusinessProject(account.businessAcc?.businessId);
+      } else {
+        projects = await getAllBusinessProject(1);
+      }
       const tempProjects: Object[] = [];
       projects.data.forEach((element: any) => {
         tempProjects.push({
