@@ -11,10 +11,9 @@ describe('view a meeting', () => {
     cy.clearLocalStorage();
   });
 
-  it('Should create a meeting', () => {
+  it('Should view a meeting', () => {
     getSingleEventsDataIntercept();
     cy.visit('/calendar');
     cy.get('.rbc-event-content').click();
-    cy.get(':nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input').contains('Test event');
   });
 });
