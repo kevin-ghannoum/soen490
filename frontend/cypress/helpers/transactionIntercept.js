@@ -138,6 +138,26 @@ export const deleteProduction = () => {
   ).as('productionToDeleteAPI');
 };
 
+export const getProductionsForBusiness = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/businessTransaction/productions?businessId=1',
+    },
+    { fixture: 'businessProduction.json', statusCode: 200, times: 1 }
+  ).as('productionsBusinessAPI');
+};
+
+export const getExpensesForBusiness = () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/businessTransaction/expenses?businessId=1',
+    },
+    { fixture: 'businessExpenses.json', statusCode: 200, times: 1 }
+  ).as('expensesBusinessAPI');
+};
+
 export const createData = () => {
   cy.get('#description').type('this is a description');
   cy.get('#totalAmount').type('23');

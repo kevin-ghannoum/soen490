@@ -125,7 +125,7 @@ const Financials: React.FC = () => {
     loadExpenses();
     loadProductions();
     loadPieChartData();
-  }, [productionsList, wagesTotal, toolsTotal, otherTotal]);
+  }, [wagesTotal, toolsTotal, otherTotal]);
 
   useEffect(() => {
     const getProjectInfo = async () => {
@@ -498,7 +498,7 @@ const Financials: React.FC = () => {
 
   return (
     <Grid
-      id="Single-Project-Transaction"
+      id="View-Financials-Grid"
       container
       spacing={0}
       direction="column"

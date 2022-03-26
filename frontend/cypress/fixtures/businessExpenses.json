@@ -1,0 +1,16 @@
+[
+  {
+    "projectId": 11,
+    "wagesValue": 123,
+    "toolsValue": 4543,
+    "othersValue": 455,
+    "name": "Change this title"
+  },
+  {
+    "projectId": 12,
+    "wagesValue": 676,
+    "toolsValue": 500,
+    "othersValue": 9000,
+    "name": "Title A"
+  }
+]
