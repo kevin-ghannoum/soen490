@@ -68,7 +68,7 @@ export class EmployeeAccountService {
     const { hourlyWage, supervisorEmail, title, businessId } = employeeAccountRequestDTO;
 
     // Temporary email template.
-    const emailContent = `<p>Hi ${employeeAccountRequestDTO.accountRequest.account.firstName}, here is your credential</p>
+    const emailContent = `<p>Hi ${employeeAccountRequestDTO.accountRequest.account.firstName}, here are your credentials</p>
         <p>Email: ${employeeAccountRequestDTO.accountRequest.account.email}</p>
         <p>Password: ${employeeAccountRequestDTO.accountRequest.account.password}</p>
         `;

@@ -87,7 +87,7 @@ export class BusinessAccountService {
       await this.socialMediaPageService.createSocialMediaPage(businessCreationRequestDTO.socialMediaInfo);
     }
     // Temporary email template.
-    const emailContent = `<p>Hi ${businessCreationRequestDTO.account.firstName}, here is your credential</p>
+    const emailContent = `<p>Hi ${businessCreationRequestDTO.account.firstName}, here are your credentials</p>
     <p>Email: ${businessCreationRequestDTO.account.email}</p>
     <p>Password: ${businessCreationRequestDTO.account.password}</p>
     `;

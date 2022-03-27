@@ -90,7 +90,7 @@ export class ClientAccountService {
     }
 
     // Temporary email template.
-    const emailContent = `<p>Hi ${clientAccountCreationRequestDTO.account.firstName}, here is your credential</p>
+    const emailContent = `<p>Hi ${clientAccountCreationRequestDTO.account.firstName}, here are your credentials</p>
         <p>Email: ${clientAccountCreationRequestDTO.account.email}</p>
         <p>Password: ${clientAccountCreationRequestDTO.account.password}</p>
         `;
