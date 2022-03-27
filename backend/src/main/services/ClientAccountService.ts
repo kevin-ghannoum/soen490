@@ -14,6 +14,7 @@ import { AccountService } from './AccountService';
 import { SocialMediaPageService } from './SocialMediaPageService';
 import { getProfileRoles } from '../middleware/JWTMiddleware';
 import { getCurrentUserEmail } from '../utils/UserUtils';
+import { EmailService } from './EmailService';
 const log: debug.IDebugger = debug('app:ClientAccountService');
 
 @injectable()
@@ -23,6 +24,7 @@ export class ClientAccountService {
     private clientAccountRepository: ClientAccountRepository,
     private addressRepository: AddressRepository,
     private socialMediaPageService: SocialMediaPageService,
+    private emailService: EmailService,
     @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
     @inject('auth0-management-client') private managementClient: ManagementClient
   ) {
@@ -86,6 +88,13 @@ export class ClientAccountService {
       clientAccountCreationRequestDTO.socialMediaInfo.email = clientAccount.account.email;
       await this.socialMediaPageService.createSocialMediaPage(clientAccountCreationRequestDTO.socialMediaInfo);
     }
+
+    // Temporary email template.
+    const emailContent = `<p>Hi ${clientAccountCreationRequestDTO.account.firstName}, here is your credential</p>
+        <p>Email: ${clientAccountCreationRequestDTO.account.email}</p>
+        <p>Password: ${clientAccountCreationRequestDTO.account.password}</p>
+        `;
+    this.emailService.sendEmail(clientAccountCreationRequestDTO.account.email, 'Account Credential', emailContent);
 
     return Promise.resolve(clientAccount);
   };

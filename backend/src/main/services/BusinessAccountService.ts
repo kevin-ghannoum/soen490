@@ -13,6 +13,7 @@ import { SocialMediaPageService } from './SocialMediaPageService';
 import { Roles } from '../security/Roles';
 import AccountRepository from '../repositories/AccountRepository';
 import { getCurrentUserEmail } from '../utils/UserUtils';
+import { EmailService } from './EmailService';
 const log: debug.IDebugger = debug('app:BusinessAccountService');
 
 @injectable()
@@ -23,6 +24,7 @@ export class BusinessAccountService {
     private addressRepository: AddressRepository,
     private businessService: BusinessService,
     private socialMediaPageService: SocialMediaPageService,
+    private emailService: EmailService,
     @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
     @inject('auth0-management-client') private managementClient: ManagementClient
   ) {
@@ -84,6 +86,12 @@ export class BusinessAccountService {
       businessCreationRequestDTO.socialMediaInfo.businessId = business.id;
       await this.socialMediaPageService.createSocialMediaPage(businessCreationRequestDTO.socialMediaInfo);
     }
+    // Temporary email template.
+    const emailContent = `<p>Hi ${businessCreationRequestDTO.account.firstName}, here is your credential</p>
+    <p>Email: ${businessCreationRequestDTO.account.email}</p>
+    <p>Password: ${businessCreationRequestDTO.account.password}</p>
+    `;
+    this.emailService.sendEmail(businessCreationRequestDTO.account.email, 'Account Credential', emailContent);
 
     return Promise.resolve(businessAccount);
   };

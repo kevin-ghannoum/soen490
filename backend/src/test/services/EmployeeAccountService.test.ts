@@ -11,6 +11,7 @@ import { EmployeeAccountService } from '../../main/services/EmployeeAccountServi
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import { sequelizeMock } from '../helpers/SequelizeMock';
 import AccountRepository from '../../main/repositories/AccountRepository';
+import { EmailService } from '../../main/services/EmailService';
 
 describe('Employee Account test', () => {
   let employeeAccountRepositoryMock: any = null;
@@ -18,6 +19,7 @@ describe('Employee Account test', () => {
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
   let accountRepositoryMock: any = null;
+  let emailServiceMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
@@ -29,14 +31,17 @@ describe('Employee Account test', () => {
     addressRepositoryMock = mock<AddressRepository>();
     authenticationClientMock = mock<AuthenticationClient>();
     managementClientMock = mock<ManagementClient>();
+    emailServiceMock = mock<EmailService>();
 
     container.registerInstance(AccountRepository, accountRepositoryMock);
     container.registerInstance(EmployeeAccountRepository, employeeAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
+    container.registerInstance(EmailService, emailServiceMock);
     container.register<AuthenticationClient>('auth0-authentication-client', {
       useFactory: () => authenticationClientMock,
     });
     container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
+    emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
   });
 
   afterEach(() => {
@@ -67,7 +72,7 @@ describe('Employee Account test', () => {
       hourlyWage: 40,
       title: 'Supervisor',
       supervisorEmail: 'bob@gmail.com',
-      businessId:1
+      businessId: 1,
     };
 
     accountRepositoryMock.getByUsername.mockResolvedValue(null);

@@ -15,6 +15,7 @@ import { BusinessAccountService } from '../../main/services/BusinessAccountServi
 import { AuthenticationClient, ManagementClient } from 'auth0';
 import { sequelizeMock } from '../helpers/SequelizeMock';
 import AccountRepository from '../../main/repositories/AccountRepository';
+import { EmailService } from '../../main/services/EmailService';
 
 describe('BusinessAccountService tests', () => {
   let businessAccountRepositoryMock: any = null;
@@ -24,6 +25,7 @@ describe('BusinessAccountService tests', () => {
   let authenticationClientMock: any = null;
   let managementClientMock: any = null;
   let accountRepositoryMock: any = null;
+  let emailServiceMock: any = null;
 
   beforeAll(() => {
     sequelizeMock();
@@ -37,16 +39,19 @@ describe('BusinessAccountService tests', () => {
     socialMediaPageRepositoryMock = mock<SocialMediaPageRepository>();
     authenticationClientMock = mock<AuthenticationClient>();
     managementClientMock = mock<ManagementClient>();
+    emailServiceMock = mock<EmailService>();
 
     container.registerInstance(BusinessAccountRepository, businessAccountRepositoryMock);
     container.registerInstance(AddressRepository, addressRepositoryMock);
     container.registerInstance(BusinessRepository, businessRepositoryMock);
     container.registerInstance(SocialMediaPageRepository, socialMediaPageRepositoryMock);
     container.registerInstance(AccountRepository, accountRepositoryMock);
+    container.registerInstance(EmailService, emailServiceMock);
     container.register<AuthenticationClient>('auth0-authentication-client', {
       useFactory: () => authenticationClientMock,
     });
     container.register<ManagementClient>('auth0-management-client', { useFactory: () => managementClientMock });
+    emailServiceMock.sendEmail.mockResolvedValue(() => Promise.resolve());
   });
 
   afterEach(() => {
