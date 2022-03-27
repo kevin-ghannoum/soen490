@@ -14,6 +14,7 @@ import { getProfileRoles } from '../middleware/JWTMiddleware';
 import { getCurrentUserEmail } from '../utils/UserUtils';
 import WorksOnRepository from '../repositories/WorksOnRepository';
 import { WorksOn } from '../models/WorksOn';
+import { EmailService } from './EmailService';
 const log: debug.IDebugger = debug('app:EmployeeAccountService');
 
 @injectable()
@@ -23,6 +24,7 @@ export class EmployeeAccountService {
     private employeeAccountRepository: EmployeeAccountRepository,
     private addressRepository: AddressRepository,
     private worksOnRepository: WorksOnRepository,
+    private emailService: EmailService,
     @inject('auth0-authentication-client') private authenticationClient: AuthenticationClient,
     @inject('auth0-management-client') private managementClient: ManagementClient
   ) {
@@ -64,6 +66,17 @@ export class EmployeeAccountService {
     const address = await this.addressRepository.create(employeeAccountRequestDTO.accountRequest.address);
     employeeAccountRequestDTO.accountRequest.account.addressId = address[0].id;
     const { hourlyWage, supervisorEmail, title, businessId } = employeeAccountRequestDTO;
+
+    // Temporary email template.
+    const emailContent = `<p>Hi ${employeeAccountRequestDTO.accountRequest.account.firstName}, here are your credentials</p>
+        <p>Email: ${employeeAccountRequestDTO.accountRequest.account.email}</p>
+        <p>Password: ${employeeAccountRequestDTO.accountRequest.account.password}</p>
+        `;
+    this.emailService.sendEmail(
+      employeeAccountRequestDTO.accountRequest.account.email,
+      'Account Credential',
+      emailContent
+    );
 
     return this.employeeAccountRepository.create({
       account: employeeAccountRequestDTO.accountRequest.account,
