@@ -1,0 +1,17 @@
+[{
+  "id": 13,
+  "title": "Test event",
+  "location": "Zoom",
+  "description": "Important meeting",
+  "start": "2022-03-17T13:30:00.000Z",
+  "end": "2022-03-17T16:30:00.000Z",
+  "createdBy": "employee@employee.com",
+  "createdByAccount": { "firstName": "Employee", "lastName": "Employee" },
+  "accounts": [
+    {
+      "firstName": "Employee",
+      "lastName": "Employee",
+      "Invited": { "status": "REJECTED", "email": "employee@employee.com", "id": 13 }
+    }
+  ]
+}]

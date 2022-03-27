@@ -62,8 +62,28 @@ export default class EventRepository implements CRUD {
         },
       });
 
+      const invitees: Invited[] = await Invited.findAll({
+        where: {
+          id: id,
+        },
+      });
+
+      const inviteeEmails: string[] = [];
+
       updatedValue.invitee?.forEach(async (invitee) => {
+        inviteeEmails.push(invitee.email);
         await Invited.upsert(invitee, {});
+      });
+
+      invitees.forEach(async (invited) => {
+        if (!inviteeEmails.includes(invited.email)) {
+          await Invited.destroy({
+            where: {
+              id: id,
+              email: invited.email,
+            },
+          });
+        }
       });
 
       log(`Event with id ${id} has been updated`);

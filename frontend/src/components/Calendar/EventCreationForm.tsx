@@ -52,7 +52,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
   const [assignee, setAssignee] = useState<any>([]);
   const [assigneeLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const [openDeleteAlert, setOpenDelteAlert] = useState(false);
+  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const { onClose, selectedValue, open, update } = props;
   const handleClose = () => {
     onClose();
@@ -80,9 +80,6 @@ const EventCreationForm = (props: SimpleDialogProps) => {
       try {
         if (update) {
           const temp: Array<any> = [];
-          selectedValue.accounts.forEach((account: any) => {
-            temp.push(account.Invited);
-          });
           assignee.forEach((account: any) => {
             temp.push({ status: 'PENDING', email: account.email, id: selectedValue.id });
           });
@@ -155,6 +152,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
   const handleDeleteEvent = async () => {
     try {
       await deleteEvent(selectedValue.id);
+      handleCloseDelete();
       handleClose();
     } catch (error) {
       setErrorMsg('Unexpected error when deleting');
@@ -218,11 +216,11 @@ const EventCreationForm = (props: SimpleDialogProps) => {
   };
 
   const handleClickOpenDelete = () => {
-    setOpenDelteAlert(true);
+    setOpenDeleteAlert(true);
   };
 
   const handleCloseDelete = () => {
-    setOpenDelteAlert(false);
+    setOpenDeleteAlert(false);
   };
 
   return (

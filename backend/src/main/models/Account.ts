@@ -37,9 +37,6 @@ export class Account extends Model {
   @Column
   username!: string;
 
-  @Column
-  password!: string;
-
   @ForeignKey(() => Address)
   @Column
   addressId!: number;
