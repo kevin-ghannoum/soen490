@@ -120,7 +120,7 @@ export class ClientAccountService {
   };
 
   private verifyIfRoleClient = (userRoles: Role[]): boolean => {
-    for (let userRole of userRoles) {
+    for (const userRole of userRoles) {
       if ((userRole.name as string) === 'CLIENT') {
         return true;
       }

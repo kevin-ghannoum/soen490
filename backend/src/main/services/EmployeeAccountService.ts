@@ -108,7 +108,7 @@ export class EmployeeAccountService {
   };
 
   private verifyIfRoleEmployee = (userRoles: Role[]): boolean => {
-    for (let userRole of userRoles) {
+    for (const userRole of userRoles) {
       if ((userRole.name as string) === 'EMPLOYEE') {
         return true;
       }
