@@ -120,8 +120,8 @@ export class ClientAccountService {
   };
 
   private verifyIfRoleClient = (userRoles: Role[]): boolean => {
-    for (let i = 0; i < userRoles.length; i++) {
-      if ((userRoles[i].name as string) === 'CLIENT') {
+    for (let userRole of userRoles) {
+      if ((userRole.name as string) === 'CLIENT') {
         return true;
       }
     }
