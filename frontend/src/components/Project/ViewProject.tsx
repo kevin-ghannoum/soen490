@@ -8,6 +8,8 @@ import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { selectAccount } from '../../features/account/AccountSlice';
+import { useAppSelector } from '../../redux/hooks';
 
 interface Sale {
   amount: number;
@@ -51,6 +53,8 @@ const ViewProject: React.FC = () => {
   const history = useHistory();
   const [archived, setArchived] = useState<boolean>(false);
 
+  const account = useAppSelector(selectAccount);
+
   const [select, setSelection] = useState<GridSelectionModel>();
   const handleRowSelection = (id: GridSelectionModel) => {
     setSelection(id);
@@ -74,7 +78,12 @@ const ViewProject: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const projects = await getAllBusinessProject(1);
+      let projects;
+      if (account.businessAcc) {
+        projects = await getAllBusinessProject(account.businessAcc?.businessId);
+      } else {
+        projects = await getAllBusinessProject(1);
+      }
       const noArchived: DataDisplay[] = [];
       const archivedProjectList: DataDisplay[] = [];
       projects.data.forEach((element: Data) => {
@@ -106,6 +115,7 @@ const ViewProject: React.FC = () => {
       setArchivedProject(archivedProjectList);
     };
     fetchData();
+    // eslint-disable-next-line
   }, [select]);
 
   const columns: GridColDef[] = [

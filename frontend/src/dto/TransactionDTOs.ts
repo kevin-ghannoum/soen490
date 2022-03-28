@@ -46,6 +46,20 @@ export interface ProductionDTO {
   id: string;
 }
 
+export interface AllBusinessExpensesDTO {
+  projectId: string;
+  wagesValue: string;
+  toolsValue: string;
+  othersValue: string;
+  name: string;
+}
+
+export interface AllBusinessProductionsDTO {
+  projectId: string;
+  value: string;
+  name: string;
+}
+
 export interface TransactionUpdateDTO {
   amount: number | string;
   description: string;

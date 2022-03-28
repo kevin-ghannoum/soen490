@@ -22,9 +22,9 @@ describe('EditBusinessAccount feature e2e test', () => {
     cy.visit('/business');
 
     cy.get('#View-Business-Grid').should('exist');
-    cy.wait(1000);
+    cy.wait(500);
     cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiSvgIcon-root`).click();
-    cy.wait(2000);
+    cy.wait(500);
     cy.get('input[name=website]').type('website link');
 
     cy.get('form').submit();

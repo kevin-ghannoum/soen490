@@ -7,11 +7,13 @@ import { checkJwt, checkRole } from '../middleware/JWTMiddleware';
 import { Roles } from '../security/Roles';
 import { ExpenseService } from '../services/ExpenseService';
 import { ProductionService } from '../services/ProductionService';
+import { ProjectService } from '../services/ProjectService';
 
 @injectable()
 export default class TransactionRoute extends CommonRoutesConfig {
   constructor(
     @inject('express-app') app: express.Application,
+    private projectService: ProjectService,
     private transactionService: TransactionService,
     private expenseService: ExpenseService,
     private productionService: ProductionService
@@ -113,6 +115,32 @@ export default class TransactionRoute extends CommonRoutesConfig {
         try {
           await this.transactionService.deleteTransaction(Number(req.query.transactionId));
           res.status(StatusCodes.OK).send();
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/businessTransaction/productions`)
+      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const data = await this.transactionService.getAllProductionsForBusinessPerProject(
+            Number(req.query.businessId)
+          );
+          res.status(StatusCodes.OK).send(data);
+        } catch (err) {
+          next(err);
+        }
+      });
+
+    this.getApp()
+      .route(`/businessTransaction/expenses`)
+      .all(checkJwt, checkRole(new Set([Roles.SUPERVISOR, Roles.BUSINESS])))
+      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+          const data = await this.transactionService.getAllExpensesForBusinessPerProject(Number(req.query.businessId));
+          res.status(StatusCodes.OK).send(data);
         } catch (err) {
           next(err);
         }
