@@ -49,46 +49,85 @@ const Sidebar = (props: { history: any }) => {
 
   const itemsList = [
     {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR', 'EMPLOYEE', 'CLIENT'],
       text: 'Homepage',
       icon: <HomeIcon className={classes.icon} />,
       onClick: () => history.push('/'),
     },
     {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR', 'EMPLOYEE'],
       text: 'Projects',
       icon: <AccountTreeIcon className={classes.icon} />,
       onClick: () => history.push('/projects'),
     },
     {
+      role: ['ADMIN', 'SUPERVISOR', 'BUSINESS'],
+      text: 'Booked Projects',
+      icon: <AccountTreeIcon className={classes.icon} />,
+      onClick: () => history.push('/booked_projects_transactions'),
+    },
+    {
+      role: ['ADMIN', 'SUPERVISOR', 'EMPLOYEE'],
       text: 'Tasks',
       icon: <AccountTreeIcon className={classes.icon} />,
       onClick: () => history.push('/tasks'),
     },
     {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR', 'EMPLOYEE'],
+      text: 'Logs',
+      icon: <AccountTreeIcon className={classes.icon} />,
+      onClick: () => history.push('/logs'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
       text: 'Employees',
       icon: <AccountTreeIcon className={classes.icon} />,
       onClick: () => history.push('/employees'),
     },
     {
+      role: ['ADMIN'],
       text: 'Businesses',
       icon: <AccountTreeIcon className={classes.icon} />,
       onClick: () => history.push('/business'),
     },
     {
+      role: ['ADMIN'],
       text: 'Create Business Account',
       icon: <CreateIcon className={classes.icon} />,
       onClick: () => history.push('/businessAccount/new'),
     },
     {
+      role: ['ADMIN', 'BUSINESS'],
       text: 'Create Client Account',
       icon: <CreateIcon className={classes.icon} />,
       onClick: () => history.push('/clientAccount/new'),
     },
     {
+      role: ['ADMIN', 'BUSINESS'],
       text: 'Create Employee Account',
       icon: <CreateIcon className={classes.icon} />,
       onClick: () => history.push('/employeeAccount/new'),
     },
     {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
+      text: 'Log New Pay',
+      icon: <CreateIcon className={classes.icon} />,
+      onClick: () => history.push('/pay/new'),
+    },
+    {
+      role: ['ADMIN', 'EMPLOYEE', 'SUPERVISOR'],
+      text: 'Create New Task',
+      icon: <CreateIcon className={classes.icon} />,
+      onClick: () => history.push('/tasks/new'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
+      text: 'Create Project',
+      icon: <CreateIcon className={classes.icon} />,
+      onClick: () => history.push('/project'),
+    },
+    {
+      role: ['ADMIN', 'EMPLOYEE'],
       text: 'My Calendar',
       icon: <EventIcon className={classes.icon} />,
       onClick: () => history.push('/calendar'),
@@ -100,20 +139,17 @@ const Sidebar = (props: { history: any }) => {
   };
 
   const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width: 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
+    <Box sx={{ width: 250 }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List className={classes.list}>
-        {itemsList.map((item, index) => {
-          const { text, icon, onClick } = item;
-          return (
+        {itemsList.map((item) => {
+          const { role, text, icon, onClick } = item;
+          return role.includes(account.account.role) ? (
             <ListItem button key={text} onClick={onClick}>
               {icon && <ListItemIcon>{icon}</ListItemIcon>}
               <ListItemText primary={text} />
             </ListItem>
+          ) : (
+            ''
           );
         })}
       </List>
