@@ -9,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
   TableRow,
   Typography,
@@ -171,7 +170,7 @@ const Financials: React.FC = () => {
       const profits: Profit[] = [];
       var totalProfitValue = 0;
       for (let i = 0; i < productionsList.length; i++) {
-        profits.unshift({
+        profits.push({
           id: productionsList[i].projectId,
           value:
             '' +
@@ -225,7 +224,7 @@ const Financials: React.FC = () => {
     return (
       <React.Fragment>
         <TableRow className={rowClasses.root}>
-          <TableCell>
+          <TableCell style={{ width: '2%' }}>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenFirstTable(!openFirstTable)}>
               {openFirstTable ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -243,33 +242,41 @@ const Financials: React.FC = () => {
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Project</TableCell>
-                      <TableCell align="center">Amount ($)</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Project</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                        Amount ($)
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.projectInfo.map((project) => (
-                      <TableRow key={project.id}>
-                        <TableCell component="th" scope="row">
-                          {project.title}
-                        </TableCell>
-                        <TableCell align="center">{numberWithCommas('' + project.sale.amount)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {row.projectInfo.map((project) =>
+                      project.sale.amount !== 0 ? (
+                        <TableRow key={project.id}>
+                          <TableCell component="th" scope="row">
+                            {project.title}
+                          </TableCell>
+                          <TableCell align="center">{numberWithCommas('' + project.sale.amount)}</TableCell>
+                        </TableRow>
+                      ) : (
+                        ''
+                      )
+                    )}
                   </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell component="th" scope="row"></TableCell>
-                      <TableCell align="center">{numberWithCommas('' + saleValueTotal)}</TableCell>
-                    </TableRow>
-                  </TableFooter>
+                  <TableRow>
+                    <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                      Total
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                      {numberWithCommas('' + saleValueTotal)}
+                    </TableCell>
+                  </TableRow>
                 </Table>
               </Box>
             </Collapse>
           </TableCell>
         </TableRow>
         <TableRow className={rowClasses.root}>
-          <TableCell>
+          <TableCell style={{ width: '2%' }}>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenSecondTable(!openSecondTable)}>
               {openSecondTable ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -287,26 +294,34 @@ const Financials: React.FC = () => {
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Project</TableCell>
-                      <TableCell align="center">Amount ($)</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Project</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                        Amount ($)
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.productionList.map((production) => (
-                      <TableRow key={production.projectId}>
-                        <TableCell component="th" scope="row">
-                          {production.name}
-                        </TableCell>
-                        <TableCell align="center">{numberWithCommas(production.value)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {row.productionList.map((production) =>
+                      String(production.value) !== '0' ? (
+                        <TableRow key={production.projectId}>
+                          <TableCell component="th" scope="row">
+                            {production.name}
+                          </TableCell>
+                          <TableCell align="center">{numberWithCommas(production.value)}</TableCell>
+                        </TableRow>
+                      ) : (
+                        ''
+                      )
+                    )}
                   </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell component="th" scope="row"></TableCell>
-                      <TableCell align="center">{numberWithCommas('' + productionTotal)}</TableCell>
-                    </TableRow>
-                  </TableFooter>
+                  <TableRow>
+                    <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                      Total
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                      {numberWithCommas('' + productionTotal)}
+                    </TableCell>
+                  </TableRow>
                 </Table>
               </Box>
             </Collapse>
@@ -326,7 +341,7 @@ const Financials: React.FC = () => {
     return (
       <React.Fragment>
         <TableRow className={rowClasses.root}>
-          <TableCell>
+          <TableCell style={{ width: '2%' }}>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenFirstTable(!openFirstTable)}>
               {openFirstTable ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -344,33 +359,41 @@ const Financials: React.FC = () => {
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Project</TableCell>
-                      <TableCell align="center">Amount ($)</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Project</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                        Amount ($)
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.expenseList.map((expense) => (
-                      <TableRow key={expense.projectId}>
-                        <TableCell component="th" scope="row">
-                          {expense.name}
-                        </TableCell>
-                        <TableCell align="center">{numberWithCommas(expense.wagesValue)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {row.expenseList.map((expense) =>
+                      String(expense.wagesValue) !== '0' ? (
+                        <TableRow key={expense.projectId}>
+                          <TableCell component="th" scope="row">
+                            {expense.name}
+                          </TableCell>
+                          <TableCell align="center">{numberWithCommas(expense.wagesValue)}</TableCell>
+                        </TableRow>
+                      ) : (
+                        ''
+                      )
+                    )}
                   </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell component="th" scope="row"></TableCell>
-                      <TableCell align="center">{numberWithCommas('' + wagesTotal)}</TableCell>
-                    </TableRow>
-                  </TableFooter>
+                  <TableRow>
+                    <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                      Total
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                      {numberWithCommas('' + wagesTotal)}
+                    </TableCell>
+                  </TableRow>
                 </Table>
               </Box>
             </Collapse>
           </TableCell>
         </TableRow>
         <TableRow className={rowClasses.root}>
-          <TableCell>
+          <TableCell style={{ width: '2%' }}>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenSecondTable(!openSecondTable)}>
               {openSecondTable ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -388,33 +411,41 @@ const Financials: React.FC = () => {
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Project</TableCell>
-                      <TableCell align="center">Amount ($)</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Project</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                        Amount ($)
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.expenseList.map((expense) => (
-                      <TableRow key={expense.projectId}>
-                        <TableCell component="th" scope="row">
-                          {expense.name}
-                        </TableCell>
-                        <TableCell align="center">{numberWithCommas(expense.toolsValue)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {row.expenseList.map((expense) =>
+                      String(expense.toolsValue) !== '0' ? (
+                        <TableRow key={expense.projectId}>
+                          <TableCell component="th" scope="row">
+                            {expense.name}
+                          </TableCell>
+                          <TableCell align="center">{numberWithCommas(expense.toolsValue)}</TableCell>
+                        </TableRow>
+                      ) : (
+                        ''
+                      )
+                    )}
                   </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell component="th" scope="row"></TableCell>
-                      <TableCell align="center">{numberWithCommas('' + toolsTotal)}</TableCell>
-                    </TableRow>
-                  </TableFooter>
+                  <TableRow>
+                    <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                      Total
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                      {numberWithCommas('' + toolsTotal)}
+                    </TableCell>
+                  </TableRow>
                 </Table>
               </Box>
             </Collapse>
           </TableCell>
         </TableRow>
         <TableRow className={rowClasses.root}>
-          <TableCell>
+          <TableCell style={{ width: '2%' }}>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpenThirdTable(!openThirdTable)}>
               {openThirdTable ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -432,26 +463,34 @@ const Financials: React.FC = () => {
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Project</TableCell>
-                      <TableCell align="center">Amount ($)</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Project</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                        Amount ($)
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.expenseList.map((expense) => (
-                      <TableRow key={expense.projectId}>
-                        <TableCell component="th" scope="row">
-                          {expense.name}
-                        </TableCell>
-                        <TableCell align="center">{numberWithCommas(expense.othersValue)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {row.expenseList.map((expense) =>
+                      String(expense.othersValue) !== '0' ? (
+                        <TableRow key={expense.projectId}>
+                          <TableCell component="th" scope="row">
+                            {expense.name}
+                          </TableCell>
+                          <TableCell align="center">{numberWithCommas(expense.othersValue)}</TableCell>
+                        </TableRow>
+                      ) : (
+                        ''
+                      )
+                    )}
                   </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell component="th" scope="row"></TableCell>
-                      <TableCell align="center">{numberWithCommas('' + otherTotal)}</TableCell>
-                    </TableRow>
-                  </TableFooter>
+                  <TableRow>
+                    <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                      Total
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                      {numberWithCommas('' + otherTotal)}
+                    </TableCell>
+                  </TableRow>
                 </Table>
               </Box>
             </Collapse>
@@ -463,53 +502,45 @@ const Financials: React.FC = () => {
 
   const ProfitRow = (props: { row: ReturnType<typeof createData> }) => {
     const { row } = props;
-    const [openTable, setOpenTable] = useState(true);
-    const rowClasses = useRowStyles();
 
     return (
       <React.Fragment>
-        <TableRow className={rowClasses.root}>
-          <TableCell>
-            <IconButton aria-label="expand row" size="small" onClick={() => setOpenTable(!openTable)}>
-              {openTable ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            <Box component="span" style={{ fontWeight: 'bold' }}>
-              {''}
-            </Box>
-          </TableCell>
-        </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={openTable} timeout="auto">
-              <Box margin={1}>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Project</TableCell>
-                      <TableCell align="center">Amount ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row.profitList.map((profit) => (
+            <Box margin={1}>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: 'bold' }}>Project</TableCell>
+                    <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                      Amount ($)
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row.profitList.map((profit) =>
+                    String(profit.value) !== '0' ? (
                       <TableRow key={profit.id}>
                         <TableCell component="th" scope="row">
                           {profit.name}
                         </TableCell>
                         <TableCell align="center">{numberWithCommas(profit.value)}</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell component="th" scope="row"></TableCell>
-                      <TableCell align="center">{numberWithCommas('' + profitTotal)}</TableCell>
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-              </Box>
-            </Collapse>
+                    ) : (
+                      ''
+                    )
+                  )}
+                </TableBody>
+                <TableRow>
+                  <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                    Total
+                  </TableCell>
+                  <TableCell align="center" style={{ fontWeight: 'bold' }}>
+                    {numberWithCommas('' + profitTotal)}
+                  </TableCell>
+                </TableRow>
+              </Table>
+            </Box>
           </TableCell>
         </TableRow>
       </React.Fragment>
@@ -537,9 +568,12 @@ const Financials: React.FC = () => {
             <TableContainer component={Paper} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
               <Table aria-label="collapsible table">
                 <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell style={{ fontWeight: 'bold', paddingRight: 200, fontSize: 18 }}>Revenues</TableCell>
+                  <TableRow style={{ backgroundColor: '#86E0FF' }}>
+                    <TableCell colSpan={2}>
+                      <Typography align="left" style={{ fontWeight: 'bold', fontSize: 18, paddingLeft: 50 }}>
+                        Revenues
+                      </Typography>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -550,46 +584,52 @@ const Financials: React.FC = () => {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid xs={8}>
-            <TableContainer component={Paper} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
-              <Table aria-label="collapsible table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell style={{ fontWeight: 'bold', paddingRight: 200, fontSize: 18 }}>Expenses</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <ExpensesRow key={row.name} row={row} />
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-          <Grid xs={4}>
-            <PieChart
-              style={{ marginTop: 50 }}
-              animate
-              data={pieChartData}
-              radius={PieChart.defaultProps.radius - 7}
-              label={({ dataEntry }) => dataEntry.title + ' (' + Math.round(dataEntry.percentage) + '%)'}
-              lineWidth={30}
-              labelPosition={50}
-              labelStyle={(index) => ({
-                fill: pieChartData[index].color,
-                fontSize: '5px',
-              })}
-            />
-            ;
-          </Grid>
+          <TableContainer component={Paper} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+            <Grid xs={12} container direction="row" justifyContent="center">
+              <Grid item xs={12}>
+                <Box style={{ backgroundColor: '#86E0FF', height: '59.5px', width: '100%' }}>
+                  <Typography
+                    align="left"
+                    style={{ fontWeight: 'bold', paddingTop: 16, fontSize: 18, paddingLeft: 66 }}
+                  >
+                    Expenses
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid xs={12} xl={8} item>
+                <Table aria-label="collapsible table">
+                  <TableBody>
+                    {rows.map((row) => (
+                      <ExpensesRow key={row.name} row={row} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </Grid>
+              <Grid xs={12} sm={6} xl={4} item>
+                <PieChart
+                  data={pieChartData}
+                  radius={PieChart.defaultProps.radius - 7}
+                  label={({ dataEntry }) => dataEntry.title + ' (' + Math.round(dataEntry.percentage) + '%)'}
+                  lineWidth={30}
+                  labelPosition={50}
+                  labelStyle={(index) => ({
+                    fill: pieChartData[index].color,
+                    fontSize: '5px',
+                  })}
+                />
+              </Grid>
+            </Grid>
+          </TableContainer>
           <Grid xs={12}>
             <TableContainer component={Paper} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
               <Table aria-label="collapsible table">
                 <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell style={{ fontWeight: 'bold', paddingRight: 200, fontSize: 18 }}>Profit</TableCell>
+                  <TableRow style={{ backgroundColor: '#86E0FF' }}>
+                    <TableCell colSpan={2}>
+                      <Typography align="left" style={{ fontWeight: 'bold', fontSize: 18, paddingLeft: 50 }}>
+                        Profits
+                      </Typography>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
