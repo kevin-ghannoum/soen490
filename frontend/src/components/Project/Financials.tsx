@@ -249,18 +249,14 @@ const Financials: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.projectInfo.map((project) =>
-                      project.sale.amount !== 0 ? (
-                        <TableRow key={project.id}>
-                          <TableCell component="th" scope="row">
-                            {project.title}
-                          </TableCell>
-                          <TableCell align="center">{numberWithCommas('' + project.sale.amount)}</TableCell>
-                        </TableRow>
-                      ) : (
-                        ''
-                      )
-                    )}
+                    {row.projectInfo.map((project) => (
+                      <TableRow key={project.id}>
+                        <TableCell component="th" scope="row">
+                          {project.title}
+                        </TableCell>
+                        <TableCell align="center">{numberWithCommas('' + project.sale.amount)}</TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
@@ -301,18 +297,14 @@ const Financials: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.productionList.map((production) =>
-                      String(production.value) !== '0' ? (
-                        <TableRow key={production.projectId}>
-                          <TableCell component="th" scope="row">
-                            {production.name}
-                          </TableCell>
-                          <TableCell align="center">{numberWithCommas(production.value)}</TableCell>
-                        </TableRow>
-                      ) : (
-                        ''
-                      )
-                    )}
+                    {row.productionList.map((production) => (
+                      <TableRow key={production.projectId}>
+                        <TableCell component="th" scope="row">
+                          {production.name}
+                        </TableCell>
+                        <TableCell align="center">{numberWithCommas(production.value)}</TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
@@ -366,18 +358,14 @@ const Financials: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.expenseList.map((expense) =>
-                      String(expense.wagesValue) !== '0' ? (
-                        <TableRow key={expense.projectId}>
-                          <TableCell component="th" scope="row">
-                            {expense.name}
-                          </TableCell>
-                          <TableCell align="center">{numberWithCommas(expense.wagesValue)}</TableCell>
-                        </TableRow>
-                      ) : (
-                        ''
-                      )
-                    )}
+                    {row.expenseList.map((expense) => (
+                      <TableRow key={expense.projectId}>
+                        <TableCell component="th" scope="row">
+                          {expense.name}
+                        </TableCell>
+                        <TableCell align="center">{numberWithCommas(expense.wagesValue)}</TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
@@ -418,18 +406,14 @@ const Financials: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.expenseList.map((expense) =>
-                      String(expense.toolsValue) !== '0' ? (
-                        <TableRow key={expense.projectId}>
-                          <TableCell component="th" scope="row">
-                            {expense.name}
-                          </TableCell>
-                          <TableCell align="center">{numberWithCommas(expense.toolsValue)}</TableCell>
-                        </TableRow>
-                      ) : (
-                        ''
-                      )
-                    )}
+                    {row.expenseList.map((expense) => (
+                      <TableRow key={expense.projectId}>
+                        <TableCell component="th" scope="row">
+                          {expense.name}
+                        </TableCell>
+                        <TableCell align="center">{numberWithCommas(expense.toolsValue)}</TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
@@ -470,18 +454,14 @@ const Financials: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.expenseList.map((expense) =>
-                      String(expense.othersValue) !== '0' ? (
-                        <TableRow key={expense.projectId}>
-                          <TableCell component="th" scope="row">
-                            {expense.name}
-                          </TableCell>
-                          <TableCell align="center">{numberWithCommas(expense.othersValue)}</TableCell>
-                        </TableRow>
-                      ) : (
-                        ''
-                      )
-                    )}
+                    {row.expenseList.map((expense) => (
+                      <TableRow key={expense.projectId}>
+                        <TableCell component="th" scope="row">
+                          {expense.name}
+                        </TableCell>
+                        <TableCell align="center">{numberWithCommas(expense.othersValue)}</TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
@@ -518,18 +498,14 @@ const Financials: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.profitList.map((profit) =>
-                    String(profit.value) !== '0' ? (
-                      <TableRow key={profit.id}>
-                        <TableCell component="th" scope="row">
-                          {profit.name}
-                        </TableCell>
-                        <TableCell align="center">{numberWithCommas(profit.value)}</TableCell>
-                      </TableRow>
-                    ) : (
-                      ''
-                    )
-                  )}
+                  {row.profitList.map((profit) => (
+                    <TableRow key={profit.id}>
+                      <TableCell component="th" scope="row">
+                        {profit.name}
+                      </TableCell>
+                      <TableCell align="center">{numberWithCommas(profit.value)}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
                 <TableRow>
                   <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
