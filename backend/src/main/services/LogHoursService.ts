@@ -130,7 +130,6 @@ export class LogHoursService {
     let weekdayNumber = 0;
     switch (scheduledDay) {
       case ScheduledDay.SUNDAY:
-        weekdayNumber = 0;
         break;
       case ScheduledDay.MONDAY:
         weekdayNumber = 1;

@@ -2,6 +2,8 @@ import { Grid, Link, Typography } from '@material-ui/core';
 import { DataGrid, GridColDef, GridSelectionModel } from '@material-ui/data-grid';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { selectAccount } from '../../features/account/AccountSlice';
+import { useAppSelector } from '../../redux/hooks';
 import { getBookedBusinessProject } from '../../services/ProjectAPI';
 
 interface Sale {
@@ -47,9 +49,16 @@ const BookedProjects: React.FC = () => {
     setSelection(id);
   };
 
+  const account = useAppSelector(selectAccount);
+
   useEffect(() => {
     const fetchData = async () => {
-      const projects = await getBookedBusinessProject(1);
+      let projects;
+      if (account.businessAcc) {
+        projects = await getBookedBusinessProject(account.businessAcc?.businessId);
+      } else {
+        projects = await getBookedBusinessProject(1);
+      }
       const projectList: DataDisplay[] = [];
       projects.data.forEach((element: Data) => {
         const createdDate = element.createdDate.split('T');
@@ -75,6 +84,7 @@ const BookedProjects: React.FC = () => {
       setBookedProjectList(projectList);
     };
     fetchData();
+    // eslint-disable-next-line
   }, [select]);
 
   const columns: GridColDef[] = [
