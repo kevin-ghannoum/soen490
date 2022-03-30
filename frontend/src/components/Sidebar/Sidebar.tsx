@@ -13,13 +13,19 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import CreateIcon from '@material-ui/icons/Create';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import sidebarStyle from './SidebarStyle';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout, selectAccount } from '../../features/account/AccountSlice';
 import EventIcon from '@material-ui/icons/Event';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import BusinessIcon from '@material-ui/icons/Business';
+import AddIcon from '@material-ui/icons/Add';
+import CallIcon from '@material-ui/icons/Call';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+
 type Anchor = 'left';
 
 const Sidebar = (props: { history: any }) => {
@@ -55,6 +61,18 @@ const Sidebar = (props: { history: any }) => {
       onClick: () => history.push('/'),
     },
     {
+      role: ['ADMIN'],
+      text: 'Businesses',
+      icon: <BusinessIcon className={classes.icon} />,
+      onClick: () => history.push('/business'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
+      text: 'Employees',
+      icon: <AssignmentIndIcon className={classes.icon} />,
+      onClick: () => history.push('/employees'),
+    },
+    {
       role: ['ADMIN', 'BUSINESS', 'SUPERVISOR', 'EMPLOYEE'],
       text: 'Projects',
       icon: <AccountTreeIcon className={classes.icon} />,
@@ -62,75 +80,63 @@ const Sidebar = (props: { history: any }) => {
     },
     {
       role: ['ADMIN', 'SUPERVISOR', 'BUSINESS'],
-      text: 'Booked Projects',
-      icon: <AccountTreeIcon className={classes.icon} />,
+      text: 'Booked Project Transactions',
+      icon: <ReceiptIcon className={classes.icon} />,
       onClick: () => history.push('/booked_projects_transactions'),
     },
     {
       role: ['ADMIN', 'SUPERVISOR', 'EMPLOYEE'],
       text: 'Tasks',
-      icon: <AccountTreeIcon className={classes.icon} />,
+      icon: <AssignmentTurnedInIcon className={classes.icon} />,
       onClick: () => history.push('/tasks'),
     },
     {
       role: ['ADMIN', 'BUSINESS', 'SUPERVISOR', 'EMPLOYEE'],
-      text: 'Logs',
-      icon: <AccountTreeIcon className={classes.icon} />,
+      text: 'Communication Logs',
+      icon: <CallIcon className={classes.icon} />,
       onClick: () => history.push('/logs'),
-    },
-    {
-      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
-      text: 'Employees',
-      icon: <AccountTreeIcon className={classes.icon} />,
-      onClick: () => history.push('/employees'),
-    },
-    {
-      role: ['ADMIN'],
-      text: 'Businesses',
-      icon: <AccountTreeIcon className={classes.icon} />,
-      onClick: () => history.push('/business'),
-    },
-    {
-      role: ['ADMIN'],
-      text: 'Create Business Account',
-      icon: <CreateIcon className={classes.icon} />,
-      onClick: () => history.push('/businessAccount/new'),
-    },
-    {
-      role: ['ADMIN', 'BUSINESS'],
-      text: 'Create Client Account',
-      icon: <CreateIcon className={classes.icon} />,
-      onClick: () => history.push('/clientAccount/new'),
-    },
-    {
-      role: ['ADMIN', 'BUSINESS'],
-      text: 'Create Employee Account',
-      icon: <CreateIcon className={classes.icon} />,
-      onClick: () => history.push('/employeeAccount/new'),
-    },
-    {
-      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
-      text: 'Log New Pay',
-      icon: <CreateIcon className={classes.icon} />,
-      onClick: () => history.push('/pay/new'),
-    },
-    {
-      role: ['ADMIN', 'EMPLOYEE', 'SUPERVISOR'],
-      text: 'Create New Task',
-      icon: <CreateIcon className={classes.icon} />,
-      onClick: () => history.push('/tasks/new'),
-    },
-    {
-      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
-      text: 'Create Project',
-      icon: <CreateIcon className={classes.icon} />,
-      onClick: () => history.push('/project'),
     },
     {
       role: ['ADMIN', 'EMPLOYEE'],
       text: 'My Calendar',
       icon: <EventIcon className={classes.icon} />,
       onClick: () => history.push('/calendar'),
+    },
+    {
+      role: ['ADMIN'],
+      text: 'Create Business Account',
+      icon: <AddIcon className={classes.icon} />,
+      onClick: () => history.push('/businessAccount/new'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS'],
+      text: 'Create Employee Account',
+      icon: <AddIcon className={classes.icon} />,
+      onClick: () => history.push('/employeeAccount/new'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS'],
+      text: 'Create Client Account',
+      icon: <AddIcon className={classes.icon} />,
+      onClick: () => history.push('/clientAccount/new'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
+      text: 'Create Project',
+      icon: <AddIcon className={classes.icon} />,
+      onClick: () => history.push('/project'),
+    },
+    {
+      role: ['ADMIN', 'EMPLOYEE', 'SUPERVISOR'],
+      text: 'Create New Task',
+      icon: <AddIcon className={classes.icon} />,
+      onClick: () => history.push('/tasks/new'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR'],
+      text: 'Log New Pay',
+      icon: <AddIcon className={classes.icon} />,
+      onClick: () => history.push('/pay/new'),
     },
   ];
 
