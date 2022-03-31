@@ -54,7 +54,7 @@ describe('Event test', () => {
         container.registerInstance(InvitedRepository, invitedRepositoryMock);
         container.registerInstance(EmailService, emailServiceMock);
 
-        startDate =new Date("2022-03-03");
+        startDate = new Date("2022-03-03");
         endDate = new Date("2022-03-04");
         endDate.setDate(startDate.getDate() + 1);
 
@@ -123,7 +123,7 @@ describe('Event test', () => {
         const eventCreationDateSmallerExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid')
         let eventCreationDateSmallerErrorThrow;
 
-        EVENT_INFO.end.setDate(EVENT_INFO.start.getDate() - 1);
+        EVENT_INFO.end.setDate(EVENT_INFO.start.getDate() - 2);
 
         const eventCreationDateSmallerService: EventService = container.resolve(EventService);
 
@@ -199,7 +199,7 @@ describe('Event test', () => {
         const updateEventDateSmallerExpectedThrowError: HttpException = new HttpException(StatusCodes.BAD_REQUEST, 'Start and End date not valid');
         let updateEventDateSmallerErrorThrow;
 
-        UPDATE_EVENT_INFO.end.setDate(UPDATE_EVENT_INFO.start.getDate() - 1)
+        UPDATE_EVENT_INFO.end.setDate(UPDATE_EVENT_INFO.start.getDate() - 2)
 
         const updateEventDateSmallerEventService: EventService = container.resolve(EventService);
 
