@@ -104,25 +104,26 @@ const TaskList: React.FC = () => {
       direction="column"
       justifyContent="center"
       alignContent="center"
-      style={{ minHeight: '100vh' }}
+      alignItems="flex-end"
+      style={{ minHeight: '90vh' }}
     >
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          component="span"
+          onClick={onClickAddTask}
+          className={classes.addTaskButton}
+        >
+          Add Task
+        </Button>
+      </Grid>
       <Paper elevation={3} className={classes.editTaskPaper}>
         <Grid item xs={12} style={{ height: 560, width: '100%' }}>
           {' '}
           <DataGrid rows={taskList} columns={columns} pageSize={8} onSelectionModelChange={handleRowSelection} />
         </Grid>
       </Paper>
-      <Grid item xs={12}>
-        <Button
-          variant="contained"
-          // style={{ width: '150px', marginBottom: 50, alignItems: 'right' }}
-          color="primary"
-          component="span"
-          onClick={onClickAddTask}
-        >
-          Add Task
-        </Button>
-      </Grid>
     </Grid>
   );
 };

@@ -203,7 +203,7 @@ const CreateEmployee: React.FC = () => {
               />
             </Grid>
             {account.admin ? (
-              <Grid>
+              <Grid item xs={6}>
                 <TextField
                   label="Business Id *"
                   name="businessId"

@@ -412,12 +412,12 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
               </Grid>
             </Grid>
             <Grid item xs={8}></Grid>
-            <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '100px' }}>
+            <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '65px' }}>
               <Typography variant="h5" className={classes.projectTitle}>
                 Project Specification
               </Typography>
             </Grid>
-            <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '100px' }}>
+            <Grid item xs={6} style={{ paddingBottom: '0px', paddingTop: '65px' }}>
               <Typography variant="h5" className={classes.projectTitle}>
                 Project Description
               </Typography>

@@ -212,15 +212,19 @@ const ViewProject: React.FC = () => {
           <Grid item xs={4}></Grid>
           <Grid item xs={4}></Grid>
           <Grid item xs={4}>
-            <Button
-              variant="contained"
-              style={{ width: '150px', marginBottom: 10, marginRight: 5, alignItems: 'right' }}
-              color="primary"
-              component="span"
-              onClick={clickAddProject}
-            >
-              Add Project
-            </Button>
+            {account.account.role === 'EMPLOYEE' ? (
+              ''
+            ) : (
+              <Button
+                variant="contained"
+                style={{ width: '150px', marginBottom: 10, marginRight: 5, alignItems: 'right' }}
+                color="primary"
+                component="span"
+                onClick={clickAddProject}
+              >
+                Add Project
+              </Button>
+            )}
           </Grid>
           <Grid item xs={4}></Grid>
           <Grid item xs={4}></Grid>

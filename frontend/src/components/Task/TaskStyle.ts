@@ -19,7 +19,6 @@ const editTaskStyles = makeStyles((theme) => ({
   dateField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    // width: 200,
   },
   formControl: {
     margin: theme.spacing(1),
@@ -51,6 +50,12 @@ const listTaskStyles = makeStyles((theme) => ({
     },
     width: '60%',
     margin: '10px',
+  },
+  addTaskButton: {
+    width: '150px',
+    marginBottom: 10,
+    marginRight: 5,
+    alignItems: 'right',
   },
 }));
 
