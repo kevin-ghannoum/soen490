@@ -16,8 +16,8 @@ describe('Event test', () => {
     let eventRepositoryMock: any = null;
     let invitedRepositoryMock: any = null;
     let emailServiceMock: any = null;
-    let startDate: Date = new Date();
-    let endDate: Date = new Date();
+    let startDate: Date = new Date("2022-03-03");
+    let endDate: Date = new Date("2022-03-04");
     let EVENT_INFO: EventCreationDTO = {
         title: "event title",
         start: startDate,
@@ -54,8 +54,8 @@ describe('Event test', () => {
         container.registerInstance(InvitedRepository, invitedRepositoryMock);
         container.registerInstance(EmailService, emailServiceMock);
 
-        startDate = new Date();
-        endDate = new Date();
+        startDate =new Date("2022-03-03");
+        endDate = new Date("2022-03-04");
         endDate.setDate(startDate.getDate() + 1);
 
         EVENT_INFO = {
