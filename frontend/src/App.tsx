@@ -75,7 +75,7 @@ const App = () => {
             });
             localStorageService.setBearerToken();
           })
-          .catch((err) => {
+          .catch((_err) => {
             localStorageService.clearAllTokens();
             return Promise.reject(new Error('Request failed due to credential, try re-login'));
           });
@@ -503,7 +503,7 @@ const App = () => {
               <Route
                 exact
                 path="/booked_projects_transactions"
-                render={({ match }) => {
+                render={() => {
                   if (account.loading) {
                     return <></>;
                   } else {

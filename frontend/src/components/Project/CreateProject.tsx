@@ -212,7 +212,11 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
     getSelectDropDownData();
   }, [id, editState]);
 
-  const getClientInput = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
+  const getClientInput = async (
+    _event: React.ChangeEvent<{}>,
+    value: string,
+    _reason: AutocompleteInputChangeReason
+  ) => {
     const clientResponse = await getAllClientAccount(value);
     const clients: any[] = [];
     clientResponse.data.forEach((element: any) => {
@@ -222,7 +226,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
     setClientList(clients);
   };
 
-  const onAssigneeTagsChange = async (event: React.ChangeEvent<{}>, values: Object[]) => {
+  const onAssigneeTagsChange = async (_event: React.ChangeEvent<{}>, values: Object[]) => {
     values = values.filter(
       (elem: any, index, self) =>
         self.findIndex((t: any) => {
@@ -234,9 +238,9 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   };
 
   const getEmployeeInput = async (
-    event: React.ChangeEvent<{}>,
+    _event: React.ChangeEvent<{}>,
     value: string,
-    reason: AutocompleteInputChangeReason
+    _reason: AutocompleteInputChangeReason
   ) => {
     const employeeResponse = await getAllRegexEmployeeAccount(value);
     const assignees: any[] = [];
@@ -248,9 +252,9 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   };
 
   const getLeadCreditInput = async (
-    event: React.ChangeEvent<{}>,
+    _event: React.ChangeEvent<{}>,
     value: string,
-    reason: AutocompleteInputChangeReason
+    _reason: AutocompleteInputChangeReason
   ) => {
     const leadCreditResponse = await getAllRegexEmployeeAccount(value);
     const leadList: any[] = [];
@@ -340,7 +344,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 options={clientList}
                 value={formik.values.email}
                 onInputChange={getClientInput}
-                onChange={(event, value) => formik.setFieldValue('email', value)}
+                onChange={(_event, value) => formik.setFieldValue('email', value)}
                 getOptionLabel={(option) => option}
                 style={{ marginTop: 6, alignItems: 'center' }}
                 renderInput={(params) => (
@@ -472,7 +476,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 options={leadCreditList}
                 value={formik.values.leadCredit}
                 onInputChange={getLeadCreditInput}
-                onChange={(event, value) => formik.setFieldValue('leadCredit', value)}
+                onChange={(_event, value) => formik.setFieldValue('leadCredit', value)}
                 getOptionLabel={(option) => option}
                 style={{ marginTop: 6, alignItems: 'center', width: '72%' }}
                 renderInput={(params) => (
