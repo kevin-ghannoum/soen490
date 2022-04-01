@@ -1,34 +1,29 @@
 import {
   AppBar,
   Button,
-  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
-  IconButton,
   Paper,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { Theme } from '@material-ui/core/styles';
-import ScheduleIcon from '@material-ui/icons/Schedule';
+import { DataGrid, GridColDef } from '@material-ui/data-grid';
+import { PieChartOutlined } from '@material-ui/icons';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { DataGrid, GridColDef, GridOverlay, GridSortModel, GridValueGetterParams } from '@material-ui/data-grid';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import { useEffect, useState } from 'react';
+import { PieChart } from 'react-minimal-pie-chart';
+import { withRouter } from 'react-router-dom';
+import { AllBusinessExpensesDTO } from '../../dto/TransactionDTOs';
 import { selectAccount } from '../../features/account/AccountSlice';
 import { useAppSelector } from '../../redux/hooks';
-import { getCalls } from '../../services/CallAPI';
-import { getEvents } from '../../services/EventAPI';
 import { getAllNotificationsByCurrentUser } from '../../services/NotificationAPI';
-import listTaskStyles from './RootStyle';
-import { PieChart, PieChartOutlined } from '@material-ui/icons';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { Calendar, momentLocalizer, SlotInfo, View } from 'react-big-calendar';
-import MyCalendar, {Event} from '../Calendar/MyCalendar';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-
+import { getBusinessTransactionExpenses } from '../../services/TransactionAPI';
+import MyCalendar from '../Calendar/MyCalendar';
+import rootStyles from './RootStyle';
 
 interface DataDisplay {
   id: number;
@@ -36,28 +31,18 @@ interface DataDisplay {
   type: string;
   description: string;
 }
-interface EventDTO {
-  id: number;
+interface PieChartData {
   title: string;
-  start: string;
-  end: string;
-  location?: string;
-  description?: string;
-  createdBy: string;
-  accounts: Array<{ firstName: string; lastName: string; Invited: { email: string; status: string; id: number } }>;
+  value: number;
+  color: string;
 }
-const weekLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const dailyLabels = ['Temp', 'Temp 2', 'Temp 3'];
 
-const RootPage = () => {
+const RootPage = (props: { history: any }) => {
   const [scheduleRows, setScheduleRows] = useState<any>([]);
-  const [labelType, setLabelType] = useState('monthly');
-  // const [chartData, setChartData] = useState<any>({});
-
-  const [events, setEvents] = useState<Array<Event>>([]);
-
-  const className = listTaskStyles();
+  const [pieChartData, setPieChartData] = useState<PieChartData[]>([]);
+  const className = rootStyles();
   const account = useAppSelector(selectAccount);
+  const { history } = props;
 
   const columns: GridColDef[] = [
     {
@@ -82,223 +67,154 @@ const RootPage = () => {
   ];
 
   useEffect(() => {
-    // const fetchSchedule = async () => {
-    //   let rows: DataDisplay[] = [];
-    //   let temp_id = 1;
-    //   const calls = await getCalls(account.account.email);
-    //   const events = await getEvents();
-    //   const notifications = await getAllNotificationsByCurrentUser();
-    //   calls.data.forEach((ele: any) => {
-    //     rows.push({
-    //       id: temp_id,
-    //       date: ele.date,
-    //       type: 'Call',
-    //       description: '',
-    //     });
-    //     temp_id++;
-    //   });
-    //   events.data.forEach((ele: any) => {
-    //     rows.push({
-    //       id: temp_id,
-    //       date: ele.start,
-    //       type: ele.title,
-    //       description: ele.description,
-    //     });
-    //     temp_id++;
-    //   });
-    //   notifications.data.forEach((ele: any) => {
-    //     rows.push({
-    //       id: temp_id,
-    //       date: ele.date,
-    //       type: ele.type,
-    //       description: '',
-    //     });
-    //     temp_id++;
-    //   });
-    //   setScheduleRows(rows);
-    // };
-    
-    // fetchSchedule();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const getEventsData = async () => {
-    try {
-      const data = (await (await getEvents()).data) as unknown as Array<any>;
-      const temp: Array<Event> = [];
-      data.forEach((event: EventDTO) => {
-        event.start = event.start.slice(0, -1);
-        event.end = event.end.slice(0, -1);
-        temp.push({
-          id: event.id,
-          title: event.title,
-          start: new Date(event.start),
-          end: new Date(event.end),
-          location: event.location,
-          description: event.description,
-          createdBy: event.createdBy,
-          accounts: event.accounts,
+    const loadPieChartData = async () => {
+      let data;
+      if (account.businessAcc) {
+        data = await getBusinessTransactionExpenses(account.businessAcc?.businessId);
+      } else {
+        data = await getBusinessTransactionExpenses(1);
+      }
+      const expenses: AllBusinessExpensesDTO[] = [];
+      var wagesTotal = 0;
+      var toolsTotal = 0;
+      var otherTotal = 0;
+      data.data.forEach((element: AllBusinessExpensesDTO) => {
+        expenses.push({
+          projectId: element.projectId,
+          wagesValue: element.wagesValue,
+          toolsValue: element.toolsValue,
+          othersValue: element.othersValue,
+          name: element.name,
         });
+        wagesTotal += parseFloat(element.wagesValue);
+        toolsTotal += parseFloat(element.toolsValue);
+        otherTotal += parseFloat(element.othersValue);
       });
-  setEvents(temp);
-    } catch (err) {}
+      var pieData = [];
+      if (wagesTotal === 0 && toolsTotal === 0 && otherTotal === 0) {
+        pieData = [
+          { title: 'Wages', value: 1, color: '#017EFA' },
+          { title: 'Tools', value: 1, color: '#51CBFF' },
+          { title: 'Other', value: 1, color: '#86E0FF' },
+        ];
+      } else {
+        pieData = [
+          { title: 'Wages', value: wagesTotal, color: '#017EFA' },
+          { title: 'Tools', value: toolsTotal, color: '#51CBFF' },
+          { title: 'Other', value: otherTotal, color: '#86E0FF' },
+        ];
+      }
+      setPieChartData(pieData);
     };
 
+    const fetchSchedule = async () => {
+      let rows: DataDisplay[] = [];
+      let temp_id = 1;
+      const notifications = await getAllNotificationsByCurrentUser();
+      notifications.data.forEach((ele: any) => {
+        rows.push({
+          id: temp_id,
+          date: ele.date,
+          type: ele.type,
+          description: '',
+        });
+        temp_id++;
+      });
+      setScheduleRows(rows);
+    };
 
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-
-
-  // const handleLabelChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
-  //   switch (newAlignment) {
-  //     case 'daily':
-  //       setChartLabels(dailyLabels);
-  //       break;
-  //     case 'weekly':
-  //       setChartLabels(weekLabels);
-  //       break;
-  //     case 'monthly':
-  //       setChartLabels(monthLabels);
-  //       break;
-  //     default:
-  //       setChartLabels(monthLabels);
-  //       newAlignment = 'monthly';
-  //   }
-  //   setLabelType(newAlignment);
-  // };
+    loadPieChartData();
+    fetchSchedule();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <Grid
-      container
-      id="View-Task-Datagrid"
-      spacing={0}
-      direction="column"
-      justifyContent="center"
-      alignContent="center"
-      style={{ minHeight: '100vh' }}
-    >
-      <Card elevation={3} className={className.editTaskPaper}>
-        <CardHeader
-          avatar={<PieChartOutlined fontSize="large" color="primary" className={className.ToolBarIcon} />}
-          title={<Typography variant="h6">Sales & Productions</Typography>}
-          // For future implementation
-          // action={
-          //   <ToggleButtonGroup color="primary" exclusive value={labelType} onChange={handleLabelChange}>
-          //     <ToggleButton value="daily" color="primary">
-          //       Daily
-          //     </ToggleButton>
-          //     <ToggleButton value="weekly" color="primary">
-          //       Weekly
-          //     </ToggleButton>
-          //     <ToggleButton value="monthly" color="primary">
-          //       Monthly
-          //     </ToggleButton>
-          //   </ToggleButtonGroup>
-          // }
-        />
-        <CardContent style={{ backgroundColor: '#fff', padding: 24 }}>
-          <Grid container direction="row">
-            <Grid item xs={7}>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={data}>
-                  <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                </LineChart>
-              </ResponsiveContainer>
-            </Grid>
-            <Grid item xs={3}>{' '}</Grid>
-            <Grid item xs={2}>{' '}</Grid>
+    <div className={className.root}>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: '100vh' }}
+      >
+        <Grid container item xs={12}>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={2}>
+            <Card elevation={3} className={className.topRow}>
+              <CardHeader
+                avatar={<PieChartOutlined fontSize="large" color="primary" className={className.ToolBarIcon} />}
+                title={<Typography variant="h6">Expenses</Typography>}
+              />
+              <Divider />
+              <CardContent style={{ backgroundColor: '#fff', padding: 24 }}>
+                <PieChart
+                  data={pieChartData}
+                  radius={PieChart.defaultProps.radius - 7}
+                  label={({ dataEntry }) => dataEntry.title + ' (' + Math.round(dataEntry.percentage) + '%)'}
+                  lineWidth={30}
+                  labelPosition={50}
+                  labelStyle={(index) => ({
+                    fill: pieChartData[index].color,
+                    fontSize: '5px',
+                  })}
+                />
+              </CardContent>
+            </Card>
           </Grid>
-          
-        </CardContent>
-      </Card>
-      <Card elevation={3} className={className.editTaskPaper}>
-        <CardHeader
-          avatar={<ScheduleIcon fontSize="large" color="primary" className={className.ToolBarIcon} />}
-          title={<Typography variant="h6">Scheduled Content</Typography>}
-          action={
-            <Button color="primary">
-              See Detail <ArrowForwardIosIcon fontSize="small" />
-            </Button>
-          }
-        />
-        <CardContent className={className.calendar}>
-         <MyCalendar />
-        </CardContent>
-      </Card>
-      {/* <Paper elevation={3} className={className.editTaskPaper}>
-        <Grid container item direction="column" xs={12} spacing={0} style={{ height: 560, width: '100%' }}>
-          <Grid item>
-            <AppBar position="static" color="transparent" elevation={0}>
-              <Toolbar className={className.ToolBar}>
-                <ScheduleIcon fontSize="large" color="primary" className={className.ToolBarIcon} />
-                <Typography className={className.ToolBarTitle} variant="h6">
-                  Scheduled Content
-                </Typography>
-                <Button color="primary">
-                  See Detail <ArrowForwardIosIcon fontSize="small" />
-                </Button>
-              </Toolbar>
-            </AppBar>
+
+          <Grid item xs={8}>
+            <Paper elevation={3} className={className.topRow}>
+              <Grid container item direction="column" xs={12} spacing={0} style={{ height: 560, width: '100%' }}>
+                <Grid item>
+                  <AppBar position="static" color="transparent" elevation={0}>
+                    <Toolbar className={className.ToolBar}>
+                      <ScheduleIcon fontSize="large" color="primary" className={className.ToolBarIcon} />
+                      <Typography className={className.ToolBarTitle} variant="h6">
+                        Notifications
+                      </Typography>
+                    </Toolbar>
+                  </AppBar>
+                </Grid>
+                <Grid item xs>
+                  <DataGrid
+                    rows={scheduleRows}
+                    columns={columns}
+                    pageSize={20}
+                    // components={{
+                    //   NoRowsOverlay: CustomNoRowsOverlay,
+                    // }}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-          <Divider />
-          <Grid item xs>
-            <DataGrid
-              rows={scheduleRows}
-              columns={columns}
-              pageSize={20}
-              // components={{
-              //   NoRowsOverlay: CustomNoRowsOverlay,
-              // }}
-            />
+          <Grid item xs={1}></Grid>
+        </Grid>
+        <Grid container item xs={12}>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={10}>
+            <Card elevation={3} className={className.bottomRow}>
+              <CardHeader
+                avatar={<ScheduleIcon fontSize="large" color="primary" className={className.ToolBarIcon} />}
+                title={<Typography variant="h6">Scheduled Content</Typography>}
+                action={
+                  <Button color="primary" onClick={() => history.push('/calendar')}>
+                    See Detail <ArrowForwardIosIcon fontSize="small" />
+                  </Button>
+                }
+              />
+              <Divider />
+              <CardContent className={className.calendar}>
+                <MyCalendar />
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
-      </Paper> */}
-    </Grid>
+        <Grid item xs={1}></Grid>
+      </Grid>
+    </div>
   );
 };
 
-export default RootPage;
+export default withRouter(RootPage);

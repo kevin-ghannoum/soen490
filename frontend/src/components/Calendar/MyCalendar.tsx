@@ -87,9 +87,9 @@ const MyCalendar: React.FC = () => {
   };
 
   const classes = makeStyles((theme) => ({
-    calendar:{
-      height: '92.5vh'
-    }
+    calendar: {
+      height: '92.5vh',
+    },
   }));
 
   return (
