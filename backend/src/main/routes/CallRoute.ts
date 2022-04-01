@@ -33,7 +33,7 @@ export default class CallRoute extends CommonRoutesConfig {
       .get(
         checkJwt,
         checkRole(new Set([Roles.ADMIN])),
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const calls = await this.callService.getCalls();
             res.status(StatusCodes.OK).send(calls);

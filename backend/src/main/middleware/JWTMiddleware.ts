@@ -28,7 +28,7 @@ export const checkJwt: jwt.RequestHandler = jwt({
 export const checkRole = (
   accessRole: Set<Roles>
 ): ((req: express.Request, res: express.Response, next: express.NextFunction) => void) => {
-  return async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
+  return async (req: express.Request, _res: express.Response, next: express.NextFunction): Promise<void> => {
     const jwtToken: any = jwt_decode(req.headers['authorization'] as string);
     const userRoles: string[] = jwtToken[process.env.AUTH0_NAMESPACE + '/roles'];
 

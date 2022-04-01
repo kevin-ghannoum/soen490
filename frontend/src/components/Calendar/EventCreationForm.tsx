@@ -67,7 +67,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
       description: '',
       invitee: [],
     },
-    onSubmit: async (values) => {
+    onSubmit: async (_values) => {
       if (selectedStartTime === '' || selectedEndTime === '') {
         setErrorMsg('Please fill all the required section');
       }
@@ -160,9 +160,9 @@ const EventCreationForm = (props: SimpleDialogProps) => {
   };
 
   const getEmployeeInput = async (
-    event: React.ChangeEvent<{}>,
+    _event: React.ChangeEvent<{}>,
     value: string,
-    reason: AutocompleteInputChangeReason
+    _reason: AutocompleteInputChangeReason
   ) => {
     const employeeResponse = await getAllRegexEmployeeAccount(value);
     const assignees: any[] = [];
@@ -173,7 +173,7 @@ const EventCreationForm = (props: SimpleDialogProps) => {
     setEmployeeList(assignees);
   };
 
-  const onAssigneeTagsChange = async (event: React.ChangeEvent<{}>, values: Object[]) => {
+  const onAssigneeTagsChange = async (_event: React.ChangeEvent<{}>, values: Object[]) => {
     values = values.filter(
       (elem: any, index, self) =>
         self.findIndex((t: any) => {

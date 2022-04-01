@@ -73,7 +73,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
   const onClickCancel = () => {
     history.push('/tasks');
   };
-  const onAssigneeChange = async (event: React.ChangeEvent<{}>, values: Object[]) => {
+  const onAssigneeChange = async (_event: React.ChangeEvent<{}>, values: Object[]) => {
     values = values.filter(
       (elem: any, index, self) =>
         self.findIndex((t: any) => {
@@ -141,7 +141,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
     },
   });
 
-  const getEmployees = async (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
+  const getEmployees = async (_event: React.ChangeEvent<{}>, value: string, _reason: AutocompleteInputChangeReason) => {
     const tempEmployees: any[] = [];
     if (value !== '') {
       const employees = await getAllRegexEmployeeAccount(value);
@@ -315,7 +315,7 @@ const CreateTask: React.FC<any> = ({ id, edit }) => {
                           return (
                             <MenuItem
                               value={project.id}
-                              onClick={(e) => {
+                              onClick={(_e) => {
                                 formik.setFieldValue('deadlineDate', project.deadlineDate.split('T')[0]);
                               }}
                             >

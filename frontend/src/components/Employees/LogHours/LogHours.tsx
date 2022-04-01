@@ -237,7 +237,7 @@ const LogHours: React.FunctionComponent<Props> = ({ editMode, id }) => {
                     getOptionSelected={(option, value) => {
                       return option.toString === value.toString;
                     }}
-                    onChange={(e, value) => {
+                    onChange={(_e, value) => {
                       setUsername(value || '');
                     }}
                     renderInput={(params) => (
