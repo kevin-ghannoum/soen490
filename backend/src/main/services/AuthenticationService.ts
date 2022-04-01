@@ -87,7 +87,7 @@ export class AuthenticationService {
             email: result?.account.email,
             firstName: result?.account.firstName,
             lastName: result?.account.lastName,
-            role: 'BUSINESS',
+            role: 'CLIENT',
           },
           clientAcc: {
             website: result?.website,
@@ -105,7 +105,7 @@ export class AuthenticationService {
             email: result?.account.email,
             firstName: result?.account.firstName,
             lastName: result?.account.lastName,
-            role: 'BUSINESS',
+            role: 'EMPLOYEE',
           },
           employeeAcc: {
             title: result?.title,
