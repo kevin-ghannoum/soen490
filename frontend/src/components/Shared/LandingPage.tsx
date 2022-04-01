@@ -3,7 +3,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 
 const LandingPage = () => {
-  const sidebarStyle = makeStyles((theme) => ({
+  const sidebarStyle = makeStyles({
     list: {
       width: 'auto',
       color: '#FFFFFF',
@@ -27,7 +27,7 @@ const LandingPage = () => {
       color: 'transparent',
       textShadow: '0 0 5px rgba(0,0,0,0.5)',
     },
-  }));
+  });
 
   const classes = sidebarStyle();
 
