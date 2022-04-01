@@ -31,6 +31,7 @@ const EditTask = lazy(() => import('./components/Task/EditTask'));
 const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
 const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
 const ViewBusiness = lazy(() => import('./components/Business/ViewBusiness'));
+const RootPage = lazy(() => import('./components/Root/Root'));
 
 
 const App = () => {

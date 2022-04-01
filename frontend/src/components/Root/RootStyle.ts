@@ -8,7 +8,7 @@ const listTaskStyles = makeStyles((theme) => ({
       [theme.breakpoints.down('sm')]: {
         width: '90%',
       },
-      width: '50%',
+      width: '70%',
       margin: '10px',
       '& .MuiDataGrid-root': {
         border: 0,
@@ -30,6 +30,13 @@ const listTaskStyles = makeStyles((theme) => ({
     ToolBarTitle: {
       flexGrow: 1,
     },
+    calendar:{
+      backgroundColor: '#fff',
+      padding: 24 ,
+      '& .rbc-calendar': {
+        height: 600,
+      },
+    }
 }));
 
 export default listTaskStyles;
