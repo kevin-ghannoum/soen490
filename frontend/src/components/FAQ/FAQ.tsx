@@ -81,7 +81,7 @@ const FAQ = () => {
     <div>
       <Typography className={classes.pageTitle}>Frequently Asked Questions (FAQ)</Typography>
       <TableContainer component={Paper} className={classes.tablePaper}>
-        <Table aria-label="collapsible table">
+        <Table id="faqTable" aria-label="collapsible table">
           <TableBody>
             {rows.map((row) => (
               <Row key={row.question} row={row} />
