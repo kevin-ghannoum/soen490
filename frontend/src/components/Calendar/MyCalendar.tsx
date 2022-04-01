@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { getEvents } from '../../services/EventAPI';
 import EventCreationForm from './EventCreationForm';
+import { makeStyles } from '@material-ui/core';
 export interface Event {
   id: number;
   title: string;
@@ -85,6 +86,12 @@ const MyCalendar: React.FC = () => {
     };
   };
 
+  const classes = makeStyles((theme) => ({
+    calendar:{
+      height: '92.5vh'
+    }
+  }));
+
   return (
     <div>
       <Calendar
@@ -95,12 +102,12 @@ const MyCalendar: React.FC = () => {
         endAccessor="end"
         views={allViews}
         defaultView="week"
-        style={{ height: '92.5vh' }}
+        className={classes().calendar}
         onSelectEvent={(event) => handleSelectEvent(event)}
         onSelectSlot={(event) => handleSelectSlot(event)}
         eventPropGetter={eventStyleGetter}
       />
-      <EventCreationForm open={open} onClose={handleClose} selectedValue={selectedValue} update={update} />)
+      <EventCreationForm open={open} onClose={handleClose} selectedValue={selectedValue} update={update} />
     </div>
   );
 };
