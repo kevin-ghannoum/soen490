@@ -25,6 +25,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CallIcon from '@material-ui/icons/Call';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import ReceiptIcon from '@material-ui/icons/Receipt';
+import HelpIcon from '@material-ui/icons/Help';
 
 type Anchor = 'left';
 
@@ -137,6 +138,12 @@ const Sidebar = (props: { history: any }) => {
       text: 'Log New Pay',
       icon: <AddIcon className={classes.icon} />,
       onClick: () => history.push('/pay/new'),
+    },
+    {
+      role: ['ADMIN', 'BUSINESS', 'SUPERVISOR', 'EMPLOYEE', 'CLIENT'],
+      text: 'FAQ',
+      icon: <HelpIcon className={classes.icon} />,
+      onClick: () => history.push('/faq'),
     },
   ];
 
