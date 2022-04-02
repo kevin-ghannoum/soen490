@@ -92,7 +92,7 @@ export const AccountSlice = createSlice({
         localStorageService.clearAllTokens();
         state.loading = false;
       })
-      .addCase(logout.rejected, (state) => {
+      .addCase(logout.rejected, (_state) => {
         console.log('error while logging out');
       });
   },

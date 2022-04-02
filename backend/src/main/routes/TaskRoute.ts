@@ -24,7 +24,7 @@ export default class TaskRoute extends CommonRoutesConfig {
           next(err);
         }
       })
-      .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      .get(async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
           const task = await this.taskService.getAllTask();
           res.status(StatusCodes.OK).send(task);

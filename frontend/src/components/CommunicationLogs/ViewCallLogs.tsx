@@ -115,7 +115,7 @@ const ViewCallLogs: React.FC = () => {
     setAnchorElAction(event.currentTarget);
   };
 
-  const handleMenuItemClickAction = (event: React.MouseEvent<HTMLElement>, index: number) => {
+  const handleMenuItemClickAction = (_event: React.MouseEvent<HTMLElement>, index: number) => {
     setSelectedIndexAction(index);
     setAnchorElAction(null);
   };
@@ -140,7 +140,7 @@ const ViewCallLogs: React.FC = () => {
     setOpenDelteAlert(false);
   };
 
-  const getClientInput = async (event: React.ChangeEvent<{}>, value: string) => {
+  const getClientInput = async (_event: React.ChangeEvent<{}>, value: string) => {
     const clientResponse = await getAllClientAccount(value);
     const clients: any[] = [];
     clientResponse.data.forEach((element: any) => {
@@ -382,7 +382,7 @@ const ViewCallLogs: React.FC = () => {
                   options={clientList}
                   value={selectedClient}
                   onInputChange={getClientInput}
-                  onChange={(event, value) => handleSelectClient(value)}
+                  onChange={(_event, value) => handleSelectClient(value)}
                   getOptionLabel={(option) => option}
                   renderInput={(params) => (
                     <TextField {...params} variant="standard" style={{ alignContent: 'center' }} />

@@ -26,7 +26,7 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface, _Sequelize) => {
     await queryInterface.removeColumn("call", "action");
     await queryInterface.removeColumn("call", "followUp");
     await queryInterface.removeColumn("call", "neverCallBack");

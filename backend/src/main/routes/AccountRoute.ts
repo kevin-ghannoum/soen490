@@ -59,7 +59,7 @@ export default class AccountRoute extends CommonRoutesConfig {
       .get(
         checkJwt,
         checkRole(new Set([Roles.ADMIN])),
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
           try {
             const allEmployeeAccounts = await this.employeeAccountService.getAllEmployeeAccounts();
 
