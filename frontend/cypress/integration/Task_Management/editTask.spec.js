@@ -27,7 +27,8 @@ describe("EditTask feature e2e test", ()=>{
 
     cy.visit('/tasks');
     cy.wait('@getAllTaskAPI');
-    cy.get('#View-Task-Datagrid').should('exist');
+    cy.get('#View-Task-Datagrid').should('be.visible');
+    cy.get(`.MuiDataGrid-root`).should('be.visible');
     cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
     cy.get('input[name=title]').clear().type("Written a new title");
     cy.get('textarea[name=description]').clear().type("Write your first passing test in 60 seconds.There are no servers, drivers, or any other dependencies to install or configure.");
