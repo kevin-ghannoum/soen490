@@ -3,7 +3,7 @@ import { mock } from 'jest-mock-extended';
 import { container } from 'tsyringe';
 import { sequelizeMock } from '../helpers/SequelizeMock';
 import TransactionRepository from '../../main/repositories/TransactionRepository';
-import { ExpenseRequestDTO, ProductionRequestDTO, Type } from '../../main/dto/Transaction/TransactionDTO';
+import { ExpenseRequestDTO, ProductionRequestDTO, Type, ExpenseUpdateRequestDTO, ProductionUpdateRequestDTO } from '../../main/dto/Transaction/TransactionDTO';
 import { Transaction } from '../../main/models/Transaction';
 import ExpenseRepository from '../../main/repositories/ExpenseRepository';
 import { Expense } from '../../main/models/Expense';
@@ -118,7 +118,34 @@ describe('TransactionService tests', () => {
     };
     const transactionService = container.resolve(TransactionService);
     await expect(
-      transactionService.createTransactionExpense(PRODUCTION as unknown as ExpenseRequestDTO)
+      transactionService.createTransactionProduction(PRODUCTION as unknown as ProductionRequestDTO)
+    ).rejects.toThrowError('Request data is missing some values');
+  });
+
+  it('Update transactionExpense should fail because of missing value in request data', async () => {
+    const EXPENSE = {
+      transaction: {
+        projectId: 1,
+      },
+      expense: {},
+    };
+    const transactionService = container.resolve(TransactionService);
+    await expect(
+      transactionService.updateTransactionExpense(EXPENSE as unknown as ExpenseUpdateRequestDTO)
+    ).rejects.toThrowError('Request data is missing some values');
+  });
+
+  it('Update productionExpense should fail because of missing value in request data', async () => {
+    const PRODUCTION = {
+      transaction: {
+        projectId: 1,
+      },
+      production: {},
+      paymentType: PaymentType.DEPOSIT,
+    };
+    const transactionService = container.resolve(TransactionService);
+    await expect(
+      transactionService.updateTransactionProduction(PRODUCTION as unknown as ProductionUpdateRequestDTO)
     ).rejects.toThrowError('Request data is missing some values');
   });
 });
