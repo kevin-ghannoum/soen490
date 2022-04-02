@@ -17,6 +17,6 @@ export const deleteBusiness = async (id: number): Promise<AxiosResponse<any>> =>
   return axios.delete(`/business/${id}`);
 };
 
-export const updateBusinessPassword = async (businessUpdateDTO: BusinessUpdateDTO): Promise<AxiosResponse<any>> => {
+export const updateBusinessPassword = async (_businessUpdateDTO: BusinessUpdateDTO): Promise<AxiosResponse<any>> => {
   return axios.delete(`/business/password`);
 };

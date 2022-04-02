@@ -54,36 +54,16 @@ const Login: React.FC = () => {
       justifyContent="center"
       style={{ minHeight: '100vh' }}
     >
-      <Grid item container spacing={3} direction="row" xs={12}>
+      <Grid item container spacing={3} direction="column" xs={12}>
         <AppBar className={classes.loginAppBar}>
-          <Toolbar>
-            <Grid item xs={3}>
-              <Button size="large" variant="text" color="primary" className={classes.loginAppBarButton}>
-                About Us
-              </Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button size="large" variant="text" color="primary" className={classes.loginAppBarButton}>
-                Our Services
-              </Button>
-            </Grid>
-            <Grid item xs={3}>
+          <Toolbar style={{ justifyContent: 'center' }}>
+            <Grid item xs={12} sm={3}>
               <img
-                width="70%"
+                width="60%"
                 height="100%"
                 alt="Logo"
                 src="https://cdn.discordapp.com/attachments/885685523954401340/898984798649974834/Logo_Blue.png"
               />
-            </Grid>
-            <Grid item xs={3}>
-              <Button size="large" variant="text" color="primary" className={classes.loginAppBarButton}>
-                Our Work
-              </Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button size="large" variant="contained" color="primary" className={classes.loginAppBarContainedButton}>
-                Book Now
-              </Button>
             </Grid>
           </Toolbar>
         </AppBar>

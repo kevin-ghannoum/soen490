@@ -216,6 +216,6 @@ const CreateExpense: React.FC<Props> = ({ id, operation, expenseEditId }) => {
 };
 
 export default CreateExpense;
-function setErrMessage(arg0: string) {
+function setErrMessage(_arg0: string) {
   throw new Error('Function not implemented.');
 }

@@ -19,9 +19,8 @@ describe('DeleteBusinessAccount feature e2e test', () => {
     deleteBusinessIntercept();
 
     cy.visit('/business');
-
+    cy.wait('@getListOfBusinessesAPI')
     cy.get('#View-Business-Grid').should('exist');
-    cy.wait(1000);
     cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiButton-root`).click();
 
     cy.get('#deleteYes').click();

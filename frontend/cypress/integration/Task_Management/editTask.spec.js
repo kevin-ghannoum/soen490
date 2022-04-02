@@ -26,7 +26,7 @@ describe("EditTask feature e2e test", ()=>{
     setUpEditTaskIntercept();
 
     cy.visit('/tasks');
-    cy.wait(1000);
+    cy.wait('@getAllTaskAPI');
     cy.get('#View-Task-Datagrid').should('exist');
     cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiTypography-root`).click();
     cy.get('input[name=title]').clear().type("Written a new title");

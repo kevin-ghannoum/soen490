@@ -13,10 +13,10 @@ describe('BookedProject feature e2e test', () => {
   });
 
   it('Should view a list of booked project', () => {
-    cy.wait(500);
     getBookedProjectFromBusinessIntercept();
 
     cy.visit('/booked_projects_transactions');
+    cy.wait('@getListOfBookedProjectAPI');
     cy.get('#View-Booked-Project-Grid').should('exist');
   });
 });

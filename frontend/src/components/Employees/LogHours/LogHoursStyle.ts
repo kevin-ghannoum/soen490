@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { mainTheme } from '../../../configs/MuiConfig';
 
-const logHoursStyle = makeStyles((theme) => ({
+const logHoursStyle = makeStyles((_theme) => ({
   logHoursPaper: {
     maxWidth: 700,
     minWidth: 260,

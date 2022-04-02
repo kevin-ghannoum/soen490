@@ -4,7 +4,7 @@ import HttpException from '../exceptions/HttpException';
 
 const httpMiddlewareError = (
   error: HttpException,
-  request: express.Request,
+  _request: express.Request,
   response: express.Response,
   next: express.NextFunction
 ): void => {
@@ -20,7 +20,7 @@ const httpMiddlewareError = (
 // generic handler
 const failSafeHandler = (
   error: any | Error,
-  request: express.Request,
+  _request: express.Request,
   response: express.Response,
   next: express.NextFunction
 ): void => {

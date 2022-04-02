@@ -76,7 +76,7 @@ const App = () => {
             });
             localStorageService.setBearerToken();
           })
-          .catch((err) => {
+          .catch((_err) => {
             localStorageService.clearAllTokens();
             return Promise.reject(new Error('Request failed due to credential, try re-login'));
           });
@@ -504,7 +504,7 @@ const App = () => {
               <Route
                 exact
                 path="/booked_projects_transactions"
-                render={({ match }) => {
+                render={() => {
                   if (account.loading) {
                     return <></>;
                   } else {
@@ -636,14 +636,18 @@ const App = () => {
                     return <></>;
                   } else {
                     if (account.authenticated) {
-                      return (
-                        <>
-                          <Sidebar />
-                          <div style={{ marginTop: '75px' }}>
-                            <MyCalendar />
-                          </div>
-                        </>
-                      );
+                      if (account.account.role === 'ADMIN' || account.account.role === 'EMPLOYEE') {
+                        return (
+                          <>
+                            <Sidebar />
+                            <div style={{ marginTop: '75px' }}>
+                              <MyCalendar />
+                            </div>
+                          </>
+                        );
+                      } else {
+                        return <Redirect to="/" />;
+                      }
                     } else {
                       return <Login />;
                     }

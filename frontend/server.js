@@ -8,7 +8,7 @@ app.disable("x-powered-by");
 
 app.use('/', serveStatic(path.join(__dirname, '/build')))
 
-app.get(/.*/, (req, res) => {
+app.get(/.*/, (_req, res) => {
     res.sendFile(__dirname + "/build/index.html")
 })
 
