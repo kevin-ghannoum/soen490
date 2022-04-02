@@ -676,7 +676,7 @@ const App = () => {
               <Route
                 exact
                 path="/"
-                render={({ match }) => {
+                render={() => {
                   if (account.loading) {
                     return <></>;
                   } else {

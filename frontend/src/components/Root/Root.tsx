@@ -23,7 +23,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { getAllNotificationsByCurrentUser } from '../../services/NotificationAPI';
 import { getBusinessTransactionExpenses } from '../../services/TransactionAPI';
 import MyCalendar from '../Calendar/MyCalendar';
-import rootStyles from './RootStyle';
+import rootStyles from './rootStyle';
 
 interface DataDisplay {
   id: number;
@@ -74,18 +74,10 @@ const RootPage = (props: { history: any }) => {
       } else {
         data = await getBusinessTransactionExpenses(1);
       }
-      const expenses: AllBusinessExpensesDTO[] = [];
       var wagesTotal = 0;
       var toolsTotal = 0;
       var otherTotal = 0;
       data.data.forEach((element: AllBusinessExpensesDTO) => {
-        expenses.push({
-          projectId: element.projectId,
-          wagesValue: element.wagesValue,
-          toolsValue: element.toolsValue,
-          othersValue: element.othersValue,
-          name: element.name,
-        });
         wagesTotal += parseFloat(element.wagesValue);
         toolsTotal += parseFloat(element.toolsValue);
         otherTotal += parseFloat(element.othersValue);

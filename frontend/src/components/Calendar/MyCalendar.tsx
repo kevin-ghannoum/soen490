@@ -26,6 +26,13 @@ interface EventDTO {
   createdBy: string;
   accounts: Array<{ firstName: string; lastName: string; Invited: { email: string; status: string; id: number } }>;
 }
+
+const calendarStyle = makeStyles({
+  calendar: {
+    height: '92.5vh',
+  },
+});
+
 const MyCalendar: React.FC = () => {
   const [events, setEvents] = useState<Array<Event>>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -86,11 +93,7 @@ const MyCalendar: React.FC = () => {
     };
   };
 
-  const classes = makeStyles((theme) => ({
-    calendar: {
-      height: '92.5vh',
-    },
-  }));
+  const classes = calendarStyle();
 
   return (
     <div>
@@ -102,7 +105,7 @@ const MyCalendar: React.FC = () => {
         endAccessor="end"
         views={allViews}
         defaultView="week"
-        className={classes().calendar}
+        className={classes.calendar}
         onSelectEvent={(event) => handleSelectEvent(event)}
         onSelectSlot={(event) => handleSelectSlot(event)}
         eventPropGetter={eventStyleGetter}
