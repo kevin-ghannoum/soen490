@@ -21,7 +21,6 @@ describe('ViewRoot feature e2e test', () => {
     getAllNotificationsByCurrentUser();
     
     cy.visit('/');
-    cy.get('.rbc-calendar').should('exist');
     cy.get('.MuiDataGrid-root').should('exist');
     cy.get('.MuiDataGrid-cell').should('exist');
   });
