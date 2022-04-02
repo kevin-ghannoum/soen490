@@ -131,7 +131,7 @@ const RootPage = (props: { history: any }) => {
         style={{ minHeight: '100vh' }}
       >
         <Grid container item xs={12}>
-          <Grid item xs={1}></Grid>
+          <Grid item xs></Grid>
           <Grid item xs={3}>
             <Card elevation={3} className={className.topRow}>
               <CardHeader
@@ -146,6 +146,7 @@ const RootPage = (props: { history: any }) => {
                   label={({ dataEntry }) => dataEntry.title + ' (' + Math.round(dataEntry.percentage) + '%)'}
                   lineWidth={30}
                   labelPosition={50}
+                  style={{ maxHeight: '400px' }}
                   labelStyle={(index) => ({
                     fill: pieChartData[index].color,
                     fontSize: '5px',
@@ -154,7 +155,7 @@ const RootPage = (props: { history: any }) => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={6}>
             <Paper elevation={3} className={className.topRow}>
               <Grid container item direction="column" xs={12} spacing={0} style={{ height: 560, width: '100%' }}>
                 <Grid item>
@@ -168,41 +169,38 @@ const RootPage = (props: { history: any }) => {
                   </AppBar>
                 </Grid>
                 <Grid item xs>
-                  <DataGrid
-                    rows={scheduleRows}
-                    columns={columns}
-                    pageSize={20}
-                    // components={{
-                    //   NoRowsOverlay: CustomNoRowsOverlay,
-                    // }}
-                  />
+                  <DataGrid rows={scheduleRows} columns={columns} pageSize={20} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
-          <Grid item xs={1}></Grid>
+          <Grid item xs></Grid>
         </Grid>
-        <Grid container item xs={12}>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={10}>
-            <Card elevation={3} className={className.bottomRow}>
-              <CardHeader
-                avatar={<ScheduleIcon fontSize="large" color="primary" className={className.ToolBarIcon} />}
-                title={<Typography variant="h6">Scheduled Content</Typography>}
-                action={
-                  <Button color="primary" onClick={() => history.push('/calendar')}>
-                    See Detail <ArrowForwardIosIcon fontSize="small" />
-                  </Button>
-                }
-              />
-              <Divider />
-              <CardContent className={className.calendar}>
-                <MyCalendar />
-              </CardContent>
-            </Card>
+        {account.account.role === 'EMPLOYEE' ? (
+          <Grid container item xs={12}>
+            <Grid item xs></Grid>
+            <Grid item xs={9}>
+              <Card elevation={3} className={className.bottomRow}>
+                <CardHeader
+                  avatar={<ScheduleIcon fontSize="large" color="primary" className={className.ToolBarIcon} />}
+                  title={<Typography variant="h6">Scheduled Content</Typography>}
+                  action={
+                    <Button color="primary" onClick={() => history.push('/calendar')}>
+                      See Detail <ArrowForwardIosIcon fontSize="small" />
+                    </Button>
+                  }
+                />
+                <Divider />
+                <CardContent className={className.calendar}>
+                  <MyCalendar />
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs></Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={1}></Grid>
+        ) : (
+          ' '
+        )}
       </Grid>
     </div>
   );
