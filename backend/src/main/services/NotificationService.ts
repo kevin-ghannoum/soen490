@@ -5,12 +5,12 @@ import NotificationRepository from '../repositories/NotificationRepository';
 const log: debug.IDebugger = debug('app:notificationService');
 
 @injectable()
-export class NotificationService{
-    constructor(private notificationRepository: NotificationRepository){
-        log('Created new instance of NotificationService');
-    }
+export class NotificationService {
+  constructor(private notificationRepository: NotificationRepository) {
+    log('Created new instance of NotificationService');
+  }
 
-    public getAllByEmail = async(email: string): Promise<Notification[] | null> =>{
-        return this.notificationRepository.getAllByEmail(email);
-    }
+  public getAllByEmail = async (email: string): Promise<Notification[] | null> => {
+    return this.notificationRepository.getAllByEmail(email);
+  };
 }
