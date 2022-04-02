@@ -162,7 +162,6 @@ const RootPage = (props: { history: any }) => {
               </CardContent>
             </Card>
           </Grid>
-
           <Grid item xs={7}>
             <Paper elevation={3} className={className.topRow}>
               <Grid container item direction="column" xs={12} spacing={0} style={{ height: 560, width: '100%' }}>
