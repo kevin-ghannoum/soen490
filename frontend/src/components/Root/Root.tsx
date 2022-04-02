@@ -23,7 +23,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { getAllNotificationsByCurrentUser } from '../../services/NotificationAPI';
 import { getBusinessTransactionExpenses } from '../../services/TransactionAPI';
 import MyCalendar from '../Calendar/MyCalendar';
-import rootStyles from './rootStyle';
+import rootStyles from './rootStyles';
 
 interface DataDisplay {
   id: number;
