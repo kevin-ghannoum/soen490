@@ -5,7 +5,7 @@ import { getAllNotificationsByCurrentUser } from '../helpers/notificationInterce
 import { loginIntercept } from '../helpers/loginIntercept';
 import { getExpensesForBusiness } from '../helpers/transactionIntercept';
 
-describe('ViewProject feature e2e test', () => {
+describe('ViewRoot feature e2e test', () => {
   beforeEach(() => {
     loginIntercept();
   });
@@ -16,7 +16,6 @@ describe('ViewProject feature e2e test', () => {
 
   it('Should view root page calendar, notification grid and expenses chart', () => {
     cy.wait(500);
-
     getEventsDataIntercept();
     getExpensesForBusiness();
     getAllNotificationsByCurrentUser();

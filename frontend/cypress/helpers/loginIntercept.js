@@ -1,4 +1,7 @@
 /// <reference types="cypress" />
+import { getEventsDataIntercept } from '../helpers/eventScheduleIntercept';
+import { getAllNotificationsByCurrentUser } from '../helpers/notificationIntercept';
+import { getExpensesForBusiness } from '../helpers/transactionIntercept';
 
 export const loginIntercept = () => {
   const preventFormSubmitDefault = (selector) => {
@@ -38,6 +41,10 @@ export const loginIntercept = () => {
       statusCode: 202,
     }
   ).as('refreshToken');
+
+  getEventsDataIntercept();
+  getExpensesForBusiness();
+  getAllNotificationsByCurrentUser();
 
   cy.visit('/login');
   const email = 'admin@admin.com';
