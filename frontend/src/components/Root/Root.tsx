@@ -60,7 +60,7 @@ const RootPage = (props: { history: any }) => {
     },
     {
       field: 'description',
-      headerName: 'Description',
+      headerName: 'Message',
       width: 400,
       editable: true,
     },
@@ -114,9 +114,9 @@ const RootPage = (props: { history: any }) => {
       notifications.data.forEach((ele: any) => {
         rows.push({
           id: temp_id,
-          date: ele.date,
+          date: ele.date.split('T')[0],
           type: ele.type,
-          description: '',
+          description: ele.message,
         });
         temp_id++;
       });
@@ -140,7 +140,7 @@ const RootPage = (props: { history: any }) => {
       >
         <Grid container item xs={12}>
           <Grid item xs={1}></Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Card elevation={3} className={className.topRow}>
               <CardHeader
                 avatar={<PieChartOutlined fontSize="large" color="primary" className={className.ToolBarIcon} />}
@@ -163,7 +163,7 @@ const RootPage = (props: { history: any }) => {
             </Card>
           </Grid>
 
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Paper elevation={3} className={className.topRow}>
               <Grid container item direction="column" xs={12} spacing={0} style={{ height: 560, width: '100%' }}>
                 <Grid item>
