@@ -132,30 +132,34 @@ const RootPage = (props: { history: any }) => {
       >
         <Grid container item xs={12}>
           <Grid item xs></Grid>
-          <Grid item xs={3}>
-            <Card elevation={3} className={className.topRow}>
-              <CardHeader
-                avatar={<PieChartOutlined fontSize="large" color="primary" className={className.ToolBarIcon} />}
-                title={<Typography variant="h6">Expenses</Typography>}
-              />
-              <Divider />
-              <CardContent style={{ backgroundColor: '#fff', padding: 24 }}>
-                <PieChart
-                  data={pieChartData}
-                  radius={PieChart.defaultProps.radius - 7}
-                  label={({ dataEntry }) => dataEntry.title + ' (' + Math.round(dataEntry.percentage) + '%)'}
-                  lineWidth={30}
-                  labelPosition={50}
-                  style={{ maxHeight: '400px' }}
-                  labelStyle={(index) => ({
-                    fill: pieChartData[index].color,
-                    fontSize: '5px',
-                  })}
+          {account.account.role !== 'EMPLOYEE' ? (
+            <Grid item xs={3}>
+              <Card elevation={3} className={className.topRow}>
+                <CardHeader
+                  avatar={<PieChartOutlined fontSize="large" color="primary" className={className.ToolBarIcon} />}
+                  title={<Typography variant="h6">Expenses</Typography>}
                 />
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6}>
+                <Divider />
+                <CardContent style={{ backgroundColor: '#fff', padding: 24 }}>
+                  <PieChart
+                    data={pieChartData}
+                    radius={PieChart.defaultProps.radius - 7}
+                    label={({ dataEntry }) => dataEntry.title + ' (' + Math.round(dataEntry.percentage) + '%)'}
+                    lineWidth={30}
+                    labelPosition={50}
+                    style={{ maxHeight: '400px' }}
+                    labelStyle={(index) => ({
+                      fill: pieChartData[index].color,
+                      fontSize: '5px',
+                    })}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+          ) : (
+            ' '
+          )}
+          <Grid item xs={account.account.role !== 'EMPLOYEE' ? 6 : 9}>
             <Paper elevation={3} className={className.topRow}>
               <Grid container item direction="column" xs={12} spacing={0} style={{ height: 560, width: '100%' }}>
                 <Grid item>
