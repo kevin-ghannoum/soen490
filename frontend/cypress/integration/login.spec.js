@@ -1,4 +1,7 @@
 /// <reference types="cypress" />
+import { getEventsDataIntercept } from '../helpers/eventScheduleIntercept';
+import { getAllNotificationsByCurrentUser } from '../helpers/notificationIntercept';
+import { getExpensesForBusiness } from '../helpers/transactionIntercept';
 
 describe('Login feature e2e test', () => {
   const email = 'john@gmail.com';
@@ -54,6 +57,10 @@ describe('Login feature e2e test', () => {
         statusCode: 202,
       }
     ).as('refreshToken');
+
+    getEventsDataIntercept();
+    getExpensesForBusiness();
+    getAllNotificationsByCurrentUser();
 
     cy.visit('/login');
 

@@ -152,7 +152,7 @@ export const getExpensesForBusiness = () => {
   cy.intercept(
     {
       method: 'GET',
-      url: '/businessTransaction/expenses?businessId=1',
+      url: '/businessTransaction/expenses?businessId=*',
     },
     { fixture: 'businessExpenses.json', statusCode: 200, times: 1 }
   ).as('expensesBusinessAPI');
