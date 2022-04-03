@@ -31,6 +31,7 @@ const EditTask = lazy(() => import('./components/Task/EditTask'));
 const ViewPay = lazy(() => import('./components/Employees/ViewPay'));
 const LogHours = lazy(() => import('./components/Employees/LogHours/LogHours'));
 const ViewBusiness = lazy(() => import('./components/Business/ViewBusiness'));
+const RootPage = lazy(() => import('./components/Root/Root'));
 
 const App = () => {
   const account = useAppSelector(selectAccount);
@@ -685,13 +686,15 @@ const App = () => {
                   } else {
                     if (account.authenticated) {
                       return (
-                        <div>
-                          <Sidebar />
-                          <div style={{ paddingTop: '75px' }}>root</div>
-                        </div>
+                        <React.Fragment>
+                          <div style={{ paddingTop: '75px' }}>
+                            <Sidebar />
+                            <RootPage />
+                          </div>
+                        </React.Fragment>
                       );
                     } else {
-                      return <Login />;
+                      return <Redirect to="/login" />;
                     }
                   }
                 }}
