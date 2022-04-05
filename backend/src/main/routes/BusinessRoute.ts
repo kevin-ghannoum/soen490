@@ -73,7 +73,7 @@ export default class BusinessRoute extends CommonRoutesConfig {
       );
 
     this.getApp()
-      .route(`/business/password`)
+      .route(`/business/password/edit`)
       .put(
         checkJwt,
         checkRole(new Set([Roles.ADMIN])),

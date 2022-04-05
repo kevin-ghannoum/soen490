@@ -45,6 +45,12 @@
     "prettier-check": "npx prettier --check src/**/*.{ts,tsx}",
     "prettier-write": "npx prettier --write src/**/*.{ts,tsx}"
   },
+  "nyc": {
+    "exclude": [
+      "src/components/Sidebar"
+    ],
+    "excludeAfterRemap": true
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

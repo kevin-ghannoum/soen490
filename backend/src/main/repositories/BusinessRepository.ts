@@ -44,14 +44,14 @@ export default class BusinessRepository implements CRUD {
 
   public update = async (id: number, updatedValue: BusinessUpdateDTO): Promise<number> => {
     try {
-      if (updatedValue.business) {
-        await Business.update(updatedValue.business, { where: { id: id } });
-        log(`Business ${id} has been updated`);
-      }
-
       if (updatedValue.account) {
         await Account.update(updatedValue.account, { where: { email: updatedValue.account.email } });
         log(`Account ${updatedValue.account.email} has been updated`);
+      }
+
+      if (updatedValue.business) {
+        await Business.update(updatedValue.business, { where: { id: id } });
+        log(`Business ${id} has been updated`);
       }
 
       if (updatedValue.address) {
@@ -81,7 +81,7 @@ export default class BusinessRepository implements CRUD {
             include: [
               {
                 model: Account,
-                attributes: ['firstName', 'lastName', 'phoneNumber', 'username', 'password'],
+                attributes: ['firstName', 'lastName', 'phoneNumber', 'username'],
                 include: [{ model: Address }],
               },
             ],
@@ -113,7 +113,7 @@ export default class BusinessRepository implements CRUD {
             include: [
               {
                 model: Account,
-                attributes: ['firstName', 'lastName', 'phoneNumber', 'username', 'password'],
+                attributes: ['firstName', 'lastName', 'phoneNumber', 'username'],
                 include: [{ model: Address }],
               },
             ],
