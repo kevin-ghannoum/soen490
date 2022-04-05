@@ -19,6 +19,8 @@ import createProjectStyle from './CreateProjectStyle';
 import Autocomplete, { AutocompleteInputChangeReason } from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 import { SaleCreationDTO } from '../../dto/SaleDTO';
+import { useAppSelector } from '../../redux/hooks';
+import { selectAccount } from '../../features/account/AccountSlice';
 
 interface Props {
   id?: string;
@@ -67,7 +69,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
   const [validDate, setValidDate] = useState<boolean>(true);
   const history = useHistory();
   const classes = createProjectStyle();
-
+  const account = useAppSelector(selectAccount);
   const formik: FormikProps<CreateProjectFormData> = useFormik<CreateProjectFormData>({
     initialValues: {
       title: '',
@@ -104,7 +106,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 followUpDate: values.followUpDate,
                 extraNotes: values.extraNotes,
                 email: values.email,
-                businessId: 1,
+                businessId: Number(account.businessAcc?.businessId),
                 assignee: values.assignee,
               },
               sale: {

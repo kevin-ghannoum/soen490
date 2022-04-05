@@ -29,7 +29,7 @@ interface EventDTO {
 
 const calendarStyle = makeStyles({
   calendar: {
-    height: '92.5vh',
+    height: '100vh',
   },
 });
 
