@@ -155,7 +155,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
         formik.setFieldValue('lastName', responseBusiness.data.businessAccount.account.lastName);
         formik.setFieldValue('email', responseBusiness.data.businessAccount.email);
         formik.setFieldValue('username', responseBusiness.data.businessAccount.account.username);
-        formik.setFieldValue('password', responseBusiness.data.businessAccount.account.password);
+        formik.setFieldValue('password', 'Password');
         formik.setFieldValue('phone', responseBusiness.data.businessAccount.account.phoneNumber);
         formik.setFieldValue('civicNumber', responseBusiness.data.businessAccount.account.address.civicNumber);
         formik.setFieldValue('streetName', responseBusiness.data.businessAccount.account.address.streetName);
@@ -166,7 +166,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
         formik.setFieldValue('name', responseBusiness.data.name);
         formik.setFieldValue('industry', responseBusiness.data.industry);
         formik.setFieldValue('website', responseBusiness.data.website);
-        if (responseBusiness.data.socialMediaPages) {
+        if (responseBusiness.data.socialMediaPages && responseBusiness.data.socialMediaPages.length > 0) {
           formik.setFieldValue('socialMediaLink', responseBusiness.data.socialMediaPages[0].link);
           formik.setFieldValue('socialMediaName', responseBusiness.data.socialMediaPages[0].name);
           setSocialMediaLink(responseBusiness.data.socialMediaPages[0].link);
@@ -276,6 +276,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
                 label="Email *"
                 name="email"
                 fullWidth
+                disabled={editMode}
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 error={formik.touched.email && Boolean(formik.errors.email)}

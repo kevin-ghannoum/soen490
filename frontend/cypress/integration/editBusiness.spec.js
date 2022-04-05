@@ -1,7 +1,11 @@
 /// <reference types="cypress" />
 
 import { loginIntercept } from '../helpers/loginIntercept';
-import { updateBusinessIntercept, getAllBusinessesIntercept, getBusinessByIdIntercept } from '../helpers/businessIntercept';
+import {
+  updateBusinessIntercept,
+  getAllBusinessesIntercept,
+  getBusinessByIdIntercept,
+} from '../helpers/businessIntercept';
 
 describe('EditBusinessAccount feature e2e test', () => {
   beforeEach(() => {
@@ -21,13 +25,14 @@ describe('EditBusinessAccount feature e2e test', () => {
     cy.visit('/business');
 
     cy.get('#View-Business-Grid').should('exist');
-    cy.wait('@getListOfBusinessesAPI')
-    cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiSvgIcon-root`).click();
-    cy.get('input[name=website]').type('website link');
+    cy.wait('@getListOfBusinessesAPI').then(() => {
+      cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiSvgIcon-root`, {timeout: 30000}).click();
+      cy.get('input[name=website]').type('website link');
 
-    cy.get('form').submit();
+      cy.get('form').submit();
 
-    cy.wait('@editBusinessAPI').its('response.statusCode').should('eq', 200);
-    cy.wait('@getBusinessAPI')
+      cy.wait('@editBusinessAPI').its('response.statusCode').should('eq', 200);
+      cy.wait('@getBusinessAPI');
+    });
   });
 });
