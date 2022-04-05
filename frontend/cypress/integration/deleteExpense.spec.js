@@ -30,11 +30,13 @@ describe('Edit Expense feature e2e test', () => {
       },
       { fixture: 'expenseListAfterDelete.json', statusCode: 200, times: 1 }
     ).as('getUpdateExpenseList');
-    cy.wait(1000);
-    cy.get(
-      ':nth-child(2) > [colspan="6"] > .MuiCollapse-root > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > .MuiBox-root > .MuiTable-root > .MuiTableBody-root > :nth-child(1) > :nth-child(6) > .MuiButtonBase-root'
-    ).click();
-    cy.get('#deleteYes').click();
-    cy.wait(500);
+
+    cy.wait('@getUpdateExpenseList').then(() => {
+      cy.get(
+        ':nth-child(2) > [colspan="6"] > .MuiCollapse-root > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > .MuiBox-root > .MuiTable-root > .MuiTableBody-root > :nth-child(1) > :nth-child(6) > .MuiButtonBase-root'
+      ).click();
+      cy.get('#deleteYes').click();
+      cy.wait(500);
+    });
   });
 });
