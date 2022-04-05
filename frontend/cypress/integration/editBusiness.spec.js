@@ -26,7 +26,7 @@ describe('EditBusinessAccount feature e2e test', () => {
 
     cy.get('#View-Business-Grid').should('exist');
     cy.wait('@getListOfBusinessesAPI').then(() => {
-      cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiSvgIcon-root`).click();
+      cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiSvgIcon-root`, {timeout: 30000}).click();
       cy.get('input[name=website]').type('website link');
 
       cy.get('form').submit();
