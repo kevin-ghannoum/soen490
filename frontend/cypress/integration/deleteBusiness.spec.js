@@ -19,13 +19,13 @@ describe('DeleteBusinessAccount feature e2e test', () => {
     deleteBusinessIntercept();
 
     cy.visit('/business');
-    cy.wait('@getListOfBusinessesAPI')
-    cy.get('#View-Business-Grid').should('exist');
-    cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiButton-root`).click();
+    cy.wait('@getListOfBusinessesAPI').then(() => {
+      cy.get('#View-Business-Grid').should('exist');
+      cy.get(`[data-id="1"] > .MuiDataGrid-cell--withRenderer > .MuiButton-root`).click();
 
-    cy.get('#deleteYes').click();
+      cy.get('#deleteYes').click();
 
-    cy.wait('@deleteBusinessAPI').its('response.statusCode').should('eq', 200);
-
+      cy.wait('@deleteBusinessAPI').its('response.statusCode').should('eq', 200);
+    });
   });
 });
