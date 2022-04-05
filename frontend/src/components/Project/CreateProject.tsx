@@ -106,7 +106,7 @@ const CreateProject: React.FC<Props> = ({ id, edit }) => {
                 followUpDate: values.followUpDate,
                 extraNotes: values.extraNotes,
                 email: values.email,
-                businessId: Number(account.businessAcc?.businessId),
+                businessId: account.businessAcc?.businessId ? Number(account.businessAcc?.businessId): 1, // Temporary 1, future enhancement would allow admin to enter custom business id.
                 assignee: values.assignee,
               },
               sale: {
