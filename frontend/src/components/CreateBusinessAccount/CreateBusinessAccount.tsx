@@ -166,7 +166,7 @@ const CreateBusinessAccount: React.FC<Props> = ({ editMode, id }) => {
         formik.setFieldValue('name', responseBusiness.data.name);
         formik.setFieldValue('industry', responseBusiness.data.industry);
         formik.setFieldValue('website', responseBusiness.data.website);
-        if (responseBusiness.data.socialMediaPages.length > 0) {
+        if (responseBusiness.data.socialMediaPages && responseBusiness.data.socialMediaPages.length > 0) {
           formik.setFieldValue('socialMediaLink', responseBusiness.data.socialMediaPages[0].link);
           formik.setFieldValue('socialMediaName', responseBusiness.data.socialMediaPages[0].name);
           setSocialMediaLink(responseBusiness.data.socialMediaPages[0].link);
