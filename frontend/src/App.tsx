@@ -1,5 +1,5 @@
 import './App.css';
-import { ThemeProvider } from '@material-ui/core';
+import { makeStyles, ThemeProvider } from '@material-ui/core';
 import { mainTheme } from './configs/MuiConfig';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import React, { lazy, Suspense, useEffect } from 'react';
@@ -87,7 +87,17 @@ const App = () => {
   );
 
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+  const rootStyles = makeStyles((_theme) => ({
+    calendar: {
+      backgroundColor: '#fff',
+      padding: 24,
+      '& .rbc-calendar': {
+        height: '87.5vh',
+      },
+    },
+  }));
 
+  const className = rootStyles();
   return (
     <Router>
       <ThemeProvider theme={mainTheme}>
@@ -640,7 +650,7 @@ const App = () => {
                         return (
                           <>
                             <Sidebar />
-                            <div style={{ marginTop: '75px' }}>
+                            <div style={{ marginTop: '75px' }} className={className.calendar}>
                               <MyCalendar />
                             </div>
                           </>

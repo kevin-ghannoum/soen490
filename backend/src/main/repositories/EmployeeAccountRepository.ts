@@ -214,9 +214,6 @@ export default class EmployeeAccountRepository implements CRUD {
   public getAllByBusiness = async (businessEmail: string): Promise<EmployeeAccount[]> => {
     try {
       const clientAccounts = await EmployeeAccount.findAll({
-        where: {
-          supervisorEmail: businessEmail,
-        },
         include: [
           {
             model: Account,
@@ -226,6 +223,10 @@ export default class EmployeeAccountRepository implements CRUD {
           },
           {
             model: Pay,
+          },
+          {
+            model: Business,
+            where: { email: businessEmail },
           },
         ],
       });
